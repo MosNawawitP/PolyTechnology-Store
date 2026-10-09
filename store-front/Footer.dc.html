@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <footer style="background:#1F1850;color:#B0A9D8;padding:38px 20px 26px;margin-top:auto">
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:26px">
+      <div>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+          <span style="width:30px;height:30px;background:#44359B;display:grid;place-items:center;border-radius:6px;color:#C4B8FF;font:700 14px/1 'Sarabun',sans-serif">P</span>
+          <span style="font-weight:700;color:#F1EFFB;font-size:14px">POLYTECHNOLOGY</span>
+        </div>
+        <p style="margin:0;font-size:13px;line-height:1.65;max-width:38ch;text-wrap:pretty">{{ t.footerAbout }}</p>
+      </div>
+      <div>
+        <h3 style="margin:0 0 11px;font-size:12px;font-weight:600;color:#F1EFFB;letter-spacing:.06em;text-transform:uppercase">{{ t.footerShop }}</h3>
+        <div style="display:grid;gap:8px">
+          <sc-for list="{{ footerShop }}" as="l" hint-placeholder-count="4">
+            <button type="button" onClick="{{ l.go }}" style="background:none;border:none;padding:0;text-align:left;color:#B0A9D8;font-size:13.5px;cursor:pointer" style-hover="color:#C4B8FF">{{ l.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0 0 11px;font-size:12px;font-weight:600;color:#F1EFFB;letter-spacing:.06em;text-transform:uppercase">{{ t.footerSupport }}</h3>
+        <div style="display:grid;gap:8px">
+          <sc-for list="{{ footerSupport }}" as="l" hint-placeholder-count="4">
+            <button type="button" onClick="{{ l.go }}" style="background:none;border:none;padding:0;text-align:left;color:#B0A9D8;font-size:13.5px;cursor:pointer" style-hover="color:#C4B8FF">{{ l.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0 0 11px;font-size:12px;font-weight:600;color:#F1EFFB;letter-spacing:.06em;text-transform:uppercase">{{ t.footerContact }}</h3>
+        <p style="margin:0;font-size:13.5px;line-height:1.75">{{ t.footerAddr }}<br />{{ t.footerPhone }}<br />{{ t.footerEmail }}</p>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:26px auto 0;padding-top:18px;border-top:1px solid #382C86;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;font:500 11.5px/1.5 'Sarabun',sans-serif;color:#9088C4">
+      <span>© 2026 Polytechnology Co., Ltd. — Prototype</span>
+      <span style="color:#C4B8FF">{{ t.prototypeNote }}</span>
+    </div>
+  </footer>
+</x-dc>
+</body>
+</html>

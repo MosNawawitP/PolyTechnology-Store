@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+      <div style="max-width:1240px;margin:0 auto;padding:26px 20px 52px">
+        <div style="background:#44359B;border-radius:13px;padding:22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;color:#F1EFFB">
+          <div style="flex:1 1 260px;min-width:0">
+            <div style="font:600 11.5px/1 'Sarabun',sans-serif;letter-spacing:.08em;color:#C4B8FF;text-transform:uppercase">{{ acctSegLabel }}</div>
+            <h1 style="margin:9px 0 5px;font-size:clamp(19px,2.4vw,25px);font-weight:700;line-height:1.25">{{ acctName }}</h1>
+            <div style="font-size:13.5px;color:#C9C3EA">{{ acctWho }} · {{ acctCode }} · {{ acctTermsLabel }}</div>
+          </div>
+          <button type="button" onClick="{{ logout }}" style="min-height:44px;padding:0 18px;background:none;border:1px solid #5B4DB8;color:#F1EFFB;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer">{{ lblLogout }}</button>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;margin-top:16px">
+        <nav aria-label="account" style="position:sticky;top:{{ navTop }};box-sizing:border-box;flex:0 1 240px;min-width:200px;max-width:100%;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:8px;display:grid;gap:2px;align-self:flex-start">
+          <sc-for list="{{ acctTabs }}" as="tb" hint-placeholder-count="5">
+            <button type="button" onClick="{{ tb.pick }}" aria-current="{{ tb.cur }}" style="display:block;width:100%;min-height:44px;padding:0 14px;background:{{ tb.bg }};color:{{ tb.fg }};border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-align:left">{{ tb.label }}</button>
+          </sc-for>
+        </nav>
+
+        <div style="flex:1 1 560px;min-width:0">
+        <sc-if value="{{ isCreditTab }}">
+          <dc-import name="AccountCredit" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isOrdersTab }}">
+          <dc-import name="AccountOrders" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isOrderDetail }}">
+          <dc-import name="AccountOrderDetail" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isQuotesTab }}">
+          <dc-import name="AccountQuotes" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isQuoteDetail }}">
+          <dc-import name="AccountQuoteDetail" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isLeadsTab }}">
+          <dc-import name="AccountLeads" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isLeadDetail }}">
+          <dc-import name="AccountLeadDetail" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isDocsTab }}">
+          <dc-import name="AccountDocs" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isProfileTab }}">
+          <dc-import name="AccountProfile" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isAddressTab }}">
+          <dc-import name="AccountAddresses" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+
+        <sc-if value="{{ isNotifTab }}">
+          <dc-import name="AccountNotifications" dcProps="{{ all }}"></dc-import>
+        </sc-if>
+        </div>
+        </div>
+      </div>
+</x-dc>
+</body>
+</html>

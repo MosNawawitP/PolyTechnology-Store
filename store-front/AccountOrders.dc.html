@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+          <div>
+            <div style="position:relative;margin-bottom:14px">
+              <label for="ofq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ lblOrderSearch }}</label>
+              <input id="ofq" name="ofq" type="search" value="{{ ofq }}" onChange="{{ onForm }}" placeholder="{{ lblOrderSearch }}" style="width:100%;height:46px;border:1px solid #D9D5E6;border-radius:23px;padding:0 44px 0 18px;background:#FFFFFF;font-size:14px" />
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6785" stroke-width="2" stroke-linecap="round" style="position:absolute;right:16px;top:14px;pointer-events:none"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+            </div>
+            <div style="position:sticky;top:{{ hdrTop }};z-index:5;background:#F4F3F8;padding-top:8px">
+            <sc-if value="{{ hasTypeFilter }}" hint-placeholder-val="{{ false }}">
+              <div role="group" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+                <sc-for list="{{ orderTypes }}" as="ty" hint-placeholder-count="3">
+                  <button type="button" aria-pressed="{{ ty.on }}" onClick="{{ ty.pick }}" style="min-height:38px;padding:0 16px;border-radius:999px;border:1px solid #44359B;background:{{ ty.bg }};color:{{ ty.fg }};font-size:13.5px;font-weight:600;cursor:pointer">{{ ty.label }} · {{ ty.n }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div role="tablist" style="display:flex;flex-wrap:nowrap;gap:0 2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-bottom:1px solid #E4E1EE;margin-bottom:16px">
+              <sc-for list="{{ orderTabs }}" as="tb" hint-placeholder-count="5">
+                <button type="button" role="tab" aria-selected="{{ tb.sel }}" onClick="{{ tb.pick }}" style="flex:1 0 auto;display:flex;gap:8px;align-items:center;justify-content:center;background:none;border:none;border-bottom:3px solid {{ tb.bd }};padding:12px 14px 10px;font-size:14px;font-weight:600;color:{{ tb.fg }};cursor:pointer;white-space:nowrap"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ tb.ico }}"></path></svg>{{ tb.label }}<span style="min-width:22px;padding:2px 7px;border-radius:11px;background:{{ tb.bg }};color:{{ tb.cfg }};font-size:12px;font-weight:700;text-align:center">{{ tb.n }}</span></button>
+              </sc-for>
+            </div>
+            </div>
+            <sc-if value="{{ noOrders }}">
+              <div style="background:#FFFFFF;border:1px dashed #D9D5E6;border-radius:12px;padding:36px;text-align:center;font-size:14.5px;color:#6B6785">{{ noOrdersMsg }}</div>
+            </sc-if>
+            <div style="display:grid;gap:10px">
+              <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="3">
+                <article onClick="{{ o.open }}" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden;cursor:pointer" style-hover="border-color:#44359B;box-shadow:0 2px 10px rgba(68,53,155,.12)">
+                  <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:14px 20px">
+                    <span style="flex:0 0 auto;font:700 12px/1 'Sarabun',sans-serif;color:{{ o.kindFg }};background:{{ o.kindBg }};border:1px solid #44359B;border-radius:5px;padding:6px 9px">{{ o.kindLabel }}</span>
+                    <div style="flex:1 1 220px;min-width:0">
+                      <button type="button" onClick="{{ o.open }}" style="background:none;border:none;padding:0;font:700 15px/1.2 'Sarabun',sans-serif;color:#44359B;cursor:pointer">{{ o.id }}</button>
+                      <div style="font-size:12.5px;color:#6B6785;margin-top:4px;line-height:1.5">{{ o.date }} · {{ o.mode }} · {{ lblTrackingNo }}: {{ o.track }}</div>
+                    </div>
+                    <span style="font-size:13px;font-weight:700;color:{{ o.statusColor }};background:{{ o.statusBg }};border-radius:999px;padding:5px 12px">{{ o.status }}</span>
+                  </div>
+                  <sc-for list="{{ o.lines }}" as="it" hint-placeholder-count="2">
+                  <div style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-top:1px solid #ECEAF3">
+                    <div style="position:relative;flex:0 0 88px;width:88px;height:88px;border:1px solid #E4E1EE;border-radius:8px;overflow:hidden;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px)">
+                      <sc-if value="{{ it.hasPhoto }}"><img src="{{ it.photo }}" alt="" loading="lazy" onError="{{ it.hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></sc-if>
+                    </div>
+                    <div style="flex:1 1 200px;min-width:0">
+                      <div style="font-size:15px;font-weight:600;line-height:1.45;color:#1E1A3A;text-wrap:pretty">{{ it.name }}</div>
+                      <div style="font-size:13px;color:#6B6785;margin-top:3px">{{ it.meta }}</div>
+                      <div style="font-size:14px;color:#1E1A3A;margin-top:6px">× {{ it.q }}</div>
+                    </div>
+                    <div style="flex:0 0 auto;text-align:right">
+                      <div style="font:700 16px/1.2 'Sarabun',sans-serif;color:#2E2575">{{ it.line }}</div>
+                      <div style="font-size:12.5px;color:#6B6785;margin-top:4px">{{ it.unit }} / {{ lblPerUnit }}</div>
+                    </div>
+                  </div>
+                  </sc-for>
+                  <sc-if value="{{ o.hasMore }}"><button type="button" onClick="{{ o.open }}" style="display:block;width:100%;background:none;border:none;border-top:1px solid #ECEAF3;padding:12px 20px;text-align:left;font-size:13.5px;font-weight:600;color:#44359B;cursor:pointer">{{ o.moreLabel }}</button></sc-if>
+                  <div style="background:#F6F5FB;border-top:1px solid #E4E1EE;padding:16px 20px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+                    <div style="display:flex;gap:12px;align-items:baseline"><span style="font-size:13.5px;font-weight:600;color:#36334F">{{ lblOrderTotal }}:</span><span style="font:700 24px/1 'Sarabun',sans-serif;color:#2E2575">{{ o.total }}</span></div>
+                    <div onClick="{{ stopProp }}" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;cursor:default">
+                      <button type="button" onClick="{{ o.reorder }}" style="min-height:42px;padding:0 18px;background:#44359B;color:#FFFFFF;border:1px solid #2F2380;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">{{ lblReorder }}</button>
+                      <sc-if value="{{ o.canCancel }}"><button type="button" onClick="{{ o.cancel }}" style="min-height:42px;padding:0 14px;background:#FFFFFF;border:1px solid #E4B5AD;border-radius:8px;font-size:13px;font-weight:600;color:#B23A2E;cursor:pointer">{{ lblCancelOrder }}</button></sc-if>
+                      <sc-if value="{{ o.canReturn }}"><button type="button" onClick="{{ o.ret }}" style="min-height:42px;padding:0 14px;background:#FFFFFF;border:1px solid #D9D5E6;border-radius:8px;font-size:13px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblReturnOrder }}</button></sc-if>
+                    </div>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+              <sc-if value="{{ orderPager.show }}" hint-placeholder-val="{{ false }}">
+                <nav aria-label="Pagination" style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:13px;color:#6B6785">{{ orderPager.info }}</span>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+                    <button type="button" onClick="{{ orderPager.prev }}" disabled="{{ orderPager.prevOff }}" aria-label="Previous" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ orderPager.prevOp }}">‹</button>
+                    <sc-for list="{{ orderPager.pages }}" as="pg" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ pg.pick }}" aria-current="{{ pg.cur }}" style="min-width:40px;height:40px;border:1px solid {{ pg.bd }};background:{{ pg.bg }};color:{{ pg.fg }};border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">{{ pg.n }}</button>
+                    </sc-for>
+                    <button type="button" onClick="{{ orderPager.next }}" disabled="{{ orderPager.nextOff }}" aria-label="Next" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ orderPager.nextOp }}">›</button>
+                  </div>
+                </nav>
+              </sc-if>
+          </div>
+</x-dc>
+</body>
+</html>

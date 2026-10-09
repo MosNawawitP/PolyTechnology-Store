@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+          <div>
+            <button type="button" onClick="{{ ld.back }}" style="background:none;border:none;padding:0 0 14px;color:#44359B;font-size:13.5px;font-weight:600;cursor:pointer">← {{ lblBackToLeads }}</button>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+              <div style="flex:1.7 1 420px;min-width:0;display:grid;gap:16px">
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:baseline">
+                    <h1 style="margin:0;font:700 20px/1.2 'Sarabun',sans-serif">{{ ld.id }}</h1>
+                    <span style="font:600 11px/1 'Sarabun',sans-serif;color:#5B49C4">{{ ld.code }}</span>
+                    <span style="font-size:13px;font-weight:700;color:{{ ld.stageColor }};margin-left:auto">{{ ld.stage }}</span>
+                  </div>
+                  <div style="font-size:16px;font-weight:600;margin-top:6px">{{ ld.svc }}</div>
+                  <dl style="margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px">
+                    <sc-for list="{{ ld.facts }}" as="fc" hint-placeholder-count="6">
+                      <div><dt style="font-size:12px;color:#6B6785">{{ fc.k }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600;line-height:1.5;word-break:break-word">{{ fc.v }}</dd></div>
+                    </sc-for>
+                  </dl>
+                  <sc-if value="{{ ld.hasItems }}">
+                    <div style="margin-top:16px;background:#ECE9F8;border:1px solid #B3ACDD;border-radius:10px;padding:14px">
+                      <div style="font-size:13.5px;font-weight:700">{{ lblCarried }}</div>
+                      <ul style="margin:8px 0 0;padding:0 0 0 18px;display:grid;gap:4px"><sc-for list="{{ ld.items }}" as="it" hint-placeholder-count="2"><li style="font-size:13px;line-height:1.5">{{ it.text }}</li></sc-for></ul>
+                      <div style="font-size:12.5px;color:#4A4766;margin-top:8px">{{ ld.itemsSummary }}</div>
+                    </div>
+                  </sc-if>
+                </section>
+                <section style="background:#FBF0D8;border:1px solid #CFC6F0;border-radius:12px;padding:18px">
+                  <div style="font-size:13px;font-weight:700;color:#5E4508">{{ lblNextStep }}</div>
+                  <div style="font-size:15px;font-weight:700;color:#5E4508;margin-top:6px">{{ ld.nextWho }}</div>
+                  <div style="font-size:13.5px;line-height:1.6;color:#5E4508;margin-top:3px;text-wrap:pretty">{{ ld.nextWhat }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+                    <sc-if value="{{ ld.canPaySurvey }}"><button type="button" onClick="{{ ld.paySurvey }}" style="min-height:44px;padding:0 16px;background:#44359B;border:1px solid #2F2380;color:#FFFFFF;font-weight:700;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblPaySurvey }}</button></sc-if>
+                    <sc-if value="{{ ld.hasQuote }}"><button type="button" onClick="{{ ld.openQuote }}" style="min-height:44px;padding:0 16px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ ld.quoteLabel }}</button></sc-if>
+                    <sc-if value="{{ ld.hasOrder }}"><button type="button" onClick="{{ ld.openOrder }}" style="min-height:44px;padding:0 16px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ ld.orderLabel }}</button></sc-if>
+                    <sc-if value="{{ ld.canSim }}"><button type="button" onClick="{{ ld.sim }}" style="min-height:44px;padding:0 16px;background:#F1EFF7;border:1px dashed #B8B3CC;color:#4A4766;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ ld.lblSim }}</button></sc-if>
+                  </div>
+                </section>
+                <sc-if value="{{ ld.hasSurveyFee }}">
+                  <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                    <h2 style="margin:0 0 8px;font-size:15px;font-weight:700">{{ lblSurvey }}</h2>
+                    <p style="margin:0;font-size:13.5px;line-height:1.6;color:#36334F;text-wrap:pretty">{{ ld.surveyText }}</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:13px">
+                      <span style="font-weight:700;color:{{ ld.surveyColor }}">{{ ld.surveyStatus }}</span>
+                      <span style="color:#6B6785">{{ ld.surveyDate }}</span>
+                    </div>
+                  </section>
+                </sc-if>
+              </div>
+              <section style="flex:1 1 280px;min-width:0;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                <h2 style="margin:0 0 16px;font-size:16px;font-weight:700">{{ lblLeadStages }}</h2>
+                <ol style="list-style:none;margin:0;padding:0;display:grid;gap:2px">
+                  <sc-for list="{{ ld.stages }}" as="st" hint-placeholder-count="8">
+                    <li style="display:flex;gap:13px;align-items:flex-start">
+                      <span style="flex:none;display:flex;flex-direction:column;align-items:center">
+                        <span style="width:12px;height:12px;border-radius:50%;background:{{ st.dot }};margin-top:4px"></span>
+                        <span style="width:2px;height:22px;background:{{ st.line }}"></span>
+                      </span>
+                      <span style="font-size:14px;font-weight:{{ st.fw }};color:{{ st.fg }};line-height:1.4;padding-bottom:6px">{{ st.name }}</span>
+                    </li>
+                  </sc-for>
+                </ol>
+              </section>
+            </div>
+          </div>
+</x-dc>
+</body>
+</html>

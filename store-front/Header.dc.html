@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <header style="background:#FFFFFF;border-bottom:1px solid #E4E1EE;position:sticky;top:0;z-index:40">
+    <sc-if value="{{ anyMenuOpen }}"><div aria-hidden="true" onClick="{{ closeMenus }}" style="position:fixed;inset:0;z-index:1"></div></sc-if>
+    <div style="max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;gap:16px;align-items:center">
+      <button type="button" onClick="{{ goHome }}" style="display:flex;gap:10px;align-items:center;background:none;border:none;padding:0;cursor:pointer;text-align:left">
+        <span style="width:42px;height:32px;overflow:hidden;display:block;flex:0 0 auto"><img src="./assets/polytech-logo.png" alt="Polytechnology" style="width:42px;height:42px;display:block;margin-top:-2px;object-fit:contain" /></span>
+        <span style="display:flex;flex-direction:column;line-height:1.05">
+          <span style="font:700 15px/1.1 'Sarabun',sans-serif;letter-spacing:.02em;color:#1E1A3A">POLYTECHNOLOGY</span>
+          <span style="font:500 10px/1.3 'Sarabun',sans-serif;color:#6B6785;letter-spacing:.04em">{{ t.logoSub }}</span>
+        </span>
+      </button>
+
+      <sc-if value="{{ isWide }}">
+        <nav aria-label="main" style="display:flex;gap:2px;flex:0 0 auto;flex-wrap:nowrap;margin-left:8px">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
+            <button type="button" onClick="{{ n.go }}" aria-current="{{ n.cur }}" style="background:{{ n.bg }};border:none;border-radius:7px;padding:8px 10px;font-size:14px;font-weight:{{ n.fw }};color:{{ n.fg }};cursor:pointer;white-space:nowrap">{{ n.label }}</button>
+          </sc-for>
+        </nav>
+      </sc-if>
+
+      <div style="display:flex;gap:8px;align-items:center;margin-left:auto;flex:0 1 auto;min-width:0;position:relative;z-index:2">
+        <button type="button" onClick="{{ toggleSearch }}" aria-label="{{ t.searchPh }}" title="{{ t.searchPh }}" aria-expanded="{{ searchOpenStr }}" style="background:{{ searchBtnBg }};border:1px solid #E4E1EE;border-radius:8px;height:38px;width:42px;padding:0;color:#36334F;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center" style-hover="background:#ECE9F8">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+        </button>
+        <div style="position:relative;flex:0 0 auto">
+          <button type="button" onClick="{{ toggleLangMenu }}" aria-haspopup="listbox" aria-expanded="{{ langOpenStr }}" aria-label="{{ langShort }}" style="display:flex;gap:7px;align-items:center;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:8px;height:38px;padding:0 9px;font:600 13px/1 'Sarabun',sans-serif;color:#1E1A3A;cursor:pointer;white-space:nowrap">
+            <sc-if value="{{ isTh }}"><span style="display:block;width:22px;height:15px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgba(30,26,58,.18);flex:0 0 auto"><svg width="22" height="15" viewBox="0 0 30 20" aria-hidden="true" style="display:block"><rect width="30" height="20" fill="#FFFFFF"></rect><rect width="30" height="3.34" fill="#A51931"></rect><rect y="16.66" width="30" height="3.34" fill="#A51931"></rect><rect y="6.66" width="30" height="6.68" fill="#2D2A4A"></rect></svg></span></sc-if>
+            <sc-if value="{{ isEn }}"><span style="display:block;width:22px;height:15px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgba(30,26,58,.18);flex:0 0 auto"><svg width="22" height="15" viewBox="0 0 60 40" preserveAspectRatio="none" aria-hidden="true" style="display:block"><rect width="60" height="40" fill="#012169"></rect><path d="M0 0L60 40M60 0L0 40" stroke="#FFFFFF" stroke-width="7"></path><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3"></path><path d="M30 0V40M0 20H60" stroke="#FFFFFF" stroke-width="12"></path><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="7"></path></svg></span></sc-if>
+            <span>{{ langShort }}</span><span aria-hidden="true" style="font-size:11px;color:#6B6785">▾</span>
+          </button>
+          <sc-if value="{{ langOpen }}">
+            <div role="listbox" style="position:absolute;right:0;top:44px;min-width:132px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;box-shadow:0 8px 24px rgba(30,26,58,.16);padding:6px;display:grid;gap:2px">
+              <button type="button" role="option" aria-selected="{{ thSel }}" onClick="{{ setLangTh }}" style="display:flex;gap:9px;align-items:center;background:{{ thBg }};border:none;border-radius:7px;padding:9px 10px;font:600 13.5px/1 'Sarabun',sans-serif;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7"><span style="display:block;width:22px;height:15px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgba(30,26,58,.18);flex:0 0 auto"><svg width="22" height="15" viewBox="0 0 30 20" aria-hidden="true" style="display:block"><rect width="30" height="20" fill="#FFFFFF"></rect><rect width="30" height="3.34" fill="#A51931"></rect><rect y="16.66" width="30" height="3.34" fill="#A51931"></rect><rect y="6.66" width="30" height="6.68" fill="#2D2A4A"></rect></svg></span><span>ไทย</span></button>
+              <button type="button" role="option" aria-selected="{{ enSel }}" onClick="{{ setLangEn }}" style="display:flex;gap:9px;align-items:center;background:{{ enBg }};border:none;border-radius:7px;padding:9px 10px;font:600 13.5px/1 'Sarabun',sans-serif;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7"><span style="display:block;width:22px;height:15px;border-radius:2px;overflow:hidden;box-shadow:0 0 0 1px rgba(30,26,58,.18);flex:0 0 auto"><svg width="22" height="15" viewBox="0 0 60 40" preserveAspectRatio="none" aria-hidden="true" style="display:block"><rect width="60" height="40" fill="#012169"></rect><path d="M0 0L60 40M60 0L0 40" stroke="#FFFFFF" stroke-width="7"></path><path d="M0 0L60 40M60 0L0 40" stroke="#C8102E" stroke-width="3"></path><path d="M30 0V40M0 20H60" stroke="#FFFFFF" stroke-width="12"></path><path d="M30 0V40M0 20H60" stroke="#C8102E" stroke-width="7"></path></svg></span><span>Eng</span></button>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ openLoginBtn }}" style="background:#44359B;border:1px solid #44359B;border-radius:8px;height:38px;padding:0 14px;font-size:13px;font-weight:600;color:#FFFFFF;cursor:pointer;flex:0 0 auto;white-space:nowrap" style-hover="background:#36297F">{{ t.login }}</button>
+        </sc-if>
+        <sc-if value="{{ isSignedIn }}">
+          <div style="position:relative;flex:0 0 auto">
+            <button type="button" onClick="{{ toggleAcct }}" aria-haspopup="menu" aria-expanded="{{ acctOpenStr }}" aria-label="{{ t.myAccount }}" style="display:flex;gap:8px;align-items:center;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:20px;height:38px;padding:0 11px 0 4px;font-size:13px;font-weight:600;color:#1E1A3A;cursor:pointer;white-space:nowrap">
+              <span aria-hidden="true" style="width:30px;height:30px;border-radius:50%;background:#44359B;color:#FFFFFF;font:700 14px/30px 'Sarabun',sans-serif;text-align:center;flex:0 0 auto">{{ avatarInitial }}</span>
+              <sc-if value="{{ showAcctLabel }}"><span style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ acctNavLabel }}</span></sc-if><span aria-hidden="true" style="font-size:11px;color:#6B6785">▾</span>
+            </button>
+            <sc-if value="{{ acctOpen }}">
+              <div role="menu" style="position:absolute;right:0;top:44px;min-width:230px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;box-shadow:0 8px 24px rgba(30,26,58,.16);padding:6px">
+                <div style="padding:10px 10px 12px;border-bottom:1px solid #ECEAF3;margin-bottom:6px">
+                  <div style="font-size:14px;font-weight:700;color:#1E1A3A;line-height:1.35;text-wrap:pretty">{{ acctMenuName }}</div>
+                  <div style="font-size:12.5px;color:#6B6785;margin-top:2px">{{ acctMenuSub }}</div>
+                </div>
+                <button type="button" role="menuitem" onClick="{{ goMenuDash }}" style="display:block;width:100%;background:none;border:none;border-radius:7px;padding:10px;font-size:14px;font-weight:600;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7">{{ t.myAccount }}</button>
+                <button type="button" role="menuitem" onClick="{{ goMenuOrders }}" style="display:block;width:100%;background:none;border:none;border-radius:7px;padding:10px;font-size:14px;font-weight:600;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7">{{ lblMyOrders }}</button>
+                <button type="button" role="menuitem" onClick="{{ doLogout }}" style="display:block;width:100%;background:none;border:none;border-top:1px solid #ECEAF3;border-radius:0 0 7px 7px;margin-top:6px;padding:11px 10px 10px;font-size:14px;font-weight:600;color:#B23A2E;cursor:pointer;text-align:left" style-hover="background:#FBEAE7">{{ t.logout }}</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <button type="button" onClick="{{ goCart }}" aria-label="{{ t.cart }}" style="position:relative;background:#44359B;border:1px solid #2F2380;border-radius:8px;height:38px;width:44px;padding:0;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:#36297F">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"></circle><circle cx="18" cy="20" r="1.4"></circle><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6"></path></svg>
+          <span style="position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#FFFFFF;color:#2E2575;border:1px solid #2F2380;font:700 11px/16px 'Sarabun',sans-serif;text-align:center;box-sizing:border-box">{{ cartCount }}</span>
+        </button>
+        <sc-if value="{{ isNarrow }}">
+          <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="background:#44359B;border:none;border-radius:8px;height:38px;width:42px;color:#fff;font-size:17px;cursor:pointer">☰</button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ searchOpen }}">
+      <div style="border-top:1px solid #E4E1EE;background:#FFFFFF;position:relative;z-index:2">
+        <div style="max-width:1240px;margin:0 auto;padding:12px 20px;display:flex">
+          <form onSubmit="{{ submitSearchPanel }}" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%">
+            <label for="hsCat" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ t.category }}</label>
+            <select id="hsCat" value="{{ searchCat }}" onChange="{{ onSearchCat }}" style="flex:0 1 210px;min-width:0;height:42px;border:1px solid #D9D5E6;border-radius:8px;padding:0 8px;background:#F9F8FC;font-size:14px">
+              <option value="">{{ lblAllCats2 }}</option>
+              <sc-for list="{{ catOptions }}" as="o" hint-placeholder-count="6"><option value="{{ o.v }}">{{ o.label }}</option></sc-for>
+            </select>
+            <label for="hsq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ t.searchPh }}</label>
+            <input id="hsq" type="search" value="{{ search }}" onChange="{{ onSearch }}" placeholder="{{ t.searchPh }}" style="flex:1 1 220px;min-width:0;height:42px;border:1px solid #D9D5E6;border-radius:8px;padding:0 12px;background:#F9F8FC;font-size:14px" />
+            <button type="submit" style="flex:0 0 auto;height:42px;padding:0 20px;background:#44359B;color:#FFFFFF;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer" style-hover="background:#36297F">{{ t.searchBtn }}</button>
+          </form>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ showMobileMenu }}">
+      <div style="border-top:1px solid #E4E1EE;background:#FFFFFF;padding:12px 20px 16px">
+        <form onSubmit="{{ submitSearch }}" style="display:flex;gap:8px;margin-bottom:12px">
+          <label for="msearch" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ t.searchPh }}</label>
+          <input id="msearch" type="search" value="{{ search }}" onChange="{{ onSearch }}" placeholder="{{ t.searchPh }}" style="flex:1;background:#F1EFF7;border:1px solid #E4E1EE;border-radius:8px;height:44px;padding:0 12px" />
+          <button type="submit" style="background:#44359B;color:#fff;border:none;border-radius:8px;height:44px;padding:0 16px;font-weight:600;cursor:pointer">{{ t.searchBtn }}</button>
+        </form>
+        <nav aria-label="mobile" style="display:grid;gap:4px">
+          <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
+            <button type="button" onClick="{{ n.go }}" style="background:{{ n.bg }};border:none;border-radius:8px;padding:13px 12px;font-size:15px;font-weight:{{ n.fw }};color:{{ n.fg }};text-align:left;cursor:pointer;min-height:46px">{{ n.label }}</button>
+          </sc-for>
+        </nav>
+        <div style="display:grid;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid #E4E1EE">
+          <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ openLoginBtn }}" style="background:#44359B;border:none;border-radius:8px;padding:0 12px;min-height:46px;font-size:15px;font-weight:600;color:#FFFFFF;text-align:left;cursor:pointer">{{ t.login }}</button>
+          </sc-if>
+          <sc-if value="{{ isSignedIn }}">
+            <button type="button" onClick="{{ goMenuDash }}" style="background:#F1EFF7;border:1px solid #D9D5E6;border-radius:8px;padding:0 12px;min-height:46px;font-size:15px;font-weight:600;color:#1E1A3A;text-align:left;cursor:pointer">{{ t.myAccount }}</button>
+            <button type="button" onClick="{{ goMenuOrders }}" style="background:#F1EFF7;border:1px solid #D9D5E6;border-radius:8px;padding:0 12px;min-height:46px;font-size:15px;font-weight:600;color:#1E1A3A;text-align:left;cursor:pointer">{{ lblMyOrders }}</button>
+            <button type="button" onClick="{{ doLogout }}" style="background:#FFFFFF;border:1px solid #D9D5E6;border-radius:8px;padding:0 12px;min-height:46px;font-size:15px;font-weight:600;color:#36334F;text-align:left;cursor:pointer">{{ t.logout }}</button>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+</x-dc>
+</body>
+</html>

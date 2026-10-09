@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+          <div>
+            <button type="button" onClick="{{ qd.back }}" style="background:none;border:none;padding:0 0 14px;color:#44359B;font-size:13.5px;font-weight:600;cursor:pointer">← {{ lblBackToQuotes }}</button>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+              <div style="flex:1.7 1 440px;min-width:0;display:grid;gap:16px">
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:24px">
+                  <div style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center">
+                    <h1 style="margin:0;font:700 22px/1.2 'Sarabun',sans-serif">{{ qd.id }}</h1>
+                    <span style="font:700 12px/1 'Sarabun',sans-serif;color:#44359B;background:#ECE9F8;border-radius:5px;padding:5px 8px">{{ qd.rev }}</span>
+                    <span style="font-size:13px;font-weight:700;color:{{ qd.statusColor }};background:{{ qd.pillBg }};border-radius:999px;padding:5px 12px">{{ qd.status }}</span>
+                  </div>
+                  <div style="font-size:13px;color:#6B6785;margin-top:8px">{{ qd.kind }}</div>
+                  <sc-if value="{{ qd.hasLead }}"><button type="button" onClick="{{ qd.openLead }}" style="margin-top:6px;background:none;border:none;padding:0;color:#44359B;font-size:13px;font-weight:600;cursor:pointer">{{ qd.leadLabel }} →</button></sc-if>
+                  <sc-if value="{{ qd.hasTrack }}" hint-placeholder-val="{{ false }}">
+                    <ol style="list-style:none;margin:24px 0 0;padding:0;display:flex;width:100%">
+                      <sc-for list="{{ qd.track }}" as="tk" hint-placeholder-count="4">
+                        <li style="position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center">
+                          <span aria-hidden="true" style="position:absolute;top:11px;left:calc(-50% + 14px);right:calc(50% + 14px);height:2px;background:{{ tk.lineBg }};display:{{ tk.lineDisplay }}"></span>
+                          <span style="position:relative;z-index:1;width:24px;height:24px;border-radius:50%;background:{{ tk.bg }};border:2px solid {{ tk.bd }};box-shadow:{{ tk.ring }};color:#FFFFFF;display:grid;place-items:center;font-size:12px;font-weight:700;line-height:1">{{ tk.mark }}</span>
+                          <span style="margin-top:8px;font-size:12.5px;line-height:1.3;color:{{ tk.lc }};font-weight:{{ tk.fw }}">{{ tk.label }}</span>
+                        </li>
+                      </sc-for>
+                    </ol>
+                  </sc-if>
+                  <dl style="margin:22px 0 0;background:#F9F8FC;border-radius:10px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:16px">
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblIssued }}</dt><dd style="margin:5px 0 0;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word">{{ qd.date }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblExpires }}</dt><dd style="margin:5px 0 0;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word">{{ qd.exp }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblPayTerms }}</dt><dd style="margin:5px 0 0;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word">{{ qd.terms }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblLeadTime }}</dt><dd style="margin:5px 0 0;font-size:15px;font-weight:700;line-height:1.5;word-break:break-word">{{ qd.lead }}</dd></div>
+                  </dl>
+                  <div style="margin-top:14px">
+                    <button type="button" onClick="{{ qd.togReq }}" aria-expanded="{{ qd.openReq }}" style="display:flex;width:100%;justify-content:space-between;gap:10px;align-items:center;background:#F4F2FB;border:1px solid #CFC6F0;border-radius:10px;text-align:left;cursor:pointer;padding:10px 14px;font-size:14px;font-weight:700;color:#44359B"><span>{{ lblReqDetails }}</span><span aria-hidden="true" style="flex:none;width:38px;height:38px;border-radius:50%;background:#ECE9F8;border:1px solid #B3ACDD;color:#44359B;display:grid;place-items:center;font-size:28px;font-weight:700;line-height:1">{{ qd.arrReq }}</span></button>
+                    <sc-if value="{{ qd.openReq }}" hint-placeholder-val="{{ false }}"><div>
+                    <dl style="margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:14px">
+                      <div><dt style="font-size:12px;color:#6B6785">{{ lblNeedDate2 }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600;line-height:1.5;word-break:break-word">{{ qd.need }}</dd></div>
+                      <div><dt style="font-size:12px;color:#6B6785">{{ lblPo }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600;line-height:1.5;word-break:break-word">{{ qd.po }}</dd></div>
+                      <div><dt style="font-size:12px;color:#6B6785">{{ lblQWeight }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600;line-height:1.5;word-break:break-word">{{ qd.weight }}</dd></div>
+                      <div><dt style="font-size:12px;color:#6B6785">{{ lblFiles }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600;line-height:1.5;word-break:break-word">{{ qd.files }}</dd></div>
+                    </dl>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid #ECEAF3">
+                      <div><div style="font-size:12px;color:#6B6785">{{ lblPlace }}</div><div style="font-size:13.5px;line-height:1.6;margin-top:5px">{{ qd.place }}</div></div>
+                      <div><div style="font-size:12px;color:#6B6785">{{ lblSpecs }}</div><div style="font-size:13.5px;line-height:1.6;margin-top:5px;text-wrap:pretty">{{ qd.note }}</div></div>
+                    </div>
+                    </div></sc-if>
+                  </div>
+                  <sc-if value="{{ qd.waiting }}">
+                    <div style="margin-top:16px;background:#FBF0D8;border:1px solid #CFC6F0;border-radius:10px;padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                      <span style="flex:1 1 240px;font-size:13.5px;line-height:1.6;color:#5E4508">{{ qd.waitMsg }}</span>
+                      <button type="button" onClick="{{ qd.sim }}" style="min-height:40px;padding:0 14px;background:#F1EFF7;border:1px dashed #B8B3CC;border-radius:8px;font-size:12.5px;font-weight:600;color:#4A4766;cursor:pointer">{{ qd.lblSim }}</button>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ qd.isExpired }}">
+                    <div role="alert" style="margin-top:16px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:10px;padding:14px">
+                      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#7A2B21;text-wrap:pretty">{{ qd.expiredMsg }}</p>
+                      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ qd.renew }}" style="min-height:44px;padding:0 16px;background:#44359B;border:1px solid #2F2380;color:#FFFFFF;font-weight:700;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblRenew }}</button><button type="button" onClick="{{ qd.requote }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblRequote }}</button></div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ qd.isRejected }}">
+                    <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px"><button type="button" onClick="{{ qd.requote }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblRequote }}</button></div>
+                  </sc-if>
+                  <sc-if value="{{ qd.isOrdered }}">
+                    <div style="margin-top:16px;background:#E3F2E9;border:1px solid #A8D4B9;border-radius:10px;padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                      <span style="flex:1 1 240px;font-size:13.5px;line-height:1.6;color:#0A3D22">{{ qd.orderedMsg }}</span>
+                      <button type="button" onClick="{{ qd.openOrder }}" style="min-height:44px;padding:0 16px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblOpenOrder }}</button>
+                    </div>
+                  </sc-if>
+                </section>
+
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                  <h2 style="margin:0 0 14px;font-size:16px;font-weight:700">{{ lblQuoteLines }}</h2>
+                  <sc-if value="{{ qd.noLines }}"><p style="margin:0;font-size:13.5px;line-height:1.6;color:#6B6785;text-wrap:pretty">{{ qd.noLinesMsg }}</p></sc-if>
+                  <div style="display:grid;gap:1px;background:#ECEAF3;border:1px solid #ECEAF3;border-radius:10px;overflow:hidden">
+                    <sc-for list="{{ qd.lines }}" as="ln" hint-placeholder-count="3">
+                      <div style="background:#FFFFFF;display:flex;flex-wrap:wrap;gap:10px 12px;padding:12px 13px;align-items:center">
+                        <div style="position:relative;flex:0 0 56px;width:56px;height:56px;border:1px solid #E4E1EE;border-radius:8px;overflow:hidden;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px)">
+                          <sc-if value="{{ ln.hasPhoto }}"><img src="{{ ln.photo }}" alt="" loading="lazy" onError="{{ ln.hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></sc-if>
+                        </div>
+                        <span style="flex:1 1 200px;min-width:0">
+                          <span style="display:block;font-size:13.5px;font-weight:600;line-height:1.45"><span style="font-size:11px;font-weight:700;color:#6B6785;background:#F1EFF7;border-radius:4px;padding:2px 6px;margin-right:8px">{{ ln.tag }}</span>{{ ln.name }}</span>
+                          <sc-if value="{{ ln.hasMeta }}"><span style="display:block;font-size:12px;color:#6B6785;margin-top:2px">{{ ln.meta }}</span></sc-if>
+                          <sc-if value="{{ ln.hasDisc }}"><span style="display:block;font-size:12px;color:#1F7A4D;margin-top:3px">{{ ln.discLabel }}</span></sc-if>
+                        </span>
+                        <span style="font-size:13px;color:#6B6785">{{ ln.unit }} × {{ ln.qty }}</span>
+                        <span style="font:600 14px/1 'Sarabun',sans-serif;margin-left:auto">{{ ln.line }}</span>
+                      </div>
+                    </sc-for>
+                    <sc-for list="{{ qd.reqLines }}" as="ln" hint-placeholder-count="1">
+                      <div style="background:#FFFFFF;display:flex;gap:12px;padding:12px 13px;align-items:center">
+                        <div style="position:relative;flex:0 0 56px;width:56px;height:56px;border:1px solid #E4E1EE;border-radius:8px;overflow:hidden;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px)">
+                          <sc-if value="{{ ln.hasPhoto }}"><img src="{{ ln.photo }}" alt="" loading="lazy" onError="{{ ln.hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></sc-if>
+                        </div>
+                        <span style="flex:1 1 0;min-width:0"><span style="display:block;font-size:13.5px;font-weight:600;line-height:1.45">{{ ln.name }}</span><span style="display:block;font-size:12px;color:#6B6785;margin-top:2px">{{ ln.meta }}</span></span>
+                        <span style="flex:none;font-size:14px;font-weight:600">× {{ ln.qty }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;gap:8px;margin-top:14px;font-size:14px;max-width:360px;margin-left:auto">
+                    <sc-if value="{{ qd.hasDisc }}"><div style="display:flex;justify-content:space-between;gap:10px;color:#1F7A4D"><span>{{ lblDiscount }}</span><span style="font-weight:600">{{ qd.disc }}</span></div></sc-if>
+                    <div style="display:flex;justify-content:space-between;gap:10px"><span style="color:#4A4766">{{ lblSubtotal }}</span><span style="font-weight:600">{{ qd.sub }}</span></div>
+                    <div style="display:flex;justify-content:space-between;gap:10px"><span style="color:#4A4766">{{ lblVat }}</span><span style="font-weight:600">{{ qd.vat }}</span></div>
+                    <div style="display:flex;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px solid #ECEAF3;font-weight:700"><span>{{ lblGrand }}</span><span style="font-size:18px">{{ qd.total }}</span></div>
+                  </div>
+                  <sc-if value="{{ qd.isService }}">
+                    <div style="margin-top:18px;padding-top:16px;border-top:1px solid #ECEAF3;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px">
+                      <div><div style="font-size:12px;color:#6B6785">{{ lblDuration }}</div><div style="font-size:14px;font-weight:600;margin-top:5px">{{ qd.dur }}</div>
+                        <div style="font-size:12px;color:#6B6785;margin-top:12px">{{ lblPlan }}</div>
+                        <ul style="margin:6px 0 0;padding:0 0 0 18px;display:grid;gap:4px"><sc-for list="{{ qd.plan }}" as="pl" hint-placeholder-count="3"><li style="font-size:13px;line-height:1.5">{{ pl.text }}</li></sc-for></ul></div>
+                      <div><div style="font-size:12px;color:#6B6785">{{ lblIncluded }}</div>
+                        <ul style="margin:6px 0 0;padding:0 0 0 18px;display:grid;gap:4px"><sc-for list="{{ qd.inc }}" as="x" hint-placeholder-count="2"><li style="font-size:13px;line-height:1.5">{{ x.text }}</li></sc-for></ul>
+                        <div style="font-size:12px;color:#6B6785;margin-top:12px">{{ lblExcluded }}</div>
+                        <ul style="margin:6px 0 0;padding:0 0 0 18px;display:grid;gap:4px"><sc-for list="{{ qd.exc }}" as="x" hint-placeholder-count="2"><li style="font-size:13px;line-height:1.5;color:#7A2B21">{{ x.text }}</li></sc-for></ul></div>
+                    </div>
+                  </sc-if>
+                  <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#6B6785;text-wrap:pretty">{{ lblNoReserve }}</p>
+                </section>
+
+                <div style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:0 20px">
+                  <button type="button" onClick="{{ qd.togHist }}" aria-expanded="{{ qd.openHist }}" style="display:flex;width:100%;justify-content:space-between;gap:10px;align-items:center;background:none;border:none;text-align:left;cursor:pointer;padding:16px 0;font-size:15px;font-weight:700;color:#1E1A3A"><span>{{ lblHistory }} <span style="font-size:12.5px;font-weight:500;color:#6B6785;margin-left:6px">{{ qd.histCount }}</span></span><span aria-hidden="true" style="flex:none;width:38px;height:38px;border-radius:50%;background:#ECE9F8;border:1px solid #B3ACDD;color:#44359B;display:grid;place-items:center;font-size:28px;font-weight:700;line-height:1">{{ qd.arrHist }}</span></button>
+                  <sc-if value="{{ qd.openHist }}" hint-placeholder-val="{{ false }}"><div style="padding:0 0 20px">
+                  <ol style="list-style:none;margin:0;padding:0;display:grid;gap:12px">
+                    <sc-for list="{{ qd.history }}" as="h" hint-placeholder-count="3">
+                      <li style="display:flex;gap:11px;align-items:flex-start">
+                        <span style="flex:none;width:8px;height:8px;border-radius:50%;background:{{ h.color }};margin-top:7px"></span>
+                        <div><div style="font-size:12px;color:#8A86A3">{{ h.when }} · <strong style="color:{{ h.color }}">{{ h.who }}</strong></div><div style="font-size:13.5px;line-height:1.55;color:#36334F;margin-top:3px;text-wrap:pretty">{{ h.text }}</div></div>
+                      </li>
+                    </sc-for>
+                  </ol>
+                  </div></sc-if>
+                </div>
+              </div>
+
+              <aside style="flex:1 1 300px;min-width:0;display:grid;gap:14px">
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:22px">
+                  <div style="font-size:12.5px;color:#6B6785">{{ lblGrand }}</div>
+                  <div style="font:700 30px/1.15 'Sarabun',sans-serif;margin-top:4px;color:{{ qd.totalColor }}">{{ qd.total }}</div>
+                  <div style="font-size:12.5px;color:#6B6785;margin-top:4px">{{ qd.expLine }}</div>
+                  <div style="display:grid;gap:9px;margin-top:18px;padding-top:18px;border-top:1px solid #ECEAF3">
+                    <sc-if value="{{ qd.canAccept }}"><button type="button" onClick="{{ qd.accept }}" style="min-height:44px;padding:0 16px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer;width:100%">{{ lblAccept }}</button></sc-if>
+                    <sc-if value="{{ qd.isAccepted }}"><p style="margin:0;font-size:13px;line-height:1.6;color:#44359B;background:#ECE9F8;border-radius:8px;padding:10px 12px;text-wrap:pretty">{{ qd.acceptedMsg }}</p></sc-if>
+                    <sc-if value="{{ qd.canOrder }}"><button type="button" onClick="{{ qd.order }}" style="width:100%;min-height:50px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:15px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ lblConvert }}</button></sc-if>
+                    <sc-if value="{{ qd.canReject }}"><button type="button" onClick="{{ qd.reject }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #E4B5AD;color:#B23A2E;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblReject }}</button></sc-if>
+                    <button type="button" onClick="{{ qd.dl }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblDownloadPdf }}</button>
+                  </div>
+                  <sc-if value="{{ qd.block }}">
+                    <div role="alert" style="margin-top:12px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:10px;padding:14px">
+                      <div style="font-size:14px;font-weight:700;color:#7A2B21">{{ qd.block.title }}</div>
+                      <ul style="margin:8px 0 0;padding:0 0 0 18px;display:grid;gap:5px"><sc-for list="{{ qd.block.items }}" as="bi" hint-placeholder-count="1"><li style="font-size:13px;line-height:1.55;color:#7A2B21">{{ bi.text }}</li></sc-for></ul>
+                      <sc-if value="{{ qd.block.isChange }}"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ qd.confirmChange }}" style="min-height:44px;padding:0 16px;background:#44359B;border:1px solid #2F2380;color:#FFFFFF;font-weight:700;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblConfirmNewTerms }}</button><button type="button" onClick="{{ qd.dismissBlock }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblCancel }}</button></div></sc-if>
+                      <sc-if value="{{ qd.block.isWeight }}"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ qd.focusRevise }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblAdjust }}</button><button type="button" onClick="{{ qd.consult }}" style="min-height:44px;padding:0 16px;background:#44359B;border:1px solid #2F2380;color:#FFFFFF;font-weight:700;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblConsult }}</button></div></sc-if>
+                    </div>
+                  </sc-if>
+                </section>
+                  <sc-if value="{{ qd.showPo }}">
+                    <div style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:0 20px">
+                      <button type="button" onClick="{{ qd.togPo }}" aria-expanded="{{ qd.openPo }}" style="display:flex;width:100%;justify-content:space-between;gap:10px;align-items:center;background:none;border:none;text-align:left;cursor:pointer;padding:16px 0;font-size:14.5px;font-weight:700;color:#1E1A3A"><span>{{ lblQPo }}</span><span aria-hidden="true" style="flex:none;width:38px;height:38px;border-radius:50%;background:#ECE9F8;border:1px solid #B3ACDD;color:#44359B;display:grid;place-items:center;font-size:28px;font-weight:700;line-height:1">{{ qd.arrPo }}</span></button>
+                      <sc-if value="{{ qd.openPo }}" hint-placeholder-val="{{ false }}"><div style="padding:0 0 20px">
+                      <input name="{{ qd.poName }}" value="{{ qd.poVal }}" onChange="{{ onForm }}" placeholder="PO-XXXX-00000" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                      <input type="file" onChange="{{ qd.onDoc }}" aria-label="{{ lblQPo }}" style="margin-top:8px;width:100%;min-height:44px;border:1px dashed #D9D5E6;border-radius:8px;padding:9px;background:#F9F8FC;font-size:12.5px" />
+                      <sc-if value="{{ qd.docVal }}"><div style="font-size:12.5px;color:#1F7A4D;margin-top:5px">{{ qd.docVal }}</div></sc-if>
+                      <div style="margin-top:8px"><button type="button" onClick="{{ qd.attachPo }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;color:#1E1A3A;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblSavePo }}</button></div>
+                      <p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#6B6785">{{ lblPoNotPaid }}</p>
+                      </div></sc-if>
+                    </div>
+                  </sc-if>
+                <sc-if value="{{ qd.canRevise }}">
+                  <div style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:0 20px">
+                    <button type="button" onClick="{{ qd.togRevise }}" aria-expanded="{{ qd.openRevise }}" style="display:flex;width:100%;justify-content:space-between;gap:10px;align-items:center;background:none;border:none;text-align:left;cursor:pointer;padding:16px 0;font-size:14.5px;font-weight:700;color:#1E1A3A"><span>{{ lblReviseTitle }}</span><span aria-hidden="true" style="flex:none;width:38px;height:38px;border-radius:50%;background:#ECE9F8;border:1px solid #B3ACDD;color:#44359B;display:grid;place-items:center;font-size:28px;font-weight:700;line-height:1">{{ qd.arrRevise }}</span></button>
+                    <sc-if value="{{ qd.openRevise }}" hint-placeholder-val="{{ false }}"><div style="padding:0 0 20px">
+                    <p style="margin:0 0 12px;font-size:12.5px;line-height:1.55;color:#6B6785;text-wrap:pretty">{{ lblReviseHelp }}</p>
+                    <div style="display:grid;gap:8px">
+                      <sc-for list="{{ qd.reviseRows }}" as="rr" hint-placeholder-count="2">
+                        <label style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+                          <span style="font-size:13px;line-height:1.4;flex:1 1 auto">{{ rr.label }}</span>
+                          <input type="number" min="1" name="{{ rr.name }}" value="{{ rr.q }}" onChange="{{ onForm }}" style="flex:none;width:76px;height:40px;border:1px solid #D9D5E6;border-radius:8px;text-align:center;background:#F9F8FC;font:600 14px/1 'Sarabun',sans-serif" />
+                        </label>
+                      </sc-for>
+                    </div>
+                    <label style="display:block;margin-top:12px">
+                      <span style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblReviseNote }}</span>
+                      <textarea name="{{ qd.revName }}" rows="3" value="{{ qd.revNote }}" onChange="{{ onForm }}" style="width:100%;border:1px solid #D9D5E6;border-radius:8px;padding:10px;background:#F9F8FC;line-height:1.55;resize:vertical"></textarea>
+                    </label>
+                    <div style="margin-top:10px"><button type="button" onClick="{{ qd.revise }}" style="min-height:44px;padding:0 16px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13.5px;cursor:pointer">{{ lblSendRevise }}</button></div>
+                    </div></sc-if>
+                  </div>
+                </sc-if>
+              </aside>
+            </div>
+          </div>
+</x-dc>
+</body>
+</html>

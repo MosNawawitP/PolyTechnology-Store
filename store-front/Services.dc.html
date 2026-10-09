@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+      <div style="max-width:1240px;margin:0 auto;padding:28px 20px 52px">
+        <h1 style="margin:0 0 8px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ servicesTitle }}</h1>
+        <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#4A4766;max-width:72ch;text-wrap:pretty">{{ servicesIntro }}</p>
+        <div style="margin-bottom:20px">
+            <div style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:22px">
+              <span style="font:600 11px/1 'Sarabun',sans-serif;color:#5B49C4">{{ svcSel.code }}</span>
+              <h2 style="margin:8px 0 8px;font-size:21px;font-weight:700;line-height:1.3">{{ svcSel.name }}</h2>
+              <p style="margin:0 0 18px;font-size:14.5px;line-height:1.65;color:#4A4766;text-wrap:pretty">{{ svcSel.short }}</p>
+              <h3 style="margin:0 0 10px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#6B6785">{{ lblScope }}</h3>
+              <ul style="margin:0;padding:0;list-style:none;display:grid;gap:8px">
+                <sc-for list="{{ svcSel.scope }}" as="sc" hint-placeholder-count="4">
+                  <li style="display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.55">
+                    <span style="flex:none;width:6px;height:6px;border-radius:50%;background:#44359B;margin-top:7px"></span>
+                    <span style="text-wrap:pretty">{{ sc.text }}</span>
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+          <div style="flex:1 1 300px;min-width:0;display:grid;gap:10px">
+            <sc-for list="{{ svcList }}" as="sv" hint-placeholder-count="5">
+              <button type="button" onClick="{{ sv.pick }}" aria-pressed="{{ sv.on }}" style="text-align:left;background:{{ sv.bg }};border:1px solid {{ sv.bd }};border-radius:11px;padding:16px;cursor:pointer">
+                <span style="display:block;font:600 11px/1 'Sarabun',sans-serif;color:#5B49C4;margin-bottom:7px">{{ sv.code }}</span>
+                <span style="display:block;font-size:15.5px;font-weight:600;line-height:1.4;color:#1E1A3A">{{ sv.name }}</span>
+                <span style="display:block;font-size:13px;color:#6B6785;line-height:1.55;margin-top:6px;text-wrap:pretty">{{ sv.short }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="flex:1.4 1 420px;min-width:0">
+            <form onSubmit="{{ svcSubmitForm }}" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:22px">
+              <h2 style="margin:0 0 6px;font-size:18px;font-weight:700">{{ lblSvcForm }}</h2>
+              <p style="margin:0 0 16px;font-size:13px;line-height:1.55;color:#6B6785;text-wrap:pretty">{{ lblSvcFormNote }}</p>
+              <sc-if value="{{ svcCarried }}">
+                <div style="margin-bottom:16px;background:#ECE9F8;border:1px solid #B3ACDD;border-radius:10px;padding:14px">
+                  <div style="font-size:13.5px;font-weight:700;color:#1E1A3A">{{ svcCarried.title }}</div>
+                  <ul style="margin:8px 0 0;padding:0 0 0 18px;display:grid;gap:4px">
+                    <sc-for list="{{ svcCarried.items }}" as="ci" hint-placeholder-count="2"><li style="font-size:13px;line-height:1.5;color:#36334F">{{ ci.text }}</li></sc-for>
+                  </ul>
+                  <div style="font-size:12.5px;color:#4A4766;margin-top:8px;line-height:1.5">{{ svcCarried.summary }}</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ svcProductRef }}">
+                <div style="margin-bottom:16px;background:#F9F8FC;border:1px solid #E4E1EE;border-radius:10px;padding:12px 14px;font-size:13.5px;font-weight:600;color:#1E1A3A">{{ svcProductRef }}</div>
+              </sc-if>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px">
+                <div>
+                  <label for="svcName" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblName }}</label>
+                  <input id="svcName" name="svcName" value="{{ svcName }}" onChange="{{ onSvcField }}" required="true" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcPhone" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblPhone }}</label>
+                  <input id="svcPhone" name="svcPhone" value="{{ svcPhone }}" onChange="{{ onSvcField }}" type="tel" required="true" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcEmail" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblEmail }}</label>
+                  <input id="svcEmail" name="svcEmail" value="{{ svcEmail }}" onChange="{{ onSvcField }}" type="email" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcCompany" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblCompany }}</label>
+                  <input id="svcCompany" name="svcCompany" value="{{ svcCompany }}" onChange="{{ onSvcField }}" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcType" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcType }}</label>
+                  <select id="svcType" value="{{ svcId }}" onChange="{{ onSvcType }}" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC;padding:0 9px">
+                    <sc-for list="{{ svcTypeOptions }}" as="o" hint-placeholder-count="5"><option value="{{ o.v }}">{{ o.label }}</option></sc-for>
+                  </select>
+                </div>
+                <div>
+                  <label for="svcGoal" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcGoal }}</label>
+                  <input id="svcGoal" name="svcGoal" value="{{ svcGoal }}" onChange="{{ onSvcField }}" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcPlace" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcPlace }}</label>
+                  <input id="svcPlace" name="svcPlace" value="{{ svcPlace }}" onChange="{{ onSvcField }}" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+                <div>
+                  <label for="svcDate" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcDate }}</label>
+                  <input id="svcDate" name="svcDate" value="{{ svcDate }}" onChange="{{ onSvcField }}" type="date" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                </div>
+              </div>
+              <sc-if value="{{ hasSvcExtra }}">
+                <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ECEAF3">
+                  <h3 style="margin:0 0 10px;font-size:13px;font-weight:700;color:#4A4766">{{ lblSvcExtra }}</h3>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px">
+                    <sc-for list="{{ svcExtra }}" as="x" hint-placeholder-count="2">
+                      <label style="display:block">
+                        <span style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ x.label }}</span>
+                        <input name="{{ x.name }}" value="{{ x.value }}" onChange="{{ onSvcField }}" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC" />
+                      </label>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="margin-top:14px">
+                <label for="svcFiles" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcFiles }}</label>
+                <input id="svcFiles" type="file" multiple="true" onChange="{{ onSvcFiles }}" style="width:100%;min-height:44px;border:1px dashed #D9D5E6;border-radius:8px;padding:10px 11px;background:#F9F8FC;font-size:13px" />
+                <sc-if value="{{ svcFilesLabel }}"><div style="font-size:12.5px;color:#1F7A4D;margin-top:5px">{{ svcFilesLabel }}</div></sc-if>
+              </div>
+              <div style="margin-top:14px">
+                <label for="svcNote" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblSvcNote }}</label>
+                <textarea id="svcNote" name="svcNote" rows="3" value="{{ svcNote }}" onChange="{{ onSvcField }}" style="width:100%;border:1px solid #D9D5E6;border-radius:8px;padding:11px;background:#F9F8FC;line-height:1.6;resize:vertical"></textarea>
+              </div>
+              <div style="margin-top:14px;background:#FBF0D8;border:1px solid #CFC6F0;border-radius:9px;padding:12px 14px;font-size:13px;line-height:1.6;color:#5E4508;text-wrap:pretty">{{ svcSurveyNote }}</div>
+              <sc-if value="{{ svcError }}">
+                <div role="alert" style="margin-top:14px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:9px;padding:13px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                  <span style="font-size:13.5px;color:#7A2B21;flex:1 1 200px">{{ t.apiError }}</span>
+                  <button type="button" onClick="{{ retryApi }}" style="min-height:40px;padding:0 14px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ t.retry }}</button>
+                </div>
+              </sc-if>
+              <button type="submit" style="margin-top:18px;min-height:48px;padding:0 22px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:15px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ svcBtnLabel }}</button>
+            </form>
+          </div>
+        </div>
+      </div>
+</x-dc>
+</body>
+</html>

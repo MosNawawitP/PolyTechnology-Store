@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <div style="display:none;background:#1F1850;color:#D8D3F0;padding:8px 20px">
+    <div style="max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center">
+      <span style="font:600 11px/1.2 'Sarabun',sans-serif;letter-spacing:.08em;color:#C4B8FF;text-transform:uppercase">{{ t.demoMode }}</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+        <span style="font-size:12px;color:#A39CD0">{{ t.account }}</span>
+        <sc-for list="{{ acctChips }}" as="c" hint-placeholder-count="4">
+          <button type="button" onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="border:1px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};border-radius:20px;padding:4px 11px;font-size:12px;font-weight:600;cursor:pointer">{{ c.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-left:auto">
+        <label for="scenario" style="font-size:12px;color:#A39CD0">{{ t.scenario }}</label>
+        <select id="scenario" value="{{ scenarioId }}" onChange="{{ onScenario }}" style="background:#2E2575;color:#F1EFFB;border:1px solid #4C3FA8;border-radius:6px;padding:4px 8px;font-size:12px;max-width:260px">
+          <option value="">{{ t.pickScenario }}</option>
+          <sc-for list="{{ scenarios }}" as="s" hint-placeholder-count="6">
+            <option value="{{ s.id }}">{{ s.label }}</option>
+          </sc-for>
+        </select>
+        <button type="button" onClick="{{ resetDemo }}" style="background:none;border:1px solid #4C3FA8;color:#D8D3F0;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer">{{ t.reset }}</button>
+      </div>
+    </div>
+  </div>
+</x-dc>
+</body>
+</html>

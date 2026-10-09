@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+      <div style="max-width:1240px;margin:0 auto;padding:28px 20px 52px">
+        <h1 style="margin:0 0 6px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ productsTitle }}</h1>
+        <p style="margin:0 0 22px;font-size:14px;color:#6B6785">{{ priceContextLabel }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+          <aside style="box-sizing:border-box;flex:0 1 230px;min-width:200px;max-width:100%;display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ fSections }}" as="sec" hint-placeholder-count="5">
+              <section style="box-sizing:border-box;background:#FFFFFF;border-radius:8px;box-shadow:0 1px 5px rgba(30,26,58,.14);border-top:{{ sec.top }};padding:14px 14px 8px">
+                <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px">
+                  <h2 style="margin:0;font-size:15px;font-weight:700;color:#1E1A3A">{{ sec.title }}</h2>
+                  <button type="button" onClick="{{ sec.clear }}" style="flex:0 0 auto;display:flex;gap:4px;align-items:center;background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:#1E1A3A;cursor:pointer"><span aria-hidden="true" style="font-size:15px;color:#6B6785">↺</span>{{ lblClearSec }}</button>
+                </div>
+                <sc-if value="{{ sec.hasSearch }}">
+                  <div style="position:relative;margin-bottom:10px">
+                    <input aria-label="{{ sec.searchPh }}" type="search" value="{{ sec.q }}" onChange="{{ sec.onQ }}" placeholder="{{ sec.searchPh }}" style="box-sizing:border-box;width:100%;height:38px;font-size:13px;border:1px solid #D9D5E6;border-radius:19px;padding:0 38px 0 14px;background:#FFFFFF;color:#1E1A3A" />
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B6785" stroke-width="2" stroke-linecap="round" style="position:absolute;right:13px;top:10px;pointer-events:none"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+                  </div>
+                </sc-if>
+                <div style="border-top:1px solid #E4E1EE;padding-top:6px;max-height:230px;overflow:auto">
+                  <sc-for list="{{ sec.items }}" as="o" hint-placeholder-count="4">
+                    <button type="button" role="checkbox" aria-checked="{{ o.on }}" onClick="{{ o.toggle }}" style="display:flex;gap:9px;align-items:center;width:100%;background:none;border:none;padding:7px 0;cursor:pointer;text-align:left;font-size:13px;font-weight:600;color:#1E1A3A">
+                      <span aria-hidden="true" style="flex:0 0 18px;width:18px;height:18px;box-sizing:border-box;border-radius:4px;border:1.5px solid {{ o.bd }};background:{{ o.bg }};color:#FFFFFF;font-size:12px;line-height:15px;text-align:center">{{ o.mark }}</span>
+                      <span style="min-width:0;flex:1;text-wrap:pretty">{{ o.label }} <span style="font-weight:500;color:#8A86A3">({{ o.count }})</span></span>
+                    </button>
+                  </sc-for>
+                  <sc-if value="{{ sec.empty }}"><div style="padding:8px 0 10px;font-size:12.5px;color:#8A86A3">{{ noResultsShort }}</div></sc-if>
+                </div>
+              </section>
+            </sc-for>
+            <section style="box-sizing:border-box;background:#FFFFFF;border-radius:8px;box-shadow:0 1px 5px rgba(30,26,58,.14);padding:14px">
+              <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px">
+                <h2 style="margin:0;font-size:15px;font-weight:700;color:#1E1A3A">{{ lblPriceTitle }}</h2>
+                <button type="button" onClick="{{ clearPrice }}" style="flex:0 0 auto;display:flex;gap:4px;align-items:center;background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:#1E1A3A;cursor:pointer"><span aria-hidden="true" style="font-size:15px;color:#6B6785">↺</span>{{ lblClearSec }}</button>
+              </div>
+              <div style="border-top:1px solid #E4E1EE;padding-top:12px;display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center">
+                <input aria-label="{{ lblPriceFrom }}" type="number" min="0" value="{{ fMin }}" onChange="{{ onMin }}" placeholder="0" style="box-sizing:border-box;flex:1 1 70px;min-width:0;width:100%;height:38px;font-size:13px;border:1px solid #D9D5E6;border-radius:19px;padding:0 12px;background:#FFFFFF" />
+                <span style="font-size:13px;color:#6B6785">{{ lblPriceTo }}</span>
+                <input aria-label="{{ lblPriceTo }}" type="number" min="0" value="{{ fMax }}" onChange="{{ onMax }}" placeholder="500000" style="box-sizing:border-box;flex:1 1 70px;min-width:0;width:100%;height:38px;font-size:13px;border:1px solid #D9D5E6;border-radius:19px;padding:0 12px;background:#FFFFFF" />
+              </div>
+            </section>
+          </aside>
+
+          <div style="flex:4 1 560px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;padding:10px 14px;margin-bottom:14px">
+              <span style="font-size:13.5px;font-weight:600">{{ resultCount }}</span>
+              <span style="font:500 12px/1 'Sarabun',sans-serif;color:#6B6785">{{ syncLabel }}</span>
+              <div style="display:flex;gap:10px;align-items:center;margin-left:auto">
+                <label for="fsort" style="font-size:13px;color:#4A4766">{{ lblSort }}</label>
+                <select id="fsort" value="{{ fSort }}" onChange="{{ onSort }}" style="height:36px;border:1px solid #D9D5E6;border-radius:8px;padding:0 8px;background:#F9F8FC">
+                  <sc-for list="{{ sortOptions }}" as="o" hint-placeholder-count="4"><option value="{{ o.v }}">{{ o.label }}</option></sc-for>
+                </select>
+                <div style="display:flex;gap:4px">
+                  <button type="button" onClick="{{ setGrid }}" aria-pressed="{{ isGrid }}" style="height:36px;padding:0 11px;border:1px solid #D9D5E6;border-radius:8px;background:{{ gridBg }};font-size:12.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblGrid }}</button>
+                  <button type="button" onClick="{{ setList }}" aria-pressed="{{ isList }}" style="height:36px;padding:0 11px;border:1px solid #D9D5E6;border-radius:8px;background:{{ listBg }};font-size:12.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblList }}</button>
+                </div>
+              </div>
+            </div>
+
+            <sc-if value="{{ noResults }}">
+              <div style="background:#FFFFFF;border:1px dashed #D9D5E6;border-radius:12px;padding:40px 24px;text-align:center">
+                <h3 style="margin:0 0 8px;font-size:17px;font-weight:700">{{ noResultsTitle }}</h3>
+                <p style="margin:0 0 18px;font-size:14px;color:#6B6785;line-height:1.6;max-width:52ch;margin-inline:auto;text-wrap:pretty">{{ noResultsBody }}</p>
+                <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+                  <button type="button" onClick="{{ clearFilters }}" style="min-height:42px;padding:0 18px;background:#44359B;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer">{{ lblClear }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ showGrid }}">
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+                <sc-for list="{{ productList }}" as="p" hint-placeholder-count="6">
+                  <article onClick="{{ p.open }}" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer" style-hover="border-color:#44359B;box-shadow:0 2px 10px rgba(68,53,155,.12)">
+                    <button type="button" onClick="{{ p.open }}" style="border:none;padding:0;cursor:pointer;background:none;display:block;position:relative">
+                      <div style="aspect-ratio:16/9;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px);position:relative;overflow:hidden">
+                        <img src="{{ p.photo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />
+                      </div>
+                    </button>
+                    <div style="padding:14px;display:flex;flex-direction:column;gap:6px;flex:1">
+                      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+                        <span style="font:500 10.5px/1 'Sarabun',sans-serif;color:#6B6785">{{ p.sku }}</span>
+                        <span style="font-size:11px;font-weight:600;color:#44359B;background:#ECE9F8;border-radius:4px;padding:2px 6px">{{ p.brand }}</span>
+                      </div>
+                      <button type="button" onClick="{{ p.open }}" style="background:none;border:none;padding:0;text-align:left;font-size:15px;font-weight:600;line-height:1.4;color:#1E1A3A;cursor:pointer;text-wrap:pretty">{{ p.name }}</button>
+                      <div style="font-size:12px;color:#6B6785;line-height:1.5">{{ p.cat }} · {{ p.unit }} · {{ p.weightLabel }}</div>
+                      <div style="margin-top:auto;padding-top:8px">
+                        <div style="font:600 19px/1.2 'Sarabun',sans-serif">{{ p.priceLabel }}</div>
+                        <div style="font-size:12px;color:{{ p.priceNoteColor }};margin-top:3px">{{ p.priceNote }}</div>
+                        <div style="font-size:12.5px;font-weight:600;color:{{ p.stockColor }};margin-top:6px">{{ p.stockLabel }}</div>
+                        <div style="font:500 10.5px/1 'Sarabun',sans-serif;color:#8A86A3;margin-top:5px">{{ syncLabel }}</div>
+                      </div>
+                      <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
+                        <button type="button" onClick="{{ p.primary }}" style="flex:1 1 110px;min-height:40px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ p.primaryLabel }}</button>
+                      </div>
+                    </div>
+                  </article>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ showList }}">
+              <div style="display:grid;gap:10px">
+                <sc-for list="{{ productList }}" as="p" hint-placeholder-count="6">
+                  <article onClick="{{ p.open }}" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;cursor:pointer" style-hover="border-color:#44359B;box-shadow:0 2px 10px rgba(68,53,155,.12)">
+                    <button type="button" onClick="{{ p.open }}" style="border:none;padding:0;background:none;cursor:pointer;flex:0 0 120px">
+                      <div style="width:120px;height:88px;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px);border-radius:8px;position:relative;overflow:hidden"><img src="{{ p.photo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></div>
+                    </button>
+                    <div style="flex:1 1 240px;min-width:0">
+                      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:5px">
+                        <span style="font:500 10.5px/1 'Sarabun',sans-serif;color:#6B6785">{{ p.sku }}</span>
+                        <span style="font-size:11px;font-weight:600;color:#44359B;background:#ECE9F8;border-radius:4px;padding:2px 6px">{{ p.brand }}</span>
+                        <span style="font-size:11px;font-weight:600;color:#5B49C4;background:#FBF0D8;border-radius:4px;padding:2px 6px">{{ p.typeLabel }}</span>
+                      </div>
+                      <button type="button" onClick="{{ p.open }}" style="background:none;border:none;padding:0;text-align:left;font-size:15.5px;font-weight:600;line-height:1.4;color:#1E1A3A;cursor:pointer">{{ p.name }}</button>
+                      <div style="font-size:12.5px;color:#6B6785;margin-top:4px">{{ p.cat }} · {{ p.unit }} · {{ p.weightLabel }}</div>
+                    </div>
+                    <div style="flex:0 0 170px">
+                      <div style="font:600 18px/1.2 'Sarabun',sans-serif">{{ p.priceLabel }}</div>
+                      <div style="font-size:12px;color:{{ p.priceNoteColor }};margin-top:3px">{{ p.priceNote }}</div>
+                      <div style="font-size:12.5px;font-weight:600;color:{{ p.stockColor }};margin-top:5px">{{ p.stockLabel }}</div>
+                    </div>
+                    <div style="flex:0 0 auto;display:flex;gap:8px;flex-wrap:wrap">
+                      <button type="button" onClick="{{ p.primary }}" style="min-height:42px;padding:0 16px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ p.primaryLabel }}</button>
+                    </div>
+                  </article>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ prodPager.show }}" hint-placeholder-val="{{ false }}">
+              <nav aria-label="Pagination" style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;margin-top:18px">
+                <span style="font-size:13px;color:#6B6785">{{ prodPager.info }}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+                  <button type="button" onClick="{{ prodPager.prev }}" disabled="{{ prodPager.prevOff }}" aria-label="Previous" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ prodPager.prevOp }}">‹</button>
+                  <sc-for list="{{ prodPager.pages }}" as="pg" hint-placeholder-count="3">
+                    <button type="button" onClick="{{ pg.pick }}" aria-current="{{ pg.cur }}" style="min-width:40px;height:40px;border:1px solid {{ pg.bd }};background:{{ pg.bg }};color:{{ pg.fg }};border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">{{ pg.n }}</button>
+                  </sc-for>
+                  <button type="button" onClick="{{ prodPager.next }}" disabled="{{ prodPager.nextOff }}" aria-label="Next" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ prodPager.nextOp }}">›</button>
+                </div>
+              </nav>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+</x-dc>
+</body>
+</html>

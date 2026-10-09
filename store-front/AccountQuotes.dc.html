@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+          <div>
+            <div role="tablist" style="position:sticky;top:{{ hdrTop }};z-index:5;background:#F4F3F8;padding-top:8px;display:flex;flex-wrap:nowrap;gap:0 2px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;border-bottom:1px solid #E4E1EE;margin-bottom:16px">
+              <sc-for list="{{ quoteTabs }}" as="tb" hint-placeholder-count="5">
+                <button type="button" role="tab" aria-selected="{{ tb.sel }}" onClick="{{ tb.pick }}" style="flex:1 0 auto;display:flex;gap:8px;align-items:center;justify-content:center;background:none;border:none;border-bottom:3px solid {{ tb.bd }};padding:12px 14px 10px;font-size:14px;font-weight:600;color:{{ tb.fg }};cursor:pointer;white-space:nowrap"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ tb.ico }}"></path></svg>{{ tb.label }}<span style="min-width:22px;padding:2px 7px;border-radius:11px;background:{{ tb.bg }};color:{{ tb.cfg }};font-size:12px;font-weight:700;text-align:center">{{ tb.n }}</span></button>
+              </sc-for>
+            </div>
+            <sc-if value="{{ noQuotes }}">
+              <div style="background:#FFFFFF;border:1px dashed #D9D5E6;border-radius:12px;padding:36px;text-align:center">
+                <p style="margin:0 0 16px;font-size:14.5px;color:#6B6785;text-wrap:pretty">{{ noQuotesMsg }}</p>
+                <button type="button" onClick="{{ goRfq }}" style="min-height:44px;padding:0 18px;background:#44359B;color:#FFFFFF;border:1px solid #2F2380;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">{{ t.requestQuote }}</button>
+              </div>
+            </sc-if>
+            <div style="display:grid;gap:10px">
+              <sc-for list="{{ quoteRows }}" as="q" hint-placeholder-count="3">
+                <article onClick="{{ q.open }}" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:18px;cursor:pointer" style-hover="border-color:#44359B;box-shadow:0 2px 10px rgba(68,53,155,.12)">
+                  <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+                    <div style="flex:1 1 220px;min-width:0">
+                      <div style="font:700 15px/1.2 'Sarabun',sans-serif;color:#44359B">{{ q.id }} · {{ q.rev }}</div>
+                      <div style="font-size:12.5px;color:#6B6785;margin-top:6px;line-height:1.5">{{ q.kind }} · {{ lblIssued }} {{ q.date }} · {{ lblExpires }} {{ q.exp }} · {{ q.items }}</div>
+                    </div>
+                    <span style="font:700 17px/1 'Sarabun',sans-serif;color:{{ q.amountColor }}">{{ q.amount }}</span>
+                  </div>
+                  <div style="margin-top:14px;border-top:1px solid #ECEAF3;display:grid">
+                    <sc-for list="{{ q.lines }}" as="it" hint-placeholder-count="2">
+                      <div style="display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #F1EFF7">
+                        <div style="position:relative;flex:0 0 52px;width:52px;height:52px;border:1px solid #E4E1EE;border-radius:7px;overflow:hidden;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px)">
+                          <sc-if value="{{ it.hasPhoto }}"><img src="{{ it.photo }}" alt="" loading="lazy" onError="{{ it.hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></sc-if>
+                        </div>
+                        <div style="flex:1 1 0;min-width:0">
+                          <div style="font-size:14px;font-weight:600;line-height:1.4;color:#1E1A3A;text-wrap:pretty">{{ it.name }}</div>
+                          <div style="font-size:12.5px;color:#6B6785;margin-top:2px">{{ it.meta }}</div>
+                        </div>
+                        <div style="flex:none;font-size:14px;font-weight:600;color:#1E1A3A">× {{ it.q }}</div>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ q.hasMore }}" hint-placeholder-val="{{ false }}"><div style="padding:10px 0 0;font-size:13px;font-weight:600;color:#44359B">{{ q.moreLabel }}</div></sc-if>
+                  </div>
+                  <div style="margin-top:14px;padding-top:14px;border-top:1px solid #ECEAF3;display:grid;gap:14px">
+                    <div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center">
+                      <span style="flex:none;font-size:13px;font-weight:700;color:{{ q.statusColor }};background:{{ q.pillBg }};border-radius:999px;padding:5px 12px">{{ q.status }}</span>
+                      <span style="flex:1 1 220px;font-size:13px;line-height:1.5;color:#4A4766">{{ q.next }}</span>
+                    </div>
+                    <sc-if value="{{ q.hasTrack }}" hint-placeholder-val="{{ false }}">
+                      <ol style="list-style:none;margin:0;padding:0;display:flex;width:100%">
+                        <sc-for list="{{ q.track }}" as="tk" hint-placeholder-count="4">
+                          <li style="position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center">
+                            <span aria-hidden="true" style="position:absolute;top:9px;left:calc(-50% + 12px);right:calc(50% + 12px);height:2px;background:{{ tk.lineBg }};display:{{ tk.lineDisplay }}"></span>
+                            <span style="position:relative;z-index:1;width:20px;height:20px;border-radius:50%;background:{{ tk.bg }};border:2px solid {{ tk.bd }};box-shadow:{{ tk.ring }};color:#FFFFFF;display:grid;place-items:center;font-size:11px;font-weight:700;line-height:1">{{ tk.mark }}</span>
+                            <span style="margin-top:6px;font-size:12px;line-height:1.3;color:{{ tk.lc }};font-weight:{{ tk.fw }}">{{ tk.label }}</span>
+                          </li>
+                        </sc-for>
+                      </ol>
+                    </sc-if>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+              <sc-if value="{{ quotePager.show }}" hint-placeholder-val="{{ false }}">
+                <nav aria-label="Pagination" style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;margin-top:6px">
+                  <span style="font-size:13px;color:#6B6785">{{ quotePager.info }}</span>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+                    <button type="button" onClick="{{ quotePager.prev }}" disabled="{{ quotePager.prevOff }}" aria-label="Previous" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ quotePager.prevOp }}">‹</button>
+                    <sc-for list="{{ quotePager.pages }}" as="pg" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ pg.pick }}" aria-current="{{ pg.cur }}" style="min-width:40px;height:40px;border:1px solid {{ pg.bd }};background:{{ pg.bg }};color:{{ pg.fg }};border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">{{ pg.n }}</button>
+                    </sc-for>
+                    <button type="button" onClick="{{ quotePager.next }}" disabled="{{ quotePager.nextOff }}" aria-label="Next" style="min-width:40px;height:40px;border:1px solid #D9D5E6;background:#FFFFFF;color:#44359B;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;opacity:{{ quotePager.nextOp }}">›</button>
+                  </div>
+                </nav>
+              </sc-if>
+          </div>
+</x-dc>
+</body>
+</html>

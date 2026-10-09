@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+          <div>
+            <button type="button" onClick="{{ od.back }}" style="background:none;border:none;padding:0 0 14px;color:#44359B;font-size:13.5px;font-weight:600;cursor:pointer">← {{ lblBackToOrders }}</button>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start">
+              <div style="flex:1.7 1 420px;min-width:0;display:grid;gap:16px">
+                <sc-if value="{{ od.hasHold }}">
+                  <section role="status" style="background:#FBF0D8;border:1px solid #CFC6F0;border-radius:12px;padding:18px">
+                    <div style="font-size:16px;font-weight:700;color:#5E4508">{{ od.holdLabel }}</div>
+                    <div style="margin-top:8px;display:grid;gap:4px;font-size:13.5px;line-height:1.55;color:#5E4508">
+                      <div><strong>{{ lblOwner }}:</strong> {{ od.holdOwner }}</div>
+                      <div><strong>{{ lblNextStep }}:</strong> {{ od.holdNext }}</div>
+                    </div>
+                    <sc-if value="{{ od.note }}"><p style="margin:8px 0 0;font-size:13px;font-weight:600;color:#7A2B21">{{ od.note }}</p></sc-if>
+                    <sc-if value="{{ od.needApproval }}">
+                      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px;align-items:end">
+                        <label style="display:block"><span style="display:block;font-size:12.5px;font-weight:600;color:#5E4508;margin-bottom:5px">{{ lblApoNo }}</span><input name="{{ od.apoName }}" value="{{ od.apo }}" onChange="{{ onForm }}" placeholder="PO-XXXX-00000" style="width:100%;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#fff" /></label>
+                        <label style="display:block"><span style="display:block;font-size:12.5px;font-weight:600;color:#5E4508;margin-bottom:5px">{{ lblApoDoc }}</span><input type="file" onChange="{{ od.onDoc }}" style="width:100%;min-height:44px;border:1px dashed #D9D5E6;border-radius:8px;padding:9px;background:#fff;font-size:12.5px" /></label>
+                      </div>
+                      <sc-if value="{{ od.adoc }}"><div style="font-size:12.5px;color:#1F7A4D;margin-top:6px">{{ od.adoc }}</div></sc-if>
+                      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px"><button type="button" onClick="{{ od.attach }}" style="min-height:42px;padding:0 15px;background:#44359B;border:none;color:#fff;font-weight:600;border-radius:8px;font-size:13px;cursor:pointer">{{ lblAttachSend }}</button></div>
+                      <p style="margin:8px 0 0;font-size:12px;color:#6B6785">{{ lblPoNotPaid }}</p>
+                    </sc-if>
+                    <sc-if value="{{ od.needSeller }}"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ od.sellerOk }}" style="min-height:42px;padding:0 15px;background:#F1EFF7;border:1px dashed #B8B3CC;color:#4A4766;font-weight:600;border-radius:8px;font-size:13px;cursor:pointer">{{ lblSimSellerOk }}</button></div></sc-if>
+                    <sc-if value="{{ od.needCredit }}"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ od.creditOk }}" style="min-height:42px;padding:0 15px;background:#F1EFF7;border:1px dashed #B8B3CC;color:#4A4766;font-weight:600;border-radius:8px;font-size:13px;cursor:pointer">{{ lblSimCreditOk }}</button><button type="button" onClick="{{ od.creditNo }}" style="min-height:42px;padding:0 15px;background:#F1EFF7;border:1px dashed #B8B3CC;color:#4A4766;font-weight:600;border-radius:8px;font-size:13px;cursor:pointer">{{ lblSimCreditNo }}</button></div></sc-if>
+                    <sc-if value="{{ od.needVerify }}"><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button type="button" onClick="{{ od.verifyOk }}" style="min-height:42px;padding:0 15px;background:#F1EFF7;border:1px dashed #B8B3CC;color:#4A4766;font-weight:600;border-radius:8px;font-size:13px;cursor:pointer">{{ lblSimVerify }}</button></div></sc-if>
+                  </section>
+                </sc-if>
+<sc-if value="{{ od.pp.show }}" hint-placeholder-val="{{ false }}">
+<section style="margin-top:14px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden">
+  <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E4E1EE;background:#F9F8FC">
+    <h2 style="margin:0;font-size:16px;font-weight:700;color:#1E1A3A">{{ od.pp.title }}</h2>
+    <span style="font-size:13px;color:#6B6785">{{ od.pp.lblAmount }} <strong style="font:700 18px/1 'Sarabun',sans-serif;color:#1E1A3A;margin-left:6px">{{ od.pp.amount }}</strong></span>
+  </div>
+  <div style="padding:20px;display:grid;gap:20px">
+    <sc-if value="{{ od.pp.isCredit }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <p style="margin:0 0 14px;font-size:13.5px;line-height:1.6;color:#4A4766;text-wrap:pretty">{{ od.pp.creditNote }}</p>
+        <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:14px">
+          <sc-for list="{{ od.pp.steps }}" as="cs" hint-placeholder-count="5">
+            <li style="display:flex;gap:10px;align-items:flex-start">
+              <span style="flex:none;width:28px;height:28px;border-radius:50%;background:{{ cs.bg }};border:2px solid {{ cs.bd }};color:{{ cs.fg }};display:grid;place-items:center;font-size:13px;font-weight:700">{{ cs.mark }}</span>
+              <span style="min-width:0"><span style="display:block;font-size:13.5px;font-weight:700;line-height:1.35;color:{{ cs.lc }}">{{ cs.label }}</span><span style="display:block;font-size:12.5px;line-height:1.45;color:#6B6785;margin-top:2px;text-wrap:pretty">{{ cs.sub }}</span></span>
+            </li>
+          </sc-for>
+        </ol>
+      </div>
+    </sc-if>
+    <sc-if value="{{ od.pp.hasTabs }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ od.pp.tabs }}" as="tb" hint-placeholder-count="2">
+          <button type="button" onClick="{{ tb.pick }}" aria-pressed="{{ tb.on }}" style="min-height:44px;padding:0 18px;background:{{ tb.bg }};border:1px solid {{ tb.bd }};border-radius:9px;font-size:14px;font-weight:700;color:#1E1A3A;cursor:pointer">{{ tb.label }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ od.pp.isQr }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+        <div style="flex:none;width:232px;max-width:100%;border:1px solid #E4E1EE;border-radius:12px;padding:14px;text-align:center;background:#FFFFFF">
+          <div role="img" aria-label="QR" style="display:grid;grid-template-columns:repeat(25,1fr);width:100%;aspect-ratio:1/1;background:#FFFFFF;opacity:{{ od.pp.qrOpacity }}"><sc-for list="{{ od.pp.qrCells }}" as="qc" hint-placeholder-count="25"><span style="background:{{ qc.c }}"></span></sc-for></div>
+          <div style="margin-top:10px;font-size:12.5px;font-weight:700;color:#44359B">Thai QR Payment</div>
+          <div style="font-size:12px;color:#6B6785">{{ od.pp.lblQrSample }}</div>
+        </div>
+        <div style="flex:1 1 260px;min-width:0;display:grid;gap:14px">
+          <div style="background:{{ od.pp.timerBg }};border-radius:10px;padding:14px 16px">
+            <div style="font-size:12.5px;color:#6B6785">{{ od.pp.lblExpire }}</div>
+            <div style="font:700 26px/1.2 'Sarabun',sans-serif;color:{{ od.pp.timerColor }};margin-top:2px">{{ od.pp.timer }}</div>
+          </div>
+          <ol style="margin:0;padding:0 0 0 20px;display:grid;gap:6px;font-size:13.5px;line-height:1.55;color:#36334F">
+            <sc-for list="{{ od.pp.qrHow }}" as="qh" hint-placeholder-count="3"><li style="text-wrap:pretty">{{ qh.t }}</li></sc-for>
+          </ol>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-if value="{{ od.pp.expired }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ od.pp.regen }}" style="min-height:44px;padding:0 16px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ od.pp.lblRegen }}</button></sc-if>
+            <button type="button" onClick="{{ od.pp.saveQr }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #D9D5E6;border-radius:9px;font-size:13.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ od.pp.lblSaveQr }}</button>
+            <button type="button" onClick="{{ od.pp.simPay }}" disabled="{{ od.pp.expired }}" style="min-height:44px;padding:0 16px;background:#F1EFF7;border:1px dashed #B8B3CC;border-radius:9px;font-size:13.5px;font-weight:600;color:#4A4766;cursor:pointer">{{ od.pp.lblSim }}</button>
+          </div>
+          <p style="margin:0;font-size:12.5px;line-height:1.55;color:#6B6785;text-wrap:pretty">{{ od.pp.lblQrAuto }}</p>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ od.pp.isTransfer }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+        <div style="flex:1 1 280px;min-width:0">
+          <div style="border:1px solid #E4E1EE;border-radius:10px;overflow:hidden">
+            <sc-for list="{{ od.pp.bank }}" as="bk" hint-placeholder-count="5">
+              <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;padding:11px 14px;border-top:1px solid #ECEAF3">
+                <span style="flex:none;font-size:12.5px;color:#6B6785">{{ bk.k }}</span>
+                <span style="display:flex;gap:10px;align-items:center;min-width:0;justify-content:flex-end"><span style="font:700 15px/1.3 'Sarabun',sans-serif;color:#1E1A3A;text-align:right;word-break:break-word">{{ bk.v }}</span><sc-if value="{{ bk.hasCopy }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ bk.copy }}" style="flex:none;min-height:32px;padding:0 10px;background:#fff;border:1px solid #D9D5E6;border-radius:6px;font-size:12px;font-weight:600;color:#44359B;cursor:pointer">{{ bk.lblCopy }}</button></sc-if></span>
+              </div>
+            </sc-for>
+          </div>
+          <p style="margin:10px 0 0;font-size:12.5px;line-height:1.55;color:#6B6785;text-wrap:pretty">{{ od.pp.lblTfNote }}</p>
+        </div>
+        <div style="flex:1 1 280px;min-width:0;display:grid;gap:12px">
+          <label style="display:block"><span style="display:block;font-size:12.5px;font-weight:600;color:#36334F;margin-bottom:5px">{{ od.pp.lblSlip }}</span><input type="file" accept="image/*,application/pdf" onChange="{{ od.pp.onSlip }}" style="width:100%;min-height:46px;border:1px dashed #B8B3CC;border-radius:8px;padding:10px;background:#F9F8FC;font-size:12.5px" /></label>
+          <sc-if value="{{ od.pp.slipName }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;font-weight:600;color:#1F7A4D">{{ od.pp.slipName }}</div></sc-if>
+          <label style="display:block"><span style="display:block;font-size:12.5px;font-weight:600;color:#36334F;margin-bottom:5px">{{ od.pp.lblTfAt }}</span><input type="datetime-local" name="{{ od.pp.tfName }}" value="{{ od.pp.tfAt }}" onChange="{{ onForm }}" style="width:100%;height:46px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#fff" /></label>
+          <button type="button" onClick="{{ od.pp.submitSlip }}" style="min-height:48px;padding:0 20px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:14.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ od.pp.lblSubmit }}</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</section>
+</sc-if>
+                <sc-if value="{{ od.hasQuoteRef }}">
+                  <button type="button" onClick="{{ od.openQuote }}" style="justify-self:start;background:none;border:none;padding:0;color:#44359B;font-size:13.5px;font-weight:600;cursor:pointer">{{ od.quoteRefLabel }} →</button>
+                </sc-if>
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                  <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline">
+                    <h1 style="margin:0;font:700 20px/1.2 'Sarabun',sans-serif">{{ od.id }}</h1>
+                    <span style="font-size:13px;font-weight:700;color:{{ od.statusColor }}">{{ od.status }}</span>
+                    <span style="font-size:12.5px;font-weight:700;color:{{ od.payColor }};background:#F4F3F8;border-radius:5px;padding:4px 8px">{{ od.pay }}</span>
+                    <span style="font:700 19px/1 'Sarabun',sans-serif;margin-left:auto">{{ od.total }}</span>
+                  </div>
+                  <dl style="margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:14px">
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblOrderDate }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.date }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblPayMethod }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.payMethod }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblPayStatus }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.pay }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblDeliveryMethod }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.mode }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblCarrier }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.carrier }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblTrackingNo }}</dt><dd style="margin:5px 0 0;font:600 13.5px/1.3 'Sarabun',sans-serif">{{ od.track }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblPo }}</dt><dd style="margin:5px 0 0;font:600 13.5px/1.3 'Sarabun',sans-serif">{{ od.po }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblEtaDate }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.eta }}</dd></div>
+                    <div><dt style="font-size:12px;color:#6B6785">{{ lblTotalWeight }}</dt><dd style="margin:5px 0 0;font-size:14px;font-weight:600">{{ od.weight }}</dd></div>
+                  </dl>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid #ECEAF3">
+                    <div><div style="font-size:12px;color:#6B6785">{{ lblShipAddr }}</div><div style="font-size:13.5px;line-height:1.6;margin-top:5px">{{ od.shipAddr }}</div></div>
+                    <div><div style="font-size:12px;color:#6B6785">{{ lblBillAddr }}</div><div style="font-size:13.5px;line-height:1.6;margin-top:5px">{{ od.bill }}</div></div>
+                  </div>
+                </section>
+
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                  <h2 style="margin:0 0 14px;font-size:16px;font-weight:700">{{ lblOrderItems }}</h2>
+                  <div style="border:1px solid #E4E1EE;border-radius:10px;overflow:hidden;margin-top:-1px">
+                    <sc-for list="{{ od.items }}" as="it" hint-placeholder-count="2">
+                    <div style="display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-top:1px solid #ECEAF3">
+                    <div style="position:relative;flex:0 0 96px;width:96px;height:96px;border:1px solid #E4E1EE;border-radius:8px;overflow:hidden;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px)">
+                      <sc-if value="{{ it.hasPhoto }}"><img src="{{ it.photo }}" alt="" loading="lazy" onError="{{ it.hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></sc-if>
+                    </div>
+                    <div style="flex:1 1 200px;min-width:0">
+                      <div style="font-size:15px;font-weight:600;line-height:1.45;color:#1E1A3A;text-wrap:pretty">{{ it.name }}</div>
+                      <div style="font-size:13px;color:#6B6785;margin-top:3px">{{ it.meta }}</div>
+                      <div style="font-size:14px;color:#1E1A3A;margin-top:6px">× {{ it.q }}</div>
+                    </div>
+                    <div style="flex:0 0 auto;text-align:right">
+                      <div style="font:700 16px/1.2 'Sarabun',sans-serif;color:#2E2575">{{ it.line }}</div>
+                      <div style="font-size:12.5px;color:#6B6785;margin-top:4px">{{ it.unit }} / {{ lblPerUnit }}</div>
+                    </div>
+                  </div>
+                    </sc-for>
+                    <div style="background:#F6F5FB;border-top:1px solid #E4E1EE;padding:14px 20px;display:flex;gap:12px;align-items:baseline;justify-content:flex-end"><span style="font-size:13.5px;font-weight:600;color:#36334F">{{ lblOrderTotal }}:</span><span style="font:700 22px/1 'Sarabun',sans-serif;color:#2E2575">{{ od.total }}</span></div>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+                    <sc-if value="{{ od.isGoods }}"><button type="button" onClick="{{ od.reorder }}" style="min-height:44px;padding:0 16px;background:#44359B;color:#FFFFFF;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;cursor:pointer">{{ lblReorder }}</button></sc-if>
+                    <sc-if value="{{ od.canCancel }}">
+                      <button type="button" onClick="{{ od.cancel }}" style="min-height:44px;padding:0 16px;background:none;border:1px solid #E4B5AD;border-radius:8px;font-size:13.5px;font-weight:600;color:#B23A2E;cursor:pointer">{{ lblCancelOrder }}</button>
+                    </sc-if>
+                    <sc-if value="{{ od.canReturn }}">
+                      <button type="button" onClick="{{ od.ret }}" style="min-height:44px;padding:0 16px;background:none;border:1px solid #D9D5E6;border-radius:8px;font-size:13.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblReturnOrder }}</button>
+                    </sc-if>
+                  </div>
+                </section>
+              </div>
+
+              <div style="flex:1 1 280px;min-width:0;display:grid;gap:14px;align-content:start">
+              <section style="min-width:0;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                <h2 style="margin:0 0 4px;font-size:16px;font-weight:700">{{ lblTimeline }}</h2>
+                <sc-if value="{{ od.hasTlUpdated }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#6B6785;margin-bottom:16px">{{ od.tlUpdated }}</div></sc-if>
+                <ol style="list-style:none;margin:0;padding:0;display:grid;gap:2px">
+                  <sc-for list="{{ od.timeline }}" as="tl" hint-placeholder-count="7">
+                    <li style="display:flex;gap:13px;align-items:flex-start">
+                      <span style="flex:none;display:flex;flex-direction:column;align-items:center">
+                        <span style="width:12px;height:12px;border-radius:50%;background:{{ tl.dot }};margin-top:4px"></span>
+                        <span style="width:2px;height:26px;background:{{ tl.line }}"></span>
+                      </span>
+                      <span style="padding-bottom:8px">
+                        <span style="display:block;font-size:14px;font-weight:{{ tl.fw }};color:{{ tl.fg }};line-height:1.4">{{ tl.name }}</span>
+                        <span style="display:block;font:500 11.5px/1 'Sarabun',sans-serif;color:#8A86A3;margin-top:4px">{{ tl.when }}</span>
+                      </span>
+                    </li>
+                  </sc-for>
+                </ol>
+                <button type="button" onClick="{{ od.advance }}" style="margin-top:8px;width:100%;min-height:44px;background:#F1EFF7;border:1px dashed #B8B3CC;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ lblAdvance }}</button>
+                <sc-if value="{{ od.canSignOff }}">
+                  <button type="button" onClick="{{ od.signOff }}" style="margin-top:8px;width:100%;min-height:46px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:14px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ lblSignOff }}</button>
+                </sc-if>
+                <sc-if value="{{ od.isService }}">
+                  <div style="margin-top:18px;padding-top:16px;border-top:1px solid #ECEAF3">
+                    <h3 style="margin:0 0 10px;font-size:14.5px;font-weight:700">{{ lblMilestones }}</h3>
+                    <div style="display:grid;gap:8px">
+                      <sc-for list="{{ od.ms }}" as="m" hint-placeholder-count="3">
+                        <div style="border:1px solid #ECEAF3;border-radius:9px;padding:11px">
+                          <div style="display:flex;justify-content:space-between;gap:8px;font-size:13.5px"><span style="font-weight:600">{{ m.name }}</span><span style="font:600 13.5px/1.2 'Sarabun',sans-serif">{{ m.amount }}</span></div>
+                          <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:6px">
+                            <span style="font-size:12.5px;font-weight:700;color:{{ m.color }}">{{ m.status }}</span>
+                            <sc-if value="{{ m.canPay }}"><button type="button" onClick="{{ m.pay }}" style="min-height:36px;padding:0 12px;background:#44359B;border:1px solid #2F2380;border-radius:7px;font-size:12.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ lblPayThis }}</button></sc-if>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+              </section>
+              <section style="min-width:0;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                <h2 style="margin:0 0 4px;font-size:16px;font-weight:700">{{ lblOrderDocs }}</h2>
+                <div style="display:grid">
+                  <sc-for list="{{ od.docs }}" as="dc" hint-placeholder-count="3">
+                    <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid #ECEAF3;margin-top:8px">
+                      <span style="min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:{{ dc.fg }};line-height:1.4">{{ dc.name }}</span><span style="display:block;font-size:12.5px;color:#6B6785;margin-top:2px;line-height:1.45">{{ dc.sub }}</span></span>
+                      <sc-if value="{{ dc.ready }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dc.dl }}" aria-label="{{ lblDownload }}" style="flex:none;min-height:40px;padding:0 14px;background:#ECE9F8;border:1px solid #B3ACDD;border-radius:8px;font-size:13px;font-weight:700;color:#44359B;cursor:pointer">{{ lblDownload }}</button></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+              </div>
+            </div>
+          </div>
+</x-dc>
+</body>
+</html>

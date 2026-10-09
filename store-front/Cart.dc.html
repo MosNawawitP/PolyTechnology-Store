@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+      <div style="max-width:1240px;margin:0 auto;padding:28px 20px 52px">
+        <h1 style="margin:0 0 20px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ cartTitle }}</h1>
+
+        <sc-if value="{{ cartEmpty }}">
+          <div style="background:#FFFFFF;border:1px dashed #D9D5E6;border-radius:12px;padding:44px 24px;text-align:center">
+            <h2 style="margin:0 0 8px;font-size:19px;font-weight:700">{{ cartEmptyTitle }}</h2>
+            <p style="margin:0 auto 20px;font-size:14.5px;color:#6B6785;line-height:1.6;max-width:50ch;text-wrap:pretty">{{ cartEmptyBody }}</p>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+              <button type="button" onClick="{{ goProducts }}" style="min-height:46px;padding:0 20px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:14.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ t.heroCta1 }}</button>
+              <button type="button" onClick="{{ goRfq }}" style="min-height:46px;padding:0 20px;background:#fff;border:1px solid #44359B;border-radius:9px;font-size:14.5px;font-weight:600;color:#44359B;cursor:pointer">{{ t.requestQuote }}</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ cartHas }}">
+          <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+            <div style="flex:2 1 480px;min-width:0;display:grid;gap:10px">
+              <sc-if value="{{ cartQuote }}">
+                <div style="background:#ECE9F8;border:1px solid #B3ACDD;border-radius:12px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                  <span style="flex:1 1 260px;font-size:13.5px;line-height:1.6;color:#1E1A3A;text-wrap:pretty">{{ cartQuote.text }}</span>
+                  <button type="button" onClick="{{ cartQuote.open }}" style="min-height:40px;padding:0 14px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ cartQuote.openLabel }}</button>
+                  <button type="button" onClick="{{ clearQuoteRef }}" style="min-height:40px;padding:0 10px;background:none;border:none;color:#B23A2E;font-size:13px;font-weight:600;cursor:pointer">{{ cartQuote.clearLabel }}</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ cartMixed }}">
+                <div role="alert" style="background:#FBF0D8;border:1px solid #CFC6F0;border-radius:12px;padding:16px">
+                  <div style="font-size:14.5px;font-weight:700;color:#5E4508">{{ mixTitle }}</div>
+                  <p style="margin:6px 0 0;font-size:13.5px;line-height:1.6;color:#5E4508;text-wrap:pretty">{{ mixBody }}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+                    <button type="button" onClick="{{ splitMixed }}" style="min-height:44px;padding:0 16px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer">{{ lblSplit }}</button>
+                    <button type="button" onClick="{{ cartToRfq }}" style="min-height:44px;padding:0 16px;background:#fff;border:1px solid #44359B;color:#44359B;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer">{{ lblAllToRfq }}</button>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-for list="{{ cartRows }}" as="r" hint-placeholder-count="2">
+                <article style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:16px;display:flex;flex-wrap:wrap;gap:16px">
+                  <div style="flex:0 0 96px;width:96px;height:74px;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px);border-radius:8px;position:relative;overflow:hidden"><img src="{{ r.photo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></div>
+                  <div style="flex:1 1 220px;min-width:0">
+                    <span style="font:500 10.5px/1 'Sarabun',sans-serif;color:#6B6785">{{ r.sku }}</span>
+                    <button type="button" onClick="{{ r.open }}" style="display:block;background:none;border:none;padding:3px 0 0;text-align:left;font-size:15.5px;font-weight:600;line-height:1.4;color:#1E1A3A;cursor:pointer">{{ r.name }}</button>
+                    <div style="font-size:12.5px;color:#6B6785;margin-top:5px">{{ r.unitLine }}</div>
+                    <div style="font-size:12.5px;font-weight:600;color:{{ r.stockColor }};margin-top:4px">{{ r.stockLabel }}</div>
+                    <sc-if value="{{ r.hasFlag }}"><div style="margin-top:6px;display:inline-block;font-size:12px;font-weight:700;color:#5E4508;background:#DDD6F7;border-radius:5px;padding:4px 8px">{{ r.flag }}</div></sc-if>
+                    <sc-if value="{{ r.short }}">
+                      <div role="alert" style="margin-top:7px;font-size:12.5px;font-weight:600;color:#5B49C4">{{ r.shortMsg }}</div>
+                    </sc-if>
+                    <div style="display:flex;gap:14px;margin-top:11px">
+                      <button type="button" onClick="{{ r.later }}" style="background:none;border:none;padding:0;color:#44359B;font-size:13px;font-weight:600;cursor:pointer">{{ lblSaveLater }}</button>
+                      <button type="button" onClick="{{ r.remove }}" style="background:none;border:none;padding:0;color:#B23A2E;font-size:13px;font-weight:600;cursor:pointer">{{ lblRemove }}</button>
+                    </div>
+                  </div>
+                  <div style="flex:0 0 150px">
+                    <div style="font-size:12px;color:#6B6785">{{ lblQty }}</div>
+                    <div style="display:flex;align-items:center;border:1px solid #D9D5E6;border-radius:8px;overflow:hidden;background:#F9F8FC;margin-top:5px;width:fit-content">
+                      <button type="button" onClick="{{ r.dec }}" aria-label="-" style="width:40px;height:44px;border:none;background:none;font-size:18px;color:#44359B;cursor:pointer">−</button>
+                      <input aria-label="{{ lblQty }}" type="number" min="1" value="{{ r.q }}" onChange="{{ r.onQty }}" style="width:54px;height:44px;border:none;background:none;text-align:center;font:600 15px/1 'Sarabun',sans-serif" />
+                      <button type="button" onClick="{{ r.inc }}" aria-label="+" style="width:40px;height:44px;border:none;background:none;font-size:18px;color:#44359B;cursor:pointer">+</button>
+                    </div>
+                    <div style="font-size:12px;color:#6B6785;margin-top:9px">{{ r.priceLabel }} × {{ r.q }}</div>
+                    <div style="font:600 17px/1.2 'Sarabun',sans-serif;margin-top:3px">{{ r.lineLabel }}</div>
+                  </div>
+                  <sc-if value="{{ r.hasAdOpts }}" hint-placeholder-val="{{ false }}">
+                    <div style="flex:1 1 100%;border:1px solid #E4E1EE;border-radius:10px;overflow:hidden">
+                      <button type="button" onClick="{{ r.toggleAdOpen }}" aria-expanded="{{ r.adOpen }}" style="display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#F9F8FC;border:none;padding:10px 14px;cursor:pointer">
+                        <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ECE9F8;border:1px solid #B3ACDD;color:#44359B;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="display:block;transform:rotate({{ r.adRot }})"><path d="M6 9l6 6 6-6"></path></svg></span>
+                        <span style="flex:1 1 0;min-width:0"><span style="display:block;font-size:14px;font-weight:700;color:#1E1A3A">{{ r.adHeadLabel }} <span style="font-size:12.5px;font-weight:500;color:#6B6785">{{ r.adAddHint }}</span></span>
+                          <sc-if value="{{ r.hasAdSummary }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:12.5px;color:#44359B;font-weight:600;margin-top:2px;line-height:1.5;text-wrap:pretty">{{ r.adSummary }}</span></sc-if></span>
+                      </button>
+                      <sc-for list="{{ r.adOpts }}" as="ad" hint-placeholder-count="0">
+                        <button type="button" onClick="{{ ad.toggle }}" aria-pressed="{{ ad.on }}" style="display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:{{ ad.bg }};border:none;border-top:1px solid #E4E1EE;padding:10px 14px;cursor:pointer">
+                          <span style="flex:none;width:22px;height:22px;border-radius:5px;border:2px solid #44359B;background:{{ ad.markBg }};color:#FFFFFF;display:grid;place-items:center;font-size:14px;font-weight:700">{{ ad.mark }}</span>
+                          <span style="flex:1 1 0;min-width:0"><span style="display:block;font-size:14px;font-weight:600;color:#1E1A3A">{{ ad.name }}</span><sc-if value="{{ ad.isOn }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:12.5px;color:#6B6785;line-height:1.5;margin-top:2px;text-wrap:pretty">{{ ad.desc }}</span></sc-if></span>
+                          <span style="flex:none;font:700 14px/1.3 'Sarabun',sans-serif;color:#1E1A3A">{{ ad.amtLabel }}</span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </article>
+              </sc-for>
+
+              <sc-if value="{{ hasSaved }}">
+                <section style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:18px">
+                  <h2 style="margin:0 0 12px;font-size:15px;font-weight:700">{{ lblSaved }}</h2>
+                  <div style="display:grid;gap:10px">
+                    <sc-for list="{{ savedRows }}" as="sr" hint-placeholder-count="1">
+                      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #ECEAF3">
+                        <span style="font:500 10.5px/1 'Sarabun',sans-serif;color:#6B6785;flex:0 0 auto">{{ sr.sku }}</span>
+                        <span style="flex:1 1 200px;font-size:14px;font-weight:600">{{ sr.name }}</span>
+                        <span style="font-size:13px;color:#6B6785">× {{ sr.q }}</span>
+                        <button type="button" onClick="{{ sr.restore }}" style="min-height:40px;padding:0 14px;background:#F1EFF7;border:1px solid #D9D5E6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ lblRestore }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </section>
+              </sc-if>
+            </div>
+
+            <aside style="flex:1 1 320px;min-width:0;position:sticky;top:86px;display:grid;gap:12px">
+              <div style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
+                <div style="display:grid;gap:10px;font-size:14px">
+                  <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#4A4766">{{ lblSubtotal }}</span><span style="font:600 14px/1 'Sarabun',sans-serif">{{ subLabel }}</span></div>
+                  <sc-if value="{{ hasAd }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#4A4766">{{ lblAddons }}</span><span style="font:600 14px/1 'Sarabun',sans-serif">{{ adLabel }}</span></div></sc-if>
+                  <sc-if value="{{ hasDisc }}">
+                    <div style="display:flex;justify-content:space-between;gap:12px;color:#1F7A4D"><span>{{ lblDiscount }}</span><span style="font:600 14px/1 'Sarabun',sans-serif">{{ discLabel }}</span></div>
+                  </sc-if>
+                  <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#4A4766">{{ lblShipEst }}</span><span style="font:600 14px/1 'Sarabun',sans-serif;text-align:right">{{ shipLabel }}</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#4A4766">{{ lblVat }}</span><span style="font:600 14px/1 'Sarabun',sans-serif">{{ vatLabel }}</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:#4A4766">{{ lblTotalWeight }}</span><span style="font:600 14px/1 'Sarabun',sans-serif">{{ weightLabel }}</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding-top:12px;border-top:1px solid #ECEAF3">
+                    <span style="font-size:15px;font-weight:700">{{ lblGrand }}</span>
+                    <span style="font:700 23px/1.1 'Sarabun',sans-serif">{{ totalLabel }}</span>
+                  </div>
+                </div>
+
+                <div style="margin-top:16px;padding-top:16px;border-top:1px solid #ECEAF3">
+                  <label for="coupon" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:6px">{{ lblCoupon }}</label>
+                  <div style="display:flex;gap:8px">
+                    <input id="coupon" value="{{ couponInput }}" onChange="{{ onCoupon }}" placeholder="PLTNEW300" style="flex:1;min-width:0;height:44px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC;font:500 13px/1 'Sarabun',sans-serif" />
+                    <button type="button" onClick="{{ applyCoupon }}" style="min-height:44px;padding:0 15px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer">{{ lblApply }}</button>
+                  </div>
+                  <div style="margin-top:12px;font-size:12.5px;font-weight:600;color:#4A4766">{{ lblMyCoupons }}</div>
+                  <sc-for list="{{ walletList }}" as="w" hint-placeholder-count="2">
+                    <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px dashed #C9C1EC;border-radius:10px;padding:10px 12px;background:#F7F5FD;margin-top:8px">
+                      <div style="min-width:0"><div style="font:700 15px/1.25 'Sarabun',sans-serif;color:#44359B">{{ w.value }} <span style="font-size:13px;font-weight:600;color:#1E1A3A">{{ w.title }}</span></div><div style="font-size:12px;margin-top:3px;color:{{ w.noteColor }}">{{ w.note }}</div></div>
+                      <button type="button" disabled="{{ w.off }}" onClick="{{ w.apply }}" style="flex:none;min-height:40px;padding:0 16px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;background:{{ w.bg }};color:{{ w.fg }}">{{ w.label }}</button>
+                    </div>
+                  </sc-for>
+                  <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:12.5px;color:#6B6785"><sc-if value="{{ noWallet }}" hint-placeholder-val="{{ false }}"><span>{{ lblNoWallet }}</span></sc-if><button type="button" onClick="{{ goHomeCoupons }}" style="background:none;border:none;padding:0;color:#44359B;font-size:12.5px;font-weight:600;cursor:pointer">{{ lblGetCoupons }} →</button></div>
+                  <sc-if value="{{ couponActive }}">
+                    <div style="display:flex;gap:10px;align-items:center;margin-top:9px">
+                      <span style="font-size:13px;font-weight:600;color:#1F7A4D">{{ couponActive }}</span>
+                      <button type="button" onClick="{{ clearCoupon }}" style="background:none;border:none;padding:0;color:#B23A2E;font-size:12.5px;font-weight:600;cursor:pointer">{{ lblRemove }}</button>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ECEAF3">
+                  <div style="display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:#4A4766"><span>{{ lblWeightCheck }}</span><span style="font-weight:700;color:{{ wColor }}">{{ wStatus }}</span></div>
+                  <div style="height:8px;border-radius:4px;background:#ECEAF3;margin-top:7px;overflow:hidden"><div style="height:100%;width:{{ wPct }};background:{{ wColor }}"></div></div>
+                </div>
+                <sc-if value="{{ wBlocked }}">
+                  <div role="alert" style="margin-top:12px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:10px;padding:14px">
+                    <div style="font-size:13.5px;line-height:1.6;color:#7A2B21;text-wrap:pretty">{{ wMsg }}</div>
+                    <sc-if value="{{ wHasMissing }}">
+                      <ul style="margin:8px 0 0;padding:0 0 0 18px;font-size:13px;color:#7A2B21;line-height:1.55"><sc-for list="{{ wMissing }}" as="mi" hint-placeholder-count="1"><li>{{ mi.name }}</li></sc-for></ul>
+                    </sc-if>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
+                      <button type="button" onClick="{{ adjustCart }}" style="flex:1 1 120px;min-height:44px;background:#fff;border:1px solid #D9D5E6;border-radius:8px;font-size:13.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblAdjust }}</button>
+                      <button type="button" onClick="{{ consultFromCart }}" style="flex:1 1 120px;min-height:44px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ lblConsult }}</button>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div style="display:grid;gap:9px;margin-top:16px">
+                  <button type="button" onClick="{{ toCheckout }}" disabled="{{ ckBlocked }}" style="min-height:50px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:15.5px;font-weight:700;color:#FFFFFF;cursor:pointer;opacity:{{ ckOpacity }}">{{ lblToCheckout }}</button>
+                  <sc-if value="{{ cartNoRef }}">
+                    <div style="display:grid;gap:9px">
+                      <button type="button" onClick="{{ cartToRfq }}" style="min-height:44px;background:#fff;border:1px solid #D9D5E6;border-radius:9px;font-size:13.5px;font-weight:600;color:#44359B;cursor:pointer">{{ lblCartToRfq }}</button>
+                      <p style="margin:0;font-size:12px;line-height:1.55;color:#6B6785;text-wrap:pretty">{{ lblQuoteHelp }}</p>
+                    </div>
+                  </sc-if>
+                </div>
+
+                <sc-if value="{{ stockError }}">
+                  <div role="alert" style="margin-top:12px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:9px;padding:12px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+                    <span style="font-size:13px;color:#7A2B21;flex:1 1 150px">{{ t.apiError }}</span>
+                    <button type="button" onClick="{{ retryApi }}" style="min-height:38px;padding:0 12px;background:#44359B;color:#fff;border:none;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer">{{ t.retry }}</button>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ hasChanges }}">
+                  <div role="alert" style="margin-top:12px;background:#FBF0D8;border:1px solid #CFC6F0;border-radius:9px;padding:13px">
+                    <div style="font-size:13px;font-weight:700;color:#5E4508;margin-bottom:8px">{{ lblChangesTitle }}</div>
+                    <ul style="margin:0;padding:0 0 0 16px;display:grid;gap:5px">
+                      <sc-for list="{{ changes }}" as="c" hint-placeholder-count="1">
+                        <li style="font-size:13px;line-height:1.5;color:#5E4508">{{ c.text }}</li>
+                      </sc-for>
+                    </ul>
+                    <button type="button" onClick="{{ confirmChanges }}" style="margin-top:11px;min-height:40px;padding:0 14px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ t.confirm }}</button>
+                  </div>
+                </sc-if>
+
+                <p style="margin:14px 0 0;font:500 11.5px/1.6 'Sarabun',sans-serif;color:#8A86A3;text-wrap:pretty">{{ weightRuleNote }}</p>
+              </div>
+            </aside>
+          </div>
+        </sc-if>
+      </div>
+</x-dc>
+</body>
+</html>
