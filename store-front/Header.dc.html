@@ -9,7 +9,7 @@
 <x-dc>
   <header style="background:#FFFFFF;border-bottom:1px solid #E4E1EE;position:sticky;top:0;z-index:40">
     <sc-if value="{{ anyMenuOpen }}"><div aria-hidden="true" onClick="{{ closeMenus }}" style="position:fixed;inset:0;z-index:1"></div></sc-if>
-    <div style="max-width:1240px;margin:0 auto;padding:12px 20px;display:flex;gap:16px;align-items:center">
+    <div class="pt-container" style="padding:12px var(--pt-content-gutter);display:flex;gap:16px;align-items:center">
       <button type="button" onClick="{{ goHome }}" style="display:flex;gap:10px;align-items:center;background:none;border:none;padding:0;cursor:pointer;text-align:left">
         <span style="width:42px;height:32px;overflow:hidden;display:block;flex:0 0 auto"><img src="./assets/polytech-logo.png" alt="Polytechnology" style="width:42px;height:42px;display:block;margin-top:-2px;object-fit:contain" /></span>
         <span style="display:flex;flex-direction:column;line-height:1.05">
@@ -77,7 +77,7 @@
 
     <sc-if value="{{ searchOpen }}">
       <div style="border-top:1px solid #E4E1EE;background:#FFFFFF;position:relative;z-index:2">
-        <div style="max-width:1240px;margin:0 auto;padding:12px 20px;display:flex">
+        <div class="pt-container" style="padding:12px var(--pt-content-gutter);display:flex">
           <form onSubmit="{{ submitSearchPanel }}" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%">
             <label for="hsCat" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ t.category }}</label>
             <select id="hsCat" value="{{ searchCat }}" onChange="{{ onSearchCat }}" style="flex:0 1 210px;min-width:0;height:42px;border:1px solid #D9D5E6;border-radius:8px;padding:0 8px;background:#F9F8FC;font-size:14px">

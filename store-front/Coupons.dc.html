@@ -7,7 +7,7 @@
 </head>
 <body>
 <x-dc>
-      <div data-screen-label="Coupon list" style="max-width:1240px;margin:0 auto;padding:28px 20px 52px;display:flex;flex-direction:column;gap:18px">
+      <div data-screen-label="Coupon list" class="pt-container" style="padding:28px var(--pt-content-gutter) 52px;display:flex;flex-direction:column;gap:18px">
         <button type="button" onClick="{{ goHomePage }}" style="align-self:flex-start;background:none;border:none;color:#44359B;font-size:14px;font-weight:600;cursor:pointer;padding:0">← {{ lblBackHome }}</button>
         <div style="display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:clamp(22px,3vw,30px);font-weight:700">{{ lblAllCoupons }}</h1><span style="font-size:14px;color:#4A4766">{{ lblCouponSub }}</span></div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px">

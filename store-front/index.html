@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-  html, body { margin:0; padding:0; background:#F4F3F8; }
+  :root { --pt-content-width:1680px; --pt-content-gutter:clamp(24px,2.5vw,48px); }
+  html, body { min-width:1240px; margin:0; padding:0; background:#F4F3F8; }
   body { font-family:'Sarabun',system-ui,sans-serif; color:#1E1A3A; -webkit-font-smoothing:antialiased; }
   * { box-sizing:border-box; }
   a { color:#44359B; text-decoration:none; }
@@ -27,6 +28,74 @@
 @keyframes ptSpin{to{transform:rotate(360deg)}}
   /* each page/section lives in its own component; the host wrapper must not affect layout */
   #dc-root .sc-host .sc-host { display:contents; }
+/* Fluid desktop page shells; footer keeps its original bounded layout. */
+  .pt-container { width:100%; max-width:var(--pt-content-width); margin-inline:auto; }
+  .pt-home-surface { background:#fff; }
+  .pt-home { width:100%; max-width:var(--pt-content-width); margin:0 auto; padding:20px var(--pt-content-gutter) 48px; display:flex; flex-direction:column; gap:28px; }
+  .pt-home button { font:inherit; }
+  .pt-home .pt-button { min-height:44px; padding:10px 22px; border-radius:8px; font-size:14px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; text-align:center; line-height:1.4; }
+  .pt-home .pt-button--solid { background:#44359B; border:1px solid #44359B; color:#fff; }
+  .pt-home .pt-button--solid:hover { background:#36297F; border-color:#36297F; }
+  .pt-home .pt-button--outline { background:#ffffffcc; border:1px solid #44359B; color:#44359B; }
+  .pt-home .pt-button--outline:hover { background:#ECE9F8; }
+  .pt-home .pt-hero { position:relative; min-height:clamp(388px,30vw,500px); overflow:hidden; border-radius:16px; background:#EEEAFB; }
+  .pt-home .pt-hero-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .pt-home .pt-hero-photo--campaign { left:48%; width:52%; object-position:center; }
+  .pt-home .pt-hero-body { position:relative; z-index:1; width:49%; min-height:clamp(388px,30vw,500px); padding:42px 0 42px 36px; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:16px; background:linear-gradient(90deg,#EEEAFB 0%,#EEEAFBf5 82%,#EEEAFB00 100%); }
+  .pt-home .pt-eyebrow { font-size:12px; font-weight:700; letter-spacing:.1em; color:#44359B; }
+  .pt-home .pt-hero h1 { margin:0; font-size:clamp(32px,2.6vw,44px); line-height:1.3; font-weight:700; color:#1E1A3A; text-wrap:balance; }
+  .pt-home .pt-hero p { margin:0; font-size:16px; line-height:1.65; color:#5C5675; max-width:46ch; text-wrap:pretty; }
+  .pt-home .pt-hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:4px; }
+  .pt-home .pt-hero-controls { position:absolute; z-index:2; bottom:16px; right:16px; display:flex; gap:8px; align-items:center; color:#44359B; background:#ffffffed; border:1px solid #E4E1EE; padding:5px 8px; border-radius:24px; font-size:12px; font-weight:700; }
+  .pt-home .pt-hero-controls button { border:0; background:#F4F1FC; color:#44359B; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:20px; }
+  .pt-home .pt-shortcuts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); background:#F4F0FF; border-radius:12px; padding:16px 8px; margin-top:-14px; }
+  .pt-home .pt-shortcut { background:none; border:0; border-right:1px solid #DAD3F0; padding:0 16px; display:flex; align-items:center; gap:12px; text-align:left; color:#44359B; cursor:pointer; min-height:54px; }
+  .pt-home .pt-shortcut:last-child { border-right:0; }
+  .pt-home .pt-shortcut svg { flex:none; }
+  .pt-home .pt-shortcut strong { display:block; font-size:14px; line-height:1.4; }
+  .pt-home .pt-shortcut small { display:block; margin-top:4px; color:#77708C; font-size:12px; line-height:1.5; }
+  .pt-home .pt-section { display:flex; flex-direction:column; gap:16px; }
+  .pt-home .pt-section-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .pt-home .pt-section-heading h2 { margin:0; font-size:26px; line-height:1.35; color:#1E1A3A; font-weight:700; }
+  .pt-home .pt-section-heading p { margin:5px 0 0; font-size:13px; line-height:1.6; color:#77708C; }
+  .pt-home .pt-text-link { border:0; background:none; color:#44359B; font-size:14px; font-weight:600; cursor:pointer; padding:8px 0; }
+  .pt-home .pt-business-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  .pt-home .pt-business-card { border:1px solid #E9E5F2; border-radius:10px; padding:0; overflow:hidden; background:#fff; cursor:pointer; text-align:left; color:#1E1A3A; }
+  .pt-home .pt-business-card img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+  .pt-home .pt-business-copy { padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .pt-home .pt-business-copy strong { display:block; font-size:16px; line-height:1.4; }
+  .pt-home .pt-business-copy small { display:block; font-size:12px; color:#77708C; line-height:1.55; margin-top:4px; }
+  .pt-home .pt-card-arrow { flex:none; display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#F2EEFF; color:#44359B; font-size:22px; }
+  .pt-home .pt-business-card:hover, .pt-home .pt-service-card:hover { border-color:#B3ACDD; box-shadow:0 4px 16px #44359b12; }
+  .pt-home .pt-product-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+  .pt-home .pt-product-card { border:1px solid #E9E5F2; border-radius:10px; background:#fff; overflow:hidden; display:flex; flex-direction:column; }
+  .pt-home .pt-product-photo { display:block; width:100%; padding:14px; border:0; background:#fff; aspect-ratio:1/1; cursor:pointer; }
+  .pt-home .pt-product-photo img { display:block; width:100%; height:100%; object-fit:contain; }
+  .pt-home .pt-product-info { display:flex; flex-direction:column; gap:8px; padding:0 16px 16px; flex:1; }
+  .pt-home .pt-product-brand { font-size:11px; letter-spacing:.03em; font-weight:700; color:#44359B; text-transform:uppercase; }
+  .pt-home .pt-product-name { background:none; border:0; padding:0; text-align:left; color:#1E1A3A; font-size:14px; font-weight:600; line-height:1.5; cursor:pointer; }
+  .pt-home .pt-product-bottom { margin-top:auto; padding-top:8px; display:flex; flex-direction:column; gap:4px; }
+  .pt-home .pt-product-price { font-size:22px; font-weight:700; color:#44359B; line-height:1.35; }
+  .pt-home .pt-product-stock { font-size:12px; font-weight:600; line-height:1.5; }
+  .pt-home .pt-product-cta { width:100%; margin-top:4px; }
+  .pt-home .pt-services { background:#F2EEFF; border-radius:14px; padding:22px; }
+  .pt-home .pt-service-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+  .pt-home .pt-service-card { display:flex; flex-direction:column; border:1px solid #E9E5F2; border-radius:9px; padding:0; background:#fff; overflow:hidden; cursor:pointer; color:#1E1A3A; text-align:left; }
+  .pt-home .pt-service-card img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+  .pt-home .pt-service-copy { display:block; padding:12px; }
+  .pt-home .pt-service-copy small { display:block; color:#77708C; font-size:10px; margin-bottom:5px; }
+  .pt-home .pt-service-copy strong { display:block; font-size:13px; line-height:1.55; }
+  .pt-home .pt-coupon-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  .pt-home .pt-coupon { position:relative; border:1px solid #D8CFF5; border-radius:10px; background:#F8F5FF; display:flex; min-width:0; }
+  .pt-home .pt-coupon::before,.pt-home .pt-coupon::after { content:''; width:16px; height:16px; border:1px solid #D8CFF5; background:#fff; position:absolute; top:calc(50% - 8px); border-radius:50%; }
+  .pt-home .pt-coupon::before { left:-9px; border-left-color:#fff; }
+  .pt-home .pt-coupon::after { right:-9px; border-right-color:#fff; }
+  .pt-home .pt-coupon-value { flex:0 0 96px; font-size:24px; font-weight:700; color:#44359B; padding:16px 12px; display:flex; align-items:center; justify-content:center; border-right:1px dashed #D8CFF5; }
+  .pt-home .pt-coupon-body { padding:16px; flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-width:0; }
+  .pt-home .pt-coupon-body strong { font-size:13px; line-height:1.4; }
+  .pt-home .pt-coupon-body small { color:#77708C; font-size:12px; line-height:1.5; }
+  .pt-home .pt-coupon-cta { padding:8px 14px; border:0; font-size:12px; margin-top:auto; }
+
 </style>
 </helmet>
 
@@ -289,6 +358,52 @@ class Component extends DCLogic {
     {k:'BATTERY SOLAR', t:['เก็บไฟใช้ตอนกลางคืน ด้วย LiFePO4','Store daytime power with LiFePO4'], s:['Home Energy Storage 5–20 kWh ขยายระบบได้','Home energy storage from 5 to 20 kWh, expandable.'], img:'Inverter_battery_-_Loom_Solar.jpg', grp:'battery'},
     {k:'INDUSTRIAL AUTOMATION', t:['ควบคุมสายการผลิต ด้วย PLC และ VFD','Run your line on PLCs and drives'], s:['PLC, HMI, Servo และเซนเซอร์ จากแบรนด์ชั้นนำ พร้อมส่ง','PLCs, HMIs, servos and sensors from leading brands, ready to ship.'], img:'A_series_PLC.jpg', grp:'auto'}
   ];
+  homeAsset(name) { return './assets/homepage/' + name + '.webp'; }
+  homeAssetSet(name) { return './assets/homepage/' + name + '-small.webp 640w, ' + this.homeAsset(name) + ' 1280w' + (name === 'hero-industrial-commerce' ? ', ./assets/homepage/' + name + '-large.webp 2172w' : ''); }
+  homeHeroSlides() {
+    return [{ k:'INDUSTRIAL COMMERCE', t:['ครบทุกอุปกรณ์อุตสาหกรรม พร้อมบริการวิศวกรรม','Industrial equipment. Complete engineering services.'],
+      s:['พลังงานสะอาด ระบบอัตโนมัติ เครื่องมือวัด และโครงสร้างพื้นฐาน สำหรับบ้านและธุรกิจ','Clean energy, automation, instruments and infrastructure for homes and businesses.'],
+      photo:this.homeAsset('hero-industrial-commerce'), asset:'hero-industrial-commerce', overview:true }]
+      .concat(this.HERO.map(h => { const asset = h.grp === 'auto' ? 'business-industrial-automation' : 'business-clean-energy-ev'; return { ...h, asset, photo:this.homeAsset(asset) }; }));
+  }
+  advanceHomeHero = () => {
+    const s = this.state;
+    if (s.route.p !== 'home' || s.heroPaused || s.heroHover || s.heroFocus || s.heroReducedMotion) return;
+    this.setState(st => ({ heroIdx:(st.heroIdx + 1) % this.homeHeroSlides().length }));
+  };
+  browseHomeCategory = (cat = '') => {
+    this.setState({ filters:{ cat:cat ? [cat] : [], grp:[], brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
+    this.go('products');
+  };
+  homeVals() {
+    const slides = this.homeHeroSlides(), s = this.state, hi = ((s.heroIdx % slides.length) + slides.length) % slides.length, h = slides[hi];
+    const paused = s.heroPaused || s.heroReducedMotion;
+    return {
+      hero:{ kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:h.photo, srcset:this.homeAssetSet(h.asset),
+        photoClass:h.overview ? 'pt-hero-photo' : 'pt-hero-photo pt-hero-photo--campaign',
+        cta:this.m('เลือกซื้อสินค้า','Shop products'), idx:(hi + 1) + '/' + slides.length,
+        go:() => { if (h.overview) { this.browseHomeCategory(); return; } this.clearFilters(); this.openGroup(h.grp); },
+        prev:() => this.setState(st => ({ heroIdx:(st.heroIdx + slides.length - 1) % slides.length })),
+        next:() => this.setState(st => ({ heroIdx:(st.heroIdx + 1) % slides.length })),
+        prevLabel:this.m('สไลด์ก่อนหน้า','Previous slide'), nextLabel:this.m('สไลด์ถัดไป','Next slide'),
+        toggle:() => this.setState(st => ({ heroPaused:!st.heroPaused, heroReducedMotion:false })),
+        pauseLabel:paused ? this.m('เล่นสไลด์อัตโนมัติ','Play slideshow') : this.m('หยุดสไลด์อัตโนมัติ','Pause slideshow'), pauseIcon:paused ? '▶' : 'Ⅱ',
+        hover:() => this.setState({ heroHover:true }), leave:() => this.setState({ heroHover:false }),
+        focus:() => this.setState({ heroFocus:true }), blur:e => { if (!e.currentTarget.contains(e.relatedTarget)) this.setState({ heroFocus:false }); } },
+      homeShop:() => this.browseHomeCategory(), homeConsult:() => this.go('services', { svc:'s1' }),
+      lblHomeConsult:this.m('ขอคำปรึกษา','Get advice'), lblHomeBusiness:this.m('เลือกสินค้าตามธุรกิจ','Shop by business'),
+      lblHomeServices:this.m('บริการวิศวกรรมครบวงจร','Complete engineering services'),
+      lblHomeServiceIntro:this.m('ตั้งแต่ให้คำปรึกษา ออกแบบ ติดตั้ง จนถึงดูแลระบบ','From consultation and design to installation and ongoing care.'),
+      lblHomeEngineers:this.m('ปรึกษาทีมวิศวกร','Talk to our engineers'),
+      lblHomeHighlights:this.m('สินค้าและบริการที่น่าสนใจ','Product and service highlights'),
+      homeShortcuts:[
+        { title:this.m('ซื้อสินค้าออนไลน์','Shop online'), sub:this.m('เลือกอุปกรณ์ที่เหมาะกับคุณ','Find the right equipment'), go:() => this.browseHomeCategory(), icon:'M3 3h2l3 13h11l3-9H6 M9 20h.01 M18 20h.01' },
+        { title:this.m('ขอใบเสนอราคา','Request a quote'), sub:this.m('สำหรับโครงการและองค์กร','For projects and businesses'), go:this.goRfq, icon:'M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h7' },
+        { title:this.m('ปรึกษางานระบบ','System consultation'), sub:this.m('ให้ทีมวิศวกรช่วยแนะนำ','Advice from our engineers'), go:() => this.go('services', { svc:'s1' }), icon:'M21 11a9 9 0 0 1-9 9H4l-3 2 2-6a9 9 0 1 1 18-5z M8 11h.01 M12 11h.01 M16 11h.01' },
+        { title:this.m('บริการหลังการขาย','After-sales service'), sub:this.m('ดูแลระบบอย่างต่อเนื่อง','Keep your systems running'), go:() => this.go('services', { svc:'s4' }), icon:'M5 12v-2a7 7 0 0 1 14 0v2 M5 11H3v7h4v-7z M19 11h2v7h-4v-7z M19 18v2h-7' }
+      ]
+    };
+  }
   _np = (() => {
     const LB = {pw:['กำลัง','Power'], cap:['ความจุ','Capacity'], vt:['แรงดัน','Voltage'], ip:['ระดับการป้องกัน','Ingress rating'], wr:['การรับประกัน','Warranty'], eff:['ประสิทธิภาพ','Efficiency'], cm:['การสื่อสาร','Communication'], cn:['หัวชาร์จ','Connector'], tp:['ชนิด','Type'], sz:['ขนาด','Size'], io:['I/O','I/O'], rg:['ช่วงวัด','Range'], ac:['ความแม่นยำ','Accuracy'], ch:['ช่องสัญญาณ','Channels'], ct:['รอบการใช้งาน','Cycle life'], cl:['เซลล์','Cells'], ld:['รองรับน้ำหนัก','Load capacity'], sc:['เงื่อนไข','Note']};
     const UN = {unit:['เครื่อง','unit'], pc:['ชิ้น','pc'], set:['ชุด','set'], panel:['แผง','panel'], cab:['ตู้','cabinet'], bat:['ลูก','unit']};
@@ -464,6 +579,7 @@ class Component extends DCLogic {
     lang:'th', acct:'guest', route:{p:'home'}, tab:'profile',
     cart:[], saved:[], coupon:null, couponInput:'', wallet:{},
     search:'', filters:{cat:'', grp:'', brand:'', min:'', max:'', avail:'', type:'', sort:'pop'}, view:'grid', heroIdx:0, homeSub:{},
+    heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:false,
     orders:[], quotes:[], leads:[], notifs:[],
     ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', po:'', accept:false, sameAddr:true, quoteRef:null},
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
@@ -479,11 +595,15 @@ class Component extends DCLogic {
     try { saved = JSON.parse(localStorage.getItem(this.KEY) || 'null'); } catch (e) { saved = null; }
     let init = saved && saved.seeded ? saved : this.seed();
     if (saved && saved.seeded) { const sd = this.seed(), mg = (a, b) => (a || []).concat((b || []).filter(x => !(a || []).some(y => y.id === x.id))); init = { ...saved, quotes:mg(saved.quotes, sd.quotes), leads:mg(saved.leads, sd.leads), orders:mg(saved.orders, sd.orders) }; }
-    this.setState({ ...init, w:window.innerWidth, now:Date.now(), toast:null, modal:null, api:{}, addrDraft:null, loginModal:null });
-    this._onResize = () => { this.setState({ w:window.innerWidth }); this.measureHdr(); };
+    this.setState({ ...init, w:Math.max(1240,window.innerWidth), now:Date.now(), toast:null, modal:null, api:{}, addrDraft:null, loginModal:null });
+    this._onResize = () => { this.setState({ w:Math.max(1240,window.innerWidth) }); this.measureHdr(); };
     setTimeout(this.measureHdr, 0);
     window.addEventListener('resize', this._onResize);
-    this._hero = setInterval(() => this.setState(st => ({ heroIdx:(st.heroIdx + 1) % this.HERO.length })), 7000);
+    this._motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this._onMotion = e => this.setState({ heroReducedMotion:e.matches });
+    this.setState({ heroReducedMotion:this._motion.matches });
+    this._motion.addEventListener('change', this._onMotion);
+    this._hero = setInterval(this.advanceHomeHero, 7000);
     this._tick = setInterval(() => this.setState({ now:Date.now() }), 1000);
     this._sync = setInterval(() => {
       const adj = {};
@@ -498,6 +618,7 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this._onResize);
+    if (this._motion) this._motion.removeEventListener('change', this._onMotion);
     clearInterval(this._tick); clearInterval(this._hero); clearInterval(this._sync);
   }
 
@@ -1446,7 +1567,8 @@ class Component extends DCLogic {
     const init = this.seed();
     this.setState({ ...init, acct:'guest', cart:[], saved:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
       ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', po:'', accept:false, sameAddr:true, quoteRef:null },
-      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'', po:'', files:[] }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null });
+      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'', po:'', files:[] }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
+      heroIdx:0, heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:!!(this._motion && this._motion.matches) });
     window.scrollTo(0, 0);
     this.say(this.lang === 'en' ? 'Demo data reset.' : 'รีเซ็ตข้อมูลสาธิตเรียบร้อย', 'info');
   };
@@ -1565,10 +1687,8 @@ class Component extends DCLogic {
 
       hideImg:this.hideImg, showCategoryRows:this.props.showCategoryRows === true,
       lblAllCats:i ? 'All product categories' : 'หมวดหมู่สินค้าทั้งหมด', lblBest:i ? 'Recommended products' : 'สินค้าแนะนำ', lblSeeAll:i ? 'See all' : 'ดูทั้งหมด',
-      hero:(() => { const n = this.HERO.length, hi = ((s.heroIdx % n) + n) % n, h = this.HERO[hi];
-        return { kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:this.commons(h.img, 1400), cta:i ? 'Shop now' : 'ดูสินค้า', idx:(hi + 1) + '/' + n,
-          go:() => this.openGroup(h.grp), prev:() => this.setState(st => ({ heroIdx:(st.heroIdx + n - 1) % n })), next:() => this.setState(st => ({ heroIdx:(st.heroIdx + 1) % n })) }; })(),
-      featuredHome:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 10).map(p => this.productVM(p)),
+      ...this.homeVals(),
+      featuredHome:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
       circleCats:[{ label:i ? 'All products' : 'สินค้าทั้งหมด', photo:this.categoryAsset('all-products'), go:() => this.openGroup('') }]
         .concat(this.GROUPS.map(g => ({ label:this.tx(g.n), photo:this.categoryPhoto(g), go:() => this.openGroup(g.id) })))
         .concat([{ label:i ? 'Services' : 'บริการ', photo:this.categoryAsset('services'), go:() => this.go('services') }]),
@@ -1584,13 +1704,13 @@ class Component extends DCLogic {
         { v:'1–2', k:i ? 'business days warehouse preparation' : 'วันทำการเตรียมสินค้าจากคลัง' },
         { v:'45', k:i ? 'days credit terms for Grade A' : 'วันเครดิตสำหรับลูกค้า Grade A' }
       ],
-      catCards:this.CATS.map(c => ({ name:this.tx(c.n), note:this.tx(c.note),
+      catCards:this.CATS.map(c => { const asset = { green:'business-clean-energy-ev', auto:'business-industrial-automation', inst:'business-instruments-inspection', gas:'business-industrial-gas', dc:'business-data-center-backup', wh:'business-warehouse-automation' }[c.id]; return { id:c.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), name:this.tx(c.n), note:this.tx(c.note),
         count:this.PRODUCTS.filter(p => p.cat === c.id).length + (i ? ' items' : ' รายการ'),
-        go:() => { this.setState(st => ({ filters:{ ...st.filters, cat:c.id }, search:'' })); this.go('products'); } })),
+        go:() => this.browseHomeCategory(c.id) }; }),
       featuredProducts:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
       promos:this.promoList().map(p => ({ ...p, use:() => { this.setState({ couponInput:p.codeRaw || '' }); this.go(p.goTo || 'products'); } })),
       promoSubtitle:i ? 'Offers shown match your current demo segment: ' + this.tx(this.acct.chip) : 'โปรโมชั่นที่แสดงตรงกับกลุ่มลูกค้าสาธิตปัจจุบัน: ' + this.tx(this.acct.chip),
-      serviceCards:this.SERVICES.map(sv => ({ code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) })),
+      serviceCards:this.SERVICES.map(sv => { const asset = { s1:'service-consulting-design', s2:'service-integration-installation', s3:'service-calibration-training', s4:'service-maintenance-after-sales', s5:'service-data-center-solutions' }[sv.id]; return { id:sv.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) }; }),
       buySteps:[
         { i:'1', title:i ? 'Choose products' : 'เลือกสินค้า', body:i ? 'Browse the catalogue with your segment price and live stock.' : 'เลือกสินค้าพร้อมราคาเฉพาะกลุ่มและสต๊อกที่อัปเดต' },
         { i:'2', title:i ? 'Order or request a quote' : 'สั่งซื้อหรือขอใบเสนอราคา', body:i ? 'Buy now, or send an RFQ for engineered items.' : 'ซื้อทันที หรือส่งคำขอใบเสนอราคาสำหรับงานที่ต้องออกแบบ' },

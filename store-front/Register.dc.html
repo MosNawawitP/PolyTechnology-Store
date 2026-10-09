@@ -7,7 +7,7 @@
 </head>
 <body>
 <x-dc>
-      <div style="max-width:900px;margin:0 auto;padding:32px 20px 52px">
+      <div class="pt-container" style="padding:32px var(--pt-content-gutter) 52px">
         <sc-if value="{{ showRegTabs }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px">
             <button type="button" onClick="{{ goRegisterPerson }}" style="min-height:44px;padding:0 16px;background:{{ regTabPersonBg }};border:1px solid {{ regTabPersonBd }};border-radius:8px;font-size:14px;font-weight:600;color:{{ regTabPersonFg }};cursor:pointer">{{ lblRegPerson }}</button>
