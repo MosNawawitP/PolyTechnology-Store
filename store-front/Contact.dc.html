@@ -7,12 +7,35 @@
 </head>
 <body>
 <x-dc>
-      <div class="pt-container" style="padding:28px var(--pt-content-gutter) 52px">
-        <h1 style="margin:0 0 8px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ contactTitle }}</h1>
-        <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#4A4766;max-width:72ch;text-wrap:pretty">{{ contactIntro }}</p>
-        <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1px;background:#E4E1EE;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden">
+      <div class="pt-container pt-contact" style="padding:28px var(--pt-content-gutter) 52px">
+        <section class="pt-about-hero pt-contact-hero" aria-label="{{ contactTitle }}">
+          <div class="pt-about-hero-photo" aria-hidden="true"></div>
+          <div class="pt-about-hero-copy">
+            <h1>{{ contactTitle }}</h1>
+            <p>{{ contactHeroIntro }}</p>
+          </div>
+        </section>
+        <section class="pt-contact-company" aria-labelledby="pt-contact-company-title">
+          <div class="pt-contact-description">
+            <h2 id="pt-contact-company-title">{{ contactCompanyName }}</h2>
+            <p>{{ contactCompanyDescription }}</p>
+          </div>
+          <div class="pt-contact-branch">
+            <h3>{{ contactBranchTitle }}</h3>
+            <strong>{{ contactCompanyName }}</strong>
+            <address>
+              <span>{{ contactBranchAddress1 }}</span>
+              <span>{{ contactBranchAddress2 }}</span>
+              <span>{{ contactBranchAddress3 }}</span>
+            </address>
+            <a class="pt-contact-phone" href="tel:+6629605070">Tel : +66 2 960 5070</a>
+          </div>
+        <section class="pt-contact-channels" aria-label="{{ contactChannelsTitle }}">
+        <h2 style="margin:0 0 8px;font-size:22px;font-weight:700">{{ contactChannelsTitle }}</h2>
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#4A4766;max-width:72ch;text-wrap:pretty">{{ contactIntro }}</p>
+        <dl class="pt-contact-channel-grid">
           <sc-for list="{{ contactRows }}" as="c" hint-placeholder-count="4">
-            <div style="background:#FFFFFF;padding:20px">
+            <div class="pt-contact-channel">
               <dt style="font-size:12.5px;color:#6B6785">{{ c.k }}</dt>
               <dd style="margin:6px 0 0;font-size:15px;font-weight:600;line-height:1.5;word-break:break-word">{{ c.v }}</dd>
             </div>
@@ -21,6 +44,8 @@
         <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px">
           <button type="button" onClick="{{ goServices }}" style="min-height:48px;padding:0 22px;background:#fff;border:1px solid #44359B;border-radius:9px;font-size:15px;font-weight:600;color:#44359B;cursor:pointer">{{ t.consultCta }}</button>
         </div>
+        </section>
+        </section>
       </div>
 </x-dc>
 </body>

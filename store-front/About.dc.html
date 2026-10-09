@@ -7,24 +7,26 @@
 </head>
 <body>
 <x-dc>
-      <div class="pt-container" style="padding:28px var(--pt-content-gutter) 52px">
-        <h1 style="margin:0 0 18px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ aboutTitle }}</h1>
-        <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
-          <div style="flex:1.6 1 420px;min-width:0;display:grid;gap:16px">
+      <div class="pt-container pt-about" style="padding:28px var(--pt-content-gutter) 52px">
+        <section class="pt-about-hero" aria-label="{{ aboutHeroTitle }}">
+          <div class="pt-about-hero-photo" aria-hidden="true"></div>
+          <div class="pt-about-hero-copy">
+            <h1>{{ aboutHeroTitle }}</h1>
+            <p>{{ aboutHeroIntro }}</p>
+          </div>
+        </section>
+        <section class="pt-about-story" aria-labelledby="pt-about-title">
+          <figure class="pt-about-figure">
+            <img src="./assets/about/engineering-team.webp" alt="{{ aboutImageAlt }}" width="1448" height="1086" decoding="async" />
+          </figure>
+          <div class="pt-about-copy">
+            <h2 id="pt-about-title">{{ aboutTitle }}</h2>
             <sc-for list="{{ aboutBody }}" as="b" hint-placeholder-count="3">
               <p style="margin:0;font-size:15.5px;line-height:1.75;color:#36334F;max-width:76ch;text-wrap:pretty">{{ b.text }}</p>
             </sc-for>
             <blockquote style="margin:8px 0 0;background:#2E2575;border-radius:12px;padding:24px;color:#F1EFFB;font-size:17px;line-height:1.6;font-weight:600;text-wrap:pretty">{{ aboutPolicy }}</blockquote>
           </div>
-          <dl style="flex:1 1 260px;min-width:0;margin:0;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:8px 18px">
-            <sc-for list="{{ aboutFacts }}" as="f" hint-placeholder-count="4">
-              <div style="padding:14px 0;border-bottom:1px solid #ECEAF3">
-                <dt style="font-size:12.5px;color:#6B6785">{{ f.k }}</dt>
-                <dd style="margin:5px 0 0;font-size:14.5px;font-weight:600;line-height:1.45">{{ f.v }}</dd>
-              </div>
-            </sc-for>
-          </dl>
-        </div>
+        </section>
       </div>
 </x-dc>
 </body>

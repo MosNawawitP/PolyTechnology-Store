@@ -30,6 +30,48 @@
   #dc-root .sc-host .sc-host { display:contents; }
 /* Fluid desktop page shells; footer keeps its original bounded layout. */
   .pt-container { width:100%; max-width:var(--pt-content-width); margin-inline:auto; }
+  .pt-about-hero { position:relative; min-height:320px; overflow:hidden; border-radius:16px; background:#24213E; isolation:isolate; }
+  .pt-about-hero-photo { position:absolute; inset:0; z-index:-2; background:url('./assets/about/industrial-hero.webp') center 52% / cover no-repeat; }
+  .pt-about-hero::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(25,20,57,.85),rgba(25,20,57,.48) 48%,rgba(25,20,57,.08)); }
+  .pt-about-hero-copy { position:relative; width:55%; min-height:320px; padding:48px; display:flex; flex-direction:column; justify-content:center; gap:14px; color:#fff; }
+  .pt-about-hero-copy::before { content:''; position:absolute; inset:0; z-index:-1; backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); mask-image:linear-gradient(90deg,#000 70%,transparent); -webkit-mask-image:linear-gradient(90deg,#000 70%,transparent); }
+  .pt-about-hero h1 { margin:0; font-size:clamp(36px,3.2vw,52px); line-height:1.3; font-weight:700; }
+  .pt-about-hero p { margin:0; max-width:42ch; font-size:17px; line-height:1.7; color:#F1EFFB; text-wrap:pretty; }
+  .pt-about-story { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr); gap:40px; align-items:stretch; margin-top:36px; }
+  .pt-about-figure { margin:0; min-width:0; overflow:hidden; border-radius:16px; background:#E4E1EE; }
+  .pt-about-figure img { display:block; width:100%; height:100%; min-height:480px; object-fit:cover; object-position:45% center; }
+  .pt-about-copy { min-width:0; display:flex; flex-direction:column; gap:16px; padding:8px 0; }
+  .pt-about-copy h2 { margin:0 0 4px; font-size:clamp(24px,2vw,30px); line-height:1.4; font-weight:700; }
+  .pt-contact-hero .pt-about-hero-photo { background-image:url('./assets/contact/customer-support.webp'); }
+  .pt-contact-company { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); column-gap:28px; row-gap:24px; margin:28px 0 0; padding:28px; background:#fff; border:1px solid #E4E1EE; border-radius:16px; align-items:start; }
+  .pt-contact-description { min-width:0; }
+  .pt-contact-description h2 { margin:0 0 12px; font-size:clamp(24px,2vw,30px); line-height:1.4; }
+  .pt-contact-description p { margin:0; font-size:16px; line-height:1.8; color:#4A4766; max-width:72ch; text-wrap:pretty; }
+  .pt-contact-branch { grid-column:2; grid-row:1 / span 2; min-width:0; background:#F6F4FC; border:1px solid #E4E1EE; border-radius:12px; padding:24px; }
+  .pt-contact-branch h3 { margin:0 0 16px; color:#44359B; font-size:22px; }
+  .pt-contact-branch strong { display:block; font-size:17px; line-height:1.6; }
+  .pt-contact-branch address { margin:12px 0 20px; font-style:normal; font-size:15px; line-height:1.85; color:#4A4766; }
+  .pt-contact-branch address span { display:block; }
+  .pt-contact-phone { display:inline-flex; align-items:center; min-height:44px; font-size:17px; font-weight:700; }
+  .pt-contact-channels { grid-column:1; min-width:0; padding-top:20px; border-top:1px solid #ECEAF3; }
+  .pt-contact-channel-grid { margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .pt-contact-channel { background:#FAF9FC; border:1px solid #ECEAF3; border-radius:10px; padding:14px 16px; }
+  @media (max-width:900px) {
+    .pt-contact-company { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px; }
+    .pt-contact-branch { grid-column:auto; grid-row:auto; }
+    .pt-contact-channels { grid-column:auto; }
+  }
+  @media (max-width:540px) { .pt-contact-channel-grid { grid-template-columns:minmax(0,1fr); } }
+  @media (max-width:900px) {
+    .pt-about-hero-copy { width:70%; padding:32px; }
+    .pt-about-story { grid-template-columns:minmax(0,1fr); gap:24px; }
+    .pt-about-figure img { height:360px; min-height:0; }
+  }
+  @media (max-width:540px) {
+    .pt-about-hero-copy { width:100%; padding:28px; }
+    .pt-about-hero p { font-size:15px; }
+    .pt-about-figure img { height:280px; }
+  }
   .pt-home-surface { background:#fff; }
   .pt-home { width:100%; max-width:var(--pt-content-width); margin:0 auto; padding:20px var(--pt-content-gutter) 48px; display:flex; flex-direction:column; gap:28px; }
   .pt-home button { font:inherit; }
@@ -475,19 +517,19 @@ class Component extends DCLogic {
   openGroup = (grp) => { this.setState(st => ({ filters:{ ...st.filters, cat:'', grp:grp || '' }, search:'' })); this.go('products'); };
 
   SERVICES = [
-    {id:'s1', code:'SVC-01', n:['ให้คำปรึกษาและออกแบบระบบ','Consulting & system design'],
+    {id:'s1', code:'SVC-01', photo:'./assets/services/consulting-design.webp', n:['ให้คำปรึกษาและออกแบบระบบ','Consulting & system design'],
       short:['ประเมินความต้องการ คำนวณโหลด และออกแบบระบบร่วมกับทีมวิศวกร','Requirement assessment, load calculation and system design with our engineers.'],
       scope:[['สำรวจหน้างานและเก็บข้อมูลการใช้พลังงาน','Site survey and energy data collection'],['คำนวณโหลดและเลือกอุปกรณ์','Load calculation and equipment selection'],['จัดทำแบบและรายการประกอบแบบ','Drawings and bill of materials'],['ประมาณการงบลงทุนและระยะคืนทุน','Capex estimate and payback analysis']]},
-    {id:'s2', code:'SVC-02', n:['วางระบบและติดตั้ง','System integration & installation'],
+    {id:'s2', code:'SVC-02', photo:'./assets/services/integration-installation.webp', n:['วางระบบและติดตั้ง','System integration & installation'],
       short:['ติดตั้ง เดินสาย ทดสอบ และส่งมอบระบบพร้อมใช้งานที่หน้างาน','Installation, wiring, testing and handover of a working system on site.'],
       scope:[['ติดตั้งอุปกรณ์และงานเดินสาย','Equipment installation and wiring'],['เขียนโปรแกรมควบคุมและทดสอบร่วมกับเครื่องจักร','Control programming and integration testing'],['ทดสอบการเดินระบบและส่งมอบ','Commissioning and handover'],['จัดทำเอกสาร As-built','As-built documentation']]},
-    {id:'s3', code:'SVC-03', n:['สอบเทียบเครื่องมือวัดและฝึกอบรม','Calibration & training'],
+    {id:'s3', code:'SVC-03', photo:'./assets/services/calibration-training.webp', n:['สอบเทียบเครื่องมือวัดและฝึกอบรม','Calibration & training'],
       short:['สอบเทียบเครื่องมือวัดพร้อมใบรับรอง และอบรมการใช้งานให้ทีมผู้ปฏิบัติงาน','Instrument calibration with certificates plus operator training for your team.'],
       scope:[['สอบเทียบเครื่องมือวัดตามมาตรฐาน','Calibration to reference standards'],['ออกใบรับรองผลการสอบเทียบ','Calibration certificates'],['อบรมการใช้งานและบำรุงรักษาเบื้องต้น','Operation and basic maintenance training'],['จัดทำแผนสอบเทียบรายปี','Annual calibration schedule']]},
-    {id:'s4', code:'SVC-04', n:['บำรุงรักษาและบริการหลังการขาย','Maintenance & after-sales service'],
+    {id:'s4', code:'SVC-04', photo:'./assets/services/maintenance-after-sales.webp', n:['บำรุงรักษาและบริการหลังการขาย','Maintenance & after-sales service'],
       short:['สัญญาบำรุงรักษาเชิงป้องกัน อะไหล่สำรอง และทีมบริการตอบสนองตาม SLA','Preventive maintenance contracts, spare parts and an SLA-backed service team.'],
       scope:[['ตรวจเช็คเชิงป้องกันตามรอบ','Scheduled preventive inspections'],['สำรองอะไหล่สำคัญ','Critical spare parts stocking'],['บริการแก้ไขเหตุขัดข้องตาม SLA','Breakdown response under SLA'],['รายงานสภาพอุปกรณ์รายไตรมาส','Quarterly equipment condition report']]},
-    {id:'s5', code:'SVC-05', n:['โซลูชันศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power solutions'],
+    {id:'s5', code:'SVC-05', photo:'./assets/services/data-center-backup-power.webp', n:['โซลูชันศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power solutions'],
       short:['ออกแบบและติดตั้งระบบไฟฟ้า UPS และการจัดการความร้อนสำหรับห้องเซิร์ฟเวอร์','Design and installation of power, UPS and thermal management for server rooms.'],
       scope:[['ประเมินโหลดและความพร้อมใช้งาน','Load and availability assessment'],['ออกแบบระบบไฟฟ้าและ UPS','Power and UPS design'],['จัดระเบียบลมเย็นและตู้แร็ค','Airflow containment and racks'],['ติดตั้งระบบตรวจวัดสภาพแวดล้อม','Environmental monitoring']]}
   ];
@@ -1716,7 +1758,7 @@ class Component extends DCLogic {
         count:this.PRODUCTS.filter(p => p.cat === c.id).length + (i ? ' items' : ' รายการ'),
         go:() => this.browseHomeCategory(c.id) }; }),
       featuredProducts:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
-      promos:this.promoList().map(p => ({ ...p, use:() => { this.setState({ couponInput:p.codeRaw || '' }); this.go(p.goTo || 'products'); } })),
+      promos:this.promoList(),
       promoSubtitle:i ? 'Offers shown match your current demo segment: ' + this.tx(this.acct.chip) : 'โปรโมชั่นที่แสดงตรงกับกลุ่มลูกค้าสาธิตปัจจุบัน: ' + this.tx(this.acct.chip),
       serviceCards:this.SERVICES.map(sv => { const asset = { s1:'service-consulting-design', s2:'service-integration-installation', s3:'service-calibration-training', s4:'service-maintenance-after-sales', s5:'service-data-center-solutions' }[sv.id]; return { id:sv.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) }; }),
       buySteps:[
@@ -1735,25 +1777,47 @@ class Component extends DCLogic {
   }
 
   promoList() {
-    const i = this.li, seg = this.seg;
-    const all = [
-      { seg:['guest', 'walkin'], tag:i ? 'RETAIL' : 'ลูกค้าทั่วไป', title:i ? 'THB 3,000 off for retail customers' : 'ลด 3,000 บาท สำหรับลูกค้าทั่วไป',
-        body:i ? 'A THB 3,000 discount on your cart, for individual customers. One coupon per order.' : 'ส่วนลด 3,000 บาทหักจากยอดในตะกร้า สำหรับลูกค้าบุคคลทั่วไป ใช้ได้ 1 คูปองต่อคำสั่งซื้อ',
-        code:'PLTNEW300', codeRaw:'PLTNEW300', cta:i ? 'Use this coupon' : 'ใช้คูปองนี้', goTo:'products' },
-      { seg:['partner'], tag:'PARTNER', title:i ? 'Extra 5% off partner pricing' : 'ส่วนลดเพิ่ม 5% จากราคา Partner',
-        body:i ? 'An extra 5% off your product total, on top of your partner price. For Partner accounts only.' : 'ลดเพิ่ม 5% จากยอดสินค้า ต่อยอดจากราคา Partner ที่ได้รับอยู่แล้ว สำหรับบัญชี Partner เท่านั้น',
-        code:'PARTNER5', codeRaw:'PARTNER5', cta:i ? 'Use this coupon' : 'ใช้คูปองนี้', goTo:'products' },
-      { seg:['gradeA'], tag:i ? 'CONTRACT' : 'ราคาสัญญา', title:i ? 'Contract price already applied' : 'ระบบใช้ Contract Price ของบริษัทคุณแล้ว',
-        body:i ? 'Your agreed contract prices apply to every product, with 45-day credit terms. No coupon needed.' : 'สินค้าทุกรายการคิดตามราคาสัญญาที่ตกลงไว้ พร้อมเครดิต 45 วัน ไม่ต้องใช้คูปอง',
-        code:i ? 'Agreement AG-2026-014' : 'สัญญาเลขที่ AG-2026-014', cta:i ? 'Browse contract items' : 'ดูสินค้าตามสัญญา', goTo:'products' },
-      { seg:['guest', 'walkin', 'partner', 'gradeA'], tag:i ? 'FREIGHT' : 'ค่าขนส่ง', title:i ? 'Freight discount up to THB 800' : 'ส่วนลดค่าจัดส่งสูงสุด 800 บาท',
-        body:i ? 'Take up to THB 800 off the delivery fee when you choose delivery by a carrier at checkout. Not valid for pickup.' : 'ลดค่าจัดส่งสูงสุด 800 บาท เมื่อเลือกให้ขนส่งจัดส่งสินค้าตอนชำระเงิน ไม่รวมการรับสินค้าเอง',
-        code:'FREIGHT0', codeRaw:'FREIGHT0', cta:i ? 'Use this coupon' : 'ใช้คูปองนี้', goTo:'products' },
-      { seg:['guest', 'walkin', 'partner', 'gradeA'], tag:i ? 'SERVICE' : 'บริการ', title:i ? 'Free site survey with system design' : 'สำรวจหน้างานฟรี เมื่อใช้บริการออกแบบระบบ',
-        body:i ? 'Request a consultation and design package and our engineers visit your site to survey and collect data at no survey fee.' : 'ขอคำปรึกษาและออกแบบระบบกับทีมวิศวกร พร้อมลงสำรวจหน้างานและเก็บข้อมูลให้โดยไม่คิดค่าสำรวจ',
-        code:i ? 'Service package SVC-01' : 'แพ็กเกจบริการ SVC-01', cta:i ? 'Request consultation' : 'ขอคำปรึกษา', goTo:'services' }
+    const m = (th, en) => this.m(th, en);
+    const offers = [
+      { asset:'solar-inverter', tag:m('ส่วนลดสินค้า','Product offer'), benefit:m('ลด 10%','10% OFF'),
+        title:m('อัปเกรดระบบโซลาร์ ในราคาพิเศษ','Upgrade your solar system for less'),
+        scope:m('อินเวอร์เตอร์ SUN2000-50KTL-M3','SUN2000-50KTL-M3 solar inverter'),
+        body:m('ลด 10% สำหรับอินเวอร์เตอร์โซลาร์ 3 เฟส 50 kW เพิ่มประสิทธิภาพการผลิตไฟฟ้าให้โรงงานและอาคารพาณิชย์','Save 10% on the 50 kW three-phase solar inverter for factories and commercial buildings.'),
+        terms:m('ซื้อ 1 เครื่องขึ้นไป · ไม่รวมค่าติดตั้ง','Minimum 1 unit · installation excluded'),
+        cta:m('ดูสินค้าที่ร่วมรายการ','View eligible product'), use:() => this.go('pdp', {id:'p1'}) },
+      { asset:'automation-category', tag:m('ส่วนลดหมวดหมู่','Category offer'), benefit:m('ลดสูงสุด 15%','UP TO 15% OFF'),
+        title:m('ยกระดับสายการผลิต ด้วยระบบอัตโนมัติ','Upgrade your production line'),
+        scope:m('หมวดระบบควบคุมอัตโนมัติ · PLC / HMI / VFD','Industrial automation · PLC / HMI / VFD'),
+        body:m('ส่วนลดสูงสุด 15% สำหรับอุปกรณ์ควบคุมที่ร่วมรายการ จัดชุด PLC, HMI และ VFD ให้พร้อมสำหรับโครงการใหม่','Save up to 15% on selected controls. Combine PLC, HMI and VFD equipment for your next project.'),
+        terms:m('ยอดสินค้าในหมวดขั้นต่ำ 30,000 บาท','Minimum category spend THB 30,000'),
+        cta:m('ดูสินค้าในหมวด','Browse category'), use:() => this.browseHomeCategory('auto') },
+      { asset:'ev-charger-installation', tag:m('สินค้าแถมบริการ','Product + free service'), benefit:m('สำรวจหน้างานฟรี','FREE SITE SURVEY'),
+        title:m('ซื้อเครื่องชาร์จ EV แถมสำรวจหน้างาน','EV charger with a free site survey'),
+        scope:m('เครื่องชาร์จ AC 22 kW FusionCharge','FusionCharge AC 22 kW EV charger'),
+        body:m('ซื้อเครื่องชาร์จรถยนต์ไฟฟ้าที่ร่วมรายการ รับบริการสำรวจจุดติดตั้งและประเมินระบบไฟฟ้าจากทีมวิศวกรฟรี','Buy the eligible EV charger and receive a free installation-site survey and electrical assessment.'),
+        terms:m('ฟรี 1 ครั้ง · กรุงเทพฯ และปริมณฑล · ไม่รวมค่าติดตั้ง','One free visit · Bangkok metropolitan area · installation excluded'),
+        cta:m('ดูเครื่องชาร์จ EV','View EV charger'), use:() => this.go('pdp', {id:'p3'}) },
+      { asset:'calibration-service', tag:m('ส่วนลดบริการ','Service offer'), benefit:m('ลด 20%','20% OFF'),
+        title:m('สอบเทียบครบชุด ลดค่าใช้จ่าย 20%','Save 20% on batch calibration'),
+        scope:m('SVC-03 · สอบเทียบเครื่องมือวัด','SVC-03 · Instrument calibration'),
+        body:m('ส่งเครื่องมือวัดสอบเทียบพร้อมกันตั้งแต่ 5 เครื่อง รับส่วนลดค่าบริการ 20% พร้อมใบรับรองผลการสอบเทียบ','Calibrate 5 or more instruments together and save 20% on calibration fees, with certificates included.'),
+        terms:m('เฉพาะเครื่องมือที่รองรับ · ไม่รวมค่าขนส่ง','Supported instruments only · transport excluded'),
+        cta:m('ขอคำปรึกษาการสอบเทียบ','Ask about calibration'), use:() => this.go('services', {svc:'s3'}) },
+      { asset:'maintenance-service', tag:m('บริการแถมฟรี','Free service'), benefit:m('แถมตรวจเช็ค 1 ครั้ง','1 FREE INSPECTION'),
+        title:m('ดูแลต่อเนื่อง แถมตรวจเช็คเชิงป้องกัน','Annual care with a free inspection'),
+        scope:m('SVC-04 · บำรุงรักษาและบริการหลังการขาย','SVC-04 · Maintenance & after-sales'),
+        body:m('ทำสัญญาบำรุงรักษารายปี รับบริการตรวจเช็คสภาพอุปกรณ์เพิ่ม 1 ครั้ง พร้อมรายงานและคำแนะนำจากทีมบริการ','Sign an annual maintenance contract and receive one extra equipment inspection, a report and service recommendations.'),
+        terms:m('สัญญา 12 เดือน · เฉพาะอุปกรณ์ในสัญญา','12-month contract · contracted equipment only'),
+        cta:m('สอบถามแพ็กเกจดูแลระบบ','Ask about maintenance'), use:() => this.go('services', {svc:'s4'}) },
+      { asset:'ups-backup-power', tag:m('หมวดหมู่แถมบริการ','Category + free service'), benefit:m('ประเมินโหลดฟรี','FREE LOAD ASSESSMENT'),
+        title:m('เลือก UPS ที่ใช่ พร้อมประเมินโหลดฟรี','Find the right UPS with a free assessment'),
+        scope:m('หมวดศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power category'),
+        body:m('สั่งซื้อระบบ UPS ที่ร่วมรายการ รับบริการประเมินโหลดและแนะนำขนาดระบบสำรองไฟให้เหมาะกับธุรกิจฟรี','Order an eligible UPS system and receive a free load assessment and backup-power sizing consultation.'),
+        terms:m('ยอดซื้อขั้นต่ำ 100,000 บาท · ฟรี 1 โครงการ','Minimum spend THB 100,000 · one free project assessment'),
+        cta:m('ดูระบบสำรองไฟ','Browse backup power'), use:() => this.browseHomeCategory('dc') }
     ];
-    return all.filter(p => p.seg.indexOf(seg) >= 0);
+    return offers.map(p => ({ ...p, photo:'./assets/promotions/' + p.asset + '.webp',
+      period:m('10–31 ต.ค. 2569','10–31 Oct 2026') }));
   }
 
   setFilter = (k, v) => this.setState(s => ({ filters:{ ...s.filters, [k]:v } }));
@@ -1858,7 +1922,7 @@ class Component extends DCLogic {
         scope:x.scope.map(y => ({ text:y[i] })), on:x.id === svcId,
         bg:x.id === svcId ? '#ECE9F8' : '#FFFFFF', bd:x.id === svcId ? '#44359B' : '#E4E1EE',
         pick:() => this.go('services', { svc:x.id }) })),
-      svcSel:{ code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), scope:sv.scope.map(y => ({ text:y[i] })) },
+      svcSel:{ code:sv.code, photo:sv.photo, name:this.tx(sv.n), short:this.tx(sv.short), scope:sv.scope.map(y => ({ text:y[i] })) },
       svcDate:s.form.svcDate || '', svcPlace:s.form.svcPlace || '', svcNote:s.form.svcNote || '', svcGoal:s.form.svcGoal || '',
       svcName:s.form.svcName || (this.loggedIn ? this.tx(this.acct.name) : ''),
       svcPhone:s.form.svcPhone || (this.acct.phone || ''), svcEmail:s.form.svcEmail || (this.acct.email || ''),
@@ -1894,8 +1958,11 @@ class Component extends DCLogic {
       lblSend:i ? 'Send request' : 'ส่งคำขอ',
 
       promosTitle:i ? 'Promotions' : 'โปรโมชั่น',
-      promosIntro:i ? 'Discount coupons and special offers on products, delivery and services. Tap "Use this coupon" to apply it to your cart.' : 'คูปองส่วนลดและสิทธิพิเศษสำหรับสินค้า ค่าจัดส่ง และบริการ กด "ใช้คูปองนี้" เพื่อนำไปหักในตะกร้าได้ทันที',
+      promosIntro:i ? 'Special offers on selected products, categories and engineering services. Explore discounts and complimentary services for your next project.' : 'ข้อเสนอพิเศษสำหรับสินค้า หมวดหมู่ และบริการด้านวิศวกรรมที่ร่วมรายการ เลือกส่วนลดและบริการแถมฟรีที่เหมาะกับโครงการของคุณ',
 
+      aboutHeroTitle:i ? 'About us' : 'เกี่ยวกับเรา',
+      aboutHeroIntro:i ? 'Industrial automation and engineering solutions for manufacturing and clean energy.' : 'โซลูชันระบบอัตโนมัติและวิศวกรรม เพื่อภาคอุตสาหกรรมและพลังงานสะอาด',
+      aboutImageAlt:i ? 'Illustration of engineers reviewing industrial automation and clean-energy equipment' : 'ภาพประกอบวิศวกรตรวจสอบอุปกรณ์ระบบอัตโนมัติและพลังงานสะอาด',
       aboutTitle:i ? 'About Polytechnology' : 'เกี่ยวกับบริษัท โพลีเทคโนโลยี',
       aboutBody:[
         { text:i ? 'Polytechnology Co., Ltd. distributes industrial automation equipment and delivers engineering solutions to Thai manufacturers, from control systems and production-line equipment to quality inspection.' : 'บริษัท โพลีเทคโนโลยี จำกัด เป็นผู้จัดจำหน่ายอุปกรณ์ระบบอัตโนมัติทางอุตสาหกรรมและผู้ให้บริการโซลูชันด้านวิศวกรรมให้กับผู้ผลิตในประเทศไทย ครอบคลุมระบบควบคุมการทำงาน เครื่องจักร อุปกรณ์สำหรับกระบวนการผลิต และระบบตรวจสอบคุณภาพ' },
@@ -1903,13 +1970,15 @@ class Component extends DCLogic {
         { text:i ? 'Our solution business covers consulting, planning, design, installation, training and instrument calibration, plus natural gas systems, data center backup power and automated warehouse monitoring and control.' : 'ธุรกิจโซลูชันของเราครอบคลุมการให้คำปรึกษา วางแผน ออกแบบ ติดตั้ง ฝึกอบรม และสอบเทียบอุปกรณ์ รวมถึงระบบก๊าซธรรมชาติ ระบบสำรองไฟสำหรับศูนย์ข้อมูล และระบบติดตามพร้อมควบคุมคลังสินค้าอัตโนมัติ' }
       ],
       aboutPolicy:i ? '"Committed to quality work, delivered on time, with continuous system improvement to build customer confidence and satisfaction."' : '"มุ่งมั่นพัฒนางานคุณภาพ ส่งมอบตรงเวลา พัฒนาระบบอย่างต่อเนื่อง เพื่อสร้างความเชื่อมั่นและความพึงพอใจของลูกค้า"',
-      aboutFacts:[
-        { k:i ? 'Warehouse' : 'คลังสินค้า', v:i ? 'Lam Luk Ka, Pathum Thani' : 'ลำลูกกา จังหวัดปทุมธานี' },
-        { k:i ? 'Preparation time' : 'เวลาเตรียมสินค้า', v:i ? '1–2 business days' : '1–2 วันทำการ' },
-        { k:i ? 'Max order weight' : 'น้ำหนักสูงสุดต่อคำสั่งซื้อ', v:'300 ' + t.kg },
-        { k:i ? 'Integrations (planned)' : 'ระบบที่จะเชื่อมต่อ', v:'SAP · ERP · WMS · Accounting · Carriers' }
-      ],
       contactTitle:i ? 'Contact us' : 'ติดต่อเรา',
+      contactHeroIntro:i ? 'Our team is ready to help with products, engineering solutions and after-sales support.' : 'พร้อมให้คำปรึกษาด้านสินค้า โซลูชันวิศวกรรม และบริการหลังการขาย',
+      contactCompanyName:i ? 'Polytechnology Co., Ltd.' : 'บริษัท โพลีเทคโนโลยี จำกัด',
+      contactCompanyDescription:i ? 'We provide distribution, design, installation, training and after-sales services for automatic instrumentation and control systems for industrial processes, natural gas and petroleum businesses, NGV stations and CNG transport vehicles, and alternative energy products.' : 'เป็นผู้ให้บริการด้านการจัดจำหน่าย การออกแบบ การติดตั้ง การฝึกอบรมและการบริการหลังการขาย ระบบเครื่องมือวัดคุมอัตโนมัติสำหรับกระบวนการอุตสาหกรรม ธุรกิจก๊าซธรรมชาติและปิโตรเลียมสถานีจำหน่ายก๊าซ NGV และรถขนส่ง CNG และผลิตภัณฑ์พลังงานทางเลือก',
+      contactBranchTitle:i ? 'Branch office' : 'สำนักงานสาขา',
+      contactBranchAddress1:i ? 'Company address: 108/59 Moo 5, Soi Ton Son, Chaeng Watthana Road' : 'ที่อยู่บริษัท : 108/59 หมู่ 5 ซอยต้นสน ถนนแจ้งวัฒนะ',
+      contactBranchAddress2:i ? 'Pak Kret Subdistrict, Pak Kret District' : 'ตำบล ปากเกร็ด อำเภอปากเกร็ด',
+      contactBranchAddress3:i ? 'Nonthaburi 11120' : 'จังหวัดนนทบุรี 11120',
+      contactChannelsTitle:i ? 'Contact channels' : 'ช่องทางติดต่อ',
       contactIntro:i ? 'Sales engineers answer product, pricing and credit questions. For technical scope, use the consultation request on the Services page.' : 'วิศวกรฝ่ายขายพร้อมตอบคำถามเรื่องสินค้า ราคา และเครดิต หากต้องการประเมินขอบเขตงานทางเทคนิค กรุณาใช้แบบฟอร์มขอคำปรึกษาในหน้าบริการ',
       contactRows:[
         { k:i ? 'Sales' : 'ฝ่ายขาย', v:'0-2000-0000 · sales@polytech.example' },
