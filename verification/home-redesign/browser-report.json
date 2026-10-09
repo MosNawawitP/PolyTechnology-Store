@@ -1,0 +1,721 @@
+{
+  "status": "passed",
+  "viewports": [
+    {
+      "width": 1240,
+      "documentWidth": 1240,
+      "homeWidth": 1240,
+      "homeScrollWidth": 1240,
+      "headerWidth": 1240,
+      "contentWidth": 1178,
+      "categories": 6,
+      "products": 4,
+      "services": 5,
+      "coupons": 5,
+      "businessColumns": 3,
+      "productColumns": 4,
+      "serviceColumns": 5,
+      "couponColumns": 3,
+      "nestedButtons": 0,
+      "footerStyle": [
+        "rgb(31, 24, 80)",
+        "rgb(176, 169, 216)",
+        "38px 20px 26px",
+        "Sarabun, system-ui, sans-serif",
+        "245.25px",
+        "1240px"
+      ],
+      "imageBytes": [
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce.webp",
+          "size": 61796
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "size": 31176
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
+          "size": 43584
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
+          "size": 49092
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
+          "size": 38336
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
+          "size": 49428
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
+          "size": 49764
+        }
+      ],
+      "originalHeaderScrollWidth": 1246,
+      "currentHeaderScrollWidth": 1240,
+      "footerPixelMeanDifference": 0.0
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "homeWidth": 1440,
+      "homeScrollWidth": 1440,
+      "headerWidth": 1440,
+      "contentWidth": 1368,
+      "categories": 6,
+      "products": 4,
+      "services": 5,
+      "coupons": 5,
+      "businessColumns": 3,
+      "productColumns": 4,
+      "serviceColumns": 5,
+      "couponColumns": 3,
+      "nestedButtons": 0,
+      "footerStyle": [
+        "rgb(31, 24, 80)",
+        "rgb(176, 169, 216)",
+        "38px 20px 26px",
+        "Sarabun, system-ui, sans-serif",
+        "245.25px",
+        "1440px"
+      ],
+      "imageBytes": [
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "size": 123712
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "size": 31176
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
+          "size": 43584
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
+          "size": 49092
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
+          "size": 38336
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
+          "size": 49428
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
+          "size": 49764
+        }
+      ],
+      "originalHeaderScrollWidth": 1446,
+      "currentHeaderScrollWidth": 1440,
+      "footerPixelMeanDifference": 0.0
+    },
+    {
+      "width": 1920,
+      "documentWidth": 1920,
+      "homeWidth": 1680,
+      "homeScrollWidth": 1680,
+      "headerWidth": 1920,
+      "contentWidth": 1584,
+      "categories": 6,
+      "products": 4,
+      "services": 5,
+      "coupons": 5,
+      "businessColumns": 3,
+      "productColumns": 4,
+      "serviceColumns": 5,
+      "couponColumns": 3,
+      "nestedButtons": 0,
+      "footerStyle": [
+        "rgb(31, 24, 80)",
+        "rgb(176, 169, 216)",
+        "38px 20px 26px",
+        "Sarabun, system-ui, sans-serif",
+        "245.25px",
+        "1920px"
+      ],
+      "imageBytes": [
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "size": 123712
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "size": 31176
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
+          "size": 43584
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
+          "size": 49092
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
+          "size": 38336
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
+          "size": 49428
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
+          "size": 49764
+        }
+      ],
+      "originalHeaderScrollWidth": 1926,
+      "currentHeaderScrollWidth": 1920,
+      "footerPixelMeanDifference": 0.455187074829932
+    },
+    {
+      "width": 2541,
+      "documentWidth": 2541,
+      "homeWidth": 1680,
+      "homeScrollWidth": 1680,
+      "headerWidth": 2541,
+      "contentWidth": 1584,
+      "categories": 6,
+      "products": 4,
+      "services": 5,
+      "coupons": 5,
+      "businessColumns": 3,
+      "productColumns": 4,
+      "serviceColumns": 5,
+      "couponColumns": 3,
+      "nestedButtons": 0,
+      "footerStyle": [
+        "rgb(31, 24, 80)",
+        "rgb(176, 169, 216)",
+        "38px 20px 26px",
+        "Sarabun, system-ui, sans-serif",
+        "245.25px",
+        "2541px"
+      ],
+      "imageBytes": [
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "size": 123712
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "size": 31176
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
+          "size": 43584
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
+          "size": 49092
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
+          "size": 38336
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
+          "size": 49428
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
+          "size": 49764
+        }
+      ],
+      "originalHeaderScrollWidth": 2547,
+      "currentHeaderScrollWidth": 2541,
+      "footerPixelMeanDifference": 0.3442235768766381
+    },
+    {
+      "width": 768,
+      "documentWidth": 1240,
+      "homeWidth": 1240,
+      "homeScrollWidth": 1240,
+      "headerWidth": 1240,
+      "contentWidth": 1192,
+      "categories": 6,
+      "products": 4,
+      "services": 5,
+      "coupons": 5,
+      "businessColumns": 3,
+      "productColumns": 4,
+      "serviceColumns": 5,
+      "couponColumns": 3,
+      "nestedButtons": 0,
+      "footerStyle": [
+        "rgb(31, 24, 80)",
+        "rgb(176, 169, 216)",
+        "38px 20px 26px",
+        "Sarabun, system-ui, sans-serif",
+        "245.25px",
+        "1240px"
+      ],
+      "imageBytes": [
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce.webp",
+          "size": 61796
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "size": 31176
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
+          "size": 43584
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
+          "size": 49092
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
+          "size": 38336
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
+          "size": 49428
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
+          "size": 49764
+        }
+      ],
+      "originalHeaderScrollWidth": 1246,
+      "currentHeaderScrollWidth": 1240,
+      "footerPixelMeanDifference": 0.5763923633969718
+    }
+  ],
+  "routeWidths": [
+    {
+      "route": "products",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "pdp",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "services",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "promos",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "about",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "contact",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "coupons",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "cart",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "checkout",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "rfq",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "register",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "success",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "account",
+      "viewport": 2541,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "products",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "pdp",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "services",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "promos",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "about",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "contact",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "coupons",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "cart",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "checkout",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "rfq",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "register",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "success",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "account",
+      "viewport": 1240,
+      "width": 1240,
+      "padding": "31px"
+    },
+    {
+      "route": "products",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "pdp",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "services",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "promos",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "about",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "contact",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "coupons",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "cart",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "checkout",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "rfq",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "register",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "success",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "account",
+      "viewport": 768,
+      "width": 1240,
+      "padding": "24px"
+    },
+    {
+      "route": "products",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "pdp",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "services",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "promos",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "about",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "contact",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "coupons",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "cart",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "checkout",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "rfq",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "register",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "success",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    },
+    {
+      "route": "account",
+      "viewport": 1920,
+      "width": 1680,
+      "padding": "48px"
+    }
+  ],
+  "flows": [
+    "category filtering",
+    "service s3",
+    "add-to-cart stays on Home",
+    "guest coupon login",
+    "collect coupon",
+    "refresh persistence",
+    "reset demo",
+    "carousel arrows",
+    "TH/EN"
+  ],
+  "footer": "Content and computed styles identical to HEAD; screenshots compared with one-row alignment allowance for fractional rasterization"
+}
