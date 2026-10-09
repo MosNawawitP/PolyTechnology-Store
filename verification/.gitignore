@@ -6,3 +6,6 @@ product-images/*.png
 product-images/*.jpg
 product-images/*.jpeg
 product-images/*.webp
+services/tools/
+services/*.png
+promotions/*.png
