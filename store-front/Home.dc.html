@@ -10,7 +10,7 @@
 <div class="pt-home-surface">
 <div class="pt-home">
   <section class="pt-hero" aria-label="{{ lblHomeHighlights }}" aria-roledescription="carousel" onMouseEnter="{{ hero.hover }}" onMouseLeave="{{ hero.leave }}" onFocus="{{ hero.focus }}" onBlur="{{ hero.blur }}">
-    <img class="{{ hero.photoClass }}" src="{{ hero.photo }}" srcSet="{{ hero.srcset }}" sizes="(min-width:1680px) 1584px, (min-width:1240px) 95vw, 1192px" width="2172" height="724" alt="" fetchPriority="high" />
+    <img class="{{ hero.photoClass }}" src="{{ hero.photo }}" srcSet="{{ hero.srcset }}" data-fallback-src="{{ hero.fallback }}" onError="{{ hero.onError }}" sizes="(min-width:1680px) 1584px, (min-width:1240px) 95vw, 1192px" width="2172" height="724" alt="" fetchPriority="high" />
     <div class="pt-hero-body">
       <span class="pt-eyebrow">{{ hero.kicker }}</span>
       <h1>{{ hero.title }}</h1>

@@ -360,6 +360,14 @@ class Component extends DCLogic {
   ];
   homeAsset(name) { return './assets/homepage/' + name + '.webp'; }
   homeAssetSet(name) { return './assets/homepage/' + name + '-small.webp 640w, ' + this.homeAsset(name) + ' 1280w' + (name === 'hero-industrial-commerce' ? ', ./assets/homepage/' + name + '-large.webp 2172w' : ''); }
+  homeHeroImageError = e => {
+    const image = e.currentTarget;
+    const fallback = image.getAttribute('data-fallback-src');
+    if (!fallback || image.getAttribute('src') === fallback) return;
+    // Clear the failed srcset candidate before requesting the generated original.
+    image.removeAttribute('srcset');
+    image.src = fallback;
+  };
   homeHeroSlides() {
     return [{ k:'INDUSTRIAL COMMERCE', t:['ครบทุกอุปกรณ์อุตสาหกรรม พร้อมบริการวิศวกรรม','Industrial equipment. Complete engineering services.'],
       s:['พลังงานสะอาด ระบบอัตโนมัติ เครื่องมือวัด และโครงสร้างพื้นฐาน สำหรับบ้านและธุรกิจ','Clean energy, automation, instruments and infrastructure for homes and businesses.'],
@@ -379,7 +387,7 @@ class Component extends DCLogic {
     const slides = this.homeHeroSlides(), s = this.state, hi = ((s.heroIdx % slides.length) + slides.length) % slides.length, h = slides[hi];
     const paused = s.heroPaused || s.heroReducedMotion;
     return {
-      hero:{ kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:h.photo, srcset:this.homeAssetSet(h.asset),
+      hero:{ kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:h.photo, srcset:this.homeAssetSet(h.asset), fallback:"./assets/homepage/" + h.asset + ".png", onError:this.homeHeroImageError,
         photoClass:h.overview ? 'pt-hero-photo' : 'pt-hero-photo pt-hero-photo--campaign',
         cta:this.m('เลือกซื้อสินค้า','Shop products'), idx:(hi + 1) + '/' + slides.length,
         go:() => { if (h.overview) { this.browseHomeCategory(); return; } this.clearFilters(); this.openGroup(h.grp); },
