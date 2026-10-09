@@ -2114,9 +2114,9 @@ class Component extends DCLogic {
     if (this.loggedIn) { pays.push('qr'); pays.push('transfer'); }
     if (a.cheque) pays.push('cheque');
     const payMeta = {
-      qr:{ n:i ? 'Pay now · Thai QR' : 'ชำระทันที · QR Code', d:i ? 'An order awaiting payment is created; preparation starts after the payment is verified.' : 'ระบบสร้างคำสั่งซื้อสถานะรอชำระ ผู้ขายเริ่มจัดเตรียมหลังตรวจสอบการชำระแล้ว' },
-      transfer:{ n:i ? 'Pay before dispatch · bank transfer' : 'ชำระก่อนจัดส่ง · โอนเงิน', d:i ? 'Transfer to the company account and upload the slip. Orders ship after confirmation.' : 'โอนเข้าบัญชีบริษัทและแนบสลิป ระบบจัดส่งหลังตรวจสอบยอดเงิน' },
-      credit:{ n:i ? 'Corporate credit (assigned by the seller)' : 'เครดิตบริษัท (สิทธิ์ที่ผู้ขายกำหนด)', d:i ? 'Order is confirmed now; pay on your agreed terms. Nothing is charged today.' : 'ยืนยันคำสั่งซื้อได้ทันที และชำระตามเงื่อนไขเครดิตที่ตกลงไว้ ไม่มีการตัดเงินวันนี้' },
+      qr:{ n:i ? 'Pay now · Thai QR' : 'ชำระผ่าน QR Code', d:i ? 'An order awaiting payment is created; preparation starts after the payment is verified.' : 'ระบบสร้างคำสั่งซื้อสถานะรอชำระ ผู้ขายเริ่มจัดเตรียมหลังตรวจสอบการชำระแล้ว' },
+      transfer:{ n:i ? 'Pay before dispatch · bank transfer' : 'โอนเงินผ่านบัญชีธนาคาร', d:i ? 'Transfer to the company account and upload the slip. Orders ship after confirmation.' : 'โอนเข้าบัญชีบริษัทและแนบสลิป ระบบจัดส่งหลังตรวจสอบยอดเงิน' },
+      credit:{ n:i ? 'Corporate credit (assigned by the seller)' : 'เครดิตบริษัท', d:i ? 'Order is confirmed now; pay on your agreed terms. Nothing is charged today.' : 'ยืนยันคำสั่งซื้อได้ทันที และชำระตามเงื่อนไขเครดิตที่ตกลงไว้ ไม่มีการตัดเงินวันนี้' },
       creditReview:{ n:i ? 'Seller credit review' : 'ส่งให้ผู้ขายพิจารณาเครดิต', d:'' },
       cheque:{ n:i ? 'Cheque' : 'วางเช็ค', d:i ? 'Post-dated cheque collected by our finance team on the due date.' : 'วางเช็คลงวันที่ล่วงหน้า ทีมการเงินเข้ารับตามกำหนด' }
     };
