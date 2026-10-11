@@ -298,6 +298,20 @@ class Component extends DCLogic {
     {id:'wh', n:['คลังสินค้าอัตโนมัติ','Warehouse automation'], note:['ระบบติดตามและควบคุมการทำงาน','Tracking and control systems']}
   ];
 
+  SHOP_CATS = [
+    {id:'ev', n:['เครื่องชาร์จรถไฟฟ้า','EV chargers']},
+    {id:'solar', n:['แผงโซลาร์','Solar panels']},
+    {id:'battery', n:['แบตเตอรี่เก็บพลังงาน','Battery storage']},
+    {id:'inverter', n:['อินเวอร์เตอร์','Inverters']},
+    {id:'auto', n:['อุปกรณ์ควบคุมอัตโนมัติ','Automation equipment']},
+    {id:'inst', n:['เครื่องมือวัดและตรวจสอบคุณภาพ','Instruments & inspection']},
+    {id:'gas', n:['อุปกรณ์ระบบก๊าซ','Gas system equipment']},
+    {id:'dc', n:['อุปกรณ์ศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power equipment']},
+    {id:'wh', n:['อุปกรณ์คลังสินค้าอัตโนมัติ','Warehouse automation equipment']}
+  ];
+  shopCategory = p => p.cat === 'green' ? p.grp : p.cat;
+  shopCategoriesFor = (key, value) => value ? Array.from(new Set(this.PRODUCTS.filter(p => p[key] === value).map(p => this.shopCategory(p)))) : [];
+
   PRODUCTS = [
     {id:'p1', sku:'PLT-SUN-50KTL', cat:'green', brand:'Huawei', type:'buy', w:12, stock:24, pop:98,
       n:['อินเวอร์เตอร์โซลาร์ 3 เฟส SUN2000-50KTL-M3','Solar Inverter 3-Phase SUN2000-50KTL-M3'],
@@ -422,7 +436,7 @@ class Component extends DCLogic {
     this.setState(st => ({ heroIdx:(st.heroIdx + 1) % this.homeHeroSlides().length }));
   };
   browseHomeCategory = (cat = '') => {
-    this.setState({ filters:{ cat:cat ? [cat] : [], grp:[], brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
+    this.setState({ filters:{ cat:this.shopCategoriesFor('cat', cat), brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
     this.go('products');
   };
   homeVals() {
@@ -514,7 +528,7 @@ class Component extends DCLogic {
   commons(f, w) { return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(f) + '?width=' + w; }
   categoryAsset(name) { return './assets/category-' + encodeURIComponent(name) + '.png'; }
   categoryPhoto(g) { return this.categoryAsset(g.id); }
-  openGroup = (grp) => { this.setState(st => ({ filters:{ ...st.filters, cat:'', grp:grp || '' }, search:'' })); this.go('products'); };
+  openGroup = (grp) => { this.setState(st => ({ filters:{ ...st.filters, cat:this.shopCategoriesFor('grp', grp) }, search:'', fq:{} })); this.go('products'); };
 
   SERVICES = [
     {id:'s1', code:'SVC-01', photo:'./assets/services/consulting-design.webp', n:['ให้คำปรึกษาและออกแบบระบบ','Consulting & system design'],
@@ -628,7 +642,7 @@ class Component extends DCLogic {
   state = {
     lang:'th', acct:'guest', route:{p:'home'}, tab:'profile',
     cart:[], saved:[], coupon:null, couponInput:'', wallet:{},
-    search:'', filters:{cat:'', grp:'', brand:'', min:'', max:'', avail:'', type:'', sort:'pop'}, view:'grid', heroIdx:0, homeSub:{},
+    search:'', filters:{cat:'', brand:'', min:'', max:'', avail:'', type:'', sort:'pop'}, view:'grid', heroIdx:0, homeSub:{},
     heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:false,
     orders:[], quotes:[], leads:[], notifs:[],
     ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', po:'', accept:false, sameAddr:true, quoteRef:null},
@@ -1629,8 +1643,7 @@ class Component extends DCLogic {
     let list = this.PRODUCTS.slice();
     if (q) list = list.filter(p => (this.tx(p.n) + ' ' + p.n[0] + ' ' + p.n[1] + ' ' + p.sku + ' ' + p.brand).toLowerCase().indexOf(q) >= 0);
     const A = this.arr;
-    if (A(f.cat).length) list = list.filter(p => A(f.cat).indexOf(p.cat) >= 0);
-    if (A(f.grp).length) list = list.filter(p => A(f.grp).indexOf(p.grp) >= 0);
+    if (A(f.cat).length) list = list.filter(p => A(f.cat).indexOf(this.shopCategory(p)) >= 0);
     if (A(f.brand).length) list = list.filter(p => A(f.brand).indexOf(p.brand) >= 0);
     if (A(f.type).length) list = list.filter(p => A(f.type).indexOf(p.type) >= 0);
     if (f.min) list = list.filter(p => (this.price(p) || 0) >= Number(f.min));
@@ -1649,7 +1662,7 @@ class Component extends DCLogic {
     const cta = p.type === 'buy' ? this.tx(L.addToCart) : p.type === 'pkg' ? this.m('ซื้อแพ็กเกจ', 'Buy package') : p.type === 'rfq' ? this.tx(L.requestQuote) : (p.id === 'p13' ? this.m('นัดสำรวจหน้างาน', 'Book a site survey') : this.tx(L.consult));
     const noW = p.type !== 'pkg' && p.type !== 'consult' && (p.w === null || p.w === undefined);
     return {
-      id:p.id, sku:p.sku, brand:p.brand, name:this.tx(p.n), cat:this.tx((this.CATS.find(c => c.id === p.cat) || {}).n || ['', '']),
+      id:p.id, sku:p.sku, brand:p.brand, name:this.tx(p.n), cat:this.tx((this.SHOP_CATS.find(c => c.id === this.shopCategory(p)) || {}).n || ['', '']),
       unit:this.tx(p.u), weightLabel:p.type === 'pkg' ? this.m('งานบริการ', 'Service') : noW ? this.m('ไม่มีข้อมูลน้ำหนัก', 'No weight data') : p.w ? this.num(p.w) + ' ' + this.tx(L.kg) : '—',
       img:p.sku + ' · product shot', photo:this.photo(p), photo2:this.photo(p, 2), photo3:this.photo(p, 3), photo4:this.photo(p, 4), hideImg:this.hideImg, desc:this.tx(p.d),
       priceLabel:pv.priceLabel, priceNote:pv.priceNote, priceNoteColor:pv.priceNoteColor,
@@ -1821,7 +1834,7 @@ class Component extends DCLogic {
   }
 
   setFilter = (k, v) => this.setState(s => ({ filters:{ ...s.filters, [k]:v } }));
-  clearFilters = () => this.setState({ filters:{ cat:[], grp:[], brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
+  clearFilters = () => this.setState({ filters:{ cat:[], brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
   arr = v => Array.isArray(v) ? v : (v ? [v] : []);
   toggleF = (k, v) => this.setState(s => { const a = this.arr(s.filters[k]); return { filters:{ ...s.filters, [k]:a.indexOf(v) >= 0 ? a.filter(x => x !== v) : a.concat(v) } }; });
   clearSec = (k) => this.setState(s => ({ filters:{ ...s.filters, [k]:[] }, fq:{ ...s.fq, [k]:'' } }));
@@ -1831,14 +1844,13 @@ class Component extends DCLogic {
       const q = ((fq || {})[key] || '').trim().toLowerCase(), cur = A(f[key]);
       const items = opts.filter(o => !q || o.label.toLowerCase().indexOf(q) >= 0).map(o => { const on = cur.indexOf(o.v) >= 0;
         return { label:o.label, count:o.count, on:on ? 'true' : 'false', bg:on ? '#44359B' : '#FFFFFF', bd:on ? '#44359B' : '#B9B4D0', mark:on ? '✓' : '', toggle:() => this.toggleF(key, o.v) }; });
-      return { key, title, top:top ? '4px solid #1B93D6' : 'none', hasSearch:!!ph, searchPh:ph || '', q:(fq || {})[key] || '', items, empty:items.length === 0,
+      return { key, title, top:top ? '4px solid #44359B' : 'none', hasSearch:!!ph, searchPh:ph || '', q:(fq || {})[key] || '', items, empty:items.length === 0,
         onQ:e => { const v = e.target.value; this.setState(s => ({ fq:{ ...s.fq, [key]:v } })); }, clear:() => this.clearSec(key) };
     };
     const brands = Array.from(new Set(P.map(p => p.brand))).sort();
     return [
-      mk('cat', i ? 'Categories' : 'หมวดหมู่สินค้า', this.CATS.map(c => ({ v:c.id, label:this.tx(c.n), count:n(p => p.cat === c.id) })), i ? 'Search category…' : 'ค้นหาชื่อหมวดสินค้า...', true),
-      mk('grp', i ? 'Product group' : 'กลุ่มสินค้า', this.GROUPS.map(g => ({ v:g.id, label:this.tx(g.n), count:n(p => p.grp === g.id) })).filter(o => o.count), i ? 'Search group…' : 'ค้นหากลุ่มสินค้า...'),
-      mk('brand', i ? 'Matching brands' : 'แบรนด์สินค้าที่ตรงกัน', brands.map(b => ({ v:b, label:b, count:n(p => p.brand === b) })), i ? 'Search brand…' : 'ค้นหาชื่อแบรนด์...'),
+      mk('cat', i ? 'Categories' : 'หมวดหมู่สินค้า', this.SHOP_CATS.map(c => ({ v:c.id, label:this.tx(c.n), count:n(p => this.shopCategory(p) === c.id) })), i ? 'Search category…' : 'ค้นหาชื่อหมวดสินค้า...', true),
+      mk('brand', i ? 'Matching brands' : 'แบรนด์สินค้า', brands.map(b => ({ v:b, label:b, count:n(p => p.brand === b) })), i ? 'Search brand…' : 'ค้นหาชื่อแบรนด์...'),
       mk('avail', i ? 'Availability' : 'สถานะสินค้า', [{ v:'ready', label:t.inStock, count:n(p => (this.stockOf(p) || 0) > 0) }, { v:'pre', label:t.preorderLabel, count:n(p => this.stockOf(p) === 0) }])
     ];
   }
@@ -1870,13 +1882,12 @@ class Component extends DCLogic {
       setGrid:() => this.setState({ view:'grid' }), setList:() => this.setState({ view:'list' }),
       fSections:this.sections(t, i, f, s.fq), lblClearSec:i ? 'Clear' : 'ล้างทั้งหมด', lblPriceTitle:i ? 'Price range (฿)' : 'ช่วงราคา (฿)', clearPrice:() => this.setState(st => ({ filters:{ ...st.filters, min:'', max:'' } })), noResultsShort:i ? 'No matches' : 'ไม่พบรายการ',
       fCat:f.cat, fBrand:f.brand, fMin:f.min, fMax:f.max, fAvail:f.avail, fType:f.type, fSort:f.sort,
-      fGrp:f.grp || '', onGrp:e => this.setFilter('grp', e.target.value), lblGroup:i ? 'Product group' : 'กลุ่มสินค้า', grpOptions:this.GROUPS.map(g => ({ v:g.id, label:this.tx(g.n) })),
       onCat:e => this.setFilter('cat', e.target.value), onBrand:e => this.setFilter('brand', e.target.value),
       onMin:e => this.setFilter('min', e.target.value), onMax:e => this.setFilter('max', e.target.value),
       onAvail:e => this.setFilter('avail', e.target.value), onType:e => this.setFilter('type', e.target.value),
       onSort:e => this.setFilter('sort', e.target.value),
       clearFilters:this.clearFilters,
-      catOptions:this.CATS.map(c => ({ v:c.id, label:this.tx(c.n) })),
+      catOptions:this.SHOP_CATS.map(c => ({ v:c.id, label:this.tx(c.n) })),
       brandOptions:brands.map(b => ({ v:b, label:b })),
       availOptions:[{ v:'', label:t.all }, { v:'ready', label:t.inStock }, { v:'pre', label:t.preorderLabel }],
       typeOptions:[{ v:'', label:t.all }, { v:'buy', label:t.buyNow }, { v:'pkg', label:i ? 'Service package' : 'แพ็กเกจบริการ' }, { v:'rfq', label:t.rfqOnly }, { v:'consult', label:t.consultOnly }],
@@ -2533,7 +2544,7 @@ class Component extends DCLogic {
       ? [['ยืนยันสั่งงาน', 'Order placed'], ['ยืนยันเงื่อนไขและชำระงวดแรก', 'Terms confirmed & first payment'], ['นัดดำเนินงาน', 'Work scheduled'], ['กำลังดำเนินงาน/ติดตั้ง', 'Work / installation'], ['ทดสอบระบบ', 'Testing'], ['รอตรวจรับงาน', 'Awaiting acceptance'], ['ตรวจรับและส่งมอบแล้ว', 'Accepted & handed over']].map((n, k) => ({ n, step:k + 1 }))
       : [['ส่งคำสั่งซื้อ', 'Order submitted', 1], ['ยืนยันคำสั่งซื้อ', 'Order confirmed', 2], ['เตรียมสินค้า', 'Preparing', 3]]
         .concat(o.mode === 'pickup' ? [['พร้อมให้รับสินค้า', 'Ready for pickup', 6], ['รับสินค้าแล้ว', 'Picked up', 7]]
-          : [['อยู่ระหว่างขนส่ง', 'In transit', 6], ['จัดส่งแล้ว', 'Delivered', 6.5]].concat(hasInst ? [['ติดตั้งและเดินระบบ', 'Installation & commissioning', 7]] : []).concat([['สำเร็จ', 'Completed', 7]]))
+          : [['อยู่ระหว่างจัดส่ง', 'In transit', 6], ['จัดส่งแล้ว', 'Delivered', 6.5]].concat(hasInst ? [['ติดตั้งและเดินระบบ', 'Installation & commissioning', 7]] : []).concat([['สำเร็จ', 'Completed', 7]]))
         .map(x => ({ n:[x[0], x[1]], step:x[2] }));
     const at = (o.holds || []).length ? 1 : (o.stepAt || 1), pad = x => String(x).padStart(2, '0');
     let last = -1; all.forEach((x, k) => { if (x.step <= at) last = k; });
