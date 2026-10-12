@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="./support.js"></script></head><body>
+<x-dc>
+  <div class="{{ shellClass }}">
+    <sc-if value="{{ mobileOpen }}"><button type="button" class="bo-backdrop" onClick="{{ closeNavigation }}" aria-label="{{ t.closeNavigation }}"></button></sc-if>
+    <dc-import name="Sidebar" dcProps="{{ all }}"></dc-import>
+    <dc-import name="Topbar" dcProps="{{ all }}"></dc-import>
+    <main id="bo-content" class="bo-content" aria-label="{{ workspaceLabel }}" tabindex="-1">
+      <dc-import name="ContentOutlet" dcProps="{{ all }}"></dc-import>
+    </main>
+  </div>
+</x-dc>
+</body></html>

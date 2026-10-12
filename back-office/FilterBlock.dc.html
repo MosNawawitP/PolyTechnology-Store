@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <section class="bo-panel bo-filter-block bo-filters" aria-label="{{ lblFilterBlock }}">
+    <label class="bo-filter-view">{{ filterViewLabel }}<select class="bo-screen-picker" value="{{ screenValue }}" onChange="{{ changeScreen }}"><sc-for list="{{ screenOptions }}" as="opt"><option value="{{ opt.value }}">{{ opt.label }}</option></sc-for></select></label>
+    <label class="bo-filter-search">{{ filterSearchLabel }}<input type="search" value="{{ filterSearchValue }}" onChange="{{ changeFilterSearch }}" placeholder="{{ filterSearchPlaceholder }}"></label>
+    <sc-if value="{{ filterShowsStatus }}"><label>{{ lblFilterStatus }}<select value="{{ filterStatus }}" onChange="{{ onStatusFilter }}"><option value="">{{ lblAll }}</option><sc-for list="{{ statusOptions }}" as="status"><option value="{{ status.value }}">{{ status.label }}</option></sc-for></select></label></sc-if>
+    <sc-for list="{{ filterFacets }}" as="facet"><label>{{ facet.label }}<select data-filter-key="{{ facet.key }}" value="{{ facet.value }}" onChange="{{ facet.change }}"><option value="">{{ facet.allLabel }}</option><sc-for list="{{ facet.options }}" as="option"><option value="{{ option.value }}">{{ option.label }}</option></sc-for></select></label></sc-for>
+    <sc-if value="{{ isReports }}"><label>{{ lblReport }}<select value="{{ reportValue }}" onChange="{{ changeReport }}"><sc-for list="{{ reportOptions }}" as="report"><option value="{{ report.value }}">{{ report.label }}</option></sc-for></select></label></sc-if>
+    <sc-if value="{{ filterShowsDates }}"><label>{{ lblFrom }}<input type="date" value="{{ filterFrom }}" onChange="{{ onFromFilter }}"></label><label>{{ lblTo }}<input type="date" value="{{ filterTo }}" onChange="{{ onToFilter }}"></label></sc-if>
+    <sc-if value="{{ filterShowsRecords }}"><label class="bo-filter-record">{{ lblFilterRecord }}<select value="{{ filterRecordValue }}" onChange="{{ changeFilterRecord }}"><option value="">{{ lblSelect }}</option><sc-for list="{{ filterRecordOptions }}" as="record"><option value="{{ record.value }}">{{ record.label }}</option></sc-for></select></label></sc-if>
+    <button type="button" class="bo-secondary bo-filter-clear" onClick="{{ clearFilters }}" disabled="{{ !filtersActive }}">{{ lblClearFilters }}</button>
+  </section>
+</x-dc></body></html>

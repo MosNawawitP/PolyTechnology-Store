@@ -1,0 +1,3 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <section class="bo-panel"><div class="bo-list-actions"><sc-if value="{{ hasCreate }}"><button class="bo-primary" type="button" onClick="{{ openCreate }}">＋ {{ createLabel }}</button></sc-if></div><sc-for list="{{ roleRows }}" as="role"><div class="bo-role-row"><div><strong>{{ role.label }}</strong><p>{{ role.scope }}</p></div><button class="bo-secondary" type="button" onClick="{{ role.pick }}">{{ lblOpen }} →</button></div></sc-for></section>
+</x-dc></body></html>

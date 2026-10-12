@@ -1,0 +1,5 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <div class="bo-hub-grid"><sc-for list="{{ hubCards }}" as="card"><button type="button" class="bo-hub-card" onClick="{{ card.pick }}"><span class="bo-hub-icon" aria-hidden="true">◇</span><strong>{{ card.label }}</strong><span aria-hidden="true">→</span></button></sc-for></div>
+  <section class="bo-panel"><h2>{{ lblRecentStaff }}</h2><dc-import name="DataTable" dcProps="{{ all }}"></dc-import></section>
+  <sc-if value="{{ writable }}"><div class="bo-actions"><button class="bo-secondary" type="button" onClick="{{ resetDemo }}">{{ lblResetDemo }}</button></div></sc-if>
+</x-dc></body></html>

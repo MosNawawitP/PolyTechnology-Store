@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เข้าสู่ระบบพนักงาน | Polytechnology Back-office</title>
+  <link rel="icon" href="./assets/polytech-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css?v=orders-linked-2">
+  <script src="./store-seed.js?v=content-1"></script>
+  <script src="./screen-catalog.js?v=orders-linked-2"></script>
+  <script src="./business-data.js?v=orders-linked-2"></script>
+  <script src="./workflow.js?v=orders-linked-2"></script>
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <sc-if value="{{ isAuth }}">
+  <div class="auth-page">
+    <nav class="language-switch" aria-label="{{ t.language }}">
+      <button type="button" aria-pressed="{{ isThai }}" onClick="{{ setThai }}">TH</button>
+      <button type="button" aria-pressed="{{ isEnglish }}" onClick="{{ setEnglish }}">EN</button>
+    </nav>
+    <main class="auth-main">
+      <div class="brand">
+        <img src="./assets/polytech-logo.png" width="104" height="104" alt="Polytechnology">
+        <div class="brand-name">POLYTECHNOLOGY</div>
+        <div class="brand-subtitle">Back-office</div>
+      </div>
+      <sc-if value="{{ isLogin }}"><dc-import name="StaffLogin" dcProps="{{ all }}"></dc-import></sc-if>
+      <sc-if value="{{ isForgot }}"><dc-import name="ForgotPassword" dcProps="{{ all }}"></dc-import></sc-if>
+      <sc-if value="{{ isReset }}"><dc-import name="ResetPassword" dcProps="{{ all }}"></dc-import></sc-if>
+    </main>
+    <footer>{{ t.mock }}</footer>
+  </div>
+  </sc-if>
+  <sc-if value="{{ isWorkspace }}"><dc-import name="LayoutShell" dcProps="{{ all }}"></dc-import></sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  // Temporary login defaults for prototype testing; remove when testing is complete.
+  state = { lang:'th', route:'login', menu:'dashboard', screen:'01-dashboard/manager', actor:'demo', selected:'', records:window.BO_WORKFLOW.reconcile(JSON.parse(JSON.stringify(window.BO_DATA.collections))), form:{}, fieldErrors:{}, filter:'', filterStatus:'', filterFrom:'', filterTo:'', page:1, pageSize:10, toast:'', confirm:null, chatText:'', previewTier:'Retail', report:'orders-receipts', sidebarCollapsed:false, mobileOpen:false, search:'', profileOpen:false, notificationsOpen:false, email:'staff@polytechnology.demo', password:'PolytechDemo!', showPassword:false, errors:{}, notice:'', busy:false, attempts:0, lockedUntil:0, resendUntil:0, now:Date.now() };
+  MENUS = [
+    ['dashboard','ภาพรวม','Overview','M3 10 12 3l9 7v11h-6v-7H9v7H3Z'],
+    ['catalog','สินค้าและสื่อ','Products & media','m12 3 9 5v9l-9 5-9-5V8Zm-9 5 9 5 9-5M12 13v9'],
+    ['pricing','ราคาและสิทธิ์ลูกค้า','Pricing & customer benefits','M3 3h8l10 10-8 8L3 11Zm4 4h.01'],
+    ['inventory','สต็อกและการจัดหา','Inventory & sourcing','M3 10 12 3l9 7v11H3Zm5 11v-8h8v8M9 17h6'],
+    ['customers','ลูกค้าและบริษัท','Customers & companies','M16 21v-3a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v3Zm-3-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0m4-4a4 4 0 0 1 0 8m3 9v-3a4 4 0 0 0-3-4'],
+    ['orders','คำสั่งซื้อ','Orders','M2 3h3l3 13h11l3-10H6M9 21h.01M18 21h.01'],
+    ['quotes','RFQ / ใบเสนอราคา','RFQ / quotations','M5 2h9l5 5v15H5Zm9 0v6h5M8 13h8M8 17h5'],
+    ['services','บริการและงานสำรวจ','Services & surveys','M9 4H5v18h14V4h-4M9 2h6v5H9ZM8 12h8M8 16h6'],
+    ['finance','การชำระเงิน / ลูกหนี้','Payments / receivables','M3 5h18v14H3ZM3 10h18M6 15h4'],
+    ['logistics','ขนส่ง / รับเอง','Shipping / pickup','M2 4h12v14H2Zm12 5h4l4 5v4h-8M8 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0m14 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0'],
+    ['marketing','โปรโมชั่นและคูปอง','Promotions & coupons','M3 9v6h5l12 5V4L8 9Zm5 6 2 7h4l-3-6M23 9v6'],
+    ['content','หน้าแรกและเนื้อหา','Homepage & content','M3 3h18v18H3ZM3 8h18'],
+    ['documents','เอกสารและไฟล์','Documents & files','M5 2h9l5 5v15H5Zm9 0v6h5'],
+    ['communication','แจ้งเตือน / แชต','Notifications / chat','M6 8a6 6 0 0 1 12 0c0 8 3 8 3 10H3c0-2 3-2 3-10m3 13a3 3 0 0 0 6 0'],
+    ['settings','ตั้งค่า / ผู้ใช้ / รายงาน','Settings / users / reports','m9 3 1-2h4l1 2 3 2 2 0 2 4-1 2v3l1 2-2 4h-2l-3 2-1 2h-4l-1-2-3-2H4l-2-4 1-2V9L2 7l2-4h2Zm7 9a4 4 0 1 1-8 0 4 4 0 0 1 8 0']
+  ];
+  L = {
+    language:['ภาษา','Language'], title:['เข้าสู่ระบบพนักงาน','Staff sign in'], intro:['ใช้บัญชีพนักงานเพื่อเข้าใช้งาน Back-office','Sign in with your staff account to access Back-office'],
+    email:['อีเมลพนักงาน','Staff email'], password:['รหัสผ่าน','Password'], passwordPlaceholder:['กรอกรหัสผ่าน','Enter your password'],
+    show:['แสดงรหัสผ่าน','Show password'], hide:['ซ่อนรหัสผ่าน','Hide password'], forgot:['ลืมรหัสผ่าน?','Forgot password?'], login:['เข้าสู่ระบบ','Sign in'],
+    signingIn:['กำลังเข้าสู่ระบบ…','Signing in…'], noAccount:['หากยังไม่มีบัญชี กรุณาติดต่อผู้ดูแลระบบ','If you do not have an account, please contact your administrator'],
+    mock:['ภาพตัวอย่าง (Mock) · ยังไม่เชื่อมต่อระบบจริง','Prototype (Mock) · No live system connection'],
+    emailRequired:['กรุณากรอกอีเมลพนักงาน','Enter your staff email'], emailInvalid:['กรุณากรอกอีเมลให้ถูกต้อง','Enter a valid email address'],
+    passwordRequired:['กรุณากรอกรหัสผ่าน','Enter your password'], invalid:['อีเมลหรือรหัสผ่านไม่ถูกต้อง','Incorrect email or password'],
+    locked:['ทำรายการถี่เกินไป กรุณารอสักครู่แล้วลองใหม่','Too many attempts. Please wait and try again'],
+    forgotTitle:['ลืมรหัสผ่าน','Forgot password'], forgotIntro:['กรอกอีเมลพนักงานเพื่อขอลิงก์ตั้งรหัสผ่านใหม่','Enter your staff email to request a password reset link'],
+    send:['ส่งลิงก์ตั้งรหัสผ่านใหม่','Send reset link'], sending:['กำลังส่งคำขอ…','Sending request…'], resend:['ส่งคำขออีกครั้ง','Send again'],
+    sent:['หากอีเมลนี้มีบัญชีที่ใช้งานได้ ระบบจะส่งลิงก์ตั้งรหัสผ่านใหม่ให้','If this email belongs to an active account, a password reset link will be sent'],
+    noEmail:['การสาธิตนี้ไม่ส่งอีเมลจริง','This demo does not send email'], back:['กลับเข้าสู่ระบบ','Back to sign in'],
+    success:['เข้าสู่ระบบสำเร็จ','Signed in successfully'], successIntro:['ยืนยันบัญชีพนักงานสาธิตแล้ว','Your demo staff account has been verified'],
+    logout:['ออกจากระบบ','Sign out'], navigation:['เมนูหลัก','Main navigation'], toggleNavigation:['เปิดหรือย่อเมนู','Toggle navigation'], closeNavigation:['ปิดเมนู','Close navigation'],
+    search:['ค้นหารายการ','Search items'], searchMenus:['ค้นหาเมนู','Search menus'], noResults:['ไม่พบเมนูที่ค้นหา','No matching menus'],
+    notifications:['การแจ้งเตือน','Notifications'], noNotifications:['ยังไม่มีการแจ้งเตือน','No notifications yet'], profile:['เมนูบัญชีพนักงาน','Staff account menu'],
+    staffName:['กมลวรรณ','Kamonwan'], staffRole:['ผู้ดูแลระบบ','Administrator'], initials:['กว','KW'], workspace:['พื้นที่เนื้อหา','Content workspace']
+  };
+  componentDidMount() {
+    let trackingRecords=this.state.records;
+    try {
+      const saved = JSON.parse(localStorage.getItem('plt_bo_content_v1') || 'null');
+      if (saved && saved.version === 1) {
+        const records = {...this.state.records};
+        for (const [key,value] of Object.entries(saved.records || {})) if (key in records && !window.BO_DATA.readonly.includes(key) && Array.isArray(value)) records[key] = value;
+        trackingRecords=window.BO_WORKFLOW.reconcile(records,true);this.setState({records:trackingRecords});this.saveStorage(trackingRecords);
+      }
+    } catch (_) {}
+    this.publishTracking(trackingRecords);
+    try { const lang = localStorage.getItem('plt_bo_lang'); if (lang === 'th' || lang === 'en') this.setState({lang}); } catch (_) {}
+    // One-time migration for a tab that signed in using the previous mock entry.
+    // This is not a persistent session or a production authentication mechanism.
+    try {
+      const upgrade = sessionStorage.getItem('plt_bo_shell_upgrade');
+      sessionStorage.removeItem('plt_bo_shell_upgrade');
+      if (upgrade === 'layout-shell-2') this.setState({route:'workspace',email:'staff@polytechnology.demo'});
+    } catch (_) {}
+    this._tick = setInterval(() => this.setState({now:Date.now()}), 1000);
+    this._onEscape = e => { if (e.key === 'Escape') { this.setState({mobileOpen:false,profileOpen:false,notificationsOpen:false,search:''}); document.getElementById('navigation-toggle')?.focus(); } };
+    window.addEventListener('keydown',this._onEscape);
+    this.syncDocument();
+  }
+  componentDidUpdate() { this.syncDocument(); }
+  componentWillUnmount() { clearInterval(this._tick); clearTimeout(this._request); window.removeEventListener('keydown',this._onEscape); }
+  syncDocument() { document.documentElement.lang = this.state.lang; const menu = this.MENUS.find(m => m[0] === this.state.menu); document.title = (this.state.route === 'workspace' ? this.tx(this.screenDef().title) : this.state.route==='reset'?this.m('ตั้งรหัสผ่านใหม่','Reset password'):this.tx(this.L[this.state.route === 'forgot' ? 'forgotTitle' : 'title'])) + ' | Polytechnology Back-office'; }
+  tx(pair) { return pair[this.state.lang === 'en' ? 1 : 0]; }
+  setLanguage(lang) { this.setState({lang}); try { localStorage.setItem('plt_bo_lang',lang); } catch (_) {} }
+  changeField(e) {
+    const {name,value} = e.target;
+    if (this.state.busy || !['email','password'].includes(name)) return;
+    this.setState(s => ({[name]:value, errors:{...s.errors,[name]:''}, notice:''}));
+  }
+  navigate(route) {
+    clearTimeout(this._request);
+    this.setState({route,password:'',showPassword:false,errors:{},notice:'',busy:false});
+  }
+  selectMenu(id) {
+    if (this.state.route !== 'workspace' || !this.MENUS.some(m => m[0] === id)) return;
+    const page = window.BO_CATALOG.modules.find(m => m.id === id);
+    this.openScreen(page.home);
+  }
+  toggleNavigation() {
+    if (window.matchMedia('(max-width:900px)').matches) this.setState({mobileOpen:!this.state.mobileOpen});
+    else this.setState({sidebarCollapsed:!this.state.sidebarCollapsed});
+  }
+  validate(withPassword) {
+    const email = this.state.email.trim();
+    const errors = {};
+    if (!email) errors.email = 'emailRequired';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'emailInvalid';
+    if (withPassword && !this.state.password) errors.password = 'passwordRequired';
+    this.setState({errors,notice:''});
+    const first = Object.keys(errors)[0];
+    if (first) { document.getElementById('staff-' + first)?.focus(); return false; }
+    return true;
+  }
+  submitLogin(e) {
+    e.preventDefault();
+    if (this.state.busy) return;
+    if (Date.now() < this.state.lockedUntil) { this.setState({notice:'locked'}); return; }
+    if (!this.validate(true)) return;
+    const valid = this.state.email.trim().toLowerCase() === 'staff@polytechnology.demo' && this.state.password === (this._demoPassword || 'PolytechDemo!');
+    this.setState({busy:true,notice:''});
+    this._request = setTimeout(() => {
+      if (valid) this.setState({route:'workspace',menu:'dashboard',screen:'01-dashboard/manager',actor:'demo',selected:'',sidebarCollapsed:false,mobileOpen:false,search:'',profileOpen:false,notificationsOpen:false,busy:false,password:'',showPassword:false,attempts:0,lockedUntil:0});
+      else this.setState(s => ({busy:false,notice:s.attempts + 1 >= 5 ? 'locked' : 'invalid',attempts:s.attempts + 1 >= 5 ? 0 : s.attempts + 1,lockedUntil:s.attempts + 1 >= 5 ? Date.now() + 30000 : 0}));
+    },600);
+  }
+  submitForgot(e) {
+    e.preventDefault();
+    if (this.state.busy || Date.now() < this.state.resendUntil || !this.validate(false)) return;
+    this.setState({busy:true});
+    this._request = setTimeout(() => { this._resetExpires=Date.now()+10*60*1000;this._resetUsed=false;this._resetEligible=this.state.email.trim().toLowerCase()==='staff@polytechnology.demo';this.setState({busy:false,notice:'sent',resendUntil:Date.now() + 30000}); },600);
+  }
+  openReset() { this.navigate('reset'); this.setState({newPassword:'',confirmPassword:'',showNewPassword:false,showConfirmPassword:false,resetError:'',resetSuccess:false}); }
+  submitReset(e) {
+    e.preventDefault();
+    if (this._resetUsed || !this._resetEligible || !this._resetExpires || Date.now()>this._resetExpires) { this.setState({resetError:this.m('ลิงก์ไม่ถูกต้อง หมดอายุ หรือใช้แล้ว กรุณาขอลิงก์ใหม่','Link is invalid, expired or used. Request a new link.')});return; }
+    if (!this.state.newPassword || this.state.newPassword!==this.state.confirmPassword) { this.setState({resetError:this.m('กรอกรหัสผ่านทั้งสองช่องให้ตรงกัน','Enter matching passwords in both fields')});return; }
+    if (this.state.newPassword===(this._demoPassword || 'PolytechDemo!')) { this.setState({resetError:this.m('ใช้รหัสผ่านใหม่ที่ไม่ซ้ำรหัสเดิม','Choose a password different from the previous password')});return; }
+    this._demoPassword=this.state.newPassword;this._resetUsed=true;this.navigate('login');this.setState({email:'staff@polytechnology.demo',password:'',newPassword:'',confirmPassword:'',resetSuccess:true});
+  }
+  screenDef(id=this.state.screen) { return window.BO_CATALOG.screens.find(p => p.id === id); }
+  roleDef() {
+    const base=window.BO_DATA.roles[this.state.actor] || window.BO_DATA.roles.demo;
+    const override=this.state.records.roles.find(r=>r.role===this.state.actor)?.grants;
+    if (!override) return base;
+    return {...base,menus:Object.keys(override).filter(k=>override[k].read),write:Object.keys(override).filter(k=>override[k].read && override[k].write)};
+  }
+  actorId() { return ['warehouse','engineer'].includes(this.state.actor) ? 'ST-02' : ['accounting','credit'].includes(this.state.actor) ? 'ST-03' : 'ST-01'; }
+  canRead(module) { const m=this.roleDef().menus; return module==='dashboard' || m === 'all' || m.includes(module); }
+  canWrite(page=this.screenDef()) {
+    if (!page || !this.canRead(page.module) || window.BO_DATA.readonly.includes(page.collection)) return false;
+    const w=this.roleDef().write;
+    if (w !== 'all' && !w.includes(page.module)) return false;
+    const actor=this.state.actor;
+    if (['bookings','shipments','pickups','rounds'].includes(page.collection)) return ['demo','warehouse'].includes(actor);
+    if (page.id==='05-customers/credit-decision') return ['demo','credit'].includes(actor);
+    if (page.id==='03-pricing/approval') return ['demo','credit'].includes(actor);
+    if (page.id==='06-orders/warehouse-approve' || page.id==='06-orders/fulfillment') return ['demo','warehouse'].includes(actor);
+    if (page.module==='finance') return ['demo','accounting'].includes(actor);
+    if (page.collection==='orders') return ['demo','warehouse'].includes(actor);
+    if (page.collection==='jobs') return ['demo','engineer'].includes(actor);
+    if (actor==='sales' && page.module==='services' && !['surveys','leads'].includes(page.collection)) return false;
+    if (actor==='support' && page.module==='orders') return false;
+    return true;
+  }
+  scopedRows(collection) {
+    const rows=this.state.records[collection] || [];
+    const scope=this.roleDef().scope;
+    if (scope==='all') return rows;
+    if (scope==='warehouse') return rows.filter(r => {const order=r.order?this.state.records.orders.find(o=>o.id===r.order):null;return order?order.warehouse==='LLK':!r.warehouse || r.warehouse==='LLK';});
+    const actor=this.actorId();
+    const customers=new Set(this.state.records.customers.filter(c=>c.owner===actor).map(c=>c.id));
+    return rows.filter(r => {
+      if (collection==='staff') return r.id===actor;
+      if (collection==='jobs' && this.state.actor==='engineer') return r.owner===actor;
+      if (['products','prices','stock','brands','services','carriers','taxonomy','media','replies','templates'].includes(collection)) return true;
+      if (collection==='customers') return customers.has(r.id);
+      if (r.customer) return customers.has(r.customer);
+      if (r.order) { const o=this.state.records.orders.find(o=>o.id===r.order); return !!o && customers.has(o.customer); }
+      return !r.owner || r.owner===actor;
+    });
+  }
+  entity(page=this.screenDef()) {
+    const rows=this.scopedRows(page.collection);
+    const picked=rows.find(r=>r.id===this.state.selected);
+    return picked || rows[0] || null;
+  }
+  openScreen(id, selected='', extra={}) {
+    const page=this.screenDef(id);
+    if (!page || this.state.route!=='workspace' || !this.canRead(page.module)) return;
+    let row=this.scopedRows(page.collection).find(r=>r.id===selected);
+    if (page.collection==='webProducts' && !row && selected) row=this.scopedRows('webProducts').find(r=>r.product===selected);
+    if (!page.create && !row) row=this.scopedRows(page.collection)[0];
+    const form={};
+    if (!page.create && row) for (const f of page.fields) {
+      const value=row[f.key]; form[f.key]=Array.isArray(value) ? this.tx(value) : value ?? (f.type==='checkbox'?false:'');
+    }
+    if (!page.create && page.collection==='roles' && row) {
+      const role=window.BO_DATA.roles[row.role];
+      for (const m of this.MENUS) { const grant=row.grants?.[m[0]];form['grant:'+m[0]+':read']=grant?.read ?? (role?.menus==='all' || role?.menus?.includes(m[0]) || false);form['grant:'+m[0]+':write']=grant?.write ?? (role?.write==='all' || role?.write?.includes(m[0]) || false);form['grant:'+m[0]+':report']=grant?.report ?? (['manager','sales','accounting','warehouse','engineer'].includes(row.role) && (role?.menus==='all' || role?.menus?.includes(m[0]))); }
+    }
+    if (page.create) for (const f of page.fields) form[f.key]=f.type==='checkbox'?false:'';
+    this.setState({menu:page.module,screen:id,selected:['list','history'].includes(page.kind)?selected:row?.id || '',form,savedNew:false,draftLines:page.collection==='quoteDrafts'?JSON.parse(JSON.stringify(row?.lines || [])):[],fieldErrors:{},workflowNote:'',workflowEvidence:'',workflowError:'',workflowDetails:{},filter:'',filterStatus:'',filterFrom:'',filterTo:'',filterFacets:{},viewQuery:'',page:1,confirm:null,toast:'',chatText:'',mobileOpen:false,search:'',profileOpen:false,notificationsOpen:false,...extra});
+    document.getElementById('bo-content')?.scrollTo(0,0);
+  }
+  switchActor(actor) {
+    if (!(actor in window.BO_DATA.roles)) return;
+    const slug={sales:'sales',warehouse:'warehouse',accounting:'accounting',engineer:'service',admin:'access-states',support:'access-states',credit:'access-states'}[actor] || 'manager';
+    this.setState({actor,menu:'dashboard',screen:'01-dashboard/'+slug,selected:'',form:{},fieldErrors:{},workflowNote:'',workflowEvidence:'',workflowError:'',workflowDetails:{},confirm:null,toast:'',filter:'',filterStatus:'',filterFrom:'',filterTo:'',filterFacets:{},viewQuery:'',search:'',profileOpen:false,notificationsOpen:false,chatText:''});
+  }
+  m(th,en) { return this.tx([th,en]); }
+  money(n) { return n===null || n===undefined ? this.m('ไม่มีข้อมูล','Unavailable') : new Intl.NumberFormat(this.state.lang==='th'?'th-TH':'en-GB',{style:'currency',currency:'THB',maximumFractionDigits:2}).format(Number(n)); }
+  label(key) { return window.BO_DATA.labels[key] ? this.tx(window.BO_DATA.labels[key]) : key; }
+  stateLabel(value) {
+    const dict={active:['ใช้งาน','Active'],inactive:['ปิดใช้งาน','Inactive'],draft:['ร่าง','Draft'],published:['เผยแพร่แล้ว','Published'],hidden:['ซ่อน','Hidden'],scheduled:['นัดหมายแล้ว','Scheduled'],confirmed:['ยืนยันแล้ว','Confirmed'],submitted:['ส่งคำขอแล้ว','Submitted'],review:['รอพิจารณา','Awaiting review'],ready:['รอตอบรับ','Ready for acceptance'],accepted:['ตอบรับแล้ว','Accepted'],expired:['หมดอายุ','Expired'],verified:['ตรวจรับเงินแล้ว','Verified receipt'],verifying:['รอตรวจชำระ','Awaiting receipt review'],credit:['ใช้เครดิต','Company credit'],incoming:['รอคลังรับเรื่อง','Awaiting warehouse acceptance'],preparing:['กำลังจัดเตรียม','Preparing'],packed:['แพ็กพร้อมส่ง','Packed'],shipped:['จัดส่งแล้ว','Shipped'],completed:['เสร็จแล้ว','Completed'],assigned:['จัดรอบแล้ว','Round assigned'],received:['รับแล้ว · ยังไม่รับเงินจริง','Received · not cleared'],deposited:['นำฝากแล้ว','Deposited'],cleared:['เคลียร์แล้ว','Cleared'],returned:['คืนเช็ค','Returned'],outstanding:['ค้างชำระ','Outstanding'],approved:['อนุมัติแล้ว','Approved'],rejected:['ปฏิเสธ','Rejected'],pending:['รอดำเนินการ','Pending'],proposal:['รอยืนยัน · ยังไม่เชื่อมระบบจริง','Proposed · no live connection'],simulated:['จำลอง · ไม่ส่งจริง','Simulated · not sent'],requested:['ส่งคำขอแล้ว','Requested'],issued:['ออกฉบับแล้ว (จำลอง)','Issued (mock)'],void:['ยกเลิกฉบับ','Voided'],working:['กำลังทำงาน','Working'],testing:['กำลังทดสอบ','Testing'],handover:['รอตรวจรับ','Awaiting handover'],done:['งานเสร็จ · แยกจากชำระเงิน','Work done · payment separate'],open:['กำลังดำเนินการ','Open'],resolved:['ปิดเรื่องแล้ว','Resolved'],available:['พร้อมใช้','Available'],recorded:['บันทึกแล้ว','Recorded'],error:['ข้อมูลไม่พร้อม','Data unavailable'],seller:['รอฝ่ายขายยืนยันจัดหา','Awaiting sourcing'],approval:['รออนุมัติบริษัท','Awaiting company approval'],payment:['รอตรวจรับเงิน','Awaiting payment'],verify:['รอตรวจสอบข้อมูล','Awaiting verification'],th:['ไทย','Thai'],en:['อังกฤษ','English'],private:['เฉพาะผู้มีสิทธิ์','Private'], 'public-media':['สื่อสาธารณะ','Public media'],all:['ข้อมูลทั้งหมดที่ได้รับสิทธิ์','Authorized records'],assignedScope:['งานที่รับผิดชอบ','Assigned records']};
+    return dict[value] ? this.tx(dict[value]) : String(value ?? '');
+  }
+  cellValue(key,value) {
+    if (value===null || value===undefined || value==='') return '—';
+    if (Array.isArray(value)) return key==='holds' ? (value.map(x=>this.stateLabel(x)).join(' · ') || '—') : this.tx(value);
+    if (typeof value==='boolean') return value ? this.m('เปิด','On') : this.m('ปิด','Off');
+    if (window.BO_DATA.money.includes(key) && typeof value==='number') return this.money(value);
+    const ref={customer:'customers',product:'products',order:'orders',quote:'quotes',owner:'staff',actor:'staff',carrier:'carriers',round:'rounds',service:'services',lead:'leads',invoice:'documents'}[key];
+    if (ref) { const r=this.state.records[ref]?.find(x=>x.id===value); return r ? (Array.isArray(r.name)?this.tx(r.name):r.name) : String(value); }
+    if (['status','publication','payment','fulfillment','progress','chequeState','refund','fileAccess'].includes(key)) return this.stateLabel(value);
+    if (key==='role' && window.BO_DATA.roles[value]) return this.tx(window.BO_DATA.roles[value].label);
+    if (/Date$/.test(key) || key==='date') { const d=String(value).slice(0,10); if (/^\d{4}-\d{2}-\d{2}$/.test(d)) return new Intl.DateTimeFormat(this.state.lang==='th'?'th-TH':'en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Bangkok'}).format(new Date(d+'T00:00:00+07:00')); }
+    return String(value);
+  }
+  filteredRows(page=this.screenDef()) {
+    const q=this.state.filter.trim().toLowerCase(),facets=this.state.filterFacets || {};
+    return this.scopedRows(page.collection).filter(r => (!q || (JSON.stringify(r)+' '+['name','customer','owner','product','service'].map(k=>this.cellValue(k,r[k])).join(' ')).toLowerCase().includes(q)) && Object.entries(facets).every(([key,value])=>!value || String(r[key] ?? '')===value) && (!this.state.filterStatus || (this.workflowInfo(page.collection,r)?.code || r.status)===this.state.filterStatus) && (!this.state.filterFrom || String(r.date || '').slice(0,10)>=this.state.filterFrom) && (!this.state.filterTo || String(r.date || '').slice(0,10)<=this.state.filterTo));
+  }
+  filterBlockVM(page) {
+    const modes={catalog:['ค้นหารหัสสินค้า ชื่อ หรือแบรนด์','Search SKU, name or brand'],pricing:['ค้นหารหัสสินค้า หรือรายการราคา','Search SKU or price list'],inventory:['ค้นหารหัสสินค้า หรือเลขอ้างอิงคลัง','Search SKU or warehouse reference'],customers:['ค้นหาชื่อบริษัท อีเมล หรือเลขอ้างอิง','Search company, email or reference'],orders:['ค้นหาคำสั่งซื้อ ลูกค้า หรือ PO','Search order, customer or PO'],quotes:['ค้นหา RFQ ใบเสนอราคา หรือลูกค้า','Search RFQ, quotation or customer'],services:['ค้นหาบริการ งานสำรวจ หรือผู้รับผิดชอบ','Search service, survey or assignee'],finance:['ค้นหาเลขรับเงิน ใบแจ้งหนี้ หรือลูกค้า','Search receipt, invoice or customer'],logistics:['ค้นหา Booking คำสั่งซื้อ หรือขนส่ง','Search booking, order or carrier'],marketing:['ค้นหาโปรโมชั่น รหัสคูปอง หรือลูกค้า','Search promotion, coupon code or customer'],content:['ค้นหาชื่อเนื้อหา หรือเลขฉบับ','Search content title or version'],documents:['ค้นหาเลขเอกสาร ลูกค้า หรือไฟล์','Search document, customer or filename'],communication:['ค้นหาบทสนทนา ลูกค้า หรือข้อความ','Search conversation, customer or message'],settings:['ค้นหาผู้ใช้ บทบาท หรือการตั้งค่า','Search staff, role or setting'],dashboard:['ค้นหาลูกค้า หรือเลขรายการในภาพรวม','Search customer or record in overview']};
+    const facetKeys={products:['brand','type'],webProducts:['category','publication'],brands:['sourceCode'],media:['mediaType','fileAccess'],taxonomy:['dimension'],prices:['brand','type'],priceMappings:['priceTier'],stock:['warehouse','brand'],stockMovements:['warehouse','product'],sourcing:['owner','product'],customers:['segment','priceTier'],applications:['priceTier'],addresses:['customer','addressType'],orders:['customer','owner'],quotes:['customer','owner'],rfqs:['customer','owner'],leads:['service','owner'],jobs:['service','owner'],surveys:['owner'],services:['publication'],payments:['customer','paymentMethod'],receivables:['customer'],cheques:['customer','bank'],credit:['customer'],bookings:['carrier','round'],rounds:['carrier','owner'],pickups:['order'],shipments:['carrier'],campaigns:['segment','publication'],coupons:['calculation'],wallet:['customer'],sections:['sectionType','publication'],contentVersions:['owner'],documents:['documentType','customer'],files:['fileAccess'],conversations:['owner','customer'],replies:['category','language'],templates:['channel','event'],delivery:['channel','event'],staff:['role','dataScope'],roles:['dataScope'],integrations:['source']};
+    const detail=['detail','document','holds'].includes(page.kind),navigationOnly=page.create || ['form','decision','preview','import'].includes(page.kind);
+    let collection=page.collection;
+    if(page.id==='15-settings/reports') {
+      const defs=[['orders-receipts','orders','orders'],['quote-conversion','quotes','quotes'],['lead-conversion','services','leads'],['stock-reservation','inventory','stock'],['aging','finance','receivables'],['coupon','marketing','wallet'],['service-backlog','services','jobs']];
+      collection=(defs.find(d=>d[0]===this.state.report && this.canRead(d[1])) || defs.find(d=>this.canRead(d[1])))?.[2];
+    }
+    const rows=this.scopedRows(collection),filtered=this.filteredRows({collection}),isDashboard=page.kind==='dashboard';
+    const siblings=window.BO_CATALOG.screens.filter(p=>p.module===page.module),query=(this.state.viewQuery || '').toLowerCase();
+    const screenOptions=siblings.filter(p=>!navigationOnly || p.id===page.id || this.tx(p.title).toLowerCase().includes(query)).map(p=>({value:p.id,label:this.tx(p.title)}));
+    const facets=navigationOnly || detail || isDashboard && !collection?[]:(isDashboard && page.module==='dashboard'?[]:facetKeys[collection] || []).map(key=>({key,label:this.label(key),allLabel:this.m('ทั้งหมด','All'),value:this.state.filterFacets?.[key] || '',options:[...new Set(rows.map(r=>r[key]).filter(v=>v!==undefined && v!==null && v!=='' && typeof v!=='object'))].map(value=>({value:String(value),label:this.cellValue(key,value)})),change:e=>this.setState(s=>({filterFacets:{...(s.filterFacets || {}),[key]:e.target.value},page:1}))})).filter(f=>f.options.length);
+    const statuses=[...new Set(rows.map(r=>this.workflowInfo(collection,r)?.code || r.status))].filter(Boolean).map(value=>({value,label:window.BO_WORKFLOW.definitions[collection]?.steps.find(s=>s.code===value)?this.tx(window.BO_WORKFLOW.definitions[collection].steps.find(s=>s.code===value).label):this.stateLabel(value)}));
+    return {screenOptions,lblReport:this.m('รายงาน','Report'),lblFilterBlock:this.m('ตัวกรองและมุมมอง','Filters and view'),filterViewLabel:page.module==='dashboard'?this.m('มุมมองภาพรวม','Overview view'):this.m('กลุ่มข้อมูล / งาน','Data group / task'),filterSearchLabel:navigationOnly?this.m('ค้นหางานในเมนู','Find a task in this menu'):this.m('ค้นหารายการ','Search records'),filterSearchPlaceholder:navigationOnly?this.m('ค้นหาชื่องานหรือหน้าที่ต้องการ','Search task or page name'):this.tx(modes[page.module]),filterSearchValue:navigationOnly?this.state.viewQuery || '':this.state.filter,changeFilterSearch:e=>this.setState({[navigationOnly?'viewQuery':'filter']:e.target.value,page:1}),filterShowsStatus:!navigationOnly && !detail && (!isDashboard || page.id==='15-settings/reports') && statuses.length>0,statusOptions:statuses,filterShowsDates:!navigationOnly && !detail && rows.some(r=>r.date) && page.kind!=='roles',filterFacets:facets,filterShowsRecords:detail,lblFilterRecord:this.m('เลือกจากผลค้นหา','Select a matching record'),filterRecordOptions:filtered.map(r=>({value:r.id,label:r.id+' · '+this.cellValue('name',r.name)})),filterRecordValue:filtered.some(r=>r.id===this.state.selected)?this.state.selected:'',changeFilterRecord:e=>{if(e.target.value)this.openScreen(page.id,e.target.value);},lblFilterStatus:this.m('สถานะ','Status'),lblClearFilters:this.m('ล้างตัวกรอง','Clear filters'),filtersActive:!!(this.state.filter || this.state.viewQuery || this.state.filterStatus || this.state.filterFrom || this.state.filterTo || Object.values(this.state.filterFacets || {}).some(Boolean)),clearFilters:()=>this.setState({filter:'',viewQuery:'',filterStatus:'',filterFrom:'',filterTo:'',filterFacets:{},page:1})};
+  }
+  saveStorage(records) {
+    try { const editable=Object.fromEntries(Object.entries(records).filter(([key])=>!window.BO_DATA.readonly.includes(key))); localStorage.setItem('plt_bo_content_v1',JSON.stringify({version:1,records:editable})); return true; }
+    catch (_) { this.setState({toast:this.m('บันทึกในหน่วยความจำแล้ว แต่พื้นที่เก็บข้อมูลในเครื่องไม่พร้อม','Saved in memory; browser storage is unavailable')}); return false; }
+  }
+  commit(collection,row,action,before=null,other={}) {
+    if (window.BO_DATA.readonly.includes(collection)) return false;
+    const rows=this.state.records[collection] || [];
+    const exists=rows.some(x=>x.id===row.id);
+    const audit={id:'AUD-'+Date.now()+'-'+this.state.records.audit.length,date:'2026-10-10',at:new Date().toISOString(),role:this.state.actor,actor:this.actorId(),name:[action,action],action,entity:row.id,reason:row.reason || this.m('บันทึกข้อมูลสาธิต','Saved mock record'),before:before?JSON.stringify(before):'',after:JSON.stringify(row)};
+    const records=window.BO_WORKFLOW.reconcile({...this.state.records,...other,[collection]:exists ? rows.map(x=>x.id===row.id?row:x) : [...rows,row],audit:[audit,...this.state.records.audit].slice(0,200)});
+    const page=this.screenDef(),edited=['bookings','shipments','pickups'].includes(page?.collection)?records[page.collection].find(r=>r.id===this.state.selected):null;
+    const form=edited?{...this.state.form,...Object.fromEntries(page.fields.filter(f=>f.key in edited).map(f=>[f.key,edited[f.key] ?? '']))}:this.state.form;
+    this.setState({records,form,toast:this.m('บันทึกข้อมูลสาธิตแล้ว','Mock changes saved'),confirm:null});
+    this.saveStorage(records);
+    this.publishTracking(records);
+    return true;
+  }
+  publishTracking(records) {
+    try {
+      const entries=Object.keys(window.BO_WORKFLOW.definitions).flatMap(type=>(records[type] || []).map(row=>window.BO_WORKFLOW.publicRecord(type,row)));
+      localStorage.setItem(window.BO_WORKFLOW.trackingKey,JSON.stringify({version:1,records:entries}));
+    } catch (_) {}
+  }
+  workflowContext(page=this.screenDef(),row=this.entity(page)) {
+    if(['bookings','shipments','pickups'].includes(page.collection)) {
+      const order=this.scopedRows('orders').find(o=>o.id===row?.order);
+      return {page:{...page,collection:'orders',create:page.create && !this.state.savedNew},row:order};
+    }
+    return {page,row};
+  }
+  workflowInfo(type,row) { return window.BO_WORKFLOW.resolve(type,row); }
+  workflowAccess(type,row) {
+    const f=this.workflowInfo(type,row); if(!f || !f.next)return false;
+    const w=this.roleDef().write;
+    return this.state.route==='workspace' && this.canRead(f.module) && (w==='all' || w.includes(f.module)) && this.scopedRows(type).some(r=>r.id===row.id) && (this.state.actor==='demo' || f.next.roles.includes(this.state.actor));
+  }
+  workflowBlock(type,row) {
+    const f=this.workflowInfo(type,row);if(!f)return '';
+    if(f.terminal)return this.m('รายการสิ้นสุดแล้ว ไม่สามารถเดินขั้นตอนต่อได้','This record has ended; further transitions are unavailable');
+    if(f.unknown)return this.m('สถานะเดิมไม่ตรงกับขั้นตอน กรุณาตรวจสอบก่อน','The existing status needs review before continuing');
+    if(!f.next)return '';
+    if(type==='orders') {
+      if(row.holds?.length)return this.m('รอปลด Hold: ','Resolve holds: ')+this.cellValue('holds',row.holds);
+      if(['preparing','packed','shipped'].includes(f.next.code) && (!Number.isFinite(Number(row.weight)) || row.weight===null || Number(row.weight)<=0 || Number(row.weight)>300))return this.m('บันทึกน้ำหนักที่พร้อมและไม่เกิน 300 กก. ก่อน','Save a valid weight up to 300 kg first');
+      if(f.next.code==='packed' && !row.checklist?.trim())return this.m('บันทึกผลตรวจรายการแพ็กสินค้าก่อน','Save the packing checklist first');
+      if(f.next.code==='shipped' && row.deliveryMethod==='pickup') {
+        if(!row.pickupDate || !row.pickupSlot?.trim() || !row.pickupRecipient?.trim() || !row.pickupPhone?.trim())return this.m('บันทึกวัน เวลา และผู้รับสินค้าสำหรับรับเองก่อน','Save pickup date, slot and recipient contact first');
+        const date=new Date(row.pickupDate+'T00:00:00Z');
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(row.pickupDate) || !Number.isFinite(date.getTime()) || date.toISOString().slice(0,10)!==row.pickupDate)return this.m('ระบุวันรับสินค้าที่ถูกต้อง','Enter a valid pickup date');
+        return '';
+      }
+      if(f.next.code==='shipped' && (!row.carrier || !row.tracking?.trim() || !row.dispatchDate))return this.m('บันทึกผู้ขนส่ง วันที่ส่ง และเลขติดตามก่อน','Save carrier, dispatch date and tracking reference first');
+      if(f.next.code==='shipped') {
+        const carrier=this.state.records.carriers.find(c=>c.id===row.carrier && c.active && c.status==='active');
+        if(!carrier || Number(row.weight)>Number(carrier.maxKg))return this.m('เลือกผู้ขนส่งที่เปิดใช้งานและรองรับน้ำหนักสินค้า','Select an active carrier that supports the shipment weight');
+        const date=new Date(row.dispatchDate+'T00:00:00Z');
+        if(!/^\d{4}-\d{2}-\d{2}$/.test(row.dispatchDate) || !Number.isFinite(date.getTime()) || date.toISOString().slice(0,10)!==row.dispatchDate)return this.m('ระบุวันที่จัดส่งที่ถูกต้อง','Enter a valid dispatch date');
+      }
+    }
+    if(type==='quotes') {
+      const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+      if(row.endDate && row.endDate<today)return this.m('ใบเสนอราคาหมดอายุ ให้ขอฉบับใหม่ก่อน','Quotation expired; request a new revision first');
+      if(['ready','sent'].includes(f.next.code) && (!row.sourceCode || !row.revision || !row.lines?.length))return this.m('ต้องมีฉบับและเลขอ้างอิงจาก SAP ก่อน','A revision, source reference and lines are required first');
+      if(f.next.code==='ordered' && !this.state.records.orders.some(o=>o.id===row.order && o.customer===row.customer))return this.m('ยังไม่มีคำสั่งซื้อของลูกค้ารายนี้ที่เชื่อมกับฉบับ ให้รอข้อมูลต้นทาง','Await a linked source order belonging to this customer');
+    }
+    if(type==='rfqs' && f.next.code==='quoted' && !this.state.records.quotes.some(q=>q.id===(row.quote || row.id.replace(/^RFQ-/,'')) && q.customer===row.customer && q.sourceCode && q.lines?.length))return this.m('ยังไม่มีฉบับ SAP ที่เชื่อมกับ RFQ นี้','A linked SAP quotation is required first');
+    if(type==='jobs') {
+      if(f.next.code==='scheduled' && (!row.date || !row.owner))return this.m('บันทึกวันนัดและผู้รับผิดชอบก่อน','Save the schedule and assignee first');
+      if(['testing','handover'].includes(f.next.code) && !row.results?.trim())return this.m('บันทึกผลดำเนินงานก่อนส่งต่อ','Save the work results before handoff');
+      if(f.next.code==='done' && (!row.acceptance || !row.attachment))return this.m('ต้องบันทึกการตรวจรับจากลูกค้าและเอกสารแนบก่อน','Save customer acceptance and an attachment first');
+    }
+    return '';
+  }
+  workflowNextOwner(type,row) {
+    if(!row)return this.m('ไม่พบรายการที่เชื่อมอยู่','Linked record unavailable');
+    if(type==='quotes' && row.status==='sent') return this.m('ลูกค้า → ฝ่ายขายบันทึกผลตอบรับ','Customer → Sales records the response');
+    if(type==='orders' && row.holds?.length) {
+      const map={payment:'accounting',credit:'credit',seller:'sales',verify:'sales',approval:'customer'};
+      return [...new Set(row.holds.map(h=>this.tx(window.BO_WORKFLOW.roles[map[h] || 'sales'])))].join(' / ');
+    }
+    const f=this.workflowInfo(type,row);
+    return f?.next?f.next.roles.map(r=>this.tx(window.BO_WORKFLOW.roles[r])).join(' / '):this.m('ไม่มีขั้นตอนถัดไป','No next step');
+  }
+  workflowDetailsAccess(page,row) {
+    const f=this.workflowInfo(page.collection,row);
+    return !page.create && ['detail','form','decision'].includes(page.kind) && page.collection==='orders' && ['preparing','packed','shipped'].includes(f?.next?.code) && this.workflowAccess('orders',row);
+  }
+  saveWorkflowDetails() {
+    const {page,row}=this.workflowContext();
+    if(!this.workflowDetailsAccess(page,row))return false;
+    const allowed=['weight','checklist','carrier','dispatchDate','tracking','deliveryMethod','pickupDate','pickupSlot','pickupRecipient','pickupPhone'];
+    const patch=Object.fromEntries(Object.entries(this.state.workflowDetails || {}).filter(([key])=>allowed.includes(key)));
+    if('weight' in patch)patch.weight=patch.weight===''?null:Number(patch.weight);
+    for(const key of ['checklist','carrier','dispatchDate','tracking','deliveryMethod','pickupDate','pickupSlot','pickupRecipient','pickupPhone'])if(key in patch)patch[key]=String(patch[key]).trim();
+    const updated={...row,...patch};
+    if(!['shipping','pickup'].includes(updated.deliveryMethod || 'shipping'))return false;
+    // Validate prerequisites without clearing or changing the actual holds.
+    const error=this.workflowBlock('orders',{...updated,holds:[]});
+    if(error){this.setState({workflowError:error});return false;}
+    this.commit('orders',updated,'workflow:details',{...row});
+    this.setState({workflowDetails:{},workflowError:''});return true;
+  }
+  workflowDetailsVM(page,row) {
+    const f=this.workflowInfo(page.collection,row),draft=this.state.workflowDetails || {};
+    const value=key=>draft[key] ?? row?.[key] ?? '';
+    const change=key=>e=>this.setState({workflowDetails:{...this.state.workflowDetails,[key]:e.target.value},workflowError:''});
+    return {showWorkflowDetails:this.workflowDetailsAccess(page,row),workflowDetailsTitle:this.m('ข้อมูลสำหรับขั้นตอนถัดไป','Next step details'),workflowDetailsDirty:Object.keys(draft).length>0,lblWorkflowDetailsDirty:this.m('มีข้อมูลที่ยังไม่ได้บันทึก กรุณากดบันทึกข้อมูลขั้นตอนก่อนดำเนินการต่อ','Unsaved details: save step details before continuing'),workflowNeedsChecklist:f?.next?.code==='packed',workflowNeedsShipping:f?.next?.code==='shipped',workflowIsPickup:value('deliveryMethod')==='pickup',workflowDeliveryMethod:value('deliveryMethod') || 'shipping',workflowPickupDate:value('pickupDate'),workflowPickupSlot:value('pickupSlot'),workflowPickupRecipient:value('pickupRecipient'),workflowPickupPhone:value('pickupPhone'),lblDeliveryMethod:this.m('วิธีรับสินค้า','Delivery method'),lblShipping:this.m('จัดส่ง','Shipping'),lblPickup:this.m('รับเอง','Pickup'),lblPickupDate:this.m('วันรับสินค้า','Pickup date'),lblPickupSlot:this.m('ช่วงเวลารับ','Pickup slot'),lblPickupRecipient:this.m('ชื่อผู้รับสินค้า','Pickup recipient'),lblPickupPhone:this.m('โทรศัพท์ผู้รับ','Recipient phone'),onWorkflowDeliveryMethod:change('deliveryMethod'),onWorkflowPickupDate:change('pickupDate'),onWorkflowPickupSlot:change('pickupSlot'),onWorkflowPickupRecipient:change('pickupRecipient'),onWorkflowPickupPhone:change('pickupPhone'),workflowWeight:value('weight'),workflowChecklist:value('checklist'),workflowCarrier:value('carrier'),workflowDispatchDate:value('dispatchDate'),workflowTracking:value('tracking'),workflowCarrierOptions:this.scopedRows('carriers').filter(c=>c.active && c.status==='active').map(c=>({value:c.id,label:Array.isArray(c.name)?this.tx(c.name):c.name})),lblWorkflowWeight:this.label('weight'),lblWorkflowChecklist:this.m('ผลตรวจรายการแพ็กสินค้า','Packing checklist'),lblWorkflowCarrier:this.label('carrier'),lblWorkflowDispatchDate:this.label('dispatchDate'),lblWorkflowTracking:this.label('tracking'),lblWorkflowChooseCarrier:this.m('เลือกผู้ขนส่ง','Select carrier'),lblSaveWorkflowDetails:this.m('บันทึกข้อมูลขั้นตอน','Save step details'),onWorkflowWeight:change('weight'),onWorkflowChecklist:change('checklist'),onWorkflowCarrier:change('carrier'),onWorkflowDispatchDate:change('dispatchDate'),onWorkflowTracking:change('tracking'),saveWorkflowDetails:()=>this.saveWorkflowDetails()};
+  }
+  requestWorkflow() {
+    const {page,row}=this.workflowContext(),f=this.workflowInfo(page.collection,row);
+    if(!this.workflowAccess(page.collection,row))return;
+    const blocked=Object.keys(this.state.workflowDetails || {}).length?this.m('บันทึกข้อมูลขั้นตอนก่อนดำเนินการต่อ','Save step details before continuing'):this.workflowBlock(page.collection,row);
+    if(blocked || !this.state.workflowNote?.trim()) {this.setState({workflowError:blocked || this.m('ระบุบันทึกการดำเนินการก่อนยืนยัน','Enter an action note before confirming')});return;}
+    if(['accepted','delivered'].includes(f.next.code) && !(this.state.workflowEvidence || row.deliveryEvidence)?.trim()) {this.setState({workflowError:this.m('ระบุหลักฐานจากลูกค้าหรือหลักฐานส่งมอบ','Provide customer acceptance or delivery evidence')});return;}
+    this.setState({workflowError:'',confirm:{type:'workflow',collection:page.collection,id:row.id,from:f.code,to:f.next.code,note:this.state.workflowNote.trim(),evidence:(this.state.workflowEvidence || row.deliveryEvidence)?.trim() || '',title:this.m('ยืนยันเปลี่ยนเป็น: ','Confirm transition: ')+this.tx(f.next.label)}});
+  }
+  advanceWorkflow(change) {
+    const row=this.state.records[change.collection]?.find(r=>r.id===change.id),f=this.workflowInfo(change.collection,row);
+    if(!row || !f || !this.workflowAccess(change.collection,row) || f.code!==change.from || f.next?.code!==change.to || this.workflowBlock(change.collection,row) || !change.note?.trim() || ['accepted','delivered'].includes(change.to) && !change.evidence?.trim()) {
+      this.setState({confirm:null,workflowError:this.m('สถานะ สิทธิ์ หรือข้อมูลเปลี่ยนไป กรุณาตรวจสอบรายการอีกครั้ง','Status, permission or prerequisites changed. Review this record again')});return false;
+    }
+    const at=new Date().toISOString(),history={from:f.code,to:change.to,at,actor:this.actorId(),role:this.state.actor,note:change.note,evidence:change.evidence || ''};
+    const updated={...row,reason:change.note,status:change.collection==='orders'?(change.to==='delivered'?'completed':'confirmed'):change.to,...(change.collection==='orders'?{fulfillment:change.to,...(change.to==='delivered'?{deliveryEvidence:change.evidence}:{})}:change.collection==='jobs'?{progress:change.to}:{}),workflowHistory:[...(row.workflowHistory || []),history]};
+    this.commit(change.collection,updated,'workflow:'+f.code+'→'+change.to,{...row});
+    this.setState({workflowNote:'',workflowEvidence:'',workflowError:'',workflowDetails:{},form:{...this.state.form}});return true;
+  }
+  workflowVM(page,row) {
+    const f=this.workflowInfo(page.collection,row),show=!!f && !page.create && !['list','dashboard','history'].includes(page.kind);
+    const blocked=f?this.workflowBlock(page.collection,row):'',last=row?.workflowHistory?.at(-1);
+    return {showWorkflow:show,workflowTitle:this.m('ขั้นตอนดำเนินการ','Workflow progress'),workflowCurrentLabel:this.m('สถานะปัจจุบัน','Current status'),workflowCurrent:f?.current && !f.terminal?this.tx(f.current.label):this.stateLabel(row?.status),workflowNextLabel:this.m('ผู้ดำเนินการถัดไป','Next responsible role'),workflowNextOwner:f?this.workflowNextOwner(page.collection,row):'',workflowSteps:(f?.steps || []).map((s,i)=>({code:s.code,label:this.tx(s.label),mark:i<f.index?'✓':String(i+1),className:'bo-step '+(!f.terminal&&i<f.index?'is-complete':!f.terminal&&i===f.index?'is-current':'is-future'),current:!f.terminal&&i===f.index?'step':'false',owner:s.roles.map(r=>this.tx(window.BO_WORKFLOW.roles[r])).join(' / ') || this.m('รับรายการ','Received')})),workflowBlocked:blocked,hasWorkflowBlock:!!blocked,workflowCanAct:!!f?.next && this.workflowAccess(page.collection,row),workflowActionDisabled:!!blocked || Object.keys(this.state.workflowDetails || {}).length>0,workflowActionLabel:this.m('ดำเนินการขั้นถัดไป: ','Next step: ')+(f?.next?this.tx(f.next.label):''),workflowWaiting:!f?.next?this.m('ไม่มีขั้นตอนถัดไป','No next step'):this.m('รอ ','Waiting for ')+(f?this.workflowNextOwner(page.collection,row):''),workflowNote:this.state.workflowNote || '',workflowEvidence:this.state.workflowEvidence || row?.deliveryEvidence || '',workflowError:this.state.workflowError || '',hasWorkflowError:!!this.state.workflowError,lblWorkflowNote:this.m('บันทึกการดำเนินการ (ภายใน)','Action note (internal)'),lblWorkflowEvidence:this.m('หลักฐาน / เลขอ้างอิง','Evidence / reference'),workflowNeedsEvidence:['accepted','delivered'].includes(f?.next?.code),onWorkflowNote:e=>this.setState({workflowNote:e.target.value,workflowError:''}),onWorkflowEvidence:e=>this.setState({workflowEvidence:e.target.value,workflowError:''}),requestWorkflow:()=>this.requestWorkflow(),workflowHistory:(row?.workflowHistory || []).slice().reverse().map(h=>({at:new Intl.DateTimeFormat(this.state.lang==='th'?'th-TH':'en-GB',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Bangkok'}).format(new Date(h.at)),label:this.tx(f.steps.find(s=>s.code===h.to)?.label || [h.to,h.to]),actor:this.cellValue('actor',h.actor),role:window.BO_DATA.roles[h.role]?this.tx(window.BO_DATA.roles[h.role].label):h.role,note:h.note,evidence:h.evidence})),hasWorkflowHistory:!!row?.workflowHistory?.length,lblWorkflowHistory:this.m('ประวัติการเปลี่ยนขั้นตอน','Transition history'),lblWorkflowSaveFirst:this.m('บันทึกข้อมูลในฟอร์มให้ครบก่อนเปลี่ยนขั้นตอน · สถานะเงินแยกจากความคืบหน้า','Save form details before advancing · payment is separate from progress'),workflowTrackingUrl:'./tracking.html?type='+encodeURIComponent(page.collection)+'&id='+encodeURIComponent(row?.id || ''),lblCustomerTracking:this.m('เปิดมุมมองติดตามของลูกค้า','Open customer tracking view'),workflowLastUpdate:last?this.cellValue('date',last.at):this.m('สถานะเริ่มต้นจากข้อมูลสาธิต','Initial status from demo data')};
+  }
+  fieldOptions(f) {
+    if (typeof f.options==='string' && f.options.startsWith('@')) {
+      let rows=this.scopedRows(f.options.slice(1));
+      if (f.key==='order' && /booking-create|pickup-create|shipment-create/.test(this.state.screen)) rows=rows.filter(o=>this.workflowInfo('orders',o)?.code==='packed' && !o.holds?.length && o.weight!==null && o.weight<=300);
+      if (f.key==='carrier' && this.state.form.order) { const o=this.state.records.orders.find(x=>x.id===this.state.form.order); rows=rows.filter(c=>o?.weight!==null && c.maxKg>=o?.weight); }
+      if (f.key==='round' && this.state.form.carrier) rows=rows.filter(r=>r.carrier===this.state.form.carrier);
+      return rows.map(r=>({value:r.id,label:r.id+' · '+this.cellValue('name',r.name)}));
+    }
+    if (f.key==='category') return window.BO_STORE.categories.map(c=>({value:c.id,label:this.tx(c.n)}));
+    if (f.key==='group') return window.BO_STORE.groups.map(g=>({value:g.id,label:this.tx(g.n)}));
+    return (f.options || []).map(x=>({value:x,label:this.stateLabel(x)}));
+  }
+  updateForm(e) {
+    const {name,type,value,checked}=e.target;
+    const page=this.screenDef();
+    if (!this.canWrite(page) || !page.fields.some(f=>f.key===name) && !name.startsWith('grant:')) return;
+    let v=type==='checkbox'?checked:value;
+    this.setState(s=>({form:{...s.form,[name]:v,...(name==='order'?{carrier:'',round:''}:name==='carrier'?{round:''}:{})},fieldErrors:{...s.fieldErrors,[name]:''}}));
+  }
+  uploadFile(e) {
+    const page=this.screenDef(); if (!this.canWrite(page)) return;
+    const file=e.target.files?.[0], name=e.target.name; if (!file) return;
+    if (file.size>2*1024*1024) { this.setState({toast:this.m('ไฟล์สาธิตต้องไม่เกิน 2 MB','Demo files must be at most 2 MB')}); return; }
+    if (name==='image') {
+      if (!/^image\/(png|jpeg|webp)$/.test(file.type)) { this.setState({toast:this.m('เลือกรูป PNG, JPEG หรือ WebP','Choose PNG, JPEG or WebP')}); return; }
+      const reader=new FileReader(); reader.onload=()=>this.setState(s=>({form:{...s.form,image:reader.result,filename:file.name},fieldErrors:{...s.fieldErrors,image:''}})); reader.readAsDataURL(file);
+    } else this.setState(s=>({form:{...s.form,[name]:file.name},fieldErrors:{...s.fieldErrors,[name]:''}}));
+  }
+  validateContent(page) {
+    const errors={}, f=this.state.form;
+    for (const field of page.fields) {
+      const value=f[field.key];
+      if (field.required && (value===undefined || value===null || String(value).trim()==='') && !(page.collection==='quoteDrafts' && this.state.draftLines?.length && ['product','qty'].includes(field.key))) errors[field.key]=this.m('กรุณาระบุข้อมูลนี้','This field is required');
+      if (field.type==='number' && value!=='' && value!==undefined && (!Number.isFinite(Number(value)) || Number(value)<0)) errors[field.key]=this.m('กรอกตัวเลขตั้งแต่ 0 ขึ้นไป','Enter a number of 0 or greater');
+      if (['qty','shortage'].includes(field.key) && value!=='' && value!==undefined && (!Number.isInteger(Number(value)) || Number(value)<=0)) errors[field.key]=this.m('จำนวนต้องเป็นจำนวนเต็มมากกว่า 0','Quantity must be a positive whole number');
+      if (field.type==='select' && value && !this.fieldOptions(field).some(o=>o.value===value)) errors[field.key]=this.m('เลือกรายการที่เข้าถึงได้','Choose an accessible item');
+    }
+    if (f.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) errors.email=this.m('รูปแบบอีเมลไม่ถูกต้อง','Invalid email format');
+    if (f.taxId && !/^\d{13}$/.test(f.taxId)) errors.taxId=this.m('เลขผู้เสียภาษีต้องมี 13 หลัก','Tax ID must contain 13 digits');
+    if (f.startDate && f.endDate && f.endDate<f.startDate) errors.endDate=this.m('วันสิ้นสุดต้องไม่ก่อนวันเริ่ม','End date must not precede start date');
+    if (f.discount && Number(f.discount)>100) errors.discount=this.m('ส่วนลดต้องไม่เกิน 100%','Discount cannot exceed 100%');
+    if (page.collection==='quoteDrafts' && f.product && this.state.records.products.find(p=>p.id===f.product)?.price===null) errors.product=this.m('ยังไม่มีราคาอ้างอิง ต้องติดตามต้นทางก่อน','Reference price is unavailable; contact the source owner first');
+    if (f.calculation==='percent' && Number(f.amount)>100) errors.amount=this.m('เปอร์เซ็นต์ต้องไม่เกิน 100','Percentage cannot exceed 100');
+    if (page.collection==='mixedPolicies' && Number(f.transferPercent)+Number(f.chequePercent)!==100) errors.chequePercent=this.m('สัดส่วนรวมต้องเท่ากับ 100%','Portions must total 100%');
+    if (page.collection==='allocations' || page.id==='09-finance/review') {
+      const receipt=this.entity(page); const invoice=this.state.records.documents.find(d=>d.id===f.invoice);
+      if (Number(f.allocation)>Number(f.amount || receipt?.amount)) errors.allocation=this.m('ยอดจัดสรรเกินยอดรับเงิน','Allocation exceeds receipt amount');
+      if (invoice && Number(f.allocation)>invoice.remaining) errors.allocation=this.m('ยอดจัดสรรเกินยอดคงค้างของใบแจ้งหนี้','Allocation exceeds invoice balance');
+      if (invoice && receipt?.customer && invoice.customer!==receipt.customer) errors.invoice=this.m('ใบแจ้งหนี้ต้องเป็นของลูกค้ารายเดียวกัน','Invoice must belong to the same customer');
+      if (page.id==='09-finance/review' && this.state.records.payments.some(p=>p.id!==receipt?.id && p.status==='verified' && p.reference===f.reference)) errors.reference=this.m('เลขหลักฐานนี้ถูกตรวจรับแล้ว','Evidence reference is already verified');
+    }
+    if (/booking|shipment|pickup/.test(page.slug) || page.id==='06-orders/warehouse-approve' || page.id==='06-orders/fulfillment') {
+      const row=this.entity(page), order=this.state.records.orders.find(o=>o.id===(f.order || row?.order || (page.collection==='orders'?row?.id:'')));
+      if (!order || order.holds?.length) errors.order=this.m('ต้องปลด Hold ตามฝ่ายที่รับผิดชอบก่อนดำเนินงาน','Responsible teams must resolve holds before proceeding');
+      if (order?.weight===null || !Number.isFinite(Number(order?.weight)) || Number(order?.weight)<=0 || Number(order?.weight)>300) errors.weight=this.m('น้ำหนักไม่พร้อมหรือเกินเพดานคำสั่งซื้อ 300 กก.','Weight missing or above the 300 kg order limit');
+      if (/booking|shipment|pickup/.test(page.slug) && !['packed',...(!page.create || this.state.savedNew?['shipped','delivered']:[])].includes(this.workflowInfo('orders',order)?.code)) errors.order=this.m('คำสั่งซื้อต้องแพ็กพร้อมส่งก่อน','Order must be packed first');
+      const carrier=this.state.records.carriers.find(c=>c.id===f.carrier);
+      if (carrier && order && carrier.maxKg<order.weight) errors.carrier=this.m('น้ำหนักเกินเพดานขนส่ง','Weight exceeds carrier limit');
+      const round=this.state.records.rounds.find(r=>r.id===f.round);
+      if (round && order) {
+        const used=this.state.records.bookings.filter(b=>b.round===round.id && b.id!==row?.id && b.order!==order?.id && !['cancelled','delivered'].includes(b.status)).reduce((n,b)=>n+Number(b.weight || 0),0);
+        if (used+order.weight>round.capacity) errors.round=this.m('น้ำหนักรวมเกินความจุรอบสาธิต','Weight exceeds the demo round capacity');
+        if (round.carrier!==f.carrier) errors.round=this.m('รอบไม่ตรงกับผู้ขนส่ง','Round does not match carrier');
+      }
+    }
+    if (page.id==='06-orders/returns') {
+      const order=this.state.records.orders.find(o=>o.id===f.order),line=order?.lines.find(l=>l.product===f.product);
+      if (!line || Number(f.qty)>line.qty || Number(f.qty)<=0) errors.qty=this.m('จำนวนคืนต้องไม่เกินจำนวนในรายการที่ซื้อ','Return quantity must fit the purchased line');
+    }
+    if (page.id==='10-logistics/round-edit' && f.booking) {
+      const booking=this.state.records.bookings.find(b=>b.id===f.booking), order=this.state.records.orders.find(o=>o.id===booking?.order), round=this.entity(page);
+      const used=this.state.records.bookings.filter(b=>b.round===round?.id && b.id!==booking?.id).reduce((n,b)=>n+Number(b.weight || 0),0);
+      if (!order || order.holds.length || order.fulfillment!=='packed' || order.weight===null || used+order.weight>Number(f.capacity)) errors.booking=this.m('Booking ยังไม่พร้อมหรือเกินความจุรอบ','Booking is not ready or exceeds round capacity');
+      const carrier=this.state.records.carriers.find(c=>c.id===f.carrier); if (carrier && order && order.weight>carrier.maxKg) errors.carrier=this.m('น้ำหนักเกินข้อจำกัดขนส่ง','Weight exceeds the carrier limit');
+    }
+    const row=this.entity(page);
+    if (page.kind==='decision' && row?.proposer===this.actorId()) errors.reason=this.m('ผู้เสนอและผู้อนุมัติต้องเป็นคนละคน','Proposer and approver must be different people');
+    if (page.id==='13-documents/draft-edit' && row?.status==='issued') errors.reason=this.m('ฉบับออกแล้วแก้ไม่ได้ ให้ขอฉบับใหม่','Issued documents are immutable; request a revision');
+    this.setState({fieldErrors:errors});
+    return Object.keys(errors).length===0;
+  }
+  saveContent(e) {
+    e?.preventDefault(); const page=this.screenDef();
+    if (!this.canWrite(page) || !this.validateContent(page)) return;
+    if (page.kind==='decision') { this.setState({confirm:{type:'save',title:this.m('ยืนยันผลพิจารณา','Confirm decision')}}); return; }
+    this.performSave(page);
+  }
+  performSave(page=this.screenDef()) {
+    if (!this.canWrite(page) || !this.validateContent(page)) return;
+    const previous=page.create&&!this.state.savedNew?(['bookings','shipments','pickups'].includes(page.collection)?this.state.records[page.collection].find(r=>r.order===this.state.form.order && r.status!=='cancelled') || null:null):this.entity(page); const form=Object.fromEntries(Object.entries(this.state.form).filter(([key])=>page.fields.some(f=>f.key===key) || page.collection==='roles' && key.startsWith('grant:')));
+    for (const field of page.fields) if (field.type==='number' && form[field.key]!=='' && form[field.key]!==undefined) form[field.key]=Number(form[field.key]);
+    const id=previous?.id || page.collection.toUpperCase()+'-'+Date.now();
+    let row={...(previous || {}),...form,id,date:'2026-10-10',owner:form.owner || previous?.owner || this.actorId(),status:previous?.status || 'draft'};
+    if (form.name) row.name=[form.name,form.nameEn || form.name];
+    else if (form.title) row.name=[form.title,form.titleEn || form.title];
+    else if (!row.name) row.name=[form.code || form.reference || id,form.code || form.reference || id];
+    if (form.publication) row.status=form.publication;
+    let other={};
+    if (page.collection==='quoteDeliveries') { row.status='simulated'; other.delivery=[rClone(row,'LOG-'+Date.now()),...this.state.records.delivery]; }
+    if (page.collection==='orders') { row.status=previous.status;row.fulfillment=previous.fulfillment;row.holds=[...(previous.holds || [])]; }
+    if (page.id==='09-finance/review') {
+      row.status=form.paymentState; if (previous?.status==='verified') { this.setState({toast:this.m('รายการรับเงินนี้ตรวจรับแล้ว ไม่ทำซ้ำ','Receipt already verified; no duplicate posting')}); return; }
+      if (row.status==='verified') {
+        const docs=this.state.records.documents.map(d=>d.id===form.invoice?{...d,remaining:Math.max(0,d.remaining-form.allocation)}:d);
+        other.documents=docs;
+        other.receivables=this.state.records.receivables.map(d=>d.invoice===form.invoice?{...d,amount:Math.max(0,d.amount-form.allocation),remaining:Math.max(0,d.amount-form.allocation)}:d);
+        // Payment verification resolves only the payment hold, not credit/seller holds.
+        other.orders=this.state.records.orders.map(o=>o.id===previous.order?{...o,payment:'verified',holds:o.holds.filter(h=>h!=='payment')}:o);
+      }
+    }
+    if (page.id==='05-customers/credit-decision') {
+      row.status=form.creditDecision;row.priceOutcome=form.priceDecision;row.creditOutcome=form.creditDecision;
+      other.customers=this.state.records.customers.map(c=>c.id===form.customer?{...c,...(form.priceDecision==='approved'?{segment:form.segment,priceTier:form.priceTier}:{}),...(form.creditDecision==='approved'?{paymentMethod:form.paymentMethod,creditLimit:form.creditLimit,termDays:form.termDays}:{})}:c);
+    }
+    if (page.id==='03-pricing/approval' || page.id==='06-orders/cancellation' || page.id==='13-documents/revision-void') row.status=form.decision;
+    if (page.id==='06-orders/cancellation' && form.decision==='approved') {
+      const o=this.state.records.orders.find(o=>o.id===form.order);
+      if (o?.fulfillment==='shipped') { this.setState({toast:this.m('จัดส่งแล้ว ให้เปิดคำขอคืนสินค้า','Already shipped; use a return request')}); return; }
+      row.status='requested'; row.note=this.m('รอผลปล่อยจองจาก ERP และการพิจารณาคืนเงิน','Awaiting ERP reservation release and separate refund review');
+    }
+    if (['bookings','shipments','pickups'].includes(page.collection)) {
+      const order=this.scopedRows('orders').find(o=>o.id===row.order);
+      const grants=this.roleDef().write;
+      if(!order || !this.canRead('orders') || grants!=='all' && !grants.includes('orders')){this.setState({fieldErrors:{order:this.m('ไม่มีสิทธิ์แก้ข้อมูลคำสั่งซื้อที่เชื่อมอยู่','Linked order write permission is required')}});return;}
+      const keys=page.collection==='pickups'?{date:'pickupDate',slot:'pickupSlot',recipient:'pickupRecipient',phone:'pickupPhone',evidence:'deliveryEvidence'}:{carrier:'carrier',dispatchDate:'dispatchDate',tracking:'tracking',eta:'eta',evidence:'deliveryEvidence'};
+      const patch={};for(const [from,to] of Object.entries(keys))if(row[from]!==undefined)patch[to]=row[from];
+      if(['packed','preparing','incoming'].includes(this.workflowInfo('orders',order)?.code))patch.deliveryMethod=page.collection==='pickups'?'pickup':'shipping';
+      const updated={...order,...patch};
+      if(page.slug==='shipment-create' && this.workflowInfo('orders',order)?.code==='packed') {
+        if(!this.workflowAccess('orders',order) || this.workflowBlock('orders',updated)){this.setState({fieldErrors:{order:this.workflowBlock('orders',updated) || this.m('ไม่มีสิทธิ์จัดส่ง','Dispatch permission required')}});return;}
+        const at=new Date().toISOString();updated.fulfillment='shipped';updated.status='confirmed';updated.workflowHistory=[...(order.workflowHistory || []),{from:'packed',to:'shipped',at,actor:this.actorId(),role:this.state.actor,note:row.reason || this.m('บันทึกการจัดส่ง','Shipment recorded'),evidence:''}];
+      }
+      other.orders=this.state.records.orders.map(o=>o.id===order.id?updated:o);
+    }
+    if (page.collection==='bookings') { row.weight=this.state.records.orders.find(o=>o.id===form.order || o.id===previous?.order)?.weight; row.status='assigned'; }
+    if (page.collection==='quoteDrafts') {
+      let lines=JSON.parse(JSON.stringify(this.state.draftLines || []));
+      if (form.product && form.qty) {
+        const p=this.state.records.products.find(p=>p.id===form.product),i=lines.findIndex(l=>l.product===p.id),qty=Number(form.qty);
+        if(i>=0) lines[i]={...lines[i],qty:lines[i].qty+qty,total:(lines[i].qty+qty)*p.price};
+        else lines.push({product:p.id,sku:p.sku,name:p.name,qty,unitPrice:p.price,total:p.price*qty});
+      }
+      row.lines=JSON.parse(JSON.stringify(lines));row.net=Math.round(lines.reduce((n,l)=>n+l.total,0)*100)/100;row.vatAmount=Math.round(row.net*.07*100)/100;row.amount=Math.round((row.net+row.vatAmount)*100)/100;row.status='draft';
+    }
+    if (page.id==='10-logistics/round-edit' && form.booking) {const booking=this.state.records.bookings.find(b=>b.id===form.booking);other.orders=this.state.records.orders.map(o=>o.id===booking?.order?{...o,carrier:form.carrier,dispatchDate:form.date}:o);other.bookings=this.state.records.bookings.map(b=>b.id===form.booking?{...b,round:id,carrier:form.carrier,dispatchDate:form.date,queuePosition:form.displayOrder || 1}:b);}
+    if (page.collection==='cheques') {
+      row.status=form.chequeState || 'received';
+      if (row.status==='cleared' && previous?.status!=='cleared') other.payments=[...this.state.records.payments,{id:'PAY-CHEQUE-'+row.id,name:[row.chequeNumber,row.chequeNumber],status:'verified',customer:row.customer,amount:row.amount,reference:row.id,paymentMethod:'cheque',invoice:row.invoice,date:'2026-10-10',allocation:0}];
+    }
+    if (page.collection==='roles') {
+      row.grants={}; for (const m of this.MENUS) row.grants[m[0]]={read:!!form['grant:'+m[0]+':read'],write:!!form['grant:'+m[0]+':write'],report:!!form['grant:'+m[0]+':report']};
+    }
+    if (page.collection==='jobs') { row.progress=previous?.progress || 'pending';row.status=previous?.status || 'pending'; }
+    if (page.collection==='sections') other.contentVersions=[{id:'VER-'+Date.now(),name:['หน้าแรกฉบับใหม่','New homepage revision'],reference:row.id,status:row.publication || 'draft',date:'2026-10-10',owner:this.actorId(),reason:row.reason || 'Draft',snapshot:JSON.parse(JSON.stringify(row))},...this.state.records.contentVersions];
+    this.commit(page.collection,row,'save:'+page.id,previous,other);
+    this.setState({selected:id,savedNew:!!page.create,fieldErrors:{},...(page.collection==='quoteDrafts'?{draftLines:row.lines,form:{...this.state.form,product:'',qty:''}}:{})});
+    // Stay on the populated editor so the operator can review the saved result.
+    function rClone(r,id) { return {...r,id}; }
+  }
+  confirmAction() {
+    const c=this.state.confirm;
+    if (!c) return;
+    if (c.type==='save') this.performSave();
+    else if (c.type==='workflow') this.advanceWorkflow(c);
+    else if (c.type==='reset') { const records=window.BO_WORKFLOW.reconcile(JSON.parse(JSON.stringify(window.BO_DATA.collections)));this.setState({records,confirm:null,selected:'',form:{},workflowNote:'',workflowEvidence:'',workflowError:'',workflowDetails:{},toast:this.m('รีเซ็ตข้อมูลสาธิตแล้ว','Demo data reset')}); localStorage.removeItem('plt_bo_content_v1');this.publishTracking(records); }
+    else if (c.type==='rollback') {
+      const version=this.entity(); if (version?.snapshot && this.canWrite(this.screenDef())) this.commit('sections',{...version.snapshot,reason:this.m('ย้อนกลับฉบับที่เลือก','Rolled back selected version')},'rollback');
+    }
+  }
+  exportRows() {
+    const page=this.screenDef(); if (!this.canRead(page.module)) return;
+    const cols=window.BO_DATA.columns[page.collection] || ['id','name','status'];
+    const quote=s=>'"'+String(s).replace(/^[=+\-@]/,"'"+'$&').replace(/"/g,'""')+'"';
+    const lines=[cols.map(k=>quote(this.label(k))).join(','),...this.filteredRows(page).map(r=>cols.map(k=>quote(this.cellValue(k,r[k]))).join(','))];
+    this.download('\uFEFF'+lines.join('\r\n'),page.collection+'-mock.csv','text/csv;charset=utf-8');
+  }
+  download(text,name,type) { const u=URL.createObjectURL(new Blob([text],{type})); const a=document.createElement('a'); a.href=u; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(u),1000); }
+  downloadDocument() {
+    const page=this.screenDef(); if (!this.canRead(page.module)) return;
+    const row=this.entity(); const esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const html='<!doctype html><html><meta charset="utf-8"><title>'+esc(row.id)+'</title><body><h1>POLYTECHNOLOGY · Mock document</h1><p>'+esc(row.id)+' · '+esc(row.revision || 'R1')+'</p><p>'+esc(this.cellValue('customer',row.customer))+'</p><table>'+ (row.lines || []).map(l=>'<tr><td>'+esc(l.sku)+'</td><td>'+esc(this.tx(l.name))+'</td><td>'+l.qty+'</td><td>'+esc(this.money(l.total))+'</td></tr>').join('')+'</table><p>Total: '+esc(this.money(row.amount))+'</p><p>Illustrative document; not a tax invoice or live SAP output.</p></body></html>';
+    this.download(html,row.id+'-mock.html','text/html');
+  }
+  sendChat(e) {
+    e.preventDefault(); const page=this.screenDef(); if (!this.canWrite(page) || !this.state.chatText.trim()) return;
+    const row=this.entity(page); const text=this.state.chatText.trim();
+    this.commit('conversations',{...row,messages:[...(row.messages || []),{who:'staff',text:[text,text],time:'10:24'}]},'mock-reply',row);
+    this.setState({chatText:''});
+  }
+  addQuoteLine() {
+    if (!this.canWrite() || this.screenDef().collection!=='quoteDrafts') return;
+    const p=this.state.records.products.find(p=>p.id===this.state.form.product),qty=Number(this.state.form.qty);
+    if (!p || !Number.isInteger(qty) || qty<=0 || p.price===null) { this.setState({toast:this.m('เลือกสินค้าและจำนวนเต็มมากกว่า 0 ที่มีราคาอ้างอิง','Choose a product with a reference price and a positive whole quantity')});return; }
+    const lines=[...(this.state.draftLines || [])];const i=lines.findIndex(l=>l.product===p.id);
+    if(i>=0)lines[i]={...lines[i],qty:lines[i].qty+qty,total:(lines[i].qty+qty)*p.price};else lines.push({product:p.id,sku:p.sku,name:p.name,qty,unitPrice:p.price,total:qty*p.price});
+    this.setState(s=>({draftLines:lines,form:{...s.form,product:'',qty:''}}));
+  }
+  selectListRow(row) {
+    const page=this.screenDef();
+    const target=window.BO_CATALOG.screens.find(s=>s.module===page.module && s.collection===page.collection && ['detail','document','chat'].includes(s.kind)) || window.BO_CATALOG.screens.find(s=>s.module===page.module && s.collection===page.collection && ['form','decision'].includes(s.kind) && !s.create);
+    if (target) this.openScreen(target.id,row.id);
+    else this.setState({selected:row.id});
+  }
+  readImport(e) {
+    if (!this.canWrite()) return;
+    const file=e.target.files?.[0]; if (!file || file.size>2*1024*1024) return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try {
+        const data=JSON.parse(reader.result); if (!Array.isArray(data) || data.length>100) throw new Error('shape');
+        const allowed=new Set(['title','titleEn','description','descriptionEn','sectionType','displayOrder','publication','alt','altEn','cta']);
+        const preview=data.map((r,i)=>({title:r.title || '#'+(i+1),data:r,error:Object.keys(r).some(k=>!allowed.has(k))?this.m('มี field ที่ไม่ใช่เนื้อหาเว็บไซต์','Contains fields outside website content'):!r.title?this.m('ต้องมีชื่อเรื่อง','Title is required'):''}));
+        this.setState({importPreview:preview});
+      } catch (_) { this.setState({importPreview:[],toast:this.m('ไฟล์ต้องเป็น JSON array ไม่เกิน 100 รายการ','File must be a JSON array with at most 100 records')}); }
+    };
+    reader.readAsText(file);
+  }
+  applyImport() {
+    const preview=this.state.importPreview || [];
+    if (!this.canWrite() || !preview.length || preview.some(r=>r.error)) return;
+    const additions=preview.map((item,i)=>({...item.data,id:'HOME-IMPORT-'+Date.now()+'-'+i,name:[item.data.title,item.data.titleEn || item.data.title],status:'draft',publication:'draft',date:'2026-10-10',owner:this.actorId()}));
+    this.commit('imports',{id:'IMP-'+Date.now(),name:['นำเข้าเนื้อหาเว็บไซต์','Website content import'],qty:additions.length,status:'completed',date:'2026-10-10'},'import-web-content',null,{sections:[...this.state.records.sections,...additions]});
+    this.setState({importPreview:[]});
+  }
+  tableWorkflow(page,row) {
+    const context=this.workflowContext(page,row),f=this.workflowInfo(context.page.collection,context.row);
+    return {label:f?.current && !f.terminal?this.tx(f.current.label):this.stateLabel(context.row?.status),owner:this.workflowNextOwner(context.page.collection,context.row)};
+  }
+  tableVM(page=this.screenDef(), supplied=null) {
+    let columns=window.BO_DATA.columns[page.collection] || ['id','name','status'];
+    if(window.BO_WORKFLOW.definitions[page.collection]) columns=[...columns.filter(k=>!['status','fulfillment','progress'].includes(k)),'workflowState','workflowNext'];
+    else if(['bookings','shipments','pickups'].includes(page.collection)) columns=[...columns,'workflowState','workflowNext'];
+    const all=supplied || this.filteredRows(page); const start=(this.state.page-1)*this.state.pageSize;
+    return {hasTableImages:page.collection==='products',tableHeaders:columns.map(key=>({key,label:key==='workflowState'?this.m('ขั้นตอนปัจจุบัน','Current step'):key==='workflowNext'?this.m('ผู้ดำเนินการถัดไป','Next responsible role'):this.label(key)})),tableRows:all.slice(start,start+this.state.pageSize).map(row=>({id:row.id,image:row.image || '',hasImage:!!row.image,pick:()=>this.selectListRow(row),cells:columns.map(key=>({key,text:key==='workflowState'?this.tableWorkflow(page,row).label:key==='workflowNext'?this.tableWorkflow(page,row).owner:this.cellValue(key,row[key]),badge:['status','publication','payment','fulfillment','chequeState','progress','workflowState'].includes(key),className:'bo-status '+(['verified','published','active','approved','packed','cleared'].includes(row[key])?'is-success':['expired','rejected','error','returned'].includes(row[key])?'is-danger':'is-warning')}))})),rowCount:all.length,pageLabel:this.m('แสดง '+(all.length?start+1:0)+'–'+Math.min(start+this.state.pageSize,all.length)+' จาก '+all.length+' รายการ','Showing '+(all.length?start+1:0)+'–'+Math.min(start+this.state.pageSize,all.length)+' of '+all.length),currentPage:this.state.page,previousDisabled:this.state.page<=1,nextDisabled:start+this.state.pageSize>=all.length,previousPage:()=>this.setState({page:Math.max(1,this.state.page-1)}),nextPage:()=>this.setState({page:this.state.page+1}),emptyRows:all.length===0};
+  }
+  dashboardVM(page) {
+    const role=this.state.actor;
+    const scope=this.m('ข้อมูลทั้งหมดที่ได้รับสิทธิ์','All authorized records');
+    const orders=this.filteredRows({collection:'orders'}),payments=this.filteredRows({collection:'payments'}),quotes=this.filteredRows({collection:'quotes'}),jobs=this.filteredRows({collection:'jobs'}),stock=this.filteredRows({collection:'stock'});
+    const ownVariant={warehouse:'warehouse',sales:'sales',accounting:'accounting',engineer:'service',admin:'access-states',support:'access-states',credit:'access-states'};
+    const variant=ownVariant[role] || (page.slug==='reports'?'manager':page.slug);
+    const item=(label,value,target,collection,status='')=>({label:this.tx(label),value:typeof value==='number'?value.toLocaleString():value,pick:()=>{this.openScreen(target,'',{filterStatus:status});},collection});
+    let cards=[];
+    if (variant==='warehouse') cards=[item(['สินค้าต้นทาง','Source products'],stock.length,'04-inventory/list','stock'),item(['กำลังจัดเตรียม','Preparing'],orders.filter(o=>o.fulfillment==='preparing').length,'06-orders/warehouse-queue','orders'),item(['พร้อมจัดส่ง','Packed'],orders.filter(o=>o.fulfillment==='packed').length,'06-orders/warehouse-queue','orders'),item(['Booking','Bookings'],this.filteredRows({collection:'bookings'}).length,'10-logistics/bookings','bookings')];
+    else if (variant==='service' || variant==='engineer') cards=[item(['คำขอบริการ','Inquiries'],this.filteredRows({collection:'leads'}).length,'08-services/leads','leads'),item(['นัดสำรวจ','Surveys'],this.filteredRows({collection:'surveys'}).length,'08-services/leads','leads'),item(['งานบริการ','Jobs'],jobs.length,'08-services/jobs','jobs'),item(['รอตรวจรับ','Handover'],jobs.filter(j=>j.progress==='handover').length,'08-services/jobs','jobs')];
+    else if (variant==='accounting') cards=[item(['ยอดรับเงินจริงที่ตรวจแล้ว','Verified receipts'],this.money(payments.filter(p=>p.status==='verified').reduce((n,p)=>n+p.amount,0)),'09-finance/list','payments','verified'),item(['รอตรวจรับเงิน','Awaiting verification'],payments.filter(p=>p.status==='verifying').length,'09-finance/list','payments','verifying'),item(['ลูกหนี้ค้าง','Outstanding receivables'],this.money(this.scopedRows('receivables').reduce((n,p)=>n+p.amount,0)),'09-finance/aging','receivables'),item(['เช็ครอเคลียร์','Uncleared cheques'],this.scopedRows('cheques').filter(c=>c.status!=='cleared').length,'09-finance/cheques','cheques')];
+    else if (variant==='sales') cards=[item(['มูลค่าคำสั่งซื้อ','Order value'],this.money(orders.reduce((n,o)=>n+o.amount,0)),'06-orders/list','orders'),item(['คำขอราคา','Quotations'],quotes.length,'07-quotes/list','quotes'),item(['รอตอบรับ','Awaiting acceptance'],quotes.filter(q=>q.status==='ready').length,'07-quotes/list','quotes','ready'),item(['งานจัดหา','Sourcing'],this.scopedRows('sourcing').length,'04-inventory/sourcing','sourcing')];
+    else if (variant!=='access-states') cards=[item(['มูลค่าคำสั่งซื้อ','Order value'],this.money(orders.reduce((n,o)=>n+o.amount,0)),'06-orders/list','orders'),item(['ยอดรับเงินจริงที่ตรวจแล้ว','Verified receipts'],this.money(payments.filter(p=>p.status==='verified').reduce((n,p)=>n+p.amount,0)),'09-finance/list','payments','verified'),item(['ใบเสนอราคารอตอบรับ','Quotations ready'],quotes.filter(q=>q.status==='ready').length,'07-quotes/list','quotes','ready'),item(['คิวเตรียมสินค้า','Preparation queue'],orders.filter(o=>o.fulfillment!=='shipped').length,'06-orders/warehouse-queue','orders')];
+    cards=cards.filter(c=>this.canRead(this.screenDef(c.collection==='stock'?'04-inventory/list':c.collection==='orders'?'06-orders/list':c.collection==='payments'?'09-finance/list':c.collection==='receivables'?'09-finance/aging':c.collection==='jobs'?'08-services/jobs':c.collection==='leads'?'08-services/leads':c.collection==='quotes'?'07-quotes/list':c.collection==='sourcing'?'04-inventory/sourcing':c.collection==='cheques'?'09-finance/cheques':'10-logistics/bookings').module));
+    const totals=[...orders.reduce((a,o,i)=>{a.set(i%7,(a.get(i%7)||0)+o.amount);return a;},new Map()).values()];
+    const max=Math.max(...totals,1);
+    const dates=[...new Set([...orders.map(o=>o.date),...payments.filter(p=>p.status==='verified').map(p=>p.date)])].sort();
+    const points=dates.map((date,i)=>({date,x:60+i*650/Math.max(1,dates.length-1),order:orders.filter(o=>o.date<=date).reduce((n,o)=>n+o.amount,0),receipt:payments.filter(p=>p.status==='verified' && p.date<=date).reduce((n,p)=>n+p.amount,0)}));
+    const top=Math.max(...points.map(p=>Math.max(p.order,p.receipt)),1);
+    const line=key=>points.map((p,i)=>(i?'L':'M')+p.x+','+(210-p[key]/top*180)).join(' ');
+    return {dashboardCards:cards,hasDashboard:cards.length>0,dashboardScope:this.tx(this.roleDef().label)+' · '+(this.roleDef().scope==='assigned'?this.m('เฉพาะงาน/ลูกค้าที่รับผิดชอบ','Assigned customers and work'):scope),chartBars:totals.map((n,i)=>({label:String(i+1),value:this.money(n),height:Math.max(8,Math.round(n/max*160))+'px',pick:()=>this.openScreen('06-orders/list')})),chartTitle:this.m('มูลค่าคำสั่งซื้อเทียบยอดรับเงินจริงสะสม','Cumulative order value and verified receipts'),hasChart:['manager','sales','reports'].includes(variant),chartOrderPath:line('order'),chartReceiptPath:line('receipt'),chartPoints:points.map(p=>({...p,y:210-p.order/top*180,label:this.cellValue('date',p.date),value:this.money(p.order),pick:()=>this.openScreen('06-orders/list','',{filterTo:p.date})})),showReceipts:variant==='manager',lblChartOrders:this.m('มูลค่าคำสั่งซื้อ','Order value'),lblChartReceipts:this.m('ยอดรับเงินจริง','Verified receipts'),...this.tableVM({collection:variant==='accounting'?'payments':variant==='service'?'jobs':'orders'},variant==='accounting'?payments.filter(p=>p.status==='verifying'):variant==='service'?jobs:orders)};
+  }
+  reportsVM() {
+    const defs=[['orders-receipts','มูลค่าคำสั่งซื้อ / รับเงินจริง','Orders / verified receipts','orders','orders','06-orders/list'],['quote-conversion','การตอบรับใบเสนอราคา','Quotation conversion','quotes','quotes','07-quotes/list'],['lead-conversion','คำขอบริการ','Inquiry conversion','services','leads','08-services/leads'],['stock-reservation','สต็อกและการจองต้นทาง','Source stock / reservation','inventory','stock','04-inventory/list'],['aging','อายุลูกหนี้','Receivables aging','finance','receivables','09-finance/aging'],['coupon','การใช้คูปอง','Coupon usage','marketing','wallet','11-marketing/wallet'],['service-backlog','งานบริการค้าง','Service backlog','services','jobs','08-services/jobs']];
+    const options=defs.filter(d=>this.canRead(d[3])).map(d=>({value:d[0],label:this.m(d[1],d[2])}));
+    const d=defs.find(d=>d[0]===this.state.report && this.canRead(d[3])) || defs.find(d=>this.canRead(d[3]));
+    if (!d) return {reportOptions:[],reportValue:'',changeReport:()=>{},isReports:true,hasDashboard:false,hasChart:false};
+    const rows=this.filteredRows({collection:d[4]});
+    const grouped=new Map();
+    for (const row of rows) { const status=row.status || 'active';grouped.set(status,(grouped.get(status)||0)+1); }
+    const cards=[...grouped].map(([status,n])=>({label:this.stateLabel(status),value:String(n),collection:d[4],pick:()=>this.openScreen(d[5],'',{filterStatus:status,filterFrom:this.state.filterFrom,filterTo:this.state.filterTo})}));
+    return {isReports:true,reportOptions:options,reportValue:d[0],changeReport:e=>this.setState({report:e.target.value,page:1,filter:'',filterStatus:'',filterFrom:'',filterTo:''}),dashboardCards:cards,hasDashboard:true,hasChart:d[0]==='orders-receipts',...this.tableVM({collection:d[4]},rows)};
+  }
+  contentVM() {
+    const page=this.screenDef(); if (!page) return {};
+    const row=this.entity(page), writable=this.canWrite(page);
+    const siblings=window.BO_CATALOG.screens.filter(s=>s.module===page.module);
+    const fvm=f=>{ const value=this.state.form[f.key] ?? ''; return {...f,label:this.tx(f.label),inputId:'field-'+f.key,value,error:this.state.fieldErrors[f.key] || '',hasError:!!this.state.fieldErrors[f.key],isText:!['select','textarea','checkbox','file'].includes(f.type),isTextarea:f.type==='textarea',isSelect:f.type==='select',isCheckbox:f.type==='checkbox',isFile:f.type==='file',isImage:f.key==='image',inputType:f.key==='email'?'email':f.type,options:this.fieldOptions(f),change:e=>this.updateForm(e),upload:e=>this.uploadFile(e),checked:!!value}; };
+    const fields=page.fields.map(fvm).filter(f=>!['vehicle','driver'].includes(f.key) || this.state.form.customerVehicle || page.collection==='rounds');
+    const cols=window.BO_DATA.columns[page.collection] || ['id','name','status'];
+    const details=row ? [...new Set([...cols,...['reference','sourceCode','address','scope','terms','note','results','deliverables','creditLimit','reserved','receivable','available','termDays'].filter(k=>k in row)])].map(key=>({key,label:this.label(key),value:this.cellValue(key,row[key])})) : [];
+    const create=siblings.find(s=>s.collection===page.collection && s.create) || (page.module==='catalog'&&page.slug==='list'?this.screenDef('02-catalog/create'):null);
+    const pageMessages={catalog:this.m('ข้อมูลสินค้า ERP อ่านอย่างเดียว · แก้ได้เฉพาะเนื้อหาเว็บไซต์','ERP products are read-only · only website content is editable'),pricing:this.m('ราคา ERP อ่านอย่างเดียว · การจับคู่สิทธิ์และส่วนลดเฉพาะ quote แยกกัน','ERP prices are read-only · mappings and quote discounts are separate'),inventory:this.m('ยอดและประวัติคลังจากต้นทาง · ไม่มีปรับสต็อกบนเว็บ','Source inventory and history · no website stock adjustments'),quotes:this.m('SAP เป็นผู้ออกฉบับ · เว็บเตรียมคำขอและอ้างอิงฉบับจำลอง','SAP owns issuance · website prepares requests and references mock revisions'),finance:this.m('หลักฐานและเช็คที่รับแล้วไม่เท่ากับรับเงินจริง','Evidence and received cheques do not equal verified receipts'),logistics:this.m('วันเตรียมสินค้า วันส่ง และ ETA แยกกัน · capacity เป็นข้อเสนอจำลอง','Preparation, dispatch and ETA are separate · capacity is a mock proposal'),documents:this.m('ฉบับออกแล้วคง snapshot · ไม่ใช่เอกสารภาษีจริง','Issued snapshots are immutable · not real tax documents'),services:this.m('งานเสร็จและชำระเงินเป็นคนละสถานะ','Work completion and payment are separate states')};
+    const related=row ? ['order','customer','quote','lead'].filter(k=>row[k]).map(key=>({label:this.label(key)+': '+this.cellValue(key,row[key]),pick:()=>{const dest={order:'06-orders/detail',customer:'05-customers/detail',quote:'07-quotes/detail',lead:'08-services/lead-detail'}[key];this.openScreen(dest,row[key]);},allowed:this.canRead({order:'orders',customer:'customers',quote:'quotes',lead:'services'}[key])})).filter(x=>x.allowed) : [];
+    if(row && page.collection==='orders' && this.canRead('logistics')) {
+      for(const [collection,edit,create,label] of [['bookings','booking-edit','booking-create',this.m('Booking จัดส่ง','Delivery booking')],['shipments','shipment-edit','shipment-create',this.m('การจัดส่ง / หลักฐานรับสินค้า','Shipment / delivery evidence')],['pickups','pickup-edit','pickup-create',this.m('นัดรับเอง','Pickup appointment')]]) {
+        const linked=this.scopedRows(collection).find(r=>r.order===row.id && r.status!=='cancelled');
+        if(linked || this.workflowInfo('orders',row)?.code==='packed')related.push({label:label+(linked?' · '+linked.id:''),pick:()=>linked?this.openScreen('10-logistics/'+edit,linked.id):this.openScreen('10-logistics/'+create,'',{form:{...Object.fromEntries(this.screenDef('10-logistics/'+create).fields.map(f=>[f.key,''])),order:row.id,carrier:row.carrier || '',dispatchDate:row.dispatchDate || ''}})});
+      }
+    }
+    const holdOwners={approval:['ผู้อนุมัติบริษัท','Company approver'],seller:['ฝ่ายขาย','Sales'],credit:['สินเชื่อ','Credit'],payment:['บัญชี','Accounting'],verify:['ฝ่ายขาย / ตรวจข้อมูล','Sales / verification']};
+    const moduleTitle=this.tx(this.MENUS.find(m=>m[0]===page.module).slice(1,3));
+    const bookingOrder=this.state.records.orders.find(o=>o.id===(this.state.form.order || row?.order));
+    const isBooking=/booking|pickup|shipment/.test(page.slug) && page.kind==='form';
+    const incompleteBooking=isBooking && page.fields.some(f=>f.required && !this.state.form[f.key]);
+    const draftLines=this.state.draftLines || [],draftNet=draftLines.reduce((n,l)=>n+l.total,0),draftVat=Math.round(draftNet*.07*100)/100;
+    const v={
+      pageTitle:this.tx(page.title),pageDescription:pageMessages[page.module] || this.m('จัดการข้อมูลและติดตามงานตามสิทธิ์ที่ได้รับ','Manage records and work within your permissions'),moduleTitle,
+      demoLabel:this.m('ข้อมูลสาธิต (Mock)','Mock data'),demoDate:this.m('10 ต.ค. 2569 · Asia/Bangkok','10 Oct 2026 · Asia/Bangkok'),noLive:this.m('ยังไม่เชื่อมระบบจริง','No live system connection'),
+      screenValue:page.id,changeScreen:e=>this.openScreen(e.target.value),
+      isList:['list','history'].includes(page.kind),isForm:['form','decision'].includes(page.kind),isDetail:['detail','holds','document'].includes(page.kind),isDashboard:page.kind==='dashboard',isHub:page.kind==='hub',isMedia:page.kind==='media',isChat:page.kind==='chat',isPreview:page.kind==='preview',isRoles:page.kind==='roles',isIntegrations:page.kind==='integrations',isImport:page.kind==='import',isDocument:page.kind==='document',isHolds:page.kind==='holds',
+      writable,contentReadonly:!writable,saveDisabled:!writable || incompleteBooking,hasCreate:!!create && this.canWrite(create),createLabel:create?this.tx(create.title):'',openCreate:()=>{if(create)this.openScreen(create.id);},
+      filter:this.state.filter,filterStatus:this.state.filterStatus,filterFrom:this.state.filterFrom,filterTo:this.state.filterTo,onFilter:e=>this.setState({filter:e.target.value,page:1}),onStatusFilter:e=>this.setState({filterStatus:e.target.value,page:1}),onFromFilter:e=>this.setState({filterFrom:e.target.value,page:1}),onToFilter:e=>this.setState({filterTo:e.target.value,page:1}),
+      lblSearch:this.m('ค้นหารหัส ชื่อ ลูกค้า หรือเลขอ้างอิง','Search code, name, customer or reference'),lblAll:this.m('สถานะทั้งหมด','All statuses'),lblFrom:this.m('ตั้งแต่วันที่','From date'),lblTo:this.m('ถึงวันที่','To date'),lblExport:this.m('ส่งออก CSV','Export CSV'),exportRows:()=>this.exportRows(),lblEmpty:this.m('ยังไม่มีข้อมูลในเงื่อนไขนี้','No records match these filters'),
+      ...this.tableVM(page),
+      requiredFields:fields.filter(f=>f.required),optionalFields:fields.filter(f=>!f.required),hasOptional:fields.some(f=>!f.required),hasFieldErrors:Object.keys(this.state.fieldErrors).length>0,formErrors:Object.entries(this.state.fieldErrors).map(([key,value])=>({label:this.label(key),value})),
+      lblRequired:this.m('ข้อมูลที่จำเป็น','Required information'),lblOptional:this.m('ข้อมูลเพิ่มเติม','Additional information'),lblSave:page.kind==='decision'?this.m('ยืนยันผลพิจารณา','Confirm decision'):this.m('บันทึกข้อมูล','Save changes'),lblCancel:this.m('กลับหน้ารายการ','Back to list'),submitContent:e=>this.saveContent(e),backToList:()=>this.openScreen(window.BO_CATALOG.modules.find(m=>m.id===page.module).home),
+      lblReadonly:this.m('คุณมีสิทธิ์อ่านหน้านี้ ยังไม่ได้รับสิทธิ์ทำรายการ','You can read this page; write permission is not granted'),lblSelect:this.m('เลือกรายการ','Choose an item'),lblHistory:this.m('ประวัติการทำรายการ','History'),
+      detailFields:details,hasEntity:!!row,listSelected:!!this.state.selected,entityId:row?.id || '',entityStatus:this.stateLabel(row?.status),entityImage:row?.image || this.state.form.image || '',hasEntityImage:!!(row?.image || this.state.form.image),relatedLinks:related,
+      sourceSummary:page.module==='catalog' && ['create','edit'].includes(page.slug) ? this.state.records.products.find(p=>p.id===(this.state.form.product || row?.product)) : null,
+      hasSourceSummary:page.module==='catalog' && ['create','edit'].includes(page.slug) && !!this.state.records.products.find(p=>p.id===(this.state.form.product || row?.product)),
+      sourceFields:page.module==='catalog' && ['create','edit'].includes(page.slug) ? (()=>{const p=this.state.records.products.find(p=>p.id===(this.state.form.product || row?.product)); return p?['sku','brand','weight','moq','price','available'].map(k=>({label:this.label(k),value:this.cellValue(k,p[k])})):[];})():[],
+      lblSource:this.m('ข้อมูลต้นทาง · อ่านอย่างเดียว','Source data · read-only'),
+      lineItems:(row?.lines || []).map(l=>({...l,label:this.tx(l.name),unitPrice:this.money(l.unitPrice),total:this.money(l.total)})),hasLines:!!row?.lines?.length,netTotal:this.money(row?.net),vatTotal:this.money(row?.vatAmount),grandTotal:this.money(row?.amount),lblLines:this.m('รายการสินค้าและยอดตาม snapshot','Snapshot lines and totals'),lblNet:this.m('ยอดก่อน VAT','Before VAT'),lblVat:this.m('VAT ตัวอย่าง 7%','Sample VAT 7%'),lblTotal:this.m('ยอดรวม','Total'),
+      timeline:(row?.timeline || []).map(t=>({date:t.date,label:this.tx(t.event)})),
+      holds:(row?.holds || []).map(h=>({label:this.stateLabel(h),owner:this.tx(holdOwners[h] || holdOwners.verify),link:()=>this.openScreen(h==='credit'?'05-customers/review':h==='payment'?'09-finance/list':'04-inventory/sourcing')})),noHolds:!row?.holds?.length,lblNoHolds:this.m('ไม่มี Hold ที่บล็อกงาน','No blocking holds'),
+      lblPrint:this.m('พิมพ์เอกสารตัวอย่าง','Print sample document'),printDocument:()=>{if(this.canRead(page.module))window.print();},lblDownload:this.m('ดาวน์โหลดเอกสารตัวอย่าง HTML','Download sample HTML'),downloadDocument:()=>this.downloadDocument(),
+      historyRows:this.state.records.audit.filter(a=>a.entity===row?.id).slice(0,10).map(a=>({date:a.date,action:a.action,reason:a.reason})),
+      mediaCards:this.filteredRows(page).map(r=>({id:r.id,image:r.image || '',hasImage:!!r.image,label:this.cellValue('name',r.name),alt:r.alt || '',pick:()=>this.openScreen('02-catalog/media-edit',r.id)})),
+      hubCards:siblings.filter(s=>!s.create && s.id!==page.id && (!this.state.filter || this.tx(s.title).toLowerCase().includes(this.state.filter.toLowerCase()))).map(s=>({label:this.tx(s.title),pick:()=>this.openScreen(s.id)})),
+      ...this.dashboardVM(page),
+      lblImage:this.m('รูปสินค้า','Product image'),hasBookingReadiness:isBooking,bookingSummary:bookingOrder?bookingOrder.id+' · '+this.cellValue('customer',bookingOrder.customer)+' · '+bookingOrder.weight+' kg':this.m('ยังไม่ได้เลือกรายการ','No order selected'),bookingReadiness:bookingOrder?(bookingOrder.holds.length?this.cellValue('holds',bookingOrder.holds):this.stateLabel(bookingOrder.fulfillment)):this.m('ยังไม่ได้เลือกรายการ','No order selected'),lblBookingSummary:this.m('สรุปคำสั่งซื้อ ปลายทาง และน้ำหนัก','Order, destination and weight'),lblReadiness:this.m('สถานะความพร้อมในการจัดส่ง','Shipping readiness'),lblCapacity:this.m('ข้อจำกัดขนส่งและความจุรอบ','Carrier limits and round capacity'),capacityNote:this.state.form.round?this.m('ใช้ความจุรอบสาธิต ไม่ใช่เพดานคำสั่งซื้อ 300 กก. · พื้นที่รองรับรอยืนยัน','Demo round capacity is separate from the 300 kg order limit · coverage pending confirmation'):this.m('ยังไม่ได้เลือกรอบ · capacity และพื้นที่จริงรอยืนยัน','No round selected · actual capacity and coverage pending confirmation'),
+      hasQuoteEditor:page.collection==='quoteDrafts',quoteEditorLines:draftLines.map((l,i)=>({...l,label:this.tx(l.name),price:this.money(l.unitPrice),totalLabel:this.money(l.total),remove:()=>this.setState({draftLines:this.state.draftLines.filter((_,j)=>j!==i)})})),quoteNet:this.money(draftNet),quoteVat:this.money(draftVat),quoteTotal:this.money(draftNet+draftVat),addQuoteLine:()=>this.addQuoteLine(),lblAddLine:this.m('เพิ่มสินค้าที่เลือกลงรายการ','Add selected product line'),lblRemove:this.m('นำออก','Remove'),
+      hasRoundBookings:page.collection==='rounds' && !page.create,roundBookings:this.state.records.bookings.filter(b=>b.round===row?.id).map(b=>({id:b.id,order:b.order,weight:b.weight,date:b.dispatchDate,pick:()=>this.openScreen('10-logistics/booking-edit',b.id)})),
+      lblOpen:this.m('เปิด','Open'),lblPrevious:this.m('หน้าก่อน','Previous page'),lblNext:this.m('หน้าถัดไป','Next page'),lblPermissions:this.m('สิทธิ์ตามเมนูและรายงาน','Menu and report grants'),lblRelated:this.m('รายการที่เกี่ยวข้องและงานต่อเนื่อง','Related records and next steps'),lblItem:this.m('สินค้า','Item'),lblQuantity:this.m('จำนวน','Quantity'),lblUnitPrice:this.m('ราคาต่อหน่วย','Unit price'),lblRecentStaff:this.m('พนักงานและการเข้าถึง','Staff and access'),lblPriceTier:this.m('รายการราคา','Price tier'),lblPendingConfirmation:this.m('รอยืนยันกับลูกค้า','Pending customer confirmation'),
+      recordActions:siblings.filter(s=>!s.create && ['form','decision','holds'].includes(s.kind) && s.id!==page.id && this.canWrite(s) && (s.collection===page.collection || page.module==='orders' || page.module==='customers' || page.module==='services' || page.module==='quotes' && ['revision','sap-email'].includes(s.slug) || page.collection==='products' && s.collection==='webProducts')).map(s=>({label:this.tx(s.title),pick:()=>this.openScreen(s.id,row?.id || '')})),
+      lblScope:this.m('ขอบเขตข้อมูล','Data scope'),lblNoReports:this.m('ไม่มีรายงานที่เข้าถึงได้','No accessible reports'),lblNoReportsHelp:this.m('ขอสิทธิ์อ่านรายงานและข้อมูลต้นทางจากผู้ดูแลระบบ','Ask your administrator for report and source-data access'),
+      lblTasks:this.m('งานที่ต้องติดตาม','Tasks to follow up'),
+      conversations:this.filteredRows({collection:'conversations'}).map(r=>({id:r.id,label:this.cellValue('name',r.name),current:r.id===row?.id,pick:()=>this.setState({selected:r.id,chatText:''})})),messages:(row?.messages || []).map((m,i)=>({id:i,text:this.tx(m.text),time:m.time,className:'bo-message '+(m.who==='staff'?'is-staff':'')})),chatText:this.state.chatText,onChatText:e=>this.setState({chatText:e.target.value}),sendChat:e=>this.sendChat(e),lblReply:this.m('ตอบกลับ (จำลอง)','Reply (mock)'),lblChatHelp:this.m('ข้อความเก็บในต้นแบบนี้เท่านั้น ไม่ส่งจริง','Messages stay in this prototype; nothing is sent'),useReply:()=>this.setState({chatText:this.state.lang==='th'?this.state.records.replies[0]?.message || '':this.state.records.replies[0]?.messageEn || ''}),lblCanned:this.m('ใช้ข้อความสำเร็จรูป','Use canned reply'),
+      personaOptions:Object.entries(window.BO_DATA.roles).map(([value,r])=>({value,label:this.tx(r.label)})),personaValue:this.state.actor,changePersona:e=>this.switchActor(e.target.value),lblPersona:this.m('สลับผู้ใช้สาธิต','Switch demo user'),
+      toast:this.state.toast,hasToast:!!this.state.toast,dismissToast:()=>this.setState({toast:''}),lblClose:this.m('ปิด','Close'),confirmOpen:!!this.state.confirm,confirmTitle:this.state.confirm?.title || '',confirmAction:()=>this.confirmAction(),cancelConfirm:()=>this.setState({confirm:null}),lblConfirm:this.m('ยืนยัน','Confirm'),lblMockAction:this.m('การทำรายการนี้เปลี่ยนเฉพาะข้อมูลสาธิตในเครื่อง','This action changes only local mock records'),
+      grantRows:this.MENUS.map(m=>({id:m[0],label:this.tx(m.slice(1,3)),read:this.state.form['grant:'+m[0]+':read'] ?? (this.state.records.roles.find(r=>r.id===row?.id)?.grants?.[m[0]]?.read || false),write:this.state.form['grant:'+m[0]+':write'] ?? false,report:this.state.form['grant:'+m[0]+':report'] ?? false,readName:'grant:'+m[0]+':read',writeName:'grant:'+m[0]+':write',reportName:'grant:'+m[0]+':report',change:e=>this.updateForm(e)})),hasGrants:page.collection==='roles' && page.kind==='form',lblRead:this.m('อ่าน','Read'),lblWrite:this.m('ทำรายการ','Write'),lblReport:this.m('รายงาน','Report'),
+      roleRows:this.filteredRows({collection:'roles'}).map(r=>({id:r.id,label:r.role && window.BO_DATA.roles[r.role]?this.tx(window.BO_DATA.roles[r.role].label):this.cellValue('name',r.name),scope:this.cellValue('dataScope',r.dataScope),pick:()=>this.openScreen('15-settings/role-edit',r.id)})),
+      previewProducts:this.scopedRows('products').slice(0,4).map(p=>{const web=this.state.records.webProducts.find(w=>w.product===p.id);return {id:p.id,label:this.state.lang==='th'?(web?.title || p.name[0]):(web?.titleEn || p.name[1]),image:web?.image || p.image,price:this.money(p.pr[['Retail','Partner','Grade A'].indexOf(this.state.previewTier)]),type:p.type};}),previewTier:this.state.previewTier,onPreviewTier:e=>this.setState({previewTier:e.target.value}),
+      previewTitle:this.state.lang==='th'?(this.state.records.sections[0]?.title || ''):(this.state.records.sections[0]?.titleEn || ''),previewImage:this.state.records.sections[0]?.image || './assets/homepage/hero-industrial-commerce.webp',previewText:this.m('ตัวอย่างหน้าร้าน · ไม่ใช่การเผยแพร่จริง','Storefront preview · not a live publication'),
+      integrationRows:this.filteredRows({collection:'integrations'}).map(r=>({name:this.cellValue('name',r.name),source:r.source,note:r.note})),
+      showRollback:page.kind==='history' && !!row?.snapshot && writable,rollback:()=>this.setState({confirm:{type:'rollback',title:this.m('ยืนยันย้อนกลับเนื้อหา','Confirm content rollback')}}),lblRollback:this.m('ย้อนกลับฉบับที่เลือก','Roll back selected version'),
+      resetDemo:()=>this.setState({confirm:{type:'reset',title:this.m('รีเซ็ตข้อมูลสาธิตทั้งหมด?','Reset all demo data?')}}),lblResetDemo:this.m('รีเซ็ตข้อมูลสาธิต','Reset demo data')
+    };
+    Object.assign(v,{lblImportTitle:this.m('นำเข้าเนื้อหาเว็บไซต์','Import website content'),lblImportHelp:this.m('นำเข้าเฉพาะเนื้อหาเว็บเป็นฉบับร่าง ไม่รับ SKU ราคา หรือสต็อก ERP','Import website content as drafts. ERP SKU, prices and stock are excluded.'),lblImportTemplate:this.m('ดาวน์โหลดแม่แบบ JSON','Download JSON template'),lblImportFile:this.m('เลือกไฟล์ JSON','Choose JSON file'),lblPreview:this.m('ตรวจข้อมูลก่อนนำเข้า','Review before import'),lblImportApply:this.m('นำเข้าฉบับร่าง','Import drafts'),hasImportPreview:!!this.state.importPreview?.length,importPreview:this.state.importPreview || [],importDisabled:!writable || !this.state.importPreview?.length || this.state.importPreview.some(r=>r.error),readImportFile:e=>this.readImport(e),applyImport:()=>this.applyImport(),downloadImportTemplate:()=>this.download(JSON.stringify([{title:'ชื่อแบนเนอร์',titleEn:'Banner title',sectionType:'hero',description:'รายละเอียด',displayOrder:1,publication:'draft'}],null,2),'website-content-template.json','application/json')});
+    v.isReports=page.id==='15-settings/reports';if(v.isReports)Object.assign(v,this.reportsVM());
+    // Dashboard data must not overwrite the list's own table model.
+    if (page.kind!=='dashboard') Object.assign(v,this.tableVM(page));
+    const context=this.workflowContext(page,row);
+    Object.assign(v,this.workflowVM(context.page,context.row),this.workflowDetailsVM(context.page,context.row),{workflowRecordId:context.row?.id || '',workflowRecordOptions:(context.page.collection!==page.collection?[context.row].filter(Boolean):this.scopedRows(page.collection)).map(r=>({value:r.id,label:r.id})),onWorkflowRecord:e=>this.openScreen(context.page.collection!==page.collection?'06-orders/detail':page.id,e.target.value),lblWorkflowRecord:this.m('รายการที่ติดตาม','Tracked record')});
+    Object.assign(v,this.filterBlockVM(page));
+    if(v.showWorkflow) v.entityStatus=v.workflowCurrent;
+    v.requiredFormProps={fieldList:v.requiredFields,contentReadonly:v.contentReadonly,lblSelect:v.lblSelect};
+    v.optionalFormProps={fieldList:v.optionalFields,contentReadonly:v.contentReadonly,lblSelect:v.lblSelect};
+    return v;
+  }
+  renderVals() {
+    const s = this.state;
+    const t = Object.fromEntries(Object.entries(this.L).map(([key,pair]) => [key,this.tx(pair)]));
+    const wait = Math.max(0,Math.ceil((s.resendUntil - s.now) / 1000));
+    const locked = s.now < s.lockedUntil;
+    const menus = this.MENUS.filter(m=>this.canRead(m[0])).map(([id,th,en,path]) => ({id,label:this.tx([th,en]),path,active:id === s.menu,current:id === s.menu ? 'page' : false,pick:() => this.selectMenu(id)}));
+    const searchResults = s.search.trim() ? menus.filter(m => m.label.toLowerCase().includes(s.search.trim().toLowerCase())) : [];
+    const v = {
+      t, isThai:s.lang === 'th', isEnglish:s.lang === 'en', isLogin:s.route === 'login', isForgot:s.route === 'forgot', isReset:s.route==='reset',isAuth:s.route !== 'workspace', isWorkspace:s.route === 'workspace',
+      openReset:()=>this.openReset(),resetTitle:this.m('ตั้งรหัสผ่านใหม่','Reset password'),resetIntro:this.m('ตั้งรหัสผ่านใหม่สำหรับบัญชีพนักงานของคุณ','Choose a new password for your staff account'),newPassword:s.newPassword || '',confirmPassword:s.confirmPassword || '',newPasswordType:s.showNewPassword?'text':'password',confirmPasswordType:s.showConfirmPassword?'text':'password',onResetField:e=>this.setState({[e.target.name]:e.target.value,resetError:''}),toggleNewPassword:()=>this.setState({showNewPassword:!s.showNewPassword}),toggleConfirmPassword:()=>this.setState({showConfirmPassword:!s.showConfirmPassword}),submitReset:e=>this.submitReset(e),resetError:s.resetError || '',hasResetError:!!s.resetError,lblNewPassword:this.m('รหัสผ่านใหม่','New password'),lblConfirmPassword:this.m('ยืนยันรหัสผ่านใหม่','Confirm new password'),lblResetSave:this.m('บันทึกรหัสผ่านใหม่','Save new password'),lblPasswordHelp:this.m('ใช้รหัสผ่านที่คาดเดายากและไม่ซ้ำกับรหัสเดิม','Use a hard-to-guess password different from the previous one'),lblDemoReset:this.m('เปิดลิงก์ตั้งรหัสผ่านสาธิต','Open demo reset link'),resetSuccess:!!s.resetSuccess,lblResetSuccess:this.m('ตั้งรหัสผ่านใหม่แล้ว กรุณาเข้าสู่ระบบด้วยรหัสใหม่','Password reset. Sign in with your new password'),
+      menus, activeMenu:s.menu, workspaceLabel:t.workspace + ': ' + (menus.find(m => m.active)?.label || ''),
+      shellClass:'bo-shell' + (s.sidebarCollapsed ? ' is-collapsed' : '') + (s.mobileOpen ? ' is-mobile-open' : ''), navigationExpanded:window.matchMedia('(max-width:900px)').matches ? s.mobileOpen : !s.sidebarCollapsed,
+      mobileOpen:s.mobileOpen, profileOpen:s.profileOpen, notificationsOpen:s.notificationsOpen, search:s.search, searchResults, hasSearch:!!s.search.trim(), noSearchResults:!!s.search.trim() && !searchResults.length,
+      toggleNavigation:() => this.toggleNavigation(), closeNavigation:() => this.setState({mobileOpen:false}), onSearch:e => this.setState({search:e.target.value,profileOpen:false,notificationsOpen:false}),
+      toggleProfile:() => this.setState({profileOpen:!s.profileOpen,notificationsOpen:false,search:''}), toggleNotifications:() => this.setState({notificationsOpen:!s.notificationsOpen,profileOpen:false,search:''}),
+      email:s.email, password:s.password, passwordType:s.showPassword ? 'text' : 'password', showPassword:s.showPassword, eyeLabel:s.showPassword ? t.hide : t.show,
+      emailError:s.errors.email ? t[s.errors.email] : '', passwordError:s.errors.password ? t[s.errors.password] : '', emailInvalid:!!s.errors.email, passwordInvalid:!!s.errors.password,
+      notice:s.notice ? t[s.notice] : '', hasNotice:!!s.notice, sent:s.notice === 'sent', busy:s.busy, loginDisabled:s.busy || locked, loginLabel:s.busy ? t.signingIn : t.login,
+      sendDisabled:s.busy || wait > 0, sendLabel:s.busy ? t.sending : wait > 0 ? (s.lang === 'th' ? 'ส่งใหม่ใน ' + wait + ' วินาที' : 'Resend in ' + wait + 's') : s.resendUntil ? t.resend : t.send,
+      setThai:() => this.setLanguage('th'), setEnglish:() => this.setLanguage('en'), onField:e => this.changeField(e), togglePassword:() => this.setState({showPassword:!this.state.showPassword}),
+      submitLogin:e => this.submitLogin(e), submitForgot:e => this.submitForgot(e), openForgot:() => this.navigate('forgot'), backToLogin:() => this.navigate('login'),
+      logout:() => { this.navigate('login'); this.setState({email:'',menu:'dashboard',selected:'',form:{},fieldErrors:{},toast:'',confirm:null,mobileOpen:false,profileOpen:false,notificationsOpen:false,search:''}); },
+      ...this.contentVM()
+    };
+    v.t.staffRole=this.tx(this.roleDef().label);
+    const staff=this.state.records.staff.find(r=>r.id===this.actorId());
+    if(staff) {v.t.staffName=this.tx(staff.name);v.t.initials=this.state.lang==='th'?v.t.staffName.slice(0,2):v.t.staffName.slice(0,1).toUpperCase();}
+    v.all = v;
+    return v;
+  }
+}
+</script>
+</body>
+</html>

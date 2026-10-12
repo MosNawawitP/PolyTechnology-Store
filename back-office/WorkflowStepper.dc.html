@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <section class="bo-panel bo-workflow" aria-labelledby="bo-workflow-title">
+    <div class="bo-workflow-heading"><h2 id="bo-workflow-title">{{ workflowTitle }}</h2><label>{{ lblWorkflowRecord }}<select value="{{ workflowRecordId }}" onChange="{{ onWorkflowRecord }}"><sc-for list="{{ workflowRecordOptions }}" as="record"><option value="{{ record.value }}">{{ record.label }}</option></sc-for></select></label></div>
+    <ol class="bo-stepper" style="--step-count:{{ workflowSteps.length }}" aria-label="{{ workflowTitle }}"><sc-for list="{{ workflowSteps }}" as="step"><li class="{{ step.className }}" aria-current="{{ step.current }}"><span class="bo-step-mark" aria-hidden="true">{{ step.mark }}</span><div><strong>{{ step.label }}</strong><small>{{ step.owner }}</small></div></li></sc-for></ol>
+    <div class="bo-workflow-summary"><div><small>{{ workflowCurrentLabel }}</small><strong>{{ workflowCurrent }}</strong></div><div><small>{{ workflowNextLabel }}</small><strong>{{ workflowNextOwner }}</strong></div><a class="bo-secondary" href="{{ workflowTrackingUrl }}" target="_blank" rel="noopener">{{ lblCustomerTracking }} ↗</a></div>
+    <sc-if value="{{ hasWorkflowBlock }}"><p class="bo-information">{{ workflowBlocked }}</p></sc-if>
+    <sc-if value="{{ showWorkflowDetails }}"><div class="bo-workflow-details">
+      <h3>{{ workflowDetailsTitle }}</h3>
+      <label>{{ lblWorkflowWeight }}<input id="workflow-weight" type="number" min="0.01" max="300" step="any" value="{{ workflowWeight }}" onChange="{{ onWorkflowWeight }}"></label>
+      <sc-if value="{{ workflowNeedsChecklist }}"><label>{{ lblWorkflowChecklist }}<textarea id="workflow-checklist" rows="2" maxlength="2000" value="{{ workflowChecklist }}" onChange="{{ onWorkflowChecklist }}"></textarea></label></sc-if>
+      <sc-if value="{{ workflowNeedsShipping }}">
+        <label>{{ lblDeliveryMethod }}<select id="workflow-delivery-method" value="{{ workflowDeliveryMethod }}" onChange="{{ onWorkflowDeliveryMethod }}"><option value="shipping">{{ lblShipping }}</option><option value="pickup">{{ lblPickup }}</option></select></label>
+        <sc-if value="{{ !workflowIsPickup }}"><label>{{ lblWorkflowCarrier }}<select id="workflow-carrier" value="{{ workflowCarrier }}" onChange="{{ onWorkflowCarrier }}"><option value="">{{ lblWorkflowChooseCarrier }}</option><sc-for list="{{ workflowCarrierOptions }}" as="carrier"><option value="{{ carrier.value }}">{{ carrier.label }}</option></sc-for></select></label>
+        <label>{{ lblWorkflowDispatchDate }}<input id="workflow-dispatch-date" type="date" value="{{ workflowDispatchDate }}" onChange="{{ onWorkflowDispatchDate }}"></label>
+        <label>{{ lblWorkflowTracking }}<input id="workflow-tracking" type="text" maxlength="500" value="{{ workflowTracking }}" onChange="{{ onWorkflowTracking }}"></label></sc-if>
+        <sc-if value="{{ workflowIsPickup }}">
+          <label>{{ lblPickupDate }}<input id="workflow-pickup-date" type="date" value="{{ workflowPickupDate }}" onChange="{{ onWorkflowPickupDate }}"></label>
+          <label>{{ lblPickupSlot }}<input id="workflow-pickup-slot" type="text" value="{{ workflowPickupSlot }}" onChange="{{ onWorkflowPickupSlot }}"></label>
+          <label>{{ lblPickupRecipient }}<input id="workflow-pickup-recipient" type="text" value="{{ workflowPickupRecipient }}" onChange="{{ onWorkflowPickupRecipient }}"></label>
+          <label>{{ lblPickupPhone }}<input id="workflow-pickup-phone" type="tel" value="{{ workflowPickupPhone }}" onChange="{{ onWorkflowPickupPhone }}"></label>
+        </sc-if>
+      </sc-if>
+      <sc-if value="{{ workflowDetailsDirty }}"><p class="bo-information">{{ lblWorkflowDetailsDirty }}</p></sc-if>
+      <button type="button" class="bo-secondary" onClick="{{ saveWorkflowDetails }}">{{ lblSaveWorkflowDetails }}</button>
+    </div></sc-if>
+    <sc-if value="{{ workflowCanAct }}"><div class="bo-workflow-action"><p>{{ lblWorkflowSaveFirst }}</p><label>{{ lblWorkflowNote }}<textarea rows="2" value="{{ workflowNote }}" onChange="{{ onWorkflowNote }}" maxlength="2000"></textarea></label><sc-if value="{{ workflowNeedsEvidence }}"><label>{{ lblWorkflowEvidence }}<input type="text" value="{{ workflowEvidence }}" onChange="{{ onWorkflowEvidence }}" maxlength="500"></label></sc-if><button type="button" class="bo-primary" disabled="{{ workflowActionDisabled }}" onClick="{{ requestWorkflow }}">{{ workflowActionLabel }}</button></div></sc-if>
+    <sc-if value="{{ !workflowCanAct }}"><p class="bo-scope-note">{{ workflowWaiting }}</p></sc-if>
+    <sc-if value="{{ hasWorkflowError }}"><p class="bo-error-summary" role="alert">{{ workflowError }}</p></sc-if>
+    <sc-if value="{{ hasWorkflowHistory }}"><div class="bo-workflow-history"><h3>{{ lblWorkflowHistory }}</h3><sc-for list="{{ workflowHistory }}" as="entry"><article><strong>{{ entry.label }}</strong><small>{{ entry.at }} · {{ entry.actor }} · {{ entry.role }}</small><p>{{ entry.note }}</p><small>{{ entry.evidence }}</small></article></sc-for></div></sc-if>
+  </section>
+</x-dc></body></html>

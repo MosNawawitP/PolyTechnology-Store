@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="./support.js"></script></head><body>
+<x-dc>
+  <div class="bo-workspace">
+    <div class="bo-breadcrumb">{{ moduleTitle }} <span aria-hidden="true">›</span> {{ pageTitle }}</div>
+    <div class="bo-page-heading"><div><h1 tabindex="-1">{{ pageTitle }}</h1><p>{{ pageDescription }}</p></div><div class="bo-demo-meta"><span class="bo-status">{{ demoLabel }}</span><small>{{ demoDate }}</small></div></div>
+    <dc-import name="FilterBlock" dcProps="{{ all }}"></dc-import>
+    <sc-if value="{{ showWorkflow }}"><dc-import name="WorkflowStepper" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isList }}"><dc-import name="ListPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isForm }}"><dc-import name="FormPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isDetail }}"><dc-import name="DetailPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isDashboard }}"><dc-import name="DashboardPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isHub }}"><dc-import name="SettingsPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isMedia }}"><dc-import name="MediaPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isChat }}"><dc-import name="InboxPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isPreview }}"><dc-import name="PreviewPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isRoles }}"><dc-import name="RolesPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isIntegrations }}"><dc-import name="IntegrationsPage" dcProps="{{ all }}"></dc-import></sc-if>
+    <sc-if value="{{ isImport }}"><dc-import name="ImportPage" dcProps="{{ all }}"></dc-import></sc-if>
+  </div>
+  <sc-if value="{{ hasToast }}"><div class="bo-toast" role="status"><span>{{ toast }}</span><button type="button" onClick="{{ dismissToast }}" aria-label="{{ lblClose }}">×</button></div></sc-if>
+  <sc-if value="{{ confirmOpen }}"><div class="bo-dialog-backdrop"><section class="bo-dialog" role="dialog" aria-modal="true" aria-labelledby="bo-confirm-title"><h2 id="bo-confirm-title">{{ confirmTitle }}</h2><p>{{ lblMockAction }}</p><div class="bo-actions"><button class="bo-secondary" type="button" onClick="{{ cancelConfirm }}">{{ lblClose }}</button><button class="bo-primary" type="button" onClick="{{ confirmAction }}">{{ lblConfirm }}</button></div></section></div></sc-if>
+</x-dc>
+</body></html>

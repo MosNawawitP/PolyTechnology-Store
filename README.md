@@ -3,6 +3,11 @@
 Static e-commerce prototype for Polytechnology. The deployable website is in
 store-front/. All application data, accounts, orders and payments are simulated.
 
+The staff Back-office prototype is in [back-office/](back-office/README.th.md).
+It uses the same static Design Component runtime and provides the 15 management
+modules described in [the plan](docs/BACK_OFFICE_PLAN.th.md), with mock records
+and workflows. Start it separately with `python -m http.server 8001 --directory back-office`.
+
 ## Deploy from GitHub to Vercel
 
 1. Push this project to a GitHub repository.

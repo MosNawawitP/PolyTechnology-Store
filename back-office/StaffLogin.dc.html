@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="./support.js"></script></head><body>
+<x-dc>
+  <section class="auth-card" aria-labelledby="login-title">
+    <h1 id="login-title">{{ t.title }}</h1>
+    <p class="intro">{{ t.intro }}</p>
+    <sc-if value="{{ resetSuccess }}"><p class="notice notice-info" role="status">{{ lblResetSuccess }}</p></sc-if>
+    <form class="auth-form" onSubmit="{{ submitLogin }}" noValidate="{{ true }}" aria-busy="{{ busy }}">
+      <div class="field">
+        <label for="staff-email">{{ t.email }}</label>
+        <input id="staff-email" name="email" type="email" value="{{ email }}" onChange="{{ onField }}" placeholder="name@company.com" autoComplete="username" autoCapitalize="none" spellCheck="{{ false }}" required="{{ true }}" readOnly="{{ busy }}" aria-invalid="{{ emailInvalid }}" aria-describedby="email-error">
+        <div id="email-error" aria-live="polite"><sc-if value="{{ emailInvalid }}"><p class="field-error">{{ emailError }}</p></sc-if></div>
+      </div>
+      <div class="field">
+        <label for="staff-password">{{ t.password }}</label>
+        <div class="password-control">
+          <input id="staff-password" name="password" type="{{ passwordType }}" value="{{ password }}" onChange="{{ onField }}" placeholder="{{ t.passwordPlaceholder }}" autoComplete="current-password" required="{{ true }}" readOnly="{{ busy }}" aria-invalid="{{ passwordInvalid }}" aria-describedby="password-error">
+          <button class="eye" type="button" onClick="{{ togglePassword }}" aria-label="{{ eyeLabel }}" aria-pressed="{{ showPassword }}" aria-controls="staff-password">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
+        </div>
+        <div id="password-error" aria-live="polite"><sc-if value="{{ passwordInvalid }}"><p class="field-error">{{ passwordError }}</p></sc-if></div>
+      </div>
+      <div class="forgot-row"><button class="text-link" type="button" onClick="{{ openForgot }}">{{ t.forgot }}</button></div>
+      <div aria-live="polite"><sc-if value="{{ hasNotice }}"><p class="notice" role="alert">{{ notice }}</p></sc-if></div>
+      <button class="primary" type="submit" disabled="{{ loginDisabled }}">{{ loginLabel }}</button>
+    </form>
+    <p class="helper">{{ t.noAccount }}</p>
+  </section>
+</x-dc>
+</body></html>

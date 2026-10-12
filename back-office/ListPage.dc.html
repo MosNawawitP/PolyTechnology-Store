@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <section class="bo-panel">
+    <div class="bo-list-actions"><sc-if value="{{ hasCreate }}"><button class="bo-primary" type="button" onClick="{{ openCreate }}">＋ {{ createLabel }}</button></sc-if><button class="bo-secondary" type="button" onClick="{{ exportRows }}">{{ lblExport }}</button><sc-if value="{{ showRollback }}"><button class="bo-secondary" type="button" onClick="{{ rollback }}">{{ lblRollback }}</button></sc-if></div>
+    <dc-import name="DataTable" dcProps="{{ all }}"></dc-import>
+    <sc-if value="{{ listSelected }}"><details class="bo-panel bo-disclosure" open="{{ true }}"><summary>{{ entityId }}</summary><dl class="bo-description-list"><sc-for list="{{ detailFields }}" as="item"><div><dt>{{ item.label }}</dt><dd>{{ item.value }}</dd></div></sc-for></dl></details></sc-if>
+  </section>
+</x-dc></body></html>

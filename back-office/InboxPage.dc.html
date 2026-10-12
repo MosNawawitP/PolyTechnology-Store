@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <div class="bo-inbox">
+    <nav class="bo-panel bo-conversation-list" aria-label="{{ pageTitle }}"><sc-for list="{{ conversations }}" as="conversation"><button type="button" aria-pressed="{{ conversation.current }}" onClick="{{ conversation.pick }}"><strong>{{ conversation.label }}</strong><small>{{ conversation.id }}</small></button></sc-for></nav>
+    <section class="bo-panel bo-thread"><h2>{{ entityId }}</h2><p class="bo-scope-note">{{ lblChatHelp }}</p><div class="bo-message-list"><sc-for list="{{ messages }}" as="message"><div class="{{ message.className }}"><p>{{ message.text }}</p><small>{{ message.time }}</small></div></sc-for></div><form onSubmit="{{ sendChat }}"><button class="bo-text-action" type="button" onClick="{{ useReply }}">{{ lblCanned }}</button><textarea value="{{ chatText }}" onChange="{{ onChatText }}" rows="4" aria-label="{{ lblReply }}" disabled="{{ contentReadonly }}"></textarea><button class="bo-primary" type="submit" disabled="{{ contentReadonly }}">{{ lblReply }}</button></form></section>
+    <aside class="bo-panel"><h2>{{ lblRelated }}</h2><sc-for list="{{ relatedLinks }}" as="link"><button class="bo-text-action" type="button" onClick="{{ link.pick }}">{{ link.label }} →</button></sc-for></aside>
+  </div>
+</x-dc></body></html>

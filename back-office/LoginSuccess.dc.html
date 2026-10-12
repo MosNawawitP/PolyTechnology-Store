@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><script src="./support.js"></script></head><body>
+<x-dc>
+  <!-- Compatibility entry for tabs opened before LayoutShell replaced LoginSuccess. -->
+  <p role="status" style="text-align:center">{{ message }}</p>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    try { sessionStorage.setItem('plt_bo_shell_upgrade','layout-shell-2'); } catch (_) {}
+    const target = new URL(window.location.href);
+    target.searchParams.set('v','layout-shell-2');
+    window.location.replace(target.href);
+  }
+  renderVals() {
+    return {message:document.documentElement.lang === 'en' ? 'Opening Back-office…' : 'กำลังเปิด Back-office…'};
+  }
+}
+</script>
+</body></html>

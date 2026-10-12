@@ -1,0 +1,5 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <div class="bo-list-actions"><sc-if value="{{ hasCreate }}"><button class="bo-primary" type="button" onClick="{{ openCreate }}">＋ {{ createLabel }}</button></sc-if></div>
+  <div class="bo-media-grid"><sc-for list="{{ mediaCards }}" as="card"><button class="bo-media-card" type="button" onClick="{{ card.pick }}"><div class="bo-media-image" style="background-image:url('{{ card.image }}')"></div><strong>{{ card.label }}</strong><small>{{ card.alt }}</small></button></sc-for></div>
+  <sc-if value="{{ emptyRows }}"><div class="bo-empty">{{ lblEmpty }}</div></sc-if>
+</x-dc></body></html>

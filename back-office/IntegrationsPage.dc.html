@@ -1,0 +1,3 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <p class="bo-information">{{ noLive }}</p><sc-for list="{{ integrationRows }}" as="source"><section class="bo-panel"><h2>{{ source.source }} · {{ source.name }}</h2><p>{{ source.note }}</p><span class="bo-status is-warning">{{ lblPendingConfirmation }}</span></section></sc-for>
+</x-dc></body></html>

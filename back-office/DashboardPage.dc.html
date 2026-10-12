@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><script src="./support.js"></script></head><body><x-dc>
+  <p class="bo-scope-note">{{ lblScope }}: {{ dashboardScope }}</p>
+  <sc-if value="{{ !hasDashboard }}"><section class="bo-panel bo-empty"><h2>{{ lblNoReports }}</h2><p>{{ lblNoReportsHelp }}</p><p>{{ lblEmpty }}</p></section></sc-if>
+  <sc-if value="{{ hasDashboard }}">
+    <div class="bo-metric-grid"><sc-for list="{{ dashboardCards }}" as="card"><button type="button" class="bo-metric-card" onClick="{{ card.pick }}"><span>{{ card.label }}</span><strong>{{ card.value }}</strong><small>{{ dashboardScope }} →</small></button></sc-for></div>
+    <sc-if value="{{ hasChart }}"><section class="bo-panel"><h2>{{ chartTitle }}</h2><svg class="bo-trend-chart" viewBox="0 0 760 240" role="img" aria-label="{{ chartTitle }}"><path d="M60 30H710M60 90H710M60 150H710M60 210H710" stroke="#E4E1EE" fill="none"></path><path d="{{ chartOrderPath }}" stroke="#44359B" stroke-width="3" fill="none"></path><sc-if value="{{ showReceipts }}"><path d="{{ chartReceiptPath }}" stroke="#1F7A4D" stroke-width="3" fill="none"></path></sc-if><sc-for list="{{ chartPoints }}" as="point"><circle cx="{{ point.x }}" cy="{{ point.y }}" r="5" fill="#44359B"><title>{{ point.value }}</title></circle></sc-for></svg><div class="bo-chart-dates"><sc-for list="{{ chartPoints }}" as="point"><button type="button" onClick="{{ point.pick }}">{{ point.label }}</button></sc-for></div><div class="bo-chart-legend"><span>● {{ lblChartOrders }}</span><sc-if value="{{ showReceipts }}"><span>● {{ lblChartReceipts }}</span></sc-if></div></section></sc-if>
+    <section class="bo-panel"><h2>{{ lblTasks }}</h2><dc-import name="DataTable" dcProps="{{ all }}"></dc-import></section>
+  </sc-if>
+</x-dc></body></html>
