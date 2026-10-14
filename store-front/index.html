@@ -895,6 +895,19 @@ class Component extends DCLogic {
   price(p) { const v = p.pr[this.acct.priceIdx]; return v === null ? null : v; }
   retail(p) { return p.pr[0]; }
   stockOf(p) { return p.stock === null ? null : Math.max(0, p.stock + (this.state.stockAdj[p.id] || 0)); }
+  cartQty(p, requested, current) {
+    const min = p.moq || 1, existing = current || 0;
+    const wanted = Math.max(min, Math.min(999, Number(requested) || min));
+    const ready = this.stockOf(p);
+    if (ready === null || p.type === 'pkg' || wanted <= existing) return wanted;
+    if (existing === 0 && ready < min) return 0;
+    return Math.min(wanted, Math.max(existing, ready));
+  }
+  stockLimitMsg(p) {
+    const ready = this.stockOf(p), unit = this.tx(p.u);
+    if (ready === 0) return this.m('สินค้านี้ยังไม่มีจำนวนพร้อมส่ง จึงไม่สามารถเพิ่มลงตะกร้าได้', 'This item has no ready stock and cannot be added to the cart.');
+    return this.m('สินค้านี้พร้อมส่ง ' + ready + ' ' + unit + ' ระบบจึงจำกัดจำนวนในตะกร้าไม่เกินจำนวนพร้อมส่ง', 'This item has ' + ready + ' ' + unit + ' ready to ship, so the cart quantity is limited to the ready stock.');
+  }
   prod(id) { return this.PRODUCTS.find(p => p.id === id); }
   svc(id) { return this.SERVICES.find(s => s.id === id); }
   carrier(id) { return this.CARRIERS.find(c => c.id === id); }
@@ -1060,19 +1073,29 @@ class Component extends DCLogic {
     if (p.type === 'rfq') { this.openRfqFor(id, q || 1); return; }
     if (p.type === 'consult') { this.consultFor(p); return; }
     if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
-    const min = p.moq || 1, qty = Math.max(q || 1, min);
+    const min = p.moq || 1, requested = Math.max(Number(q) || 1, min);
+    const existing = this.state.cart.find(l => l.id === id);
+    const current = existing ? existing.q : 0;
+    const total = this.cartQty(p, current + requested, current);
+    const qty = Math.max(0, total - current);
+    if (qty === 0) { this.say(this.stockLimitMsg(p), 'warn'); return; }
     this.setState(s => {
       const cart = s.cart.slice(); const k = cart.findIndex(l => l.id === id);
       const pa = (s.pdpAd || {})[id] || [];
-      if (k >= 0) cart[k] = { ...cart[k], q:cart[k].q + qty, ad:Array.from(new Set((cart[k].ad || []).concat(pa))) }; else cart.push({ id, q:qty, ad:pa.slice() });
+      if (k >= 0) cart[k] = { ...cart[k], q:total, ad:Array.from(new Set((cart[k].ad || []).concat(pa))) }; else cart.push({ id, q:total, ad:pa.slice() });
       return { cart, pdpAd:{ ...(s.pdpAd || {}), [id]:[] } };
     });
-    this.say(this.m('เพิ่มลงตะกร้าแล้ว: ', 'Added to cart: ') + this.tx(p.n) + (qty > (q || 1) ? this.m(' (ปรับเป็นจำนวนขั้นต่ำ ' + min + ' ' + p.u[0] + ')', ' (raised to the minimum of ' + min + ' ' + p.u[1] + ')') : ''), 'ok');
+    if (total < current + requested) { this.say(this.stockLimitMsg(p), 'warn'); return; }
+    this.say(this.m('เพิ่มลงตะกร้าแล้ว: ', 'Added to cart: ') + this.tx(p.n) + (requested > (Number(q) || 1) ? this.m(' (ปรับเป็นจำนวนขั้นต่ำ ' + min + ' ' + p.u[0] + ')', ' (raised to the minimum of ' + min + ' ' + p.u[1] + ')') : ''), 'ok');
   };
   setQty = (id, q) => {
     if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
-    const p = this.prod(id), min = (p && p.moq) || 1, v = Math.max(min, Math.min(999, Number(q) || min));
+    const p = this.prod(id); if (!p) return;
+    const line = this.state.cart.find(l => l.id === id), current = line ? line.q : 0;
+    const min = p.moq || 1, wanted = Math.max(min, Math.min(999, Number(q) || min));
+    const v = this.cartQty(p, wanted, current);
     if (Number(q) < min && min > 1) this.say(this.m('สินค้านี้ขายขั้นต่ำ ' + min + ' ' + p.u[0], 'Minimum order for this item is ' + min + ' ' + p.u[1]), 'info');
+    else if (v < wanted) this.say(this.stockLimitMsg(p), 'warn');
     this.setState(s => ({ cart:s.cart.map(l => l.id === id ? { ...l, q:v } : l) }));
   };
   removeItem = id => { if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; } this.setState(s => ({ cart:s.cart.filter(l => l.id !== id) })); };
