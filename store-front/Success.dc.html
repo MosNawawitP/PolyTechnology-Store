@@ -88,17 +88,7 @@
   </div>
 </section>
 </sc-if>
-        <sc-if value="{{ ok.showNext }}" hint-placeholder-val="{{ true }}">
-        <section style="margin-top:14px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;padding:20px">
-          <h2 style="margin:0 0 12px;font-size:16px;font-weight:700">{{ lblNextSteps }}</h2>
-          <ol style="margin:0;padding:0 0 0 20px;display:grid;gap:8px">
-            <sc-for list="{{ ok.next }}" as="nx" hint-placeholder-count="2">
-              <li style="font-size:14px;line-height:1.6;color:#36334F;text-wrap:pretty"><strong>{{ nx.who }}</strong> · {{ nx.what }}</li>
-            </sc-for>
-          </ol>
-        </section>
-        </sc-if>
-        <dl style="margin:18px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:1px;background:#E4E1EE;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden">
+        <dl style="margin:18px 0 0;display:grid;grid-template-columns:1fr;gap:1px;background:#E4E1EE;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden">
           <div style="background:#FFFFFF;padding:18px"><dt style="font-size:12.5px;color:#6B6785">{{ lblOrderNo }}</dt><dd style="margin:6px 0 0;font:600 15px/1.3 'Sarabun',sans-serif">{{ ok.id }}</dd></div>
           <div style="background:#FFFFFF;padding:18px"><dt style="font-size:12.5px;color:#6B6785">{{ lblOrderDate }}</dt><dd style="margin:6px 0 0;font-size:14.5px;font-weight:600">{{ ok.date }}</dd></div>
           <div style="background:#FFFFFF;padding:18px"><dt style="font-size:12.5px;color:#6B6785">{{ lblOrderStatus }}</dt><dd style="margin:6px 0 0;font-size:14.5px;font-weight:600">{{ ok.status }}</dd></div>
@@ -119,6 +109,7 @@
         <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
           <button type="button" onClick="{{ okViewOrder }}" style="min-height:48px;padding:0 20px;background:#44359B;color:#fff;border:none;border-radius:9px;font-size:14.5px;font-weight:600;cursor:pointer">{{ lblViewOrder }}</button>
           <button type="button" onClick="{{ okDownload }}" style="min-height:48px;padding:0 20px;background:#44359B;color:#FFFFFF;border:1px solid #2F2380;border-radius:9px;font-size:14.5px;font-weight:700;cursor:pointer">{{ lblDownloadConfirm }}</button>
+          <sc-if value="{{ ok.hasReceipt }}"><button type="button" onClick="{{ ok.downloadReceipt }}" style="min-height:48px;padding:0 20px;background:#44359B;color:#FFFFFF;border:1px solid #2F2380;border-radius:9px;font-size:14.5px;font-weight:700;cursor:pointer">{{ ok.receiptLabel }}</button></sc-if>
           <button type="button" onClick="{{ goProducts }}" style="min-height:48px;padding:0 20px;background:#fff;border:1px solid #D9D5E6;border-radius:9px;font-size:14.5px;font-weight:600;color:#1E1A3A;cursor:pointer">{{ lblKeepShopping }}</button>
         </div>
       </div>

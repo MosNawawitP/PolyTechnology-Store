@@ -2621,7 +2621,7 @@ class Component extends DCLogic {
       isCreditReview:ck.pay === 'creditReview', holdReviewOn:ck.pay === 'creditReview' ? 'true' : 'false',
       lblHoldPayNow:i ? 'Pay now by QR' : 'ชำระทันทีด้วย QR', lblHoldTransfer:i ? 'Pay by bank transfer' : 'ชำระด้วยการโอนเงิน', lblHoldReview:i ? 'Send for seller credit review' : 'ส่งให้ผู้ขายพิจารณาเครดิต',
       lblCreditReviewChosen:i ? 'Selected: the order will be submitted as "Credit review in progress" — it is not confirmed or paid until the seller decides.' : 'เลือกแล้ว: ระบบจะส่งคำสั่งซื้อในสถานะ "รอตรวจสอบเครดิต" ยังไม่ถือว่ายืนยันหรือชำระแล้วจนกว่าผู้ขายตัดสินใจ',
-      lblNextSteps:i ? 'What happens next' : 'สิ่งที่ต้องทำต่อ', lblPayQrNow:i ? 'Pay by QR now (simulated)' : 'ชำระด้วย QR ตอนนี้ (จำลอง)', lblUploadSlip:i ? 'Upload transfer slip (simulated)' : 'แนบสลิปโอนเงิน (จำลอง)',
+      lblPayQrNow:i ? 'Pay by QR now (simulated)' : 'ชำระด้วย QR ตอนนี้ (จำลอง)', lblUploadSlip:i ? 'Upload transfer slip (simulated)' : 'แนบสลิปโอนเงิน (จำลอง)',
       lblQuoteRef:i ? 'Quotation reference' : 'อ้างอิงใบเสนอราคา',
       onRfqFiles:this.onRfqFiles, rfqHasFiles:(s.rfq.files || []).length > 0, rfqFilesLabel:(s.rfq.files || []).join(', '),
       lblRfqFiles:i ? 'Attach item list / drawings (optional)' : 'แนบรายการสินค้า/แบบ (ไม่บังคับ)',
@@ -2841,11 +2841,11 @@ class Component extends DCLogic {
       : h ? m('ยังไม่ถือว่าชำระแล้ว ', 'Not paid yet. ') + this.tx(this.holdMeta(o, h).x)
       : pk === 'paid' ? m('ผู้ขายกำลังจัดเตรียมสินค้า ติดตามสถานะได้ในบัญชีของคุณ', 'The seller is preparing your order — track it in your account.')
       : m('ผู้ขายจะจัดเตรียมและจัดส่งตามกำหนด ยอดนี้ครบกำหนดชำระวันที่ ' + this.dateStr(o.due) + ' — ยังไม่ต้องชำระตอนนี้', 'The seller will prepare and ship as scheduled. Payment is due ' + this.dateStr(o.due) + ' — nothing to pay now.');
-    const next = (o.holds || []).map(k => { const hm = this.holdMeta(o, k); return { who:this.tx(hm.o), what:this.tx(hm.n) + ' — ' + this.tx(hm.x) }; });
-    next.push({ who:'Polytechnology', what:o.mode === 'pickup' ? m('จัดเตรียมสินค้าให้รับที่คลังลำลูกกา', 'Prepare goods for pickup at Lam Luk Ka') : m('จัดเตรียมและจัดส่ง ติดตามได้ที่เมนูคำสั่งซื้อ', 'Prepare and ship — track it under Orders') });
-    if (pk === 'notdue' || h === 'credit') next.push({ who:m('คุณ (ผู้ซื้อ)', 'You (buyer)'), what:m('ชำระตามกำหนดเครดิตหลังได้รับใบแจ้งหนี้', 'Pay on credit terms after receiving the invoice') });
-    return { id:o.id, date:this.dateStr(o.date), title, body, next, canPay:h === 'payment', showNext:h !== 'payment' && h !== 'credit' && pk !== 'notdue', pp:this.payPanel(o, true),
+    const receiptNo = (o.invoice || '').replace('INV', 'RCP');
+    return { id:o.id, date:this.dateStr(o.date), title, body, canPay:h === 'payment', pp:this.payPanel(o, true),
       payQr:() => this.payOrder(o.id, 'qr'), payTransfer:() => this.payOrder(o.id, 'transfer'),
+      hasReceipt:pk === 'paid' && !!o.invoice, receiptLabel:m('ดาวน์โหลดใบเสร็จรับเงิน', 'Download receipt'),
+      downloadReceipt:() => this.downloadDoc('receipt', receiptNo),
       status:this.orderStatusText(o), payStatus:this.payText(o), pay:payMeta[o.pay] ? payMeta[o.pay].n : '—',
       mode:o.mode === 'pickup' ? m('รับสินค้าเองที่คลังลำลูกกา', 'Self pickup at Lam Luk Ka') : ((this.carrier(o.carrier) || {}).name || '—'),
       eta:o.mode === 'pickup' ? this.dateStr(o.pickupDate) + ' · ' + (o.pickupSlot || '') : h ? m('หลังดำเนินการขั้นตอนค้างเสร็จ', 'After pending steps are complete') : this.dateStr(this.addDays(3)),
