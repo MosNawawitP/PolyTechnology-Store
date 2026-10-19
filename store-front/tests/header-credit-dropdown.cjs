@@ -33,14 +33,14 @@ let view = app.renderAllVals();
 assert.equal(view.showAcctCredit, true, 'Partner shows credit in the profile dropdown');
 assert.equal(view.acctCredit.availablePct, 68, 'Partner has 68 percent available credit');
 assert.equal(view.acctCredit.availablePctLabel, '68%', 'Partner percentage is formatted for display');
-assert.equal(view.acctCredit.availableLabel, '฿1,360,000', 'Partner available credit amount is displayed');
-assert.equal(view.acctCredit.limitLabel, '฿2,000,000', 'Partner credit limit is displayed');
+assert.equal(view.acctCredit.availableLabel, '1,360,000 บาท', 'Partner available credit amount is displayed');
+assert.equal(view.acctCredit.limitLabel, '2,000,000 บาท', 'Partner credit limit is displayed');
 
 app.state.acct = 'gradeA';
 view = app.renderAllVals();
 assert.equal(view.showAcctCredit, true, 'Grade A shows credit in the profile dropdown');
 assert.equal(view.acctCredit.availablePct, 69, 'Grade A has 69 percent available credit');
-assert.equal(view.acctCredit.availableLabel, '฿41,550,000', 'Grade A available credit amount is displayed');
+assert.equal(view.acctCredit.availableLabel, '41,550,000 บาท', 'Grade A available credit amount is displayed');
 
 app.state.lang = 'en';
 view = app.renderAllVals();

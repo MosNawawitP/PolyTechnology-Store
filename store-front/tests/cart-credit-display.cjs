@@ -33,7 +33,7 @@ const partner = app.renderAllVals();
 assert.equal(partner.showCartCredit, true, 'Partner customers see corporate credit');
 assert.equal(partner.cartCredit.availablePct, 68, 'Partner available credit is 68 percent of the limit');
 assert.equal(partner.cartCredit.availablePctLabel, '68%', 'The percentage is ready for display');
-assert.equal(partner.cartCredit.availableLabel, '฿1,360,000', 'Available credit is shown as money');
+assert.equal(partner.cartCredit.availableLabel, '1,360,000 บาท', 'Available credit is shown as money');
 assert.equal(partner.cartCredit.after, 1360000 - app.totals().total, 'After-order credit uses the cart total');
 const overLimit = app.creditSummaryVM(1500000);
 assert.equal(overLimit.hold, true, 'An order above available credit keeps the existing credit hold');

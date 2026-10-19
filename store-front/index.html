@@ -580,22 +580,22 @@ class Component extends DCLogic {
   ];
 
   COUPONS = {
-    'PLTNEW300':{off:3000, kind:'amount', min:0, segs:['walkin','guest'], n:['ส่วนลด 3,000 บาท สำหรับลูกค้าทั่วไป','THB 3,000 off for retail customers'],
-      ui:{ v:['฿3,000','฿3,000'], t:['ส่วนลดลูกค้าทั่วไป','Retail customer discount'], c:['สำหรับลูกค้าทั่วไป (บุคคล)','Retail customers only'] }},
-    'SAVE500':{off:500, kind:'amount', min:10000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 500 บาท','THB 500 off'],
-      ui:{ v:['฿500','฿500'], t:['ลดทันที 500 บาท','THB 500 off your order'], c:['ซื้อขั้นต่ำ ฿10,000 · ทุกกลุ่มลูกค้า','Min. spend ฿10,000 · all members'] }},
+    'PLTNEW300':{off:3000, kind:'amount', min:0, segs:['walkin','guest'], n:['ส่วนลด 3,000 บาท สำหรับลูกค้าทั่วไป','3,000 บาท off for retail customers'],
+      ui:{ v:['3,000 บาท','3,000 บาท'], t:['ส่วนลดลูกค้าทั่วไป','Retail customer discount'], c:['สำหรับลูกค้าทั่วไป (บุคคล)','Retail customers only'] }},
+    'SAVE500':{off:500, kind:'amount', min:10000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 500 บาท','500 บาท off'],
+      ui:{ v:['500 บาท','500 บาท'], t:['ลดทันที 500 บาท','500 บาท off your order'], c:['ซื้อขั้นต่ำ 10,000 บาท · ทุกกลุ่มลูกค้า','Min. spend 10,000 บาท · all members'] }},
     'SAVE8':{off:8, kind:'percent', min:50000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 8% ทั้งตะกร้า','8% off your cart'],
-      ui:{ v:['8%','8%'], t:['ลด 8% ทั้งตะกร้า','8% off your cart'], c:['ซื้อขั้นต่ำ ฿50,000 · ทุกกลุ่มลูกค้า','Min. spend ฿50,000 · all members'] }},
+      ui:{ v:['8%','8%'], t:['ลด 8% ทั้งตะกร้า','8% off your cart'], c:['ซื้อขั้นต่ำ 50,000 บาท · ทุกกลุ่มลูกค้า','Min. spend 50,000 บาท · all members'] }},
     'PARTNER5':{off:5, kind:'percent', min:0, segs:['partner'], n:['ส่วนลดเพิ่ม 5% สำหรับลูกค้า Partner','Extra 5% off for partners'],
       ui:{ v:['5%','5%'], t:['ส่วนลดเพิ่มสำหรับ Partner','Extra Partner discount'], c:['เฉพาะลูกค้า Partner','Partner customers only'] }},
-    'FREIGHT0':{off:0, kind:'freight', min:0, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลดค่าจัดส่งสูงสุด 800 บาท','Freight discount up to THB 800'],
-      ui:{ v:['฿800','฿800'], t:['ลดค่าจัดส่ง','Freight discount'], c:['สูงสุด ฿800 · เมื่อเลือกจัดส่ง','Up to ฿800 · delivery orders'] }},
-    'EV1500':{off:1500, kind:'amount', min:25000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 1,500 บาท','THB 1,500 off'],
-      ui:{ v:['฿1,500','฿1,500'], t:['ลด 1,500 บาท','THB 1,500 off'], c:['ซื้อขั้นต่ำ ฿25,000 · ทุกกลุ่มลูกค้า','Min. spend ฿25,000 · all members'] }},
+    'FREIGHT0':{off:0, kind:'freight', min:0, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลดค่าจัดส่งสูงสุด 800 บาท','Freight discount up to 800 บาท'],
+      ui:{ v:['800 บาท','800 บาท'], t:['ลดค่าจัดส่ง','Freight discount'], c:['สูงสุด 800 บาท · เมื่อเลือกจัดส่ง','Up to 800 บาท · delivery orders'] }},
+    'EV1500':{off:1500, kind:'amount', min:25000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 1,500 บาท','1,500 บาท off'],
+      ui:{ v:['1,500 บาท','1,500 บาท'], t:['ลด 1,500 บาท','1,500 บาท off'], c:['ซื้อขั้นต่ำ 25,000 บาท · ทุกกลุ่มลูกค้า','Min. spend 25,000 บาท · all members'] }},
     'SAVE3':{off:3, kind:'percent', min:5000, segs:['walkin','bizNew','partner','gradeA'], n:['ส่วนลด 3%','3% off'],
-      ui:{ v:['3%','3%'], t:['ลด 3% ทั้งตะกร้า','3% off your cart'], c:['ซื้อขั้นต่ำ ฿5,000 · ทุกกลุ่มลูกค้า','Min. spend ฿5,000 · all members'] }},
+      ui:{ v:['3%','3%'], t:['ลด 3% ทั้งตะกร้า','3% off your cart'], c:['ซื้อขั้นต่ำ 5,000 บาท · ทุกกลุ่มลูกค้า','Min. spend 5,000 บาท · all members'] }},
     'BIG12':{off:12, kind:'percent', min:200000, segs:['bizNew','partner','gradeA'], n:['ส่วนลด 12% สำหรับโครงการ','12% off for projects'],
-      ui:{ v:['12%','12%'], t:['ลด 12% สำหรับโครงการ','12% off for projects'], c:['ซื้อขั้นต่ำ ฿200,000 · ลูกค้านิติบุคคล','Min. spend ฿200,000 · business accounts'] }}
+      ui:{ v:['12%','12%'], t:['ลด 12% สำหรับโครงการ','12% off for projects'], c:['ซื้อขั้นต่ำ 200,000 บาท · ลูกค้านิติบุคคล','Min. spend 200,000 บาท · business accounts'] }}
   };
 
   SHOW_SERVICES = false;
@@ -610,7 +610,7 @@ class Component extends DCLogic {
     }
   };
   SVC_EXTRA = {
-    s1:[['bill','ค่าไฟฟ้าเฉลี่ยต่อเดือน (บาท)','Average monthly power bill (THB)'],['area','พื้นที่หลังคา/พื้นที่ติดตั้งโดยประมาณ (ตร.ม.)','Approx. roof / install area (m²)']],
+    s1:[['bill','ค่าไฟฟ้าเฉลี่ยต่อเดือน (บาท)','Average monthly power bill (บาท)'],['area','พื้นที่หลังคา/พื้นที่ติดตั้งโดยประมาณ (ตร.ม.)','Approx. roof / install area (m²)']],
     s2:[['equip','อุปกรณ์ที่ต้องติดตั้ง','Equipment to install'],['existing','ระบบเดิมที่ต้องเชื่อมต่อ (ถ้ามี)','Existing system to integrate (if any)']],
     s3:[['count','จำนวนเครื่องมือวัด','Number of instruments'],['types','ประเภทเครื่องมือวัด','Instrument types']],
     s4:[['assets','อุปกรณ์ที่ต้องดูแล','Equipment to cover'],['sla','ระดับการตอบสนองที่ต้องการ','Required response level']],
@@ -939,7 +939,7 @@ class Component extends DCLogic {
   get loggedIn() { return this.state.acct !== 'guest'; }
 
   money(n) { return new Intl.NumberFormat('th-TH', { maximumFractionDigits:0 }).format(Math.round(n || 0)); }
-  baht(n) { return '฿' + this.money(n); }
+  baht(n) { return this.money(n) + ' บาท'; }
   num(n, d) { return new Intl.NumberFormat('th-TH', { maximumFractionDigits:d === undefined ? 0 : d }).format(n || 0); }
   dateStr(iso) {
     if (!iso) return '—';
@@ -1153,7 +1153,7 @@ class Component extends DCLogic {
     {id:'contract', n:['สัญญาบำรุงรักษา/สอบเทียบรายปี (ปีแรก)','Annual maintenance / calibration contract (year 1)'], d:['ตรวจเช็คเชิงป้องกันตามรอบและบริการแก้ไขเหตุขัดข้องตาม SLA','Scheduled preventive visits and SLA breakdown response'], pct:4, cats:['green','auto','inst','gas','dc','wh'], at:['ck']}
   ];
   OADDONS = [
-    {id:'ins', n:['ประกันความเสียหายระหว่างขนส่ง','Transit damage insurance'], d:['คุ้มครองมูลค่าสินค้าเต็มจำนวน คิด 0.5% ของยอดสินค้า (ขั้นต่ำ ฿150) ราคาจริงตามขนส่งที่เลือก','Covers full goods value — 0.5% of goods subtotal (min ฿150); final rate follows the selected carrier'], pct:.5, min:150, needs:'delivery', cars:['c1','c2','c3','c4','c5']},
+    {id:'ins', n:['ประกันความเสียหายระหว่างขนส่ง','Transit damage insurance'], d:['คุ้มครองมูลค่าสินค้าเต็มจำนวน คิด 0.5% ของยอดสินค้า (ขั้นต่ำ 150 บาท) ราคาจริงตามขนส่งที่เลือก','Covers full goods value — 0.5% of goods subtotal (min 150 บาท); final rate follows the selected carrier'], pct:.5, min:150, needs:'delivery', cars:['c1','c2','c3','c4','c5']},
     {id:'care', n:['ดูแลพิเศษ / ของแตกหักง่าย','Extra care / fragile handling'], d:['ติดป้ายและจัดการด้วยความระมัดระวังเป็นพิเศษสำหรับอุปกรณ์บอบบาง','Fragile labelling and extra-careful handling for sensitive equipment'], amt:400, needs:'delivery', cars:['c1','c4','c5']},
     {id:'lift', n:['ยกขึ้นอาคาร / ไม่มีลิฟต์','Building lift-up / no elevator'], d:['พนักงานขนส่งยกสินค้าเข้าอาคารถึงชั้นที่ระบุ (บริการ in-home ของพัสดุขนาดใหญ่)','Carrier staff carry the goods in to your floor (in-home service for bulky parcels)'], amt:1200, needs:'delivery', cars:['c4'], minKg:20}
   ];
@@ -1264,7 +1264,7 @@ class Component extends DCLogic {
     if (!c) { this.say(this.m('ไม่พบรหัสคูปองนี้ในระบบ', 'Coupon code not recognised.'), 'warn'); return; }
     if (this.walletMap()[code] === 'used') { this.say(this.m('คูปองนี้ถูกใช้ไปแล้ว', 'This coupon has already been used.'), 'warn'); return; }
     if (this.walletMap()[code] !== 'ready') { this.say(this.loggedIn ? this.m('คุณยังไม่ได้เก็บคูปองนี้ — เก็บได้ที่หน้าแรก', 'You have not collected this coupon yet — collect it on the home page.') : this.m('กรุณาเข้าสู่ระบบและเก็บคูปองก่อนใช้', 'Log in and collect the coupon first.'), 'warn'); return; }
-    if (this.totals().sub < (c.min || 0)) { this.say(this.m('ยอดสินค้าไม่ถึงขั้นต่ำ ฿' + this.money(c.min), 'Minimum spend ฿' + this.money(c.min) + ' not met.'), 'warn'); return; }
+    if (this.totals().sub < (c.min || 0)) { this.say(this.m('ยอดสินค้าไม่ถึงขั้นต่ำ ' + this.baht(c.min), 'Minimum spend ' + this.baht(c.min) + ' not met.'), 'warn'); return; }
     this.setState({ coupon:code, couponInput:'' });
     this.say(this.tx(c.n), 'ok');
   };
@@ -2019,7 +2019,7 @@ class Component extends DCLogic {
         title:m('ยกระดับสายการผลิต ด้วยระบบอัตโนมัติ','Upgrade your production line'),
         scope:m('หมวดระบบควบคุมอัตโนมัติ · PLC / HMI / VFD','Industrial automation · PLC / HMI / VFD'),
         body:m('ส่วนลดสูงสุด 15% สำหรับอุปกรณ์ควบคุมที่ร่วมรายการ จัดชุด PLC, HMI และ VFD ให้พร้อมสำหรับโครงการใหม่','Save up to 15% on selected controls. Combine PLC, HMI and VFD equipment for your next project.'),
-        terms:m('ยอดสินค้าในหมวดขั้นต่ำ 30,000 บาท','Minimum category spend THB 30,000'),
+        terms:m('ยอดสินค้าในหมวดขั้นต่ำ 30,000 บาท','Minimum category spend 30,000 บาท'),
         cta:m('ดูสินค้าในหมวด','Browse category'), use:() => this.browseHomeCategory('auto') },
       { asset:'ev-charger-installation', isService:true, tag:m('สินค้าแถมบริการ','Product + free service'), benefit:m('สำรวจหน้างานฟรี','FREE SITE SURVEY'),
         title:m('ซื้อเครื่องชาร์จ EV แถมสำรวจหน้างาน','EV charger with a free site survey'),
@@ -2043,7 +2043,7 @@ class Component extends DCLogic {
         title:m('เลือก UPS ที่ใช่ พร้อมประเมินโหลดฟรี','Find the right UPS with a free assessment'),
         scope:m('หมวดศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power category'),
         body:m('สั่งซื้อระบบ UPS ที่ร่วมรายการ รับบริการประเมินโหลดและแนะนำขนาดระบบสำรองไฟให้เหมาะกับธุรกิจฟรี','Order an eligible UPS system and receive a free load assessment and backup-power sizing consultation.'),
-        terms:m('ยอดซื้อขั้นต่ำ 100,000 บาท · ฟรี 1 โครงการ','Minimum spend THB 100,000 · one free project assessment'),
+        terms:m('ยอดซื้อขั้นต่ำ 100,000 บาท · ฟรี 1 โครงการ','Minimum spend 100,000 บาท · one free project assessment'),
         cta:m('ดูระบบสำรองไฟ','Browse backup power'), use:() => this.browseHomeCategory('dc') }
     ];
     return offers.filter(p => this.SHOW_SERVICES || !p.isService).map(p => ({ ...p, photo:'./assets/promotions/' + p.asset + '.webp',
@@ -2099,7 +2099,7 @@ class Component extends DCLogic {
       svcSubmitForm:e => { e.preventDefault(); this.submitService(svcId); },
       svcBtnLabel:s.api.svc === 'loading' ? (i ? 'Sending…' : 'กำลังส่งคำขอ…') : (i ? 'Send request' : 'ส่งคำขอ'),
       setGrid:() => this.setState({ view:'grid' }), setList:() => this.setState({ view:'list' }),
-      fSections:this.sections(t, i, f, s.fq), lblClearSec:i ? 'Clear' : 'ล้างทั้งหมด', lblPriceTitle:i ? 'Price range (฿)' : 'ช่วงราคา (฿)', clearPrice:() => this.setState(st => ({ filters:{ ...st.filters, min:'', max:'' } })), noResultsShort:i ? 'No matches' : 'ไม่พบรายการ',
+      fSections:this.sections(t, i, f, s.fq), lblClearSec:i ? 'Price range (บาท)' : 'ช่วงราคา (บาท)', clearPrice:() => this.setState(st => ({ filters:{ ...st.filters, min:'', max:'' } })), noResultsShort:i ? 'No matches' : 'ไม่พบรายการ',
       fCat:f.cat, fBrand:f.brand, fMin:f.min, fMax:f.max, fAvail:f.avail, fType:f.type, fSort:f.sort,
       onCat:e => this.setFilter('cat', e.target.value), onBrand:e => this.setFilter('brand', e.target.value),
       onMin:e => this.setFilter('min', e.target.value), onMax:e => this.setFilter('max', e.target.value),
@@ -2454,7 +2454,7 @@ class Component extends DCLogic {
       lblMyCoupons:i ? 'My coupons' : 'คูปองของฉัน', lblNoWallet:i ? 'No coupons yet — collect some on the home page.' : 'ยังไม่มีคูปอง — เก็บคูปองได้ที่หน้าแรก', lblGetCoupons:i ? 'Collect coupons' : 'ไปเก็บคูปอง',
       goHomeCoupons:() => this.go('coupons'), noWallet:!Object.keys(this.COUPONS).some(k => this.walletMap()[k] === 'ready'),
       walletList:Object.keys(this.COUPONS).filter(k => this.walletMap()[k] === 'ready').map(k => { const c = this.COUPONS[k], on = s.coupon === k, short = tot.sub < (c.min || 0), q = !!this.state.ck.quoteRef;
-        return { value:this.tx(c.ui.v), title:this.tx(c.ui.t), note:short ? (i ? 'Add ฿' + this.money(c.min - tot.sub) + ' more to use' : 'ซื้อเพิ่มอีก ฿' + this.money(c.min - tot.sub) + ' เพื่อใช้คูปอง') : this.tx(c.ui.c),
+        return { value:this.tx(c.ui.v), title:this.tx(c.ui.t), note:short ? (i ? 'Add ' + this.baht(c.min - tot.sub) + ' more to use' : 'ซื้อเพิ่มอีก ' + this.baht(c.min - tot.sub) + ' เพื่อใช้คูปอง') : this.tx(c.ui.c),
           noteColor:short ? '#B87A07' : '#6B6785', off:short || on || q, label:on ? (i ? 'Applied' : 'ใช้อยู่') : (i ? 'Use' : 'ใช้'),
           bg:on ? '#E3F3EA' : short ? '#ECE9F4' : '#44359B', fg:on ? '#1F7A4D' : short ? '#6B6785' : '#FFFFFF', apply:() => this.applyCode(k) }; }),
       lblCoupons:i ? 'Coupons' : 'คูปองส่วนลด', lblCouponSub:this.loggedIn ? (i ? 'Collect now and apply them in your cart before checkout.' : 'เก็บไว้แล้วนำไปใช้ที่หน้าตะกร้าสินค้าก่อนชำระเงิน') : (i ? 'Log in to collect coupons, then apply them in your cart.' : 'เข้าสู่ระบบก่อนจึงจะเก็บคูปองได้ — จากนั้นนำไปใช้ที่หน้าตะกร้าสินค้า'),
@@ -3107,8 +3107,8 @@ class Component extends DCLogic {
           who:this.tx(ac.name), code:ac.code || '—',
           note:k === 'walkin' ? (i ? 'Retail price · prepay by QR or transfer · no credit' : 'ราคาขายปลีก · ชำระล่วงหน้าด้วย QR หรือโอนเงิน · ไม่มีเครดิต')
             : k === 'bizNew' ? (i ? 'Standard price · buy and pay now · no credit until the seller assigns terms' : 'ราคามาตรฐาน · ซื้อและชำระทันที · ไม่มีเครดิตจนกว่าผู้ขายกำหนดสิทธิ์')
-            : k === 'partner' ? (i ? 'Partner price · quotations · THB 2M credit, 30 days' : 'ราคา Partner · ขอใบเสนอราคาได้ · วงเงิน 2 ล้านบาท 30 วัน')
-            : (i ? 'Contract price · THB 60M credit, 45 days · internal approval via PO · cheque' : 'Contract Price · วงเงิน 60 ล้านบาท 45 วัน · เปิดขั้นตอนอนุมัติภายใน (แนบ PO) · วางเช็ค'),
+            : k === 'partner' ? (i ? 'Partner price · quotations · 2,000,000 บาท credit, 30 days' : 'ราคา Partner · ขอใบเสนอราคาได้ · วงเงิน 2 ล้านบาท 30 วัน')
+            : (i ? 'Contract price · 60,000,000 บาท credit, 45 days · internal approval via PO · cheque' : 'Contract Price · วงเงิน 60 ล้านบาท 45 วัน · เปิดขั้นตอนอนุมัติภายใน (แนบ PO) · วางเช็ค'),
           pick:() => this.login(k) };
       }),
       lblEmailField:'Email', lblPassword:i ? 'Password' : 'รหัสผ่าน',
