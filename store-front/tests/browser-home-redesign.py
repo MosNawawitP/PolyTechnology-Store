@@ -11,7 +11,7 @@ OUT = ROOT / 'verification' / 'home-redesign'
 sys.path.insert(0, str(OUT / 'tools'))
 from playwright.sync_api import sync_playwright, expect
 
-BASE = 'http://127.0.0.1:8765/'
+BASE = os.environ.get('POLYTECH_TEST_BASE', 'http://127.0.0.1:8765/').rstrip('/') + '/'
 CHROME = os.environ.get('POLYTECH_TEST_CHROME', r'C:\Program Files\Google\Chrome\Application\chrome.exe')
 current_index = (ROOT / 'store-front' / 'index.html').read_text(encoding='utf-8')
 
@@ -144,6 +144,24 @@ with sync_playwright() as p:
     page.wait_for_function('window.__qaApp.state.heroIdx===1')
     page.get_by_role('button', name='สไลด์ก่อนหน้า', exact=True).click()
     page.wait_for_function('window.__qaApp.state.heroIdx===0')
+    # Clean paths create real history entries and browser navigation restores route state.
+    page.evaluate("window.__qaApp.go('products')")
+    expect(page).to_have_url(BASE + 'products')
+    page.evaluate("window.__qaApp.go('pdp',{id:'p3'})")
+    expect(page).to_have_url(BASE + 'products/p3')
+    page.go_back()
+    expect(page).to_have_url(BASE + 'products')
+    page.wait_for_function("window.__qaApp.state.route.p === 'products'")
+    page.go_forward()
+    expect(page).to_have_url(BASE + 'products/p3')
+    page.wait_for_function("window.__qaApp.state.route.p === 'pdp' && window.__qaApp.state.route.id === 'p3'")
+    # A direct request and refresh must also render through the server's SPA fallback.
+    page.goto(BASE + 'products/p3', wait_until='networkidle')
+    expect(page.locator('main h1')).to_be_visible()
+    expect(page).to_have_url(BASE + 'products/p3')
+    page.reload(wait_until='networkidle')
+    expect(page.locator('main h1')).to_be_visible()
+    expect(page).to_have_url(BASE + 'products/p3')
     assert not errors, errors
     context.close()
 
@@ -159,5 +177,5 @@ with sync_playwright() as p:
         context.close()
     browser.close()
 
-(OUT / 'browser-report.json').write_text(json.dumps({'status':'passed','viewports':report,'routeWidths':route_widths,'flows':['category filtering','hidden service route','add-to-cart stays on Home','guest coupon login','collect coupon','refresh persistence','reset demo','carousel arrows','TH/EN'],'footer':'Services link is hidden in Thai and English'}, ensure_ascii=False, indent=2), encoding='utf-8')
-print('PASS: browser screenshots, 5 desktop/minimum widths and all page shells, TH/EN, hidden services, category/cart/coupon flows, persistence and carousel')
+(OUT / 'browser-report.json').write_text(json.dumps({'status':'passed','viewports':report,'routeWidths':route_widths,'flows':['category filtering','hidden service route','add-to-cart stays on Home','guest coupon login','collect coupon','refresh persistence','reset demo','carousel arrows','clean URL history','direct URL refresh','TH/EN'],'footer':'Services link is hidden in Thai and English'}, ensure_ascii=False, indent=2), encoding='utf-8')
+print('PASS: browser screenshots, page shells, TH/EN, storefront flows, clean URL history, direct refresh and carousel')

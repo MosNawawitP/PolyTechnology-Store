@@ -4,5 +4,23 @@
   "buildCommand": "",
   "installCommand": "",
   "outputDirectory": ".",
-  "cleanUrls": false
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/products", "destination": "/index.html" },
+    { "source": "/products/:id", "destination": "/index.html" },
+    { "source": "/services", "destination": "/index.html" },
+    { "source": "/services/:id", "destination": "/index.html" },
+    { "source": "/promotions", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" },
+    { "source": "/coupons", "destination": "/index.html" },
+    { "source": "/cart", "destination": "/index.html" },
+    { "source": "/checkout", "destination": "/index.html" },
+    { "source": "/order-success", "destination": "/index.html" },
+    { "source": "/request-a-quote", "destination": "/index.html" },
+    { "source": "/register/:kind", "destination": "/index.html" },
+    { "source": "/register/:kind/:status", "destination": "/index.html" },
+    { "source": "/account", "destination": "/index.html" },
+    { "source": "/account/:path*", "destination": "/index.html" }
+  ]
 }

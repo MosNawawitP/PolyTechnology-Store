@@ -29,11 +29,12 @@ Vercel documentation: https://vercel.com/docs/builds/configure-a-build
 
 From the project root:
 
-    python -m http.server 8000 --directory store-front
+    python store-front/serve.py
 
-Open http://localhost:8000/. Python only serves static files for local preview.
-Any equivalent HTTP server works. Opening index.html via file:// will not work
-because the runtime fetches sibling component templates.
+Open http://localhost:8000/. The preview server returns index.html for clean page
+URLs such as /products and /account/orders while continuing to serve static files
+normally. Any equivalent HTTP server with SPA fallback works. Opening index.html
+via file:// will not work because the runtime fetches sibling component templates.
 
 ## Files
 
@@ -47,5 +48,7 @@ because the runtime fetches sibling component templates.
 The site also loads React/Babel, fonts, Leaflet, map tiles and some images from
 external services, so viewing it requires an internet connection.
 
-Routing uses application state rather than URL paths; no catch-all rewrite is
-needed. Keep cleanUrls disabled so component .dc.html requests keep their names.
+Routing synchronizes application state with clean URL paths and browser history.
+Keep the page rewrites in vercel.json so direct links and refreshes return
+index.html, and keep cleanUrls disabled so component .dc.html requests retain
+their file names.

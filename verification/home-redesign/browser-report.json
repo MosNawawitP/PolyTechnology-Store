@@ -27,32 +27,32 @@
       ],
       "imageBytes": [
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/hero-industrial-commerce.webp",
           "size": 61796
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-clean-energy-ev-small.webp",
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-automation-small.webp",
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
-          "size": 43044
+          "url": "http://127.0.0.1:8877/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
-          "size": 45302
+          "url": "http://127.0.0.1:8877/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
         }
       ],
       "originalHeaderScrollWidth": 1240,
@@ -84,32 +84,32 @@
       ],
       "imageBytes": [
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/hero-industrial-commerce-large.webp",
           "size": 123712
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-clean-energy-ev-small.webp",
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
-          "size": 47558
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-automation-small.webp",
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
-          "size": 45302
+          "url": "http://127.0.0.1:8877/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
-          "size": 43044
+          "url": "http://127.0.0.1:8877/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
         }
       ],
       "originalHeaderScrollWidth": 1440,
@@ -141,31 +141,31 @@
       ],
       "imageBytes": [
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/hero-industrial-commerce-large.webp",
           "size": 123712
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-clean-energy-ev-small.webp",
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-automation-small.webp",
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-data-center-backup-small.webp",
           "size": 43044
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
         }
       ],
@@ -198,32 +198,32 @@
       ],
       "imageBytes": [
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce-large.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/hero-industrial-commerce-large.webp",
           "size": 123712
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-clean-energy-ev-small.webp",
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-automation-small.webp",
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
-          "size": 45302
+          "url": "http://127.0.0.1:8877/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
-          "size": 43044
+          "url": "http://127.0.0.1:8877/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
         }
       ],
       "originalHeaderScrollWidth": 2541,
@@ -255,31 +255,31 @@
       ],
       "imageBytes": [
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/hero-industrial-commerce.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/hero-industrial-commerce.webp",
           "size": 61796
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-clean-energy-ev-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-clean-energy-ev-small.webp",
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-automation-small.webp",
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
-          "size": 48732
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8877/assets/homepage/business-data-center-backup-small.webp",
           "size": 43044
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "url": "http://127.0.0.1:8877/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
         }
       ],
@@ -586,6 +586,8 @@
     "refresh persistence",
     "reset demo",
     "carousel arrows",
+    "clean URL history",
+    "direct URL refresh",
     "TH/EN"
   ],
   "footer": "Services link is hidden in Thai and English"

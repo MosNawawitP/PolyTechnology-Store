@@ -20,7 +20,7 @@
 - ไม่มี `package.json`, npm scripts หรือขั้น build ของ application; Node ใช้กับเครื่องมือและ tests, Python ใช้ serve static files และ browser/image checks
 - ทั้งสองเว็บใช้ Design Component runtime ใน `support.js`, React 18.3.1/ReactDOM จาก CDN และ Sarabun; runtime มี Babel standalone สำหรับเส้นทางที่ต้อง transpile
 - หน้าร้านใช้ Leaflet และ CARTO tiles ใน address modal และยังมี helper/reference รูปจาก Wikimedia จึงต้องเผื่อ external network dependencies ขณะ preview
-- Routing หลักอยู่ใน application state ไม่ใช่ URL paths; หน้าติดตามหลังบ้าน `tracking.html` ใช้ query string เป็นกรณีแยก
+- Routing หน้าร้านเก็บรายละเอียดใน application state และ sync หน้าหลัก/detail กับ clean URL ผ่าน History API; หลังบ้านยัง route ผ่าน state ส่วน `tracking.html` ใช้ query string
 
 ### การไหลของข้อมูล
 
@@ -94,6 +94,8 @@ screen-catalog.js + BO_DATA + workflow.js
 
 `state.route.p` เลือก `home`, `products`, `pdp`, `services`, `promos`, `about`, `contact`, `coupons`, `cart`, `checkout`, `success`, `rfq`, `register`, `account`. ใช้ `go(page, extra)` ซึ่งปิดเมนูและ scroll; `go('login')` เปิด modal ไม่ใช่หน้า login ปกติ
 
+- `urlForNavigation()` แปลง route/tab เป็น clean path, `navigationFromPath()` ทำงานย้อนกลับ และ `componentDidUpdate()` push history เมื่อหน้าเปลี่ยน; `popstate` คืน state สำหรับ Back/Forward.
+- URL เป็น source of truth ตอนเปิดตรงหรือ refresh และ `vercel.json`/`store-front/serve.py` ต้องมี SPA fallback ไป `index.html`; รักษา `<base href="/">` เพื่อให้ assets และ `.dc.html` โหลดจาก deployment root.
 - PDP อ้าง `route.id`; Services อ้าง `route.svc`.
 - `Account.dc.html` เลือกแท็บผ่าน `state.tab`; detail อ้าง `route.oid`, `route.qid`, `route.lid`.
 - Overlays อ้าง `loginModal`, `addrDraft`, `modal`; แชตและ toast มี state แยก.
@@ -375,7 +377,7 @@ Footer comparison ของ Home suite ต้องมี Git HEAD/source baseli
 ## 9. Deploy และการรักษาขอบเขต
 
 - แต่ละเว็บ deploy เป็น static project: Root Directory `store-front` หรือ `back-office`, Framework Other, Build/Install Command ว่าง, Output Directory `.` ตาม config ที่มีอยู่.
-- คง `cleanUrls:false` เพื่อไม่ rewrite ชื่อ `.dc.html`; state router ไม่ต้อง catch-all rewrite.
+- คง `cleanUrls:false` เพื่อไม่ rewrite ชื่อ `.dc.html`; หน้าร้านต้องรักษา page rewrites ไป `index.html` ใน `store-front/vercel.json` ส่วน static assets ไม่ควรถูก rewrite.
 - หลังบ้านมี no-cache headers สำหรับ `/`, HTML และ JS เพื่อรองรับ template/schema updates และแท็บเก่า อย่าลบโดยไม่ตรวจ shell-upgrade behavior.
 - ไม่ deploy repository root หรือ verification/tools เป็นเว็บไซต์ ใช้ deployment เฉพาะเมื่อผู้ใช้สั่ง.
 - อย่าใส่ secrets/production credentials ลง source หรือ demo storage; `.env`/`.env.*` ถูก ignore และ `.env.example` เป็นข้อยกเว้น.

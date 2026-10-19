@@ -15,7 +15,7 @@
 
 ตัวอย่างการเปิดจาก project root:
 
-    python -m http.server 8000 --directory store-front
+    python store-front/serve.py
 
 จากนั้นเปิด `http://localhost:8000/`
 
@@ -91,10 +91,13 @@
 
 ## Routing และ composition
 
-Routing เป็น state-based ไม่ใช้ URL router:
+Routing เก็บ domain state ใน Component และ sync กับ clean URL ผ่าน History API:
 
 - `state.route.p` เลือกหน้า: `home`, `products`, `pdp`, `services`, `promos`, `about`, `contact`, `coupons`, `cart`, `checkout`, `success`, `rfq`, `register`, `account`
-- `go(page, extra)` เปลี่ยน route, ปิดเมนู และ scroll ด้านบน
+- `go(page, extra)` เปลี่ยน route, ปิดเมนู และ scroll ด้านบน; `componentDidUpdate()` จะ push URL ใหม่เมื่อ route/tab เปลี่ยน
+- `urlForNavigation()` และ `navigationFromPath()` เป็น mapping กลางระหว่าง state กับ URL; `popstate` คืน state เมื่อกด Back/Forward
+- ตอน mount URL ปัจจุบันมีลำดับเหนือ route ที่ persist ไว้ เพื่อให้ direct link และ refresh เปิดหน้าตาม address bar
+- `<base href="/">` ทำให้ component/assets ยังโหลดจาก deployment root เมื่ออยู่ nested path; `vercel.json` และ `serve.py` ทำ SPA fallback สำหรับ direct request
 - PDP ใช้ `route.id`; Services ใช้ `route.svc`
 - account details ใช้ `route.oid`, `route.qid`, `route.lid`
 - `state.tab` เลือก account tab; `Account.dc.html` render nested component จาก flags ใน `acctVals()`
@@ -107,7 +110,8 @@ Routing เป็น state-based ไม่ใช้ URL router:
 2. เพิ่ม route flag ใน `renderAllVals()`
 3. เพิ่ม `sc-if` และ `dc-import` ใน `index.html`
 4. เพิ่ม navigation/handler ที่จำเป็นผ่าน view model
-5. ทดสอบ direct flow ที่เข้าหน้าและ flow ย้อนกลับ
+5. เพิ่ม mapping ไป-กลับใน `urlForNavigation()`/`navigationFromPath()` และ page rewrite ที่จำเป็น
+6. ทดสอบ direct URL, refresh และ flow Back/Forward
 
 ## Data model
 

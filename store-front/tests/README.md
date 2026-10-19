@@ -13,8 +13,12 @@ Verify that all service entry points and records stay hidden while the dormant w
 For the browser checks, install Playwright and Pillow, start the static server, then run:
 
     python -m pip install playwright pillow
-    python -m http.server 8765 --bind 127.0.0.1 --directory store-front
+    python store-front/serve.py --port 8765
     python store-front/tests/browser-home-redesign.py
+
+Set `POLYTECH_TEST_BASE` when the preview server uses another port. The browser
+suite also verifies clean product URLs, Back/Forward restoration, direct links
+and refresh behavior through the SPA fallback.
 
 The browser script uses installed Google Chrome. POLYTECH_TEST_CHROME can specify a different compatible Chrome executable path. A workspace-only Playwright install in verification/home-redesign/tools is also supported.
 
