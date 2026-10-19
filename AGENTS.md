@@ -281,7 +281,7 @@ Content มี 134 screens และ 561 field instances ใน generated catalo
 รันทุกคำสั่งจาก repository root เปิด HTTP server คนละ terminal; ห้ามเปิด entry ด้วย `file://` เพราะ component loader ต้อง fetch siblings
 
 ```powershell
-python -m http.server 8000 --bind 127.0.0.1 --directory store-front
+python store-front/serve.py --port 8000
 python -m http.server 8001 --bind 127.0.0.1 --directory back-office
 ```
 
@@ -355,7 +355,7 @@ python -m pip install playwright pillow
 ตัวอย่าง server ของ storefront browser suite:
 
 ```powershell
-python -m http.server 8765 --bind 127.0.0.1 --directory store-front
+python store-front/serve.py --port 8765
 ```
 
 หลังบ้านเปลี่ยน base URL ได้ผ่าน `POLYTECH_BO_URL`. `browser-workflows.py`/`browser-stepper.py` รองรับ `POLYTECH_TEST_RUNTIME_CACHE` สำหรับ cache path ของ CDN fixtures ตาม script. สคริปต์เฉพาะหน้าใน verification ใช้ Chrome path แบบ hardcoded และบาง assertions มาจาก layout รุ่นก่อน ต้องเทียบข้อกำหนด 1240px ปัจจุบันก่อนตีความผล ไม่เปลี่ยนเว็บให้ตรงกับ stale test
