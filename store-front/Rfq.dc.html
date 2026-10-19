@@ -52,10 +52,6 @@
                     <sc-for list="{{ rfqMethodOptions }}" as="o" hint-placeholder-count="2"><option value="{{ o.v }}">{{ o.label }}</option></sc-for>
                   </select>
                 </div>
-                <div>
-                  <label for="rfqPo" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblPo }}</label>
-                  <input id="rfqPo" value="{{ rfqPo }}" onChange="{{ onRfqPo }}" placeholder="PO-XXXX-00000" style="width:100%;height:46px;border:1px solid #D9D5E6;border-radius:8px;padding:0 11px;background:#F9F8FC;font:500 14px/1 'Sarabun',sans-serif" />
-                </div>
                 <div style="grid-column:1 / -1">
                   <label for="rfqPlace" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblDeliverTo }}</label>
                   <textarea id="rfqPlace" name="line" rows="2" value="{{ rfqLine }}" onChange="{{ onRfqAddr }}" placeholder="{{ lblAddrLine }}" style="width:100%;border:1px solid #D9D5E6;border-radius:8px;padding:10px 11px;background:#F9F8FC;line-height:1.6;resize:vertical"></textarea>
@@ -79,11 +75,6 @@
               <div style="margin-top:15px">
                 <label for="rfqNote" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblNotes }}</label>
                 <textarea id="rfqNote" rows="4" value="{{ rfqNote }}" onChange="{{ onRfqNote }}" style="width:100%;border:1px solid #D9D5E6;border-radius:8px;padding:11px;background:#F9F8FC;line-height:1.6;resize:vertical"></textarea>
-              </div>
-              <div style="margin-top:15px">
-                <label for="rfqFiles" style="display:block;font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:5px">{{ lblRfqFiles }}</label>
-                <input id="rfqFiles" type="file" multiple="true" onChange="{{ onRfqFiles }}" style="width:100%;min-height:46px;border:1px dashed #D9D5E6;border-radius:8px;padding:10px 11px;background:#F9F8FC;font-size:13px" />
-                <sc-if value="{{ rfqHasFiles }}"><div style="font-size:12.5px;color:#1F7A4D;margin-top:5px">{{ rfqFilesLabel }}</div></sc-if>
               </div>
               <sc-if value="{{ rfqError }}">
                 <div role="alert" style="margin-top:14px;background:#FBEAE7;border:1px solid #E4B5AD;border-radius:9px;padding:13px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">

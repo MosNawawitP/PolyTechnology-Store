@@ -646,7 +646,7 @@ class Component extends DCLogic {
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
     addr:{ship:null, bill:null, rfq:null},
     menuOpen:false, notifOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
-    lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:'', po:''},
+    lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:''},
     chatOpen:false, chat:null, chatInput:'', chatTyping:false,
     stockAdj:{}, seeded:false, scenarioId:'', changes:null, quoteBlock:null, regCo:null
   };
@@ -1503,7 +1503,7 @@ class Component extends DCLogic {
   /* ---------- quotations ---------- */
   openRfqFor = (id, q, list) => {
     const items = list || (id ? [{ id, q:q || 1 }] : this.selectedCart().map(l => ({ id:l.id, q:l.q })));
-    this.setState(s => ({ route:{ p:'rfq' }, addr:{ ...s.addr, rfq:null }, rfq:{ items, needDate:this.addDays(14), place:this.composeAddr(this.seedAddr()), method:'delivery', note:'', po:'', files:[] } }));
+    this.setState(s => ({ route:{ p:'rfq' }, addr:{ ...s.addr, rfq:null }, rfq:{ items, needDate:this.addDays(14), place:this.composeAddr(this.seedAddr()), method:'delivery', note:'' } }));
     window.scrollTo(0, 0);
   };
   goRfq = () => this.openRfqFor(null);
@@ -1514,7 +1514,6 @@ class Component extends DCLogic {
     const ids = s.rfq.items.map(i => i.id);
     return { rfq:{ ...s.rfq, items:s.rfq.items.concat(s.cart.filter(l => l.selected !== false && ids.indexOf(l.id) < 0).map(l => ({ id:l.id, q:l.q }))) } };
   });
-  onRfqFiles = e => { const names = Array.from(e.target.files || []).map(f => f.name); this.setState(s => ({ rfq:{ ...s.rfq, files:names } })); };
   buildLines(items, acctKey, disc) {
     const idx = (this.ACCOUNTS[acctKey] || this.ACCOUNTS.guest).priceIdx;
     return items.map(it => { const p = this.prod(it.id), list = p ? (p.pr[idx] || 0) : 0;
@@ -1579,7 +1578,7 @@ class Component extends DCLogic {
     if (!this.loggedIn) { this.openLogin({ after:'rfq' }); this.say(this.m('กรุณาเข้าสู่ระบบเพื่อผูกใบเสนอราคากับบัญชีของคุณ', 'Please log in so the quotation is attached to your account.'), 'info'); return; }
     this.api('rfq', 1300, .08, () => {
       const id = this.nextQuoteId(), rr = this.state.rfq;
-      const q = { id, acct:this.state.acct, kind:'rfq', date:this.addDays(0), rev:0, status:'submitted', items:rr.items.slice(), need:rr.needDate, place:rr.place, method:rr.method, po:rr.po, note:rr.note, files:rr.files || [], lines:[], exp:null,
+      const q = { id, acct:this.state.acct, kind:'rfq', date:this.addDays(0), rev:0, status:'submitted', items:rr.items.slice(), need:rr.needDate, place:rr.place, method:rr.method, note:rr.note, lines:[], exp:null,
         history:[{ rev:0, date:this.addDays(0), by:'customer', text:['ส่งคำขอใบเสนอราคา' + (rr.note ? ': ' + rr.note : ''), 'Quotation requested' + (rr.note ? ': ' + rr.note : '')] }] };
       this.setState(s => ({ quotes:[q].concat(s.quotes), lastQuote:id, route:{ p:'account', qid:id }, tab:'quotes',
         notifs:[this.notif('quote', 'คำขอใบเสนอราคา ' + id + ' ส่งถึงผู้ขายแล้ว', 'Quotation request ' + id + ' sent to the seller')].concat(s.notifs) }));
@@ -1839,7 +1838,7 @@ class Component extends DCLogic {
     const init = this.seed();
     this.setState({ ...init, acct:'guest', cart:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
       ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null },
-      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'', po:'', files:[] }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
+      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'' }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
       heroIdx:0, heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:!!(this._motion && this._motion.matches) });
     window.scrollTo(0, 0);
     this.say(this.lang === 'en' ? 'Demo data reset.' : 'รีเซ็ตข้อมูลสาธิตเรียบร้อย', 'info');
@@ -2635,7 +2634,7 @@ class Component extends DCLogic {
       mixBody:(i ? 'Quote-only: ' : 'ต้องเสนอราคา: ') + tot.rows.filter(r => r.p.type === 'rfq' || r.p.type === 'consult').map(r => this.tx(r.p.n)).join(', ') + (i ? '. Choose how to continue — nothing is changed until you decide.' : ' — เลือกวิธีดำเนินการต่อ ระบบจะไม่เปลี่ยนรายการจนกว่าคุณจะเลือก'),
       splitMixed:this.splitMixed, lblSplit:i ? 'Move quote-only items to a quotation request' : 'แยกรายการที่ต้องเสนอราคาไปขอใบเสนอราคา', lblAllToRfq:i ? 'Request a quote for the whole cart' : 'ขอใบเสนอราคาทั้งตะกร้า',
       makeInstantQuote:this.makeInstantQuote, lblInstantQuote:i ? 'Create quotation at current prices' : 'สร้างใบเสนอราคาจากราคาปัจจุบัน',
-      lblCartToRfq:i ? 'Request quotation / special pricing' : 'ขอใบเสนอราคา / ราคาพิเศษ',
+      lblCartToRfq:i ? 'Request quotation / special pricing' : 'ขอใบเสนอราคา',
       lblQuoteHelp:i ? 'Send your cart as a quotation request — ask for special pricing, volume discounts or project terms. Our sales team replies with a formal quotation.' : 'ส่งรายการในตะกร้าเป็นคำขอใบเสนอราคา — ขอราคาพิเศษ ส่วนลดตามปริมาณ หรือเงื่อนไขโครงการ ทีมขายจะตอบกลับด้วยใบเสนอราคาทางการ',
       lblOutcome:i ? 'After you confirm' : 'หลังกดยืนยัน',
       holdPayQr:() => this.choosePay('qr'), holdPayTransfer:() => this.choosePay('transfer'), holdReview:() => this.choosePay('creditReview'),
@@ -2644,20 +2643,17 @@ class Component extends DCLogic {
       lblCreditReviewChosen:i ? 'Selected: the order will be submitted as "Credit review in progress" — it is not confirmed or paid until the seller decides.' : 'เลือกแล้ว: ระบบจะส่งคำสั่งซื้อในสถานะ "รอตรวจสอบเครดิต" ยังไม่ถือว่ายืนยันหรือชำระแล้วจนกว่าผู้ขายตัดสินใจ',
       lblPayQrNow:i ? 'Pay by QR now (simulated)' : 'ชำระด้วย QR ตอนนี้ (จำลอง)', lblUploadSlip:i ? 'Upload transfer slip (simulated)' : 'แนบสลิปโอนเงิน (จำลอง)',
       lblQuoteRef:i ? 'Quotation reference' : 'อ้างอิงใบเสนอราคา',
-      onRfqFiles:this.onRfqFiles, rfqHasFiles:(s.rfq.files || []).length > 0, rfqFilesLabel:(s.rfq.files || []).join(', '),
-      lblRfqFiles:i ? 'Attach item list / drawings (optional)' : 'แนบรายการสินค้า/แบบ (ไม่บังคับ)',
       rfqTitle:i ? 'Request for quotation' : 'ขอใบเสนอราคา',
       rfqIntro:i ? 'Send the items you need and our sales engineer will price them, including freight and lead time. SAP generates the quotation number and emails you the document.' : 'ส่งรายการที่ต้องการ วิศวกรฝ่ายขายจะเสนอราคาพร้อมค่าขนส่งและระยะเวลาส่งมอบ ระบบ SAP จะสร้างเลขที่ใบเสนอราคาและส่งเอกสารให้ทางอีเมล',
       rfqRows:s.rfq.items.map(it => { const p = this.prod(it.id); return { name:this.tx(p.n), sku:p.sku, q:it.q,
         unit:this.tx(p.u), priceLabel:this.price(p) === null ? (i ? 'To be quoted' : 'รอเสนอราคา') : this.baht(this.price(p)),
         onQty:e => this.rfqQty(it.id, Number(e.target.value)), remove:() => this.rfqRemove(it.id) }; }),
       rfqEmpty:!s.rfq.items.length,
-      rfqNeed:s.rfq.needDate, rfqPlace:s.rfq.place, rfqMethod:s.rfq.method, rfqNote:s.rfq.note, rfqPo:s.rfq.po,
+      rfqNeed:s.rfq.needDate, rfqPlace:s.rfq.place, rfqMethod:s.rfq.method, rfqNote:s.rfq.note,
       onRfqNeed:e => this.rfqField('needDate', e.target.value),
       onRfqPlace:e => this.rfqField('place', e.target.value),
       onRfqMethod:e => this.rfqField('method', e.target.value),
       onRfqNote:e => this.rfqField('note', e.target.value),
-      onRfqPo:e => this.rfqField('po', e.target.value),
       rfqAddFromCart:this.rfqAddFromCart, hasCartForRfq:s.cart.length > 0,
       lblAddFromCart:i ? 'Add all cart items' : 'เพิ่มสินค้าทั้งหมดจากตะกร้า',
       lblNeedDate:i ? 'Required delivery date' : 'วันที่ต้องการสินค้า',
