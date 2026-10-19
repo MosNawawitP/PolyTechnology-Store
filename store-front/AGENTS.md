@@ -2,13 +2,15 @@
 
 คู่มือนี้ใช้กับไฟล์ทั้งหมดภายใน `store-front/` เป้าหมายคือรักษาพฤติกรรมของ prototype ให้เทียบเท่าของเดิม ขณะเดียวกันทำให้การแก้หน้าแยกไฟล์ปลอดภัยและตรวจสอบได้ง่าย
 
+อ่าน [AGENTS.md กลาง](../AGENTS.md) ก่อนเริ่มงานด้วย คู่มือกลางครอบคลุมทั้ง repository, การเชื่อม fixtures กับหลังบ้าน, generated files, tests และ Git commit rules ส่วนเอกสารนี้ลงรายละเอียดเฉพาะหน้าร้าน
+
 ## ภาพรวมโปรเจกต์
 
 - นี่คือ prototype e-commerce สำหรับ Polytechnology รองรับทั้ง B2C และ B2B
 - ข้อมูล ราคา สต็อก เครดิต เอกสาร การชำระเงิน และการตอบกลับทั้งหมดเป็น mock data ไม่มี backend จริง
 - UI รองรับภาษาไทยและอังกฤษ
 - โค้ดใช้ Design Component runtime จาก `./support.js` ซึ่ง parse `<x-dc>`, interpolation, `sc-if`, `sc-for` และ `dc-import` แล้ว render ผ่าน React
-- ไม่มี package manager, build script หรือ test runner; ใช้ `vercel.json` ตั้งค่า deploy แบบ static โดยไม่ต้อง build
+- ไม่มี package manager หรือ build script ของ application; มี regression scripts ใน `tests/` และใช้ `vercel.json` ตั้งค่า deploy แบบ static โดยไม่ต้อง build
 - ต้องเปิดผ่าน HTTP เพราะ runtime ใช้ `fetch` โหลดไฟล์ `.dc.html` ที่อยู่ข้าง `index.html`; ห้ามใช้ `file://`
 
 ตัวอย่างการเปิดจาก project root:
@@ -144,7 +146,7 @@ Product หลักใช้ fields ต่อไปนี้:
 
 ### Cart, checkout และ weight
 
-- Cart line หลักคือ `{ id, q }`; add-ons แยกเก็บใน state maps
+- Cart line หลักคือ `{ id, q }` และ optional `ad`; selections ยังมี `pdpAd` และ order-level `ck.oAd`
 - `cartRows()` สร้าง row view models และ `totals()` คำนวณ subtotal, discount, shipping, VAT และ total
 - เพดานรวมคือ `MAXW = 300` กก.; มากกว่า 300 กก. ถูก block แต่ 300 กก. พอดีผ่านได้
 - สินค้าที่ไม่มีข้อมูลน้ำหนักถูก block เช่นกัน
@@ -178,7 +180,7 @@ Product หลักใช้ fields ต่อไปนี้:
 `data-props` ประกาศ `showCategoryRows`, `showDemoBar`, `defaultSegment` และ `maxOrderWeightKg`
 
 - ปัจจุบัน `showCategoryRows` ถูกใช้งานจริงผ่าน `this.props.showCategoryRows`
-- `showDemoBar` ยังไม่ได้ใช้เพื่อซ่อน `DemoBar`
+- `showDemoBar` ยังไม่ได้ผูกกับการแสดง `DemoBar`; ปัจจุบัน template ซ่อนด้วย `display:none`
 - `defaultSegment` ยังไม่ได้กำหนด initial account
 - `maxOrderWeightKg` ยังไม่ได้ผูกกับกฎน้ำหนัก; logic ยังใช้ `MAXW = 300`
 
@@ -190,7 +192,8 @@ Product หลักใช้ fields ต่อไปนี้:
 
 - แก้ไฟล์ component เจ้าของ UI โดยตรง
 - Inline styles คือ convention ปัจจุบัน รักษา palette, spacing, typography และ responsive flex/grid patterns เดิม
-- ตรวจ mobile width และ desktop width เพราะ layout ใช้ `state.w` ร่วมกับ CSS wrapping
+- ตรวจ desktop และ viewport ที่ต่ำกว่า 1240px; ปัจจุบันหน้าและ `state.w` มีขั้นต่ำ 1240px กรอบเนื้อหาสูงสุด 1680px จอเล็กเลื่อนแนวนอนโดยตั้งใจ
+- รักษา Footer เดิมทั้งไฟล์, shared CSS และ view model เมื่อแก้หน้าอื่น เว้นแต่ผู้ใช้สั่งแก้ Footer โดยตรง
 - รักษา semantic elements, label, keyboard focus, aria attributes และ button type
 
 ### เพิ่มข้อมูลหรือ business rule
@@ -217,7 +220,7 @@ Product หลักใช้ fields ต่อไปนี้:
 
 ## การตรวจสอบก่อนส่งงาน
 
-ไม่มี automated test suite ดังนั้นให้ตรวจตามความเสี่ยงของการเปลี่ยนแปลง:
+มี automated regression scripts แล้ว เริ่มจาก `node --preserve-symlinks-main store-front/tests/home-redesign.cjs` และดู `tests/README.md` กับ AGENTS.md กลางสำหรับ browser checks เลือกตรวจเพิ่มตามความเสี่ยงของการเปลี่ยนแปลง:
 
 1. เปิดผ่าน HTTP และตรวจว่า console ไม่มี component fetch, parse หรือ unresolved binding error ใหม่
 2. ตรวจว่าหน้า Home โหลด child components ครบและ layout wrapper ไม่แทรกช่องว่าง
@@ -227,9 +230,9 @@ Product หลักใช้ fields ต่อไปนี้:
 6. ถ้าแก้ cart/checkout ให้ทดสอบ 299, 300, 301 กก., missing weight, mixed buy/RFQ cart, delivery/pickup และ payment ที่เกี่ยวข้อง
 7. ถ้าแก้ quote/order/service ให้ทดสอบ list, detail, status transition, document modal และ linked entities
 8. Refresh หน้าเพื่อยืนยัน localStorage persistence และกด reset demo เพื่อตรวจ initial state
-9. ตรวจ responsive layout อย่างน้อย mobile, tablet และ desktop
+9. ตรวจ layout ที่ 1240, 1440, 1920, 2541 และ 768px ตามงาน โดย viewport ต่ำกว่า 1240px ต้องคง desktop layout และเลื่อนแนวนอน
 
-ใช้ demo scenarios `sc1` ถึง `sc16` จาก DemoBar เป็น regression checklist โดยเฉพาะ B2C QR, B2B prepaid, credit/PO approval, over-limit credit, quote lifecycle, service lifecycle, expired quote, stock change, weight boundaries, missing weight, mixed cart และ delivered-credit order
+ใช้ demo scenarios `sc1` ถึง `sc16` ใน `scenarioDefs()` เป็น regression checklist โดยเฉพาะ B2C QR, B2B prepaid, credit/PO approval, over-limit credit, quote lifecycle, service lifecycle, expired quote, stock change, weight boundaries, missing weight, mixed cart และ delivered-credit order ปัจจุบัน DemoBar ถูกซ่อน จึงเรียกผ่าน logic/tests หรือ test-only browser hook โดยไม่แก้ production เพื่อแสดงแถบเอง
 
 Known benign issue: ช่วง initial render อาจเห็น browser request ค่า `{{ hero.photo }}` ดิบใน console จาก image binding ก่อน runtime resolve; ถ้า UI ยังแสดงถูกต้องและไม่มี regression ใหม่ ไม่ต้องแก้โดยพลการ
 
