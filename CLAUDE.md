@@ -1,110 +1,84 @@
 # Polytech Commerce — handoff (ภาษาตอบ: ไทย, สั้น กระชับ)
 
-ไฟล์หลัก: `store-front/index.html` (state/logic ใน class Component); UI แยกเป็น `store-front/*.dc.html`. ข้อมูลจำลองทั้งหมด (mock).
+Prototype e-commerce B2C/B2B ของ Polytechnology — ข้อมูล ราคา สต็อก เครดิต การชำระเงิน เอกสาร แชต ทั้งหมดเป็น mock ใน browser ไม่มี backend. UI สองภาษา TH/EN.
 
-## การ deploy ปัจจุบัน
-- ใช้ `store-front/` เป็นโฟลเดอร์หลักของเว็บ โดยมี `support.js` และ `assets/` อยู่ภายใน
-- ตั้ง Vercel Root Directory เป็น `store-front`, Framework Preset เป็น Other; config อยู่ใน `store-front/vercel.json`
-- เปิดเว็บในเครื่องจาก project root ด้วย `python -m http.server 8000 --directory store-front` แล้วเข้า `http://localhost:8000/`
-- Python ใช้สำหรับ preview ในเครื่องเท่านั้น; Vercel ไม่ต้องรัน Python หรือ build
-- อ่าน `store-front/AGENTS.md` สำหรับข้อกำหนดปัจจุบัน และ `README.md` สำหรับขั้นตอน GitHub/Vercel
-- ไฟล์ monolith, standalone, wireframe และรูป/เอกสารอ้างอิงที่ไม่ถูกใช้งานถูกลบแล้ว; รายการและเลขบรรทัดของ monolith ด้านล่างเป็นประวัติโครงสร้างเดิมเท่านั้น ห้ามใช้เป็นตำแหน่งแก้ไขปัจจุบัน
-Known issue ที่ไม่ต้องแก้: console error โหลด `{{ hero.photo }}` ตอนเปิดหน้า (ไม่กระทบการแสดงผล)
 ผู้ใช้ชอบ: แก้เฉพาะที่ขอ, ตอบสั้น, ถามคำปรึกษา → วิเคราะห์ก่อนแล้วรอให้เลือก
+Known issue ที่ไม่ต้องแก้: console โหลด `{{ hero.photo }}` ดิบตอนเปิดหน้า (ไม่กระทบการแสดงผล)
 
-## โครงสร้างหลัก
-- Navbar: ไอคอนค้นหาขยายเต็มแถว, ตัวสลับภาษาแบบธง, ปุ่ม Log In (modal), avatar dropdown หลังล็อกอิน
-- Account: เมนูซ้าย (ข้อมูลของฉัน, ที่อยู่, วงเงินเครดิต, คำสั่งซื้อ, ใบเสนอราคา, คำขอคำปรึกษา/บริการ, เอกสาร, การแจ้งเตือน)
-- Orders/Quotes/Services: ค้นหาข้อความเดียว + แท็บกลุ่มสถานะ (ไม่แสดงเลข 0); การ์ดทั้งใบกดเข้ารายละเอียด
+## เอกสารที่ต้องอ่านต่อ
+- `AGENTS.md` (root) — คู่มือกลางทั้ง repo: store-front, back-office, verification, tests, commit rules
+- `store-front/AGENTS.md` — รายละเอียดเฉพาะหน้าร้าน (data model, DC conventions, วิธีตรวจ)
+- `README.md` — ขั้นตอน GitHub/Vercel; `store-front/tests/README.md` — วิธีรัน tests
+- ถ้าข้อมูลขัดกัน ให้เชื่อ source + tests ปัจจุบันก่อนเอกสาร
 
-## Checkout (4 สเต็ป + หน้าชำระเงินหลังยืนยัน)
-- Stepper เต็มความกว้าง มีไอคอน+คำอธิบาย: 01 ข้อมูลผู้ซื้อ (ที่อยู่จัดส่ง, ที่อยู่ใบกำกับภาษีมี checkbox) → 02 การจัดส่ง → 03 การชำระเงิน → 04 ตรวจสอบ
-- บริการเสริมรายสินค้า: เลือกที่หน้าสินค้า + แก้ในตะกร้า (ไม่อยู่ใน checkout); บริการเสริมการจัดส่ง (ประกัน, ดูแลพิเศษ, ยกขึ้นอาคาร) อยู่สเต็ป 02 ผูกกับขนส่งที่เลือก
-- ขนส่งจริงในไทย (DHL, Flash, KEX, ไปรษณีย์ไทย) มีเพดานน้ำหนัก; ถ้าน้ำหนักเกินจะซ่อนเจ้านั้น และเพิ่ม "จัดส่งโดย Polytechnology" (c5) ให้เลือกแทน
-- หลังกดยืนยัน: หน้า success แสดงเฉพาะวิธีที่เลือก — พร้อมเพย์ QR (QR จำลองลายสี่เหลี่ยม + นับถอยหลัง 15 นาที) หรือโอนบัญชี (เลขบัญชี+คัดลอก+แนบสลิป); หน้ารายละเอียดออเดอร์ใช้ชุดเดียวกัน (`payPanel(o, lock)`)
-- ลูกค้านิติบุคคลที่ใช้เครดิต: ไม่จ่ายตอนสั่ง มีแถบขั้นตอน 5 ขั้น (ตัดวงเงิน → จัดส่ง → ใบแจ้งหนี้ → ครบกำหนด → ได้รับชำระ) + ฟอร์มแจ้งชำระตามใบแจ้งหนี้เมื่อส่งของแล้ว; เช็คยังไม่มีฟอร์ม
+## โครง repo
+- `store-front/` — หน้าร้าน (เว็บหลัก, deploy ตัวนี้) · `back-office/` — หลังบ้านพนักงาน เว็บแยก (port 8001, runtime/`support.js` ของตัวเอง) · `verification/` — สคริปต์/รายงานตรวจ ไม่ใช่ source · `tmp/` ว่าง
+- ไม่มี `package.json`/build; Node ใช้รัน tests, Python ใช้ serve + browser checks
+- ไฟล์ monolith/standalone/wireframe รุ่นเก่าถูกลบแล้ว (เลขบรรทัดใน CLAUDE.md เวอร์ชันก่อนหน้าใช้ไม่ได้อีก)
 
-## ใบเสนอราคา
-- Seed data ครบทุกสถานะใน `seed()` (บัญชี gradeA, partner); merge เข้า localStorage เดิมอัตโนมัติ
-- ป้ายสถานะเดียว: ส่งคำขอแล้ว / ผู้ขายกำลังเสนอราคา / รอคุณตอบรับ / รอสั่งซื้อ / สั่งซื้อแล้ว / ปฏิเสธ / หมดอายุ + แถบความคืบหน้า 4 จุด (ส่งคำขอ → ผู้ขายเสนอราคา → ตอบรับ → สั่งซื้อ)
-- การ์ดรายการแสดงสินค้า (รูป ชื่อ SKU จำนวน) สูงสุด 3 รายการ
-- หน้ารายละเอียด (ออกแบบใหม่): หัว+stepper+แถบข้อมูลสำคัญ 4 ช่อง, "รายละเอียดคำขอ" พับเก็บ, รายการสินค้ามีรูป, ฝั่งขวาเป็นการ์ดยอดรวม+ปุ่มหลัก, "แนบ PO" / "ขอแก้ไข" / "ประวัติ" พับเก็บ (ปุ่มลูกศร 38px, state `qOpen`; อย่าใช้ `<details>` + `open`/`onToggle` bindings เพราะ scope พัง)
+## รัน/ deploy
+- Preview: `python store-front/serve.py` (เพิ่ม `--port N` ได้) → `http://localhost:8000/` — มี SPA fallback ให้ clean URL; ห้ามเปิดแบบ `file://` (runtime `fetch` ไฟล์ `.dc.html`)
+- ต้องใช้อินเทอร์เน็ต: React/Babel (unpkg), ฟอนต์ Sarabun, Leaflet + CARTO tiles, รูปบางส่วนจาก Wikimedia
+- Vercel: Root Directory `store-front`, Framework Other, ไม่มี build/install; config ใน `store-front/vercel.json` (`cleanUrls:false` + rewrites ไป `index.html` ต่อหน้าหลักและ `/account/:path*`) — เพิ่มหน้า/URL ใหม่ต้องเพิ่ม rewrite ที่นี่ด้วย
+- `index.html` มี `<base href="/">` เพื่อให้ component/assets โหลดจาก root เมื่ออยู่ nested path (อย่าลบ)
+
+## สถาปัตยกรรม store-front
+- `index.html` = source of truth เดียว: CSS, route switch (`sc-if` → `dc-import`), `class Component extends DCLogic` (state, mock data, business rules, handlers, view models)
+- `*.dc.html` = template ล้วน ไม่มี script/state; รับ props ชุดเดียว `dcProps="{{ all }}"` (`renderVals()` เรียก `renderAllVals()` แล้วใส่ `all`)
+- Runtime `./support.js` เป็น generated — **ห้ามแก้**; Footer/shared CSS ห้ามเปลี่ยนในงานหน้าอื่น
+- CSS `#dc-root .sc-host .sc-host { display:contents }` ต้องคงไว้ ไม่งั้น layout เพี้ยน
+- ไฟล์ child อยู่ flat ข้าง `index.html` (ห้ามย้ายเข้า subfolder), ชื่อไฟล์ตรง `dc-import name` แบบ case-sensitive, คง wrapper (doctype, head, `./support.js`, body, `<x-dc>`)
+- ค่า/handler ที่ template ใช้ต้อง return จาก `renderAllVals()` หรือ helper ที่ spread เข้าไป (`storeVals/flowVals/acctVals/addrTabVals/...`) ไม่งั้น `{{ }}` ค้างเป็นข้อความดิบ
+- ข้อความใหม่ต้องมี 2 ภาษา: `L` (ข้อความใช้ซ้ำ → `t`), `m(th,en)` (เฉพาะจุด), คู่ `[th,en]` อ่านผ่าน `tx()`; เงินแสดงผ่าน `baht()`
+
+### ไฟล์ UI
+- Layout: `DemoBar` (ซ่อนด้วย `display:none`), `Header`, `Footer`, `ChatWidget`, `Toast`
+- หน้า: `Home, Products, Pdp, Services, Promos, About, Contact, Coupons, Cart, Checkout, Success, Rfq, Register, Account`
+- แท็บบัญชี (เรียกจาก `Account`): `AccountProfile/Addresses/Credit/Orders/OrderDetail/Quotes/QuoteDetail/Leads/LeadDetail/Docs/Notifications`
+- Overlay: `AddressModal`, `LoginModal`, `DocumentModal`
+
+### Routing (clean URL + History API)
+- `state.route.p`: `home products pdp services promos about contact coupons cart checkout success rfq register account`; `go(p, extra)`; `go('login')` เปิด modal ไม่ใช่หน้า
+- `urlForNavigation()` / `navigationFromPath()` เป็น mapping กลางระหว่าง state ↔ URL; `syncBrowserUrl()` เรียกใน `componentDidUpdate`; `popstate` คืน state
+- ตอน mount URL ใน address bar ชนะ route ที่ persist ไว้
+- Path: `/products`, `/products/:id`, `/promotions`, `/order-success`, `/request-a-quote`, `/register/:kind[/success]`, `/account[/addresses|credit|orders[/:oid]|quotes[/:qid]|consultations[/:lid]|documents|notifications]`
+- เพิ่มหน้าใหม่ = template + route flag ใน `renderAllVals()` + `sc-if`/`dc-import` ใน index + mapping ไป-กลับ + rewrite ใน `vercel.json` + ทดสอบ direct URL/refresh/Back-Forward
+
+## สถานะปัจจุบันที่ควรรู้
+- **บริการซ่อนทั้งเว็บ**: `SHOW_SERVICES = false` ใน `index.html` — ซ่อนเมนู/การ์ด/Promos บริการ, route `services` (→ home), PDP ของสินค้าบริการ (→ products), แท็บ "คำขอคำปรึกษา" (→ profile), order/quote/lead/notif ของงานบริการ, สินค้าบริการออกจาก catalogue. workflow lead → survey → quote → service order ยังอยู่ในโค้ด (dormant) ห้ามลบ; guard ด้วย `isServiceProduct()`, `catalogueProducts()`, `visibleCartLines()`
+- **Layout เดสก์ท็อปล็อก**: ขั้นต่ำ 1240px (`state.w`), เนื้อหา max 1680px; จอแคบเลื่อนแนวนอนโดยตั้งใจ ไม่ทำ mobile layout
+- **Editor props** (`data-props`): มีแต่ `showCategoryRows` ที่ทำงานจริง; `showDemoBar`, `defaultSegment`, `maxOrderWeightKg` ยังไม่ผูก (น้ำหนักใช้ `MAXW = 300`)
+- **Home**: hero 5 สไลด์ (overview + 4 แคมเปญ) autoplay 7 วิ หยุดเมื่อ hover/focus/reduced-motion; ปุ่ม prev/next/pause ถูกถอดแล้ว; รูปใช้ WebP `srcSet` + fallback PNG (`homeHeroImageError` ต้องล้าง srcset ก่อนเปลี่ยน src); คลิกธุรกิจ → `browseHomeCategory()` ล้าง filters เก่า
+- **เลขออเดอร์**: `P|S` + `yymmdd` + ตัวอักษร A–Z 5 ตัว (P = สินค้า, S = บริการ) สร้างด้วย `nextOrderId(kind)`; ข้อมูลเก่าใน localStorage ถูกแปลงโดย `migrateOrderNumbers()` ตอน mount
+- **Cart**: เลือกสินค้าด้วย checkbox (ยอดรวมคิดเฉพาะที่เลือก), ไม่มี "บันทึกไว้ทีหลัง" แล้ว, จำนวนไม่เกินสต็อก, ตะกร้าที่อ้างใบเสนอราคาล็อกการแก้
+- **เครดิต**: `creditSummaryVM()` ใช้ใน Cart (แถบเครดิตเฉพาะบัญชีเครดิต) และ dropdown avatar ใน Header (`showAcctCredit`/`acctCredit` — % คงเหลือ + วงเงิน)
+- **กระดิ่งแจ้งเตือน (Header)**: อยู่ระหว่างปุ่มภาษากับ avatar เฉพาะตอนล็อกอิน; badge แดงนับรายการที่ยังไม่อ่าน (cap `9+`); dropdown แสดง 5 รายการล่าสุด + "อ่านทั้งหมด" + ลิงก์ไปแท็บตั้งค่าแจ้งเตือน; logic อยู่ที่ `notifBellVals()`, ใช้ `visibleNotifs()` ร่วมกับ `acctVals()` (กรองแจ้งเตือนบริการตอน `SHOW_SERVICES=false`); สถานะอ่านเก็บเป็น `read:true` บน `notifs` (ไม่มี flag = ยังไม่อ่าน); `notifOpen` ปิดพร้อมเมนูอื่นผ่าน `closeMenus` และทุกจุดที่ตั้ง `acctOpen:false`; `notifs` ยังไม่แยกตามบัญชี และแจ้งเตือนยังไม่มี ref ไปออเดอร์/ใบเสนอราคา (กดรายการได้แค่ mark read ไม่ได้พาไปหน้านั้น)
+- **Checkout 4 สเต็ป** (`ck.step`): 1 ผู้ซื้อ/ที่อยู่ → 2 จัดส่ง/รับเอง → 3 ชำระเงิน → 4 ตรวจสอบ; ไม่มีช่อง PO/ไฟล์อนุมัติแล้ว — **PO อยู่ที่ขั้นแปลงใบเสนอราคาเป็นออเดอร์** (`orderFromQuote`) เท่านั้น
+- **Success**: สรุปเรียงแนวตั้ง ไม่มีบล็อก "สิ่งที่ต้องทำต่อ"; ออเดอร์ที่ชำระแล้วมีปุ่มดาวน์โหลดใบเสร็จ (`downloadDoc('receipt', ...)`); ออเดอร์/การ์ดแสดงชิปสถานะการชำระเงิน
+- **ขนส่ง** `CARRIERS` c1 DHL 70 / c2 Flash 50 / c3 ไปรษณีย์ไทย 30 / c4 KEX 60 / c5 Polytechnology 300 กก.; เกินเพดานซ่อนเจ้านั้น (`carrierOk()`); order รวม >300 กก. หรือไม่มีน้ำหนัก → block
+- **บัญชีสาธิต** `guest, walkin, bizNew, partner (เครดิต 30 วัน, ราคา idx1), gradeA (เครดิต 45 วัน, PO/เช็ค/ผู้อนุมัติ, ราคา idx2)`; `price()` เลือก `pr[priceIdx]`; `null` = ไม่มีราคาซื้อตรง
+- **Scenarios** `sc1`–`sc16` ใน `scenarioDefs()` ใช้เป็น regression checklist (DemoBar ซ่อน จึงเรียกผ่าน logic/tests)
+- **Persistence**: key `plt_proto_v2` — persist เฉพาะ `lang acct route tab cart coupon wallet orders quotes leads notifs ck form lastOrder lastQuote pendingApproval regCo seeded`; filters/address book/`pdpAd`/stockAdj ไม่ persist; `seed()` merge orders/quotes/leads ตาม `id`; อย่า bump `KEY` โดยไม่จำเป็น (ล้าง demo progress ของผู้ใช้)
+- Timers: hero 7s, สต็อกจำลอง 9s, clock 1s (cleanup ใน `componentWillUnmount`)
+- ใบเสนอราคา: อายุ instant 7 / RFQ 21 / service 30 วัน; ป้ายสถานะเดียวผ่าน `qStatus()`; รายละเอียดใช้ state `qOpen` + ปุ่มพับ **ห้ามใช้ `<details>` + dynamic `open`/`onToggle`** (scope พัง)
+
+## เมื่อเพิ่ม state / logic
+- state ใหม่: default ใน `state` → `resetDemo()` → `resetIdentity()` (ถ้าผูกตัวบุคคล/บริษัท) → `persist()` เฉพาะที่ต้องอยู่หลัง refresh
+- คำนวณ price/totals/weight/VAT/coupon/quote totals ผ่าน helper ใน index เท่านั้น ไม่ทำใน template
+- ใช้ immutable `setState` กับ array/object ซ้อน; ใช้ `id` ไม่ใช่ index
 
 ## ข้อควรระวังทางเทคนิค
-- ห้าม `<img src="{{ ... }}">` ใน sc-if ที่ค่ายังไม่ resolve (ยิง request URL ดิบ) → ใช้ background-image หรือ element อื่น
-- แก้ไฟล์ใหญ่ด้วย run_script + replace แบบ exact-match; ตรวจจำนวน match ก่อน
+- ห้าม `<img src="{{ ... }}">` ใน `sc-if` ที่ค่ายังไม่ resolve (ยิง request URL ดิบ) → ใช้ background-image หรือรอ data พร้อม
+- แก้ไฟล์ใหญ่ด้วย exact-match replace; ตรวจจำนวน match ก่อนแทน
+- ก่อน/หลังแก้ดู `git status --short` — worktree อาจมีงานค้างของผู้ใช้ อย่า reset/clean ไฟล์ที่ไม่ใช่งานตัวเอง
 
+## ตรวจงาน
+- Node regression (ไม่ต้องเปิด browser) — รันจาก root: `node --preserve-symlinks-main store-front/tests/<ไฟล์>.cjs`
+  `home-redesign`, `url-routing`, `services-hidden`, `service-request-progress`, `cart-credit-display`, `cart-item-selection`, `cart-stock-limit`, `header-credit-dropdown`, `header-notification-bell`, `order-number-format`, `product-card-price-display`, `product-list-buy-now`, `quote-po-order-flow`, `account-order-detail-status`, `success-page-layout` (ผ่านครบ 15 ไฟล์ ณ 19 ต.ค. 2026)
+- Browser (Playwright + Chrome): `python store-front/serve.py --port 8765` แล้ว `python store-front/tests/browser-home-redesign.py` (viewport 1240/1440/1920/2541/768, TH/EN, clean URL, Back/Forward); `browser-hero-image.py` ตรวจ WebP/PNG fallback
+- Node tests ไม่ตรวจ DOM/CSS/HTTP loading — งาน UI ต้องเปิดจริงผ่าน HTTP ดู console, TH/EN, guest + บัญชีที่เกี่ยว, refresh/reset
+- งานแตะ checkout ทดสอบ 299/300/301 กก., ไม่มีน้ำหนัก, mixed cart, delivery/pickup
 
----
-
-# ประวัติโครงสร้าง monolith เดิม (ไฟล์ถูกลบแล้ว; เลขบรรทัดใช้กับเวอร์ชันเก่าเท่านั้น)
-
-## ไฟล์ในโปรเจกต์
-- `Polytech Commerce.dc.html` — ไฟล์หลัก (แก้ที่นี่)
-- `Polytech Commerce standalone-src.dc.html` — สำเนาสำหรับ build standalone (เกือบเหมือนกัน ต่าง ~1 บรรทัด); `Polytech Commerce (standalone).html` — ผลลัพธ์ bundle (อย่าแก้ตรง)
-- `support.js` — DC runtime (generated จาก dc-runtime, **ห้ามแก้**) ทำหน้าที่ parse `<x-dc>` + `<script type="text/x-dc">` แล้ว render ด้วย React
-- `ProductTile.dc.html` — คอมโพเนนต์การ์ดสินค้าเล็ก; `Polytech Wireframe Canvas.dc.html` — wireframe; `Polytech E-commerce Prototype.dc.html` — ไฟล์ว่าง
-- `assets/` (โลโก้), `uploads/` (ภาพ reference ที่แปะมา), `store-front/` (ว่าง)
-
-## โครงไฟล์หลัก (เรียงตามบรรทัดโดยประมาณ)
-| บรรทัด | ส่วน |
-|---|---|
-| 1–28 | `<head>`: โหลด support.js, ฟอนต์ Sarabun, Leaflet (แผนที่ที่อยู่), CSS global |
-| 29–167 | Demo bar (เลือกบัญชี/สถานการณ์/รีเซ็ต), Header/Navbar (ค้นหา, ภาษา, Log In, avatar), เมนูมือถือ |
-| 168–1650 | หน้าสาธารณะ + ซื้อขาย: home 168, products 279, pdp 424, services 564, promos 682, about 700, contact 722, coupons 740, cart 758, checkout 949, success 1320, rfq 1438, register 1543 |
-| 1652–2497 | `isAccount` — หน้าบัญชี (profile/addresses/credit/orders/quotes/leads/docs/notifications) + รายละเอียด order (`od.*`), quote (`qd.*`), lead (`ld.*`) |
-| 2498–2700 | Modal/overlay: ที่อยู่ (`addrOpen`), Log In (`loginOpen`), `modalOpen` (เอกสาร/พิมพ์), แชต (`chatOpen`), toast |
-| 2708 | `<script type="text/x-dc">` — `data-props` ของ editor (showCategoryRows, showDemoBar, defaultSegment, maxOrderWeightKg) |
-| 2710–5523 | `class Component extends DCLogic` (ทั้งหมดของ logic) |
-
-Template ใช้ไวยากรณ์ DC: `{{ expr }}`, `<sc-if value="{{ flag }}">`, `<sc-for list="{{ arr }}" as="x">`, handler เป็น `onClick="{{ fn }}"`. ค่าทั้งหมดที่ template ใช้ต้องถูก return จาก `renderVals()` (4103) / ฟังก์ชัน `*Vals`/`*VM`.
-
-## class Component — ส่วนประกอบ
-**ข้อมูล (field, 2711–3130)**
-- `KEY='plt_proto_v2'` (localStorage), `L` พจนานุกรมข้อความ 2 ภาษา `[th, en]` (ใช้ผ่าน `t.xxx`), `m(th,en)` สำหรับข้อความ inline
-- `CATS` หมวด, `PRODUCTS` (มี `pr[]` ราคาตาม priceIdx 0=ปลีก/1=Partner/2=Grade A, `stock`), `GROUPS`/`SUBS`/`HERO` หน้าแรก, `SERVICES`, `SVC_EXTRA`/`SVC_QUOTE`, `ACCOUNTS`, `CARRIERS` (c1 DHL, c2 Flash, c3 ไปรษณีย์ไทย, c4 KEX, c5 Polytechnology; `maxKg`), `COUPONS`, `MAXW=300`, `POLICY` (อายุใบเสนอราคา, ส่วนลด RFQ, งวดชำระ), `HOLDS` (สถานะค้างของ order: approval/seller/credit/payment/verify)
-
-**บัญชีสาธิต (`ACCOUNTS`)**: `guest`, `walkin` (B2C), `bizNew` (นิติบุคคล จ่ายทันที), `partner` (เครดิต 30 วัน, ราคา idx1), `gradeA` (เครดิต 45 วัน, PO, เช็ค, ผู้อนุมัติ, ราคา idx2) — สลับแล้ว `resetIdentity()` เคลียร์ฟอร์ม + `prefill()`
-
-**state หลัก (3050–3070)**: `lang, acct, route{p,...}, tab, cart, saved, coupon, wallet, search, filters, orders, quotes, leads, notifs, ck{step,mode,carrier,pay,po,accept,sameAddr,quoteRef}, form, addr{ship,bill,rfq}, rfq, chat*, stockAdj, toast, modal, api`
-- `persist()` เขียน localStorage ใน `componentDidUpdate`; `componentDidMount` โหลด + merge seed (quotes/leads เพิ่มจาก `seed()` ถ้า id ยังไม่มี) + ตั้ง interval (hero 7s, tick 1s, จำลองสต็อก 9s)
-- `seed()` (3132) — ข้อมูลตัวอย่าง orders/quotes/leads/notifs ครบทุกสถานะ
-
-**Routing/ระบบ**: `go(p, extra)` เปลี่ยน `state.route` (p = home|products|pdp|services|promos|about|contact|coupons|cart|checkout|success|rfq|register|account; `login` เปิด modal), `say()` toast, `api(key,ms,fail,onOk)` จำลอง loading/error + `retryApi`
-
-**กลุ่มฟังก์ชันตามหน้าที่ (บรรทัดโดยประมาณ)**
-- Helper/format 3272–3372: `lang/li/tx/m`, `money/baht/dateStr`, `price/retail/stockOf/prod/svc/carrier`, `stockVM/priceVM`
-- ตะกร้า/ราคา 3373–3512: `cartRows`, `totals`, `weightOf`, บริการเสริม (`ad*`, `pdpAdVals`, `rowAdVals`), `carrierOk`
-- คูปอง/ที่อยู่/checkout 3513–3626: `useCoupon`, `prefill`, `ckSel`, `applyAddr`, `taxOn`, `ckAddrVals`, `creditVM`
-- Order lifecycle 3627–3735: `notif`, `nextOrderId`, `holdMeta`, `updOrder`, `dropHold`, `rank`, `msDue` (milestone งานบริการ)
-- Quote/Lead 3733–4020: `buildLines`, `priceQuote`, `serviceQuote`, `quoteTotals`, `qStatus`, `updQuote`, `hist`, `updLead`, `createLeadQuote`
-- Scenario demo 4021: `scenarioDefs()` — sc1–sc9 (B2C QR, B2B จ่ายทันที, เครดิต 45 วัน, ไม่มี PO→รออนุมัติ, เกินวงเงิน, instant quote, RFQ→แก้ไข→สั่งซื้อ, ขอคำปรึกษา→สำรวจ→เสนอราคา, ใบเสนอราคาหมดอายุ)
-- View-model: `filtered`/`productVM` 4061–4102, **`renderVals()` 4103** (รวมค่าให้ template: flag หน้า `isHome…isAccount`, `t`), `promoList`, `sections`, `storeVals` 4260, `addrTabVals`/`addrVals` + `thai()` (ข้อมูลจังหวัด/geo) 4413–4551, **`flowVals` 4552** (cart/checkout/success/RFQ), `okVM` (success), `odVM` (order detail), `qdVM` (quote detail), `ldVM` (lead detail), **`acctVals` 5208** (หน้าบัญชี)
-- สถานะ/ป้าย 4858–4922: `statusLabel/Color`, `orderStatusText`, `payKey/Label/Color/Text`, `quoteStatusLabel/Color`, `paginate`, `mkTabs` (แท็บกลุ่มสถานะ)
-- การชำระเงิน 4955–5030: `qrCells/qrSvg` (QR จำลอง), `payPanel(o, lock)` (พร้อมเพย์/โอน/เครดิต ใช้ร่วม success + order detail)
-- Chat 3091–3107: `chatSend` ตอบอัตโนมัติตาม keyword
-
-## ข้อควรรู้เมื่อแก้
-- ข้อความใหม่ทุกจุดต้องมี 2 ภาษา (`L` หรือ `m(th,en)`); ราคาแสดงผ่าน `baht()`
-- เพิ่ม flag/ค่าใน template → ต้อง return จาก `*Vals`/`renderVals` ด้วย ไม่งั้น `{{ }}` จะค้างเป็นข้อความดิบ
-- state ใหม่ที่ต้องคงอยู่หลังรีเฟรช → เพิ่มใน `persist()` และ default ใน `state`
-- เปลี่ยน schema ข้อมูล seed → ผู้ใช้เก่าอาจมี localStorage เดิม (merge เฉพาะ quotes/leads) ให้พิจารณา bump `KEY`
-- แก้เสร็จแล้วควรซิงก์ไป `Polytech Commerce standalone-src.dc.html` เฉพาะเมื่อผู้ใช้ขอ
-
----
-
-# `store-front/` — เวอร์ชันหลักแยกไฟล์ตามเมนูสำหรับ deploy
-
-เปิดผ่าน HTTP เท่านั้น (runtime fetch ไฟล์ลูกด้วย fetch จึงเปิดแบบ file:// ไม่ได้) เช่น `python -m http.server 8000 --directory store-front` ที่โฟลเดอร์โปรเจกต์ แล้วเข้า `http://localhost:8000/`
-
-- `index.html` — entry: head/CSS, root layout, `<script type="text/x-dc">` ที่มี class Component (state/logic/ข้อมูลทั้งหมดอยู่ที่นี่ที่เดียว) และ routing ด้วย `sc-if` → `dc-import`
-- ทุกส่วนของ UI เป็นไฟล์ `*.dc.html` ในโฟลเดอร์เดียวกัน (flat, runtime อ่านได้เฉพาะโฟลเดอร์เดียวกับ index) — ไม่มี logic ของตัวเอง
-  - Layout: `DemoBar`, `Header` (navbar/ค้นหา/เมนูมือถือ), `Footer`, `ChatWidget`, `Toast`
-  - หน้า: `Home`, `Products`, `Pdp`, `Services`, `Promos`, `About`, `Contact`, `Coupons`, `Cart`, `Checkout`, `Success`, `Rfq`, `Register`, `Account`
-  - แท็บในบัญชี (ถูกเรียกจาก `Account`): `AccountProfile`, `AccountAddresses`, `AccountCredit`, `AccountOrders`, `AccountOrderDetail`, `AccountQuotes`, `AccountQuoteDetail`, `AccountLeads`, `AccountLeadDetail`, `AccountDocs`, `AccountNotifications`
-  - Overlay: `AddressModal`, `LoginModal`, `DocumentModal`
-- วิธีส่งข้อมูล: `renderVals()` ใน index คืน `all` (อ้างตัวเอง) แล้วทุกไฟล์ลูกถูกเรียกด้วย `<dc-import name="X" dcProps="{{ all }}">` → template ในไฟล์ลูกใช้ `{{ ... }}` ชื่อเดิมได้ทุกตัว ไม่ต้องเปลี่ยน
-- เพิ่ม/แก้ค่า template: ยังเพิ่มใน `*Vals`/`renderAllVals()` ใน index เหมือนเดิม; เพิ่มหน้าใหม่ = สร้าง `Name.dc.html` + เพิ่ม `sc-if` + `dc-import` ใน index (หรือใน Account สำหรับแท็บ)
-- CSS `#dc-root .sc-host .sc-host { display:contents }` ใน index ทำให้ wrapper ของคอมโพเนนต์ไม่กระทบ layout (อย่าลบ)
-- path รูป/สคริปต์ถูกปรับเป็น `./support.js` และ `./assets/...`
-- ตรวจแล้วกับต้นฉบับ: เทียบ DOM 200 สถานะ (ทุกหน้า × ทุกบัญชี × ทุกสเต็ป checkout/แท็บบัญชี/รายละเอียด order-quote-lead) ไม่ต่างกัน + เทียบ flow คลิกจริง (เมนู→ตะกร้า→checkout→แชต) ตรงกัน
+## Git
+- ไม่ commit/push/deploy จนกว่าผู้ใช้สั่ง; stage เฉพาะไฟล์งาน
+- กฎ commit (อังกฤษ, ไม่ระบุ AI, `type(scope): summary`, body เป็น bullet ต่อไฟล์, แยก commit ตามงาน, ห้ามอักขระพิเศษ/โค้ดใน message, ห้าม stage `package-lock.json` และ `next.config.ts`) อยู่ใน `~/.claude/CLAUDE.md` + หัวข้อ Git ใน `AGENTS.md`
