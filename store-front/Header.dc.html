@@ -43,6 +43,43 @@
             </div>
           </sc-if>
         </div>
+        <sc-if value="{{ showNotifBell }}">
+          <div style="position:relative;flex:0 0 auto">
+            <button type="button" onClick="{{ toggleNotif }}" aria-haspopup="dialog" aria-expanded="{{ notifOpenStr }}" aria-label="{{ notifBellLabel }}" title="{{ notifTitle }}" style="position:relative;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:8px;height:38px;width:42px;padding:0;color:#36334F;cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="background:#F1EFF7">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+              <sc-if value="{{ hasNotifUnread }}">
+                <span aria-hidden="true" style="position:absolute;top:-7px;right:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B23A2E;color:#FFFFFF;border:1px solid #FFFFFF;font:700 11px/16px 'Sarabun',sans-serif;text-align:center;box-sizing:border-box">{{ notifBadge }}</span>
+              </sc-if>
+            </button>
+            <sc-if value="{{ notifOpen }}">
+              <div role="dialog" aria-label="{{ notifTitle }}" style="position:absolute;right:0;top:44px;width:340px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;box-shadow:0 8px 24px rgba(30,26,58,.16);overflow:hidden">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid #ECEAF3">
+                  <strong style="font-size:14px;color:#1E1A3A">{{ notifTitle }}</strong>
+                  <sc-if value="{{ hasNotifUnread }}">
+                    <button type="button" onClick="{{ markAllNotifsRead }}" style="background:none;border:none;padding:0;font-size:12.5px;font-weight:600;color:#44359B;cursor:pointer">{{ lblMarkAllRead }}</button>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ noNotifItems }}">
+                  <div style="padding:22px 14px;font-size:13px;color:#6B6785;text-align:center">{{ lblNotifEmpty }}</div>
+                </sc-if>
+                <sc-if value="{{ hasNotifItems }}">
+                  <div style="display:grid">
+                    <sc-for list="{{ notifItems }}" as="n" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ n.read }}" style="display:flex;gap:10px;align-items:flex-start;width:100%;background:{{ n.bg }};border:none;border-bottom:1px solid #ECEAF3;padding:12px 14px;text-align:left;cursor:pointer" style-hover="background:#F1EFF7">
+                        <span aria-hidden="true" style="flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:{{ n.dot }};margin-top:6px"></span>
+                        <span style="flex:1 1 auto;min-width:0">
+                          <span style="display:block;font-size:13.5px;line-height:1.45;font-weight:{{ n.fw }};color:#1E1A3A;text-wrap:pretty">{{ n.text }}</span>
+                          <span style="display:block;font-size:12px;color:{{ n.color }};margin-top:3px">{{ n.date }}</span>
+                        </span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <button type="button" onClick="{{ goNotifSettings }}" style="display:block;width:100%;background:none;border:none;padding:11px 14px;font-size:13px;font-weight:600;color:#44359B;text-align:center;cursor:pointer" style-hover="background:#F1EFF7">{{ lblNotifSettings }}</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
         <sc-if value="{{ loggedOut }}" hint-placeholder-val="{{ true }}">
           <button type="button" onClick="{{ openLoginBtn }}" style="background:#44359B;border:1px solid #44359B;border-radius:8px;height:38px;padding:0 14px;font-size:13px;font-weight:600;color:#FFFFFF;cursor:pointer;flex:0 0 auto;white-space:nowrap" style-hover="background:#36297F">{{ t.login }}</button>
         </sc-if>

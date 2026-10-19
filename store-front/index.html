@@ -645,7 +645,7 @@ class Component extends DCLogic {
     ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null},
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
     addr:{ship:null, bill:null, rfq:null},
-    menuOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
+    menuOpen:false, notifOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
     lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:'', po:''},
     chatOpen:false, chat:null, chatInput:'', chatTyping:false,
     stockAdj:{}, seeded:false, scenarioId:'', changes:null, quoteBlock:null, regCo:null
@@ -670,7 +670,7 @@ class Component extends DCLogic {
       let next = this.navigationFromPath(window.location && window.location.pathname);
       if (!this.SHOW_SERVICES && (next.route.p === 'services' || (next.route.p === 'pdp' && this.isServiceProduct(this.prod(next.route.id))))) next = { route:{ p:next.route.p === 'pdp' ? 'products' : 'home' }, tab:next.tab };
       if (!this.SHOW_SERVICES && next.tab === 'leads') next.tab = 'profile';
-      this.setState({ ...next, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false, loginModal:null });
+      this.setState({ ...next, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false, loginModal:null });
       window.scrollTo(0, 0);
     };
     setTimeout(this.measureHdr, 0);
@@ -1054,12 +1054,12 @@ class Component extends DCLogic {
     if (p === 'login') { this.openLogin(extra); return; }
     if (!this.SHOW_SERVICES && p === 'services') { p = 'home'; extra = null; }
     if (!this.SHOW_SERVICES && p === 'pdp' && this.isServiceProduct(this.prod(extra && extra.id))) { p = 'products'; extra = null; }
-    this.setState(s => ({ route:{ p, ...(extra || {}) }, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false }));
+    this.setState(s => ({ route:{ p, ...(extra || {}) }, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false }));
     window.scrollTo(0, 0);
   }
-  openLogin = (o) => this.setState({ loginModal:{ ...(o || {}) }, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false });
+  openLogin = (o) => this.setState({ loginModal:{ ...(o || {}) }, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false });
   closeLogin = () => this.setState({ loginModal:null });
-  closeMenus = () => this.setState({ searchOpen:false, langOpen:false, acctOpen:false });
+  closeMenus = () => this.setState({ searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false });
   say(msg, kind) { this.setState({ toast:msg, toastKind:kind || 'ok' }); clearTimeout(this._tt); this._tt = setTimeout(() => this.setState({ toast:null }), 4200); }
 
   api(key, ms, fail, onOk) {
@@ -1376,6 +1376,25 @@ class Component extends DCLogic {
       open:() => this.setTab('credit') };
   }
 
+  visibleNotifs() { return this.SHOW_SERVICES ? this.state.notifs : this.state.notifs.filter(n => !/คำขอคำปรึกษา|งานบริการ|Consultation request|Service quotation|Service order/i.test((n.text || []).join(' '))); }
+  notifColor(kind) { return kind === 'invoice' ? '#B87A07' : kind === 'quote' ? '#5A49B5' : '#1F7A4D'; }
+  notifBellVals(i) {
+    const s = this.state, list = this.visibleNotifs(), unread = list.filter(n => !n.read).length;
+    return {
+      showNotifBell:this.loggedIn, notifOpen:!!s.notifOpen, notifOpenStr:s.notifOpen ? 'true' : 'false',
+      toggleNotif:() => this.setState(st => ({ notifOpen:!st.notifOpen, searchOpen:false, langOpen:false, acctOpen:false })),
+      notifUnread:unread, hasNotifUnread:unread > 0, notifBadge:unread > 9 ? '9+' : String(unread),
+      notifBellLabel:i ? 'Notifications' + (unread ? ', ' + unread + ' unread' : '') : 'การแจ้งเตือน' + (unread ? ' ยังไม่อ่าน ' + unread + ' รายการ' : ''),
+      notifTitle:i ? 'Notifications' : 'การแจ้งเตือน', lblMarkAllRead:i ? 'Mark all as read' : 'อ่านทั้งหมด',
+      lblNotifSettings:i ? 'Notification settings' : 'ตั้งค่าการแจ้งเตือน', lblNotifEmpty:i ? 'No notifications yet' : 'ยังไม่มีการแจ้งเตือน',
+      hasNotifItems:list.length > 0, noNotifItems:list.length === 0,
+      notifItems:list.slice(0, 5).map(n => ({ text:this.tx(n.text), date:this.dateStr(n.date), color:this.notifColor(n.kind),
+        dot:n.read ? 'transparent' : '#B23A2E', fw:n.read ? '400' : '600', bg:n.read ? '#FFFFFF' : '#F7F5FD',
+        read:() => this.setState(st => ({ notifs:st.notifs.map(x => x.id === n.id ? { ...x, read:true } : x) })) })),
+      markAllNotifsRead:() => this.setState(st => ({ notifs:st.notifs.map(x => x.read ? x : { ...x, read:true }) })),
+      goNotifSettings:() => { this.setTab('notif'); this.setState({ notifOpen:false }); }
+    };
+  }
   notif(kind, th, en) { return { id:'n' + Date.now() + Math.random().toString(36).slice(2, 6), kind, date:this.addDays(0), text:[th, en] }; }
   nextOrderId(kind = 'goods') {
     const prefix = kind === 'service' ? 'S' : 'P', now = new Date(), chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -1735,7 +1754,7 @@ class Component extends DCLogic {
     window.scrollTo(0, 0);
     this.say(this.m('เข้าสู่ระบบเป็นลูกค้า ' + this.ACCOUNTS[seg].chip[0] + ' แล้ว ราคา เครดิต และเงื่อนไขชำระเงินถูกอัปเดต', 'Logged in as ' + this.ACCOUNTS[seg].chip[1] + ' — prices, credit and payment options updated.'), 'ok');
   };
-  logout = () => { this.setState(s => ({ acct:'guest', acctOpen:false, route:{ p:'home' }, tab:'profile', ck:{ ...s.ck, quoteRef:null } })); this.say(this.m('ออกจากระบบแล้ว ระบบแสดงราคาขายปลีก', 'You have been logged out. Retail prices are shown.'), 'info'); };
+  logout = () => { this.setState(s => ({ acct:'guest', acctOpen:false, notifOpen:false, route:{ p:'home' }, tab:'profile', ck:{ ...s.ck, quoteRef:null } })); this.say(this.m('ออกจากระบบแล้ว ระบบแสดงราคาขายปลีก', 'You have been logged out. Retail prices are shown.'), 'info'); };
   registerCompany = () => {
     const f = this.state.form;
     this.setState({ acct:'bizNew', regCo:{ company:f.company || '', taxId:f.taxId || '' }, pendingApproval:false, route:{ p:'register', done:'company' } });
@@ -1909,18 +1928,19 @@ class Component extends DCLogic {
       goCart:() => this.go('cart'), goRfq:this.goRfq,
       goAccount:() => this.loggedIn ? this.go('account') : this.openLogin({}),
       openLoginBtn:() => this.openLogin({}), closeLogin:this.closeLogin, closeMenus:this.closeMenus, stopProp:e => e.stopPropagation(),
-      loginOpen:!!s.loginModal, anyMenuOpen:!!(s.searchOpen || s.langOpen || s.acctOpen),
+      loginOpen:!!s.loginModal, anyMenuOpen:!!(s.searchOpen || s.langOpen || s.acctOpen || s.notifOpen),
       searchOpen:!!s.searchOpen, searchOpenStr:s.searchOpen ? 'true' : 'false', searchBtnBg:s.searchOpen ? '#ECE9F8' : '#F1EFF7',
-      toggleSearch:() => this.setState(st => ({ searchOpen:!st.searchOpen, langOpen:false, acctOpen:false })),
+      toggleSearch:() => this.setState(st => ({ searchOpen:!st.searchOpen, langOpen:false, acctOpen:false, notifOpen:false })),
       searchCat:s.searchCat || '', onSearchCat:e => this.setState({ searchCat:e.target.value }), lblAllCats2:i ? 'All categories' : 'ทุกหมวดหมู่',
       submitSearchPanel:e => { e.preventDefault(); this.setState(st => ({ filters:{ ...st.filters, cat:st.searchCat ? [st.searchCat] : [] } })); this.go('products'); },
       isTh:s.lang === 'th', isEn:s.lang === 'en', langShort:s.lang === 'th' ? 'ไทย' : 'Eng',
       langOpen:!!s.langOpen, langOpenStr:s.langOpen ? 'true' : 'false',
-      toggleLangMenu:() => this.setState(st => ({ langOpen:!st.langOpen, searchOpen:false, acctOpen:false })),
+      toggleLangMenu:() => this.setState(st => ({ langOpen:!st.langOpen, searchOpen:false, acctOpen:false, notifOpen:false })),
       thSel:s.lang === 'th' ? 'true' : 'false', enSel:s.lang === 'en' ? 'true' : 'false', thBg:s.lang === 'th' ? '#ECE9F8' : 'transparent', enBg:s.lang === 'en' ? '#ECE9F8' : 'transparent',
       setLangTh:() => this.setState({ lang:'th', langOpen:false }), setLangEn:() => this.setState({ lang:'en', langOpen:false }),
       acctOpen:!!s.acctOpen, acctOpenStr:s.acctOpen ? 'true' : 'false', showAcctLabel:s.w >= 1100,
-      toggleAcct:() => this.setState(st => ({ acctOpen:!st.acctOpen, searchOpen:false, langOpen:false })),
+      toggleAcct:() => this.setState(st => ({ acctOpen:!st.acctOpen, searchOpen:false, langOpen:false, notifOpen:false })),
+      ...this.notifBellVals(i),
       avatarInitial:((this.acct.company ? this.tx(this.acct.company) : this.tx(this.acct.name)) || '').replace(/^(คุณ|Mr\.|Ms\.|Mrs\.|บริษัท|Co\.,?)\s*/, '').charAt(0).toUpperCase(),
       acctNavLabel:this.tx(this.acct.company || this.acct.name),
       acctMenuName:this.tx(this.acct.company || this.acct.name), acctMenuSub:this.tx(this.acct.chip),
@@ -1928,8 +1948,8 @@ class Component extends DCLogic {
       acctCredit:acctCreditVM ? { availablePct:acctCreditVM.availablePct, availablePctLabel:acctCreditVM.availablePctLabel,
         availableLabel:acctCreditVM.availableLabel, limitLabel:this.baht(acctCreditVM.limit), barColor:acctCreditVM.barColor,
         title:this.m('วงเงินเครดิตคงเหลือ', 'Available credit'), limitPrefix:this.m('จากวงเงิน', 'of'), termsLabel:acctCreditVM.termsLabel } : {},
-      goMenuDash:() => { this.setState({ tab:'profile', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false }); window.scrollTo(0, 0); },
-      goMenuOrders:() => { this.setState({ tab:'orders', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false }); window.scrollTo(0, 0); },
+      goMenuDash:() => { this.setState({ tab:'profile', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false }); window.scrollTo(0, 0); },
+      goMenuOrders:() => { this.setState({ tab:'orders', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false, notifOpen:false }); window.scrollTo(0, 0); },
       lblMyOrders:i ? 'My orders' : 'คำสั่งซื้อของฉัน',
       isSignedIn:this.loggedIn, loggedOut:!this.loggedIn,
       goRegister:() => this.go('register', { kind:'person' }),
@@ -3011,7 +3031,7 @@ class Component extends DCLogic {
     const mine = s.orders.filter(o => o.acct === s.acct && (this.SHOW_SERVICES || o.kind !== 'service'));
     const myQuotes = s.quotes.filter(q => q.acct === s.acct && (this.SHOW_SERVICES || (q.kind !== 'service' && !q.leadId)));
     const myLeads = this.SHOW_SERVICES ? s.leads.filter(l => l.acct === s.acct) : [];
-    const visibleNotifs = this.SHOW_SERVICES ? s.notifs : s.notifs.filter(n => !/คำขอคำปรึกษา|งานบริการ|Consultation request|Service quotation|Service order/i.test((n.text || []).join(' ')));
+    const visibleNotifs = this.visibleNotifs();
     const cv = a.credit ? this.creditVM(0) : null;
     const of = { q:s.form.ofq || '', st:s.form.ofst || '', md:s.form.ofmd || '', from:s.form.offrom || '' };
     const stT = s.stTab || {}, nq = (of.q || '').trim().toLowerCase();
@@ -3152,7 +3172,7 @@ class Component extends DCLogic {
       hasCreditTab:!!a.credit,
       recentOrders:mine.slice(0, 3).map(orderRow),
       notifs:visibleNotifs.slice(0, 5).map(n => ({ text:this.tx(n.text), date:this.dateStr(n.date),
-        color:n.kind === 'invoice' ? '#B87A07' : n.kind === 'quote' ? '#5A49B5' : '#1F7A4D' })),
+        color:this.notifColor(n.kind) })),
       lblNotifs:i ? 'Notifications' : 'การแจ้งเตือน',
       lblRecentOrders:i ? 'Recent orders' : 'คำสั่งซื้อล่าสุด',
       lblCreditOverview:i ? 'Credit overview' : 'ภาพรวมวงเงินเครดิต',
