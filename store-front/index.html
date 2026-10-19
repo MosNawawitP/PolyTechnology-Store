@@ -89,8 +89,6 @@
   .pt-home .pt-hero h1 { margin:0; font-size:clamp(32px,2.6vw,44px); line-height:1.3; font-weight:700; color:#1E1A3A; text-wrap:balance; }
   .pt-home .pt-hero p { margin:0; font-size:16px; line-height:1.65; color:#5C5675; max-width:46ch; text-wrap:pretty; }
   .pt-home .pt-hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:4px; }
-  .pt-home .pt-hero-controls { position:absolute; z-index:2; bottom:16px; right:16px; display:flex; gap:8px; align-items:center; color:#44359B; background:#ffffffed; border:1px solid #E4E1EE; padding:5px 8px; border-radius:24px; font-size:12px; font-weight:700; }
-  .pt-home .pt-hero-controls button { border:0; background:#F4F1FC; color:#44359B; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:20px; }
   .pt-home .pt-shortcuts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); background:#F4F0FF; border-radius:12px; padding:16px 8px; margin-top:-14px; }
   .pt-home .pt-shortcut { background:none; border:0; border-right:1px solid #DAD3F0; padding:0 16px; display:flex; align-items:center; gap:12px; text-align:left; color:#44359B; cursor:pointer; min-height:54px; }
   .pt-home .pt-shortcut:last-child { border-right:0; }
@@ -442,17 +440,11 @@ class Component extends DCLogic {
   };
   homeVals() {
     const slides = this.homeHeroSlides(), s = this.state, hi = ((s.heroIdx % slides.length) + slides.length) % slides.length, h = slides[hi];
-    const paused = s.heroPaused || s.heroReducedMotion;
     return {
       hero:{ kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:h.photo, srcset:this.homeAssetSet(h.asset), fallback:"./assets/homepage/" + h.asset + ".png", onError:this.homeHeroImageError,
         photoClass:h.overview ? 'pt-hero-photo' : 'pt-hero-photo pt-hero-photo--campaign',
-        cta:this.m('เลือกซื้อสินค้า','Shop products'), idx:(hi + 1) + '/' + slides.length,
+        cta:this.m('เลือกซื้อสินค้า','Shop products'),
         go:() => { if (h.overview) { this.browseHomeCategory(); return; } this.clearFilters(); this.openGroup(h.grp); },
-        prev:() => this.setState(st => ({ heroIdx:(st.heroIdx + slides.length - 1) % slides.length })),
-        next:() => this.setState(st => ({ heroIdx:(st.heroIdx + 1) % slides.length })),
-        prevLabel:this.m('สไลด์ก่อนหน้า','Previous slide'), nextLabel:this.m('สไลด์ถัดไป','Next slide'),
-        toggle:() => this.setState(st => ({ heroPaused:!st.heroPaused, heroReducedMotion:false })),
-        pauseLabel:paused ? this.m('เล่นสไลด์อัตโนมัติ','Play slideshow') : this.m('หยุดสไลด์อัตโนมัติ','Pause slideshow'), pauseIcon:paused ? '▶' : 'Ⅱ',
         hover:() => this.setState({ heroHover:true }), leave:() => this.setState({ heroHover:false }),
         focus:() => this.setState({ heroFocus:true }), blur:e => { if (!e.currentTarget.contains(e.relatedTarget)) this.setState({ heroFocus:false }); } },
       homeShop:() => this.browseHomeCategory(), homeConsult:() => this.go('services', { svc:'s1' }),

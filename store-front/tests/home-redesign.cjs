@@ -5,6 +5,7 @@ const vm = require('node:vm');
 
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const homeTemplate = fs.readFileSync(path.join(root, 'Home.dc.html'), 'utf8');
 const script = html.match(/<script type="text\/x-dc"[^>]*>([\s\S]*?)<\/script>/)[1];
 const sandbox = {
   DCLogic: class {
@@ -24,6 +25,12 @@ app.say = () => {};
 
 assert.equal(app.homeHeroSlides().length, app.HERO.length + 1, 'Overview is followed by every existing campaign');
 assert.equal(app.homeHeroSlides()[0].photo, './assets/homepage/hero-industrial-commerce.webp');
+assert.doesNotMatch(homeTemplate, /pt-hero-controls|hero\.(?:toggle|pauseLabel|pauseIcon|idx|prev|next)/, 'Hero has no manual carousel controls');
+const heroValues = app.homeVals().hero;
+assert.equal(Object.hasOwn(heroValues, 'toggle'), false, 'Hero view model omits the removed play and pause action');
+assert.equal(Object.hasOwn(heroValues, 'idx'), false, 'Hero view model omits the removed slide count');
+assert.equal(Object.hasOwn(heroValues, 'prev'), false, 'Hero view model omits the removed previous-slide action');
+assert.equal(Object.hasOwn(heroValues, 'next'), false, 'Hero view model omits the removed next-slide action');
 app.state.heroIdx = 4;
 app.advanceHomeHero();
 assert.equal(app.state.heroIdx, 0, 'Carousel wraps across all five slides');

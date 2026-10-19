@@ -20,12 +20,6 @@
         <sc-if value="{{ showServices }}"><button type="button" class="pt-button pt-button--outline" onClick="{{ homeConsult }}">{{ lblHomeConsult }}</button></sc-if>
       </div>
     </div>
-    <div class="pt-hero-controls">
-      <button type="button" onClick="{{ hero.toggle }}" aria-label="{{ hero.pauseLabel }}" title="{{ hero.pauseLabel }}">{{ hero.pauseIcon }}</button>
-      <button type="button" onClick="{{ hero.prev }}" aria-label="{{ hero.prevLabel }}">‹</button>
-      <span>{{ hero.idx }}</span>
-      <button type="button" onClick="{{ hero.next }}" aria-label="{{ hero.nextLabel }}">›</button>
-    </div>
   </section>
 
   <nav class="pt-shortcuts" aria-label="{{ lblHomeHighlights }}">
