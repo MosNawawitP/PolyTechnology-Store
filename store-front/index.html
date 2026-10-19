@@ -572,11 +572,11 @@ class Component extends DCLogic {
   };
 
   CARRIERS = [
-    {id:'c1', name:'DHL Express', logo:{t:'DHL', bg:'#FFCC00', fg:'#D40511', st:'italic'}, maxKg:70, speed:'next', base:980, perKg:6.2, eta:[1,2], cover:['ทั่วประเทศ','Nationwide'], sur:['ค่าพื้นที่ห่างไกล 250 บาท','Remote area fee THB 250'], surCost:250},
-    {id:'c2', name:'Flash Express', logo:{t:'FLASH', bg:'#FFE100', fg:'#1E1A3A', st:'normal'}, maxKg:50, speed:'next', base:620, perKg:4.2, eta:[1,2], cover:['ทั่วประเทศ','Nationwide'], sur:['ไม่มีค่าบริการเพิ่ม','No surcharge'], surCost:0},
-    {id:'c3', name:'ไปรษณีย์ไทย (Thailand Post)', nameEn:'Thailand Post', logo:{t:'ไปรษณีย์ไทย', bg:'#E1251B', fg:'#FFFFFF', st:'normal', sm:1}, maxKg:30, speed:'std', base:540, perKg:3.4, eta:[2,3], cover:['ทั่วประเทศ ผ่านที่ทำการไปรษณีย์ทุกแห่ง','Nationwide via all post offices'], sur:['ไม่มีค่าบริการเพิ่ม','No surcharge'], surCost:0},
-    {id:'c4', name:'KEX Express', logo:{t:'KEX', bg:'#F37021', fg:'#FFFFFF', st:'normal'}, maxKg:60, speed:'std', base:600, perKg:3.8, eta:[1,3], cover:['ทั่วประเทศ','Nationwide'], sur:['ค่าพื้นที่ห่างไกล 180 บาท','Remote area fee THB 180'], surCost:180},
-    {id:'c5', name:'จัดส่งโดย Polytechnology', nameEn:'Polytechnology own delivery', logo:{t:'POLY', bg:'#44359B', fg:'#FFFFFF', st:'normal'}, maxKg:300, speed:'own', base:1500, perKg:2.2, eta:[1,2], cover:['กรุงเทพฯ ปริมณฑล และภาคกลาง','Bangkok, vicinity & central region'], sur:['รวมทีมยกขึ้นอาคารแล้ว','Building lift-up included'], surCost:0}
+    {id:'c1', name:'DHL Express', logo:{src:'./assets/carriers/dhl.svg'}, maxKg:70, speed:'next', base:980, perKg:6.2, eta:[1,2], cover:['ทั่วประเทศ','Nationwide'], sur:['ค่าพื้นที่ห่างไกล 250 บาท','Remote area fee 250 บาท'], surCost:250},
+    {id:'c2', name:'Flash Express', logo:{src:'./assets/carriers/flash-express.svg'}, maxKg:50, speed:'next', base:620, perKg:4.2, eta:[1,2], cover:['ทั่วประเทศ','Nationwide'], sur:['ไม่มีค่าบริการเพิ่ม','No surcharge'], surCost:0},
+    {id:'c3', name:'ไปรษณีย์ไทย (Thailand Post)', nameEn:'Thailand Post', logo:{src:'./assets/carriers/thailand-post.svg'}, maxKg:30, speed:'std', base:540, perKg:3.4, eta:[2,3], cover:['ทั่วประเทศ ผ่านที่ทำการไปรษณีย์ทุกแห่ง','Nationwide via all post offices'], sur:['ไม่มีค่าบริการเพิ่ม','No surcharge'], surCost:0},
+    {id:'c4', name:'KEX Express', logo:{src:'./assets/carriers/kex-express.png'}, maxKg:60, speed:'std', base:600, perKg:3.8, eta:[1,3], cover:['ทั่วประเทศ','Nationwide'], sur:['ค่าพื้นที่ห่างไกล 180 บาท','Remote area fee 180 บาท'], surCost:180},
+    {id:'c5', name:'จัดส่งโดย Polytechnology', nameEn:'Polytechnology own delivery', logo:{src:'./assets/polytech-logo.png', frameWidth:'96px', frameHeight:'76px'}, maxKg:300, speed:'own', base:1500, perKg:2.2, eta:[1,2], cover:['กรุงเทพฯ ปริมณฑล และภาคกลาง','Bangkok, vicinity & central region'], sur:['รวมทีมยกขึ้นอาคารแล้ว','Building lift-up included'], surCost:0}
   ];
 
   COUPONS = {
@@ -2398,7 +2398,8 @@ class Component extends DCLogic {
     const carriers = this.CARRIERS.filter(c => c.id === 'c5' ? showOwn : this.carrierOk(c, tot.weight)).map(c => {
       const cost = Math.round(c.base + c.perKg * tot.weight + c.surCost), ok = this.carrierOk(c, tot.weight);
       const on = ck.carrier === c.id && ck.mode === 'delivery' && ok;
-      return { id:c.id, name:i && c.nameEn ? c.nameEn : c.name, logoT:c.logo.t, logoBg:c.logo.bg, logoFg:c.logo.fg, logoSt:c.logo.st, logoSz:c.logo.sm ? '12px' : '17px', on:on ? 'true' : 'false',
+      const name = i && c.nameEn ? c.nameEn : c.name;
+      return { id:c.id, name, logoSrc:c.logo.src, logoAlt:name + ' logo', logoFrameWidth:c.logo.frameWidth || '84px', logoFrameHeight:c.logo.frameHeight || '56px', logoImageWidth:c.id === 'c5' ? '60px' : '70px', logoImageHeight:c.id === 'c5' ? '60px' : '42px', on:on ? 'true' : 'false',
         bg:on ? '#ECE9F8' : '#FFFFFF', bd:on ? '#44359B' : '#E4E1EE',
         speed:c.speed === 'own' ? (i ? 'Delivered by our own team' : 'จัดส่งโดยทีมของบริษัท') : c.speed === 'same' ? (i ? 'Same day' : 'ส่งวันเดียวกัน') : c.speed === 'next' ? (i ? 'Next day' : 'ส่งวันถัดไป') : (i ? 'Standard delivery' : 'จัดส่งมาตรฐาน'),
         costLabel:this.baht(cost),

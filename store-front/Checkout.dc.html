@@ -152,7 +152,9 @@
                   <div style="display:grid;gap:10px">
                     <sc-for list="{{ carriers }}" as="c" hint-placeholder-count="4">
                       <button type="button" onClick="{{ c.pick }}" disabled="{{ c.disabled }}" aria-pressed="{{ c.on }}" style="opacity:{{ c.opacity }};text-align:left;background:{{ c.bg }};border:1px solid {{ c.bd }};border-radius:11px;padding:16px;cursor:pointer;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
-                        <span aria-hidden="true" style="flex:0 0 auto;width:84px;height:56px;border-radius:9px;border:1px solid rgba(30,26,58,.12);display:grid;place-items:center;background:{{ c.logoBg }};color:{{ c.logoFg }};font:800 {{ c.logoSz }}/1 'Sarabun',sans-serif;font-style:{{ c.logoSt }};letter-spacing:.01em;text-align:center">{{ c.logoT }}</span>
+                        <span style="flex:0 0 auto;width:{{ c.logoFrameWidth }};height:{{ c.logoFrameHeight }};border-radius:9px;border:1px solid rgba(30,26,58,.12);display:grid;place-items:center;background:#FFFFFF;padding:7px;overflow:hidden">
+                          <img src="{{ c.logoSrc }}" alt="{{ c.logoAlt }}" decoding="async" style="display:block;width:{{ c.logoImageWidth }};height:{{ c.logoImageHeight }};object-fit:contain" />
+                        </span>
                         <span style="flex:1 1 210px;min-width:0">
                           <span style="display:block;font-size:15.5px;font-weight:700;color:#1E1A3A">{{ c.name }}</span>
                           <span style="display:block;font-size:13px;font-weight:600;color:#44359B;margin-top:3px">{{ c.speed }}</span>
