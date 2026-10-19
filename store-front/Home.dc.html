@@ -17,7 +17,7 @@
       <p>{{ hero.sub }}</p>
       <div class="pt-hero-actions">
         <button type="button" class="pt-button pt-button--solid" onClick="{{ hero.go }}">{{ hero.cta }}</button>
-        <button type="button" class="pt-button pt-button--outline" onClick="{{ homeConsult }}">{{ lblHomeConsult }}</button>
+        <sc-if value="{{ showServices }}"><button type="button" class="pt-button pt-button--outline" onClick="{{ homeConsult }}">{{ lblHomeConsult }}</button></sc-if>
       </div>
     </div>
     <div class="pt-hero-controls">
@@ -103,6 +103,7 @@
         </sc-for>
         </sc-if>
 
+  <sc-if value="{{ showServices }}">
   <section class="pt-services pt-section" data-screen-label="Engineering services">
     <div class="pt-section-heading"><div><h2>{{ lblHomeServices }}</h2><p>{{ lblHomeServiceIntro }}</p></div><button type="button" class="pt-button pt-button--solid" onClick="{{ homeConsult }}">{{ lblHomeEngineers }} →</button></div>
     <div class="pt-service-grid">
@@ -114,6 +115,7 @@
       </sc-for>
     </div>
   </section>
+  </sc-if>
 
   <section class="pt-section pt-coupons" data-screen-label="Coupons">
     <div class="pt-section-heading"><div><h2>{{ lblCoupons }}</h2><p>{{ lblCouponSub }}</p></div><button type="button" class="pt-text-link" onClick="{{ goCouponPage }}">{{ lblViewCoupons }} →</button></div>

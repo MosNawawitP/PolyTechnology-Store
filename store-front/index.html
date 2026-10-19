@@ -259,7 +259,7 @@ class Component extends DCLogic {
     ctaTitle:['พร้อมเริ่มจัดซื้อในระบบใหม่แล้วหรือยัง','Ready to start buying in the new system?'],
     ctaBody:['ทดลองเลือกสินค้า ตรวจสอบสต๊อก ขอใบเสนอราคา หรือใช้วงเงินเครดิตได้ทันทีใน Prototype นี้','Try browsing, checking stock, requesting a quotation or paying with corporate credit right in this prototype.'],
     consultCta:['ขอคำปรึกษา','Request consultation'],
-    footerAbout:['บริษัท โพลีเทคโนโลยี จำกัด ผู้จัดจำหน่ายอุปกรณ์ระบบอัตโนมัติทางอุตสาหกรรมและผู้ให้บริการโซลูชันด้านวิศวกรรม','Polytechnology Co., Ltd. — distributor of industrial automation equipment and provider of engineering solutions.'],
+    footerAbout:['บริษัท โพลีเทคโนโลยี จำกัด ผู้จัดจำหน่ายอุปกรณ์ระบบอัตโนมัติและอุปกรณ์อุตสาหกรรม','Polytechnology Co., Ltd. — distributor of industrial automation and industrial equipment.'],
     footerShop:['ซื้อสินค้า','Shop'], footerSupport:['ช่วยเหลือ','Support'], footerContact:['ติดต่อ','Contact'],
     footerAddr:['คลังสินค้าลำลูกกา จังหวัดปทุมธานี','Lam Luk Ka warehouse, Pathum Thani'],
     footerPhone:['โทร 0-2000-0000','Tel +66 2 000 0000'], footerEmail:['sales@polytech.example','sales@polytech.example'],
@@ -409,8 +409,8 @@ class Component extends DCLogic {
     home:['Home Storage','Home Storage'], hv:['High Voltage','High Voltage'], lead:['Deep Cycle','Deep Cycle'], string:['String','String'], hybrid:['Hybrid','Hybrid'], monitor:['มอนิเตอร์','Monitoring'],
     plc:['PLC','PLC'], drive:['Servo / VFD','Servo / VFD'], sensor:['เซนเซอร์','Sensors'], meter:['เครื่องมือวัด','Measuring'], gas:['ตรวจจับก๊าซ','Gas detection'], ups:['UPS & ความเย็น','UPS & cooling'], rack:['ตู้แร็ค','Racks'], wms:['Barcode / RFID','Barcode / RFID']};
   HERO = [
-    {k:'ROOFTOP SOLAR', t:['ลดค่าไฟโรงงาน ด้วยโซลาร์รูฟท็อป','Cut factory power bills with rooftop solar'], s:['แผง Tier-1 อินเวอร์เตอร์ และบริการสำรวจหน้างาน ครบในที่เดียว','Tier-1 panels, inverters and site surveys in one place.'], img:'Rooftop_Solar_Panels_3KW.jpg', grp:'solar'},
-    {k:'EV CHARGING', t:['ชาร์จรถไฟฟ้า ได้ทุกลานจอด','EV charging for every car park'], s:['Wallbox 7–22 kW ถึง DC Fast Charger พร้อมบริการติดตั้ง','From 7–22 kW wallboxes to DC fast chargers, with installation.'], img:'Electric_Vehicle_Charging_Station.jpg', grp:'ev'},
+    {k:'ROOFTOP SOLAR', t:['ลดค่าไฟโรงงาน ด้วยโซลาร์รูฟท็อป','Cut factory power bills with rooftop solar'], s:['แผง Tier-1 และอินเวอร์เตอร์สำหรับระบบพลังงานแสงอาทิตย์','Tier-1 panels and inverters for solar energy systems.'], img:'Rooftop_Solar_Panels_3KW.jpg', grp:'solar'},
+    {k:'EV CHARGING', t:['ชาร์จรถไฟฟ้า ได้ทุกลานจอด','EV charging for every car park'], s:['ตั้งแต่ Wallbox 7–22 kW ถึง DC Fast Charger','From 7–22 kW wallboxes to DC fast chargers.'], img:'Electric_Vehicle_Charging_Station.jpg', grp:'ev'},
     {k:'BATTERY SOLAR', t:['เก็บไฟใช้ตอนกลางคืน ด้วย LiFePO4','Store daytime power with LiFePO4'], s:['Home Energy Storage 5–20 kWh ขยายระบบได้','Home energy storage from 5 to 20 kWh, expandable.'], img:'Inverter_battery_-_Loom_Solar.jpg', grp:'battery'},
     {k:'INDUSTRIAL AUTOMATION', t:['ควบคุมสายการผลิต ด้วย PLC และ VFD','Run your line on PLCs and drives'], s:['PLC, HMI, Servo และเซนเซอร์ จากแบรนด์ชั้นนำ พร้อมส่ง','PLCs, HMIs, servos and sensors from leading brands, ready to ship.'], img:'A_series_PLC.jpg', grp:'auto'}
   ];
@@ -425,7 +425,7 @@ class Component extends DCLogic {
     image.src = fallback;
   };
   homeHeroSlides() {
-    return [{ k:'INDUSTRIAL COMMERCE', t:['ครบทุกอุปกรณ์อุตสาหกรรม พร้อมบริการวิศวกรรม','Industrial equipment. Complete engineering services.'],
+    return [{ k:'INDUSTRIAL COMMERCE', t:this.SHOW_SERVICES ? ['ครบทุกอุปกรณ์อุตสาหกรรม พร้อมบริการวิศวกรรม','Industrial equipment. Complete engineering services.'] : ['ครบทุกอุปกรณ์อุตสาหกรรม สำหรับบ้านและธุรกิจ','Industrial equipment for homes and businesses.'],
       s:['พลังงานสะอาด ระบบอัตโนมัติ เครื่องมือวัด และโครงสร้างพื้นฐาน สำหรับบ้านและธุรกิจ','Clean energy, automation, instruments and infrastructure for homes and businesses.'],
       photo:this.homeAsset('hero-industrial-commerce'), asset:'hero-industrial-commerce', overview:true }]
       .concat(this.HERO.map(h => { const asset = h.grp === 'auto' ? 'business-industrial-automation' : 'business-clean-energy-ev'; return { ...h, asset, photo:this.homeAsset(asset) }; }));
@@ -455,17 +455,20 @@ class Component extends DCLogic {
         hover:() => this.setState({ heroHover:true }), leave:() => this.setState({ heroHover:false }),
         focus:() => this.setState({ heroFocus:true }), blur:e => { if (!e.currentTarget.contains(e.relatedTarget)) this.setState({ heroFocus:false }); } },
       homeShop:() => this.browseHomeCategory(), homeConsult:() => this.go('services', { svc:'s1' }),
+      showServices:this.SHOW_SERVICES,
       lblHomeConsult:this.m('ขอคำปรึกษา','Get advice'), lblHomeBusiness:this.m('เลือกสินค้าตามธุรกิจ','Shop by business'),
       lblHomeServices:this.m('บริการวิศวกรรมครบวงจร','Complete engineering services'),
       lblHomeServiceIntro:this.m('ตั้งแต่ให้คำปรึกษา ออกแบบ ติดตั้ง จนถึงดูแลระบบ','From consultation and design to installation and ongoing care.'),
       lblHomeEngineers:this.m('ปรึกษาทีมวิศวกร','Talk to our engineers'),
-      lblHomeHighlights:this.m('สินค้าและบริการที่น่าสนใจ','Product and service highlights'),
+      lblHomeHighlights:this.SHOW_SERVICES ? this.m('สินค้าและบริการที่น่าสนใจ','Product and service highlights') : this.m('สินค้าที่น่าสนใจ','Product highlights'),
       homeShortcuts:[
         { title:this.m('ซื้อสินค้าออนไลน์','Shop online'), sub:this.m('เลือกอุปกรณ์ที่เหมาะกับคุณ','Find the right equipment'), go:() => this.browseHomeCategory(), icon:'M3 3h2l3 13h11l3-9H6 M9 20h.01 M18 20h.01' },
         { title:this.m('ขอใบเสนอราคา','Request a quote'), sub:this.m('สำหรับโครงการและองค์กร','For projects and businesses'), go:this.goRfq, icon:'M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h7' },
-        { title:this.m('ปรึกษางานระบบ','System consultation'), sub:this.m('ให้ทีมวิศวกรช่วยแนะนำ','Advice from our engineers'), go:() => this.go('services', { svc:'s1' }), icon:'M21 11a9 9 0 0 1-9 9H4l-3 2 2-6a9 9 0 1 1 18-5z M8 11h.01 M12 11h.01 M16 11h.01' },
-        { title:this.m('บริการหลังการขาย','After-sales service'), sub:this.m('ดูแลระบบอย่างต่อเนื่อง','Keep your systems running'), go:() => this.go('services', { svc:'s4' }), icon:'M5 12v-2a7 7 0 0 1 14 0v2 M5 11H3v7h4v-7z M19 11h2v7h-4v-7z M19 18v2h-7' }
-      ]
+        { service:true, title:this.m('ปรึกษางานระบบ','System consultation'), sub:this.m('ให้ทีมวิศวกรช่วยแนะนำ','Advice from our engineers'), go:() => this.go('services', { svc:'s1' }), icon:'M21 11a9 9 0 0 1-9 9H4l-3 2 2-6a9 9 0 1 1 18-5z M8 11h.01 M12 11h.01 M16 11h.01' },
+        { service:true, title:this.m('บริการหลังการขาย','After-sales service'), sub:this.m('ดูแลระบบอย่างต่อเนื่อง','Keep your systems running'), go:() => this.go('services', { svc:'s4' }), icon:'M5 12v-2a7 7 0 0 1 14 0v2 M5 11H3v7h4v-7z M19 11h2v7h-4v-7z M19 18v2h-7' },
+        { serviceReplacement:true, title:this.m('โปรโมชั่น','Promotions'), sub:this.m('ดูข้อเสนอพิเศษล่าสุด','View the latest special offers'), go:() => this.go('promos'), icon:'M20 13l-7 7L3 10V3h7z M7.5 7.5h.01' },
+        { serviceReplacement:true, title:this.m('ติดต่อเรา','Contact us'), sub:this.m('สอบถามสินค้าและการสั่งซื้อ','Product and order enquiries'), go:() => this.go('contact'), icon:'M3 5h18v14H3z M3 7l9 6 9-6' }
+      ].filter(item => this.SHOW_SERVICES ? !item.serviceReplacement : !item.service)
     };
   }
   _np = (() => {
@@ -602,6 +605,7 @@ class Component extends DCLogic {
       ui:{ v:['12%','12%'], t:['ลด 12% สำหรับโครงการ','12% off for projects'], c:['ซื้อขั้นต่ำ ฿200,000 · ลูกค้านิติบุคคล','Min. spend ฿200,000 · business accounts'] }}
   };
 
+  SHOW_SERVICES = false;
   MAXW = 300;
   POLICY = {
     quoteDays:{ instant:7, rfq:21, service:30, renew:14 }, rfqDisc:4,
@@ -641,11 +645,11 @@ class Component extends DCLogic {
 
   state = {
     lang:'th', acct:'guest', route:{p:'home'}, tab:'profile',
-    cart:[], saved:[], coupon:null, couponInput:'', wallet:{},
+    cart:[], coupon:null, couponInput:'', wallet:{},
     search:'', filters:{cat:'', brand:'', min:'', max:'', avail:'', type:'', sort:'pop'}, view:'grid', heroIdx:0, homeSub:{},
     heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:false,
     orders:[], quotes:[], leads:[], notifs:[],
-    ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', po:'', accept:false, sameAddr:true, quoteRef:null},
+    ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null},
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
     addr:{ship:null, bill:null, rfq:null},
     menuOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
@@ -657,8 +661,14 @@ class Component extends DCLogic {
   componentDidMount() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(this.KEY) || 'null'); } catch (e) { saved = null; }
+    if (saved) saved = this.migrateOrderNumbers(saved);
     let init = saved && saved.seeded ? saved : this.seed();
     if (saved && saved.seeded) { const sd = this.seed(), mg = (a, b) => (a || []).concat((b || []).filter(x => !(a || []).some(y => y.id === x.id))); init = { ...saved, quotes:mg(saved.quotes, sd.quotes), leads:mg(saved.leads, sd.leads), orders:mg(saved.orders, sd.orders) }; }
+    if (!this.SHOW_SERVICES) {
+      const route = init.route || { p:'home' };
+      const hiddenServiceRoute = route.p === 'services' || (route.p === 'pdp' && this.isServiceProduct(this.prod(route.id)));
+      init = { ...init, route:hiddenServiceRoute ? { p:route.p === 'pdp' ? 'products' : 'home' } : route, tab:init.tab === 'leads' ? 'profile' : init.tab };
+    }
     this.setState({ ...init, w:Math.max(1240,window.innerWidth), now:Date.now(), toast:null, modal:null, api:{}, addrDraft:null, loginModal:null });
     this._onResize = () => { this.setState({ w:Math.max(1240,window.innerWidth) }); this.measureHdr(); };
     setTimeout(this.measureHdr, 0);
@@ -694,8 +704,8 @@ class Component extends DCLogic {
     const t = (text || '').trim(); if (!t) return;
     const lc = t.toLowerCase(), th = this.li === 0;
     const rep = /ราคา|quot|price|ใบเสนอ/.test(lc) ? this.m('รับทราบครับ รบกวนแจ้งรุ่นสินค้าและจำนวนที่ต้องการ ทีมขายจะส่งใบเสนอราคาให้ภายใน 1 วันทำการครับ', 'Noted. Please share the model and quantity — our sales team will send a quotation within 1 business day.')
-      : /สั่งซื้อ|order|ส่ง|ติดตาม|track|ขนส่ง/.test(lc) ? this.m('รบกวนแจ้งเลขที่คำสั่งซื้อ (เช่น SO-2026-004812) เพื่อให้ทีมตรวจสอบสถานะให้ครับ', 'Please share your order number (e.g. SO-2026-004812) so we can check the status.')
-      : /บริการ|ติดตั้ง|service|install|ปรึกษา/.test(lc) ? this.m('ยินดีครับ ท่านส่งคำขอคำปรึกษาได้ที่หน้าบริการ หรือบอกรายละเอียดงานคร่าวๆ ไว้ที่นี่ ผู้เชี่ยวชาญจะติดต่อกลับครับ', 'Happy to help. You can submit a consultation request on the Services page, or describe the job here and a specialist will call back.')
+      : /สั่งซื้อ|order|ส่ง|ติดตาม|track|ขนส่ง/.test(lc) ? this.m('รบกวนแจ้งเลขที่คำสั่งซื้อ (เช่น P261014RTKLP) เพื่อให้ทีมตรวจสอบสถานะให้ครับ', 'Please share your order number (e.g. P261014RTKLP) so we can check the status.')
+      : this.SHOW_SERVICES && /บริการ|ติดตั้ง|service|install|ปรึกษา/.test(lc) ? this.m('ยินดีครับ ท่านส่งคำขอคำปรึกษาได้ที่หน้าบริการ หรือบอกรายละเอียดงานคร่าวๆ ไว้ที่นี่ ผู้เชี่ยวชาญจะติดต่อกลับครับ', 'Happy to help. You can submit a consultation request on the Services page, or describe the job here and a specialist will call back.')
       : this.m('ขอบคุณครับ ทีมงานรับเรื่องแล้ว จะตอบกลับโดยเร็วที่สุดครับ (ข้อความตอบกลับนี้เป็นข้อมูลจำลอง)', 'Thank you — we have your message and will reply shortly. (This reply is simulated.)');
     this.setState(s => ({ chat:(s.chat || this.chatList()).concat([{ mine:true, text:t, time:this.chatNow() }]), chatInput:'', chatTyping:true }));
     clearTimeout(this._chatT);
@@ -720,11 +730,51 @@ class Component extends DCLogic {
     const s = this.state;
     try {
       localStorage.setItem(this.KEY, JSON.stringify({
-        lang:s.lang, acct:s.acct, route:s.route, tab:s.tab, cart:s.cart, saved:s.saved, coupon:s.coupon, wallet:s.wallet,
+        lang:s.lang, acct:s.acct, route:s.route, tab:s.tab, cart:s.cart, coupon:s.coupon, wallet:s.wallet,
         orders:s.orders, quotes:s.quotes, leads:s.leads, notifs:s.notifs, ck:s.ck, form:s.form,
         lastOrder:s.lastOrder, lastQuote:s.lastQuote, pendingApproval:s.pendingApproval, regCo:s.regCo, seeded:true
       }));
     } catch (e) { /* storage unavailable in preview */ }
+  }
+
+  migrateOrderNumbers(data) {
+    if (!data || !Array.isArray(data.orders)) return data;
+    const seeded = {
+      'SO-2026-004812':'P260920RTKLP', 'SO-2026-004790':'P261005YUHNB', 'SO-2026-004771':'P261008CVBNM',
+      'SO-2026-004744':'P260912ASDFG', 'SO-2026-004802':'P261012JKLQW', 'SO-2026-004808':'S261015KQWEP',
+      'SO-2026-004779':'S260926MRTYU', 'SO-2026-004766':'S260910PLKJH', 'SO-2026-004752':'S260831ZXCVB',
+      'SO-2026-004738':'S260819NBGHF', 'SO-2026-004721':'S260730QAZWS', 'SO-2026-004730':'S260904EDCRF'
+    };
+    const refs = {}, used = new Set(), chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const datePart = value => {
+      const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (match) return match[1].slice(-2) + match[2] + match[3];
+      const now = new Date();
+      return String(now.getFullYear()).slice(-2) + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+    };
+    const suffix = (value, salt) => {
+      let hash = 0, result = '';
+      const source = value + ':' + salt;
+      for (let i = 0; i < source.length; i++) hash = (Math.imul(hash, 31) + source.charCodeAt(i)) >>> 0;
+      for (let i = 0; i < 5; i++) { hash = (Math.imul(hash ^ (hash >>> 16), 2246822507) + i) >>> 0; result += chars[hash % chars.length]; }
+      return result;
+    };
+    const orders = data.orders.map(order => {
+      const oldId = String(order.id || ''), prefix = order.kind === 'service' ? 'S' : 'P';
+      let id = Object.prototype.hasOwnProperty.call(seeded, oldId) ? seeded[oldId] : oldId, salt = 0;
+      while (!new RegExp('^' + prefix + '\\d{6}[A-Z]{5}$').test(id) || used.has(id)) id = prefix + datePart(order.date) + suffix(oldId, salt++);
+      used.add(id);
+      if (id !== oldId) refs[oldId] = id;
+      return id === oldId ? order : { ...order, id };
+    });
+    if (!Object.keys(refs).length) return data;
+    const replace = value => {
+      if (typeof value === 'string') { Object.keys(refs).forEach(oldId => { value = value.split(oldId).join(refs[oldId]); }); return value; }
+      if (Array.isArray(value)) return value.map(replace);
+      if (value && typeof value === 'object') return Object.keys(value).reduce((out, key) => ({ ...out, [key]:replace(value[key]) }), {});
+      return value;
+    };
+    return replace({ ...data, orders });
   }
 
   seed() {
@@ -768,15 +818,15 @@ class Component extends DCLogic {
       mk({ id:'LD-2026-0149', acct:G, svc:'s1', age:0, goal:'ประเมินและออกแบบระบบโซลาร์รูฟท็อปสำหรับโรงงานสาขา 2' });
       mk({ id:'LD-2026-0147', acct:G, svc:'s2', age:4, stage:'survey', goal:'ติดตั้งและเดินระบบสายพานลำเลียงใหม่ในสายการผลิต B', survey:{ fee:3500, need:true, paid:false, date:null } });
       mk({ id:'LD-2026-0145', acct:G, svc:'s5', age:7, stage:'survey', goal:'ติดตั้ง UPS สำรองไฟห้องควบคุมกลาง', survey:{ fee:5000, need:true, paid:true, receipt:'RCP-SV-0145', date:d(-2) }, extra:{ racks:'6', load:'18' } });
-      mk({ id:'LD-2026-0131', acct:G, svc:'s2', age:30, stage:'quoted', goal:'ติดตั้งระบบควบคุมอัตโนมัติสายบรรจุภัณฑ์', q:{ id:'QT-2026-00221', age:24 }, o:{ id:'SO-2026-004808', age:1, status:'pending' }, survey:{ fee:0, need:false, paid:false, date:null } });
-      mk({ id:'LD-2026-0127', acct:G, svc:'s3', age:34, stage:'quoted', goal:'สอบเทียบเครื่องมือวัดแรงดันและอุณหภูมิ 10 เครื่อง', q:{ id:'QT-2026-00214', age:28 }, o:{ id:'SO-2026-004779', age:20, status:'scheduled' } });
-      mk({ id:'LD-2026-0118', acct:G, svc:'s4', age:48, stage:'quoted', goal:'สัญญาบำรุงรักษาระบบ UPS และตู้ไฟฟ้า 12 เดือน', q:{ id:'QT-2026-00208', age:42 }, o:{ id:'SO-2026-004766', age:36, status:'working' } });
-      mk({ id:'LD-2026-0112', acct:G, svc:'s2', age:60, stage:'quoted', goal:'ติดตั้งระบบมอนิเตอร์พลังงานทั้งโรงงาน', q:{ id:'QT-2026-00200', age:52 }, o:{ id:'SO-2026-004752', age:46, status:'testing' } });
-      mk({ id:'LD-2026-0105', acct:G, svc:'s5', age:72, stage:'quoted', goal:'ติดตั้ง UPS และจัดระเบียบห้อง Server ชั้น 2', q:{ id:'QT-2026-00193', age:64 }, o:{ id:'SO-2026-004738', age:58, status:'handover' }, extra:{ racks:'8', load:'25' } });
-      mk({ id:'LD-2026-0098', acct:G, svc:'s3', age:90, stage:'quoted', goal:'สอบเทียบเครื่องชั่งและเครื่องมือวัดประจำปี', q:{ id:'QT-2026-00182', age:84 }, o:{ id:'SO-2026-004721', age:78, status:'done' } });
+      mk({ id:'LD-2026-0131', acct:G, svc:'s2', age:30, stage:'quoted', goal:'ติดตั้งระบบควบคุมอัตโนมัติสายบรรจุภัณฑ์', q:{ id:'QT-2026-00221', age:24 }, o:{ id:'S261015KQWEP', age:1, status:'pending' }, survey:{ fee:0, need:false, paid:false, date:null } });
+      mk({ id:'LD-2026-0127', acct:G, svc:'s3', age:34, stage:'quoted', goal:'สอบเทียบเครื่องมือวัดแรงดันและอุณหภูมิ 10 เครื่อง', q:{ id:'QT-2026-00214', age:28 }, o:{ id:'S260926MRTYU', age:20, status:'scheduled' } });
+      mk({ id:'LD-2026-0118', acct:G, svc:'s4', age:48, stage:'quoted', goal:'สัญญาบำรุงรักษาระบบ UPS และตู้ไฟฟ้า 12 เดือน', q:{ id:'QT-2026-00208', age:42 }, o:{ id:'S260910PLKJH', age:36, status:'working' } });
+      mk({ id:'LD-2026-0112', acct:G, svc:'s2', age:60, stage:'quoted', goal:'ติดตั้งระบบมอนิเตอร์พลังงานทั้งโรงงาน', q:{ id:'QT-2026-00200', age:52 }, o:{ id:'S260831ZXCVB', age:46, status:'testing' } });
+      mk({ id:'LD-2026-0105', acct:G, svc:'s5', age:72, stage:'quoted', goal:'ติดตั้ง UPS และจัดระเบียบห้อง Server ชั้น 2', q:{ id:'QT-2026-00193', age:64 }, o:{ id:'S260819NBGHF', age:58, status:'handover' }, extra:{ racks:'8', load:'25' } });
+      mk({ id:'LD-2026-0098', acct:G, svc:'s3', age:90, stage:'quoted', goal:'สอบเทียบเครื่องชั่งและเครื่องมือวัดประจำปี', q:{ id:'QT-2026-00182', age:84 }, o:{ id:'S260730QAZWS', age:78, status:'done' } });
       mk({ id:'LD-2026-0141', acct:PT, svc:'s1', age:3, stage:'contacted', goal:'ออกแบบระบบสำรองไฟโกดังสินค้า', survey:{ fee:0, need:false, paid:false, date:null } });
       mk({ id:'LD-2026-0136', acct:PT, svc:'s2', age:12, stage:'quoted', goal:'ติดตั้งระบบกล้องตรวจจับความผิดปกติสายการผลิต', q:{ id:'QT-2026-00227', age:3 } });
-      mk({ id:'LD-2026-0124', acct:PT, svc:'s3', age:55, stage:'quoted', goal:'สอบเทียบเครื่องมือวัดในห้องปฏิบัติการ', q:{ id:'QT-2026-00186', age:48 }, o:{ id:'SO-2026-004730', age:42, status:'done' } });
+      mk({ id:'LD-2026-0124', acct:PT, svc:'s3', age:55, stage:'quoted', goal:'สอบเทียบเครื่องมือวัดในห้องปฏิบัติการ', q:{ id:'QT-2026-00186', age:48 }, o:{ id:'S260904EDCRF', age:42, status:'done' } });
       mk({ id:'LD-2026-0148', acct:W, svc:'s1', age:0, goal:'ขอคำปรึกษาติดตั้งโซลาร์เซลล์พร้อมแบตเตอรี่สำหรับบ้านพักอาศัย' });
       mk({ id:'LD-2026-0143', acct:W, svc:'s3', age:5, stage:'contacted', goal:'สอบเทียบเครื่องวัดคุณภาพไฟฟ้าสำหรับงานตรวจสอบ', survey:{ fee:0, need:false, paid:false, date:null } });
       return { leads, quotes, orders };
@@ -784,19 +834,19 @@ class Component extends DCLogic {
     return {
       seeded:true,
       orders:[
-        {id:'SO-2026-004812', acct:'gradeA', kind:'goods', holds:[], date:d(26), status:'delivered', pay:'credit', payStatus:'notdue',
+        {id:'P260920RTKLP', acct:'gradeA', kind:'goods', holds:[], date:d(26), status:'delivered', pay:'credit', payStatus:'notdue',
           items:[{id:'p1', q:6}, {id:'p2', q:2}], mode:'delivery', carrier:'c2', ship:1185, po:'PO-SPM-26-0771',
           track:'TFE9938471200', invoice:'INV-2026-008120', due:d(-19), stepAt:7},
-        {id:'SO-2026-004790', acct:'gradeA', kind:'goods', holds:[], date:d(11), status:'shipped', pay:'credit', payStatus:'notdue',
+        {id:'P261005YUHNB', acct:'gradeA', kind:'goods', holds:[], date:d(11), status:'shipped', pay:'credit', payStatus:'notdue',
           items:[{id:'p5', q:10}, {id:'p6', q:4}], mode:'delivery', carrier:'c3', ship:1420, po:'PO-SPM-26-0803',
           track:'SCL5521074431', invoice:'INV-2026-008244', due:d(-34), stepAt:6},
-        {id:'SO-2026-004771', acct:'partner', kind:'goods', holds:[], date:d(8), status:'packed', pay:'transfer', payStatus:'paid',
+        {id:'P261008CVBNM', acct:'partner', kind:'goods', holds:[], date:d(8), status:'packed', pay:'transfer', payStatus:'paid',
           items:[{id:'p7', q:3}], mode:'pickup', carrier:null, ship:0, po:'',
           booking:'PU-26-3391', invoice:'INV-2026-008251', due:d(8), stepAt:4},
-        {id:'SO-2026-004744', acct:'partner', kind:'goods', holds:[], date:d(34), status:'delivered', pay:'credit', payStatus:'paid',
+        {id:'P260912ASDFG', acct:'partner', kind:'goods', holds:[], date:d(34), status:'delivered', pay:'credit', payStatus:'paid',
           items:[{id:'p9', q:2}, {id:'p10', q:1}], mode:'delivery', carrier:'c3', ship:1090, po:'',
           track:'SCL5520998134', invoice:'INV-2026-008087', due:d(4), stepAt:7},
-        {id:'SO-2026-004802', acct:'walkin', kind:'goods', holds:[], date:d(4), status:'approved', pay:'qr', payStatus:'paid',
+        {id:'P261012JKLQW', acct:'walkin', kind:'goods', holds:[], date:d(4), status:'approved', pay:'qr', payStatus:'paid',
           items:[{id:'p6', q:1}], mode:'delivery', carrier:'c3', ship:580, po:'',
           track:'SCL5521066702', invoice:'INV-2026-008248', due:d(4), stepAt:2}
       ].concat(svc.orders),
@@ -823,9 +873,9 @@ class Component extends DCLogic {
         pq({ id:'QT-2026-00236', acct:'gradeA', kind:'rfq', date:d(6), rev:1, status:'revision', items:[{ id:'p7', q:6 }], need:d(-14),
           place:spm, method:'delivery', po:'', note:'ขอปรับจำนวนเป็น 6 ชุด และขอส่วนลดเพิ่ม', files:[],
           fix:{ exp:d(-15), history:[{ rev:0, date:d(7), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(6), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ส่วนลด 3%','Seller issued R1 at 3% off'] }, { rev:1, date:d(1), by:'customer', text:['ขอแก้ไข: ปรับจำนวนเป็น 6 ชุด และขอส่วนลดเพิ่ม','Revision requested: change quantity to 6 and extra discount'] }] } }),
-        pq({ id:'QT-2026-00212', acct:'gradeA', kind:'instant', date:d(12), rev:1, status:'ordered', accRev:1, orderId:'SO-2026-004790', items:[{ id:'p5', q:10 }, { id:'p6', q:4 }], need:'',
+        pq({ id:'QT-2026-00212', acct:'gradeA', kind:'instant', date:d(12), rev:1, status:'ordered', accRev:1, orderId:'P261005YUHNB', items:[{ id:'p5', q:10 }, { id:'p6', q:4 }], need:'',
           place:spm, method:'delivery', po:'PO-SPM-26-0803', note:'', files:[],
-          fix:{ exp:d(-9), history:[{ rev:1, date:d(12), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(12), by:'customer', text:['ยอมรับราคา R1','Accepted price R1'] }, { rev:1, date:d(11), by:'customer', text:['ยืนยันสั่งซื้อจาก R1 → SO-2026-004790','Ordered from R1 → SO-2026-004790'] }] } }),
+          fix:{ exp:d(-9), history:[{ rev:1, date:d(12), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(12), by:'customer', text:['ยอมรับราคา R1','Accepted price R1'] }, { rev:1, date:d(11), by:'customer', text:['ยืนยันสั่งซื้อจาก R1 → P261005YUHNB','Ordered from R1 → P261005YUHNB'] }] } }),
         pq({ id:'QT-2026-00198', acct:'gradeA', kind:'rfq', date:d(20), rev:1, status:'rejected', items:[{ id:'p11', q:2 }], need:'',
           place:spm, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(-1), history:[{ rev:0, date:d(22), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(20), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ยืนราคา 21 วัน','Seller issued R1, valid 21 days'] }, { rev:1, date:d(18), by:'customer', text:['ปฏิเสธใบเสนอราคา: งบประมาณปีนี้ถูกปรับลด','Rejected: budget cut this year'] }] } }),
@@ -838,9 +888,9 @@ class Component extends DCLogic {
         pq({ id:'QT-2026-00203', acct:'partner', kind:'rfq', date:d(9), rev:1, status:'revision', items:[{ id:'p4', q:10 }], need:d(-10),
           place:tis, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(-12), history:[{ rev:0, date:d(10), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(9), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ส่วนลด 3%','Seller issued R1 at 3% off'] }, { rev:1, date:d(2), by:'customer', text:['ขอแก้ไข: ขอเลื่อนกำหนดส่งมอบ','Revision requested: postpone delivery date'] }] } }),
-        pq({ id:'QT-2026-00191', acct:'partner', kind:'instant', date:d(30), rev:1, status:'ordered', accRev:1, orderId:'SO-2026-004744', items:[{ id:'p9', q:2 }, { id:'p10', q:1 }], need:'',
+        pq({ id:'QT-2026-00191', acct:'partner', kind:'instant', date:d(30), rev:1, status:'ordered', accRev:1, orderId:'P260912ASDFG', items:[{ id:'p9', q:2 }, { id:'p10', q:1 }], need:'',
           place:tis, method:'delivery', po:'', note:'', files:[],
-          fix:{ exp:d(9), history:[{ rev:1, date:d(35), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(35), by:'customer', text:['ยอมรับราคา R1','Accepted price R1'] }, { rev:1, date:d(34), by:'customer', text:['ยืนยันสั่งซื้อจาก R1 → SO-2026-004744','Ordered from R1 → SO-2026-004744'] }] } }),
+          fix:{ exp:d(9), history:[{ rev:1, date:d(35), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(35), by:'customer', text:['ยอมรับราคา R1','Accepted price R1'] }, { rev:1, date:d(34), by:'customer', text:['ยืนยันสั่งซื้อจาก R1 → P260912ASDFG','Ordered from R1 → P260912ASDFG'] }] } }),
         pq({ id:'QT-2026-00188', acct:'partner', kind:'rfq', date:d(24), rev:1, status:'rejected', items:[{ id:'p2', q:4 }], need:'',
           place:tis, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(3), history:[{ rev:0, date:d(26), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(24), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ยืนราคา 21 วัน','Seller issued R1, valid 21 days'] }, { rev:1, date:d(20), by:'customer', text:['ปฏิเสธใบเสนอราคา: เลือกผู้ขายรายอื่น','Rejected: chose another supplier'] }] } }),
@@ -859,7 +909,7 @@ class Component extends DCLogic {
           extra:{ racks:'8', load:'25' }, survey:{ fee:0, need:false, paid:false, date:null } }
       ].concat(svc.leads),
       notifs:[
-        {id:'n1', kind:'delivery', date:d(0), text:['คำสั่งซื้อ SO-2026-004790 ออกจากคลังลำลูกกาแล้ว','Order SO-2026-004790 has left the Lam Luk Ka warehouse']},
+        {id:'n1', kind:'delivery', date:d(0), text:['คำสั่งซื้อ P261005YUHNB ออกจากคลังลำลูกกาแล้ว','Order P261005YUHNB has left the Lam Luk Ka warehouse']},
         {id:'n2', kind:'quote', date:d(1), text:['ใบเสนอราคา QT-2026-00231 R2 พร้อมให้ตรวจสอบ','Quotation QT-2026-00231 R2 is ready for your review']},
         {id:'n3', kind:'invoice', date:d(2), text:['ใบแจ้งหนี้ INV-2026-008120 ครบกำหนดชำระในอีก 19 วัน','Invoice INV-2026-008120 is due in 19 days']}
       ]
@@ -909,6 +959,8 @@ class Component extends DCLogic {
     return this.m('สินค้านี้พร้อมส่ง ' + ready + ' ' + unit + ' ระบบจึงจำกัดจำนวนในตะกร้าไม่เกินจำนวนพร้อมส่ง', 'This item has ' + ready + ' ' + unit + ' ready to ship, so the cart quantity is limited to the ready stock.');
   }
   prod(id) { return this.PRODUCTS.find(p => p.id === id); }
+  isServiceProduct(p) { return !!p && (p.type === 'consult' || p.type === 'pkg'); }
+  catalogueProducts() { return this.SHOW_SERVICES ? this.PRODUCTS : this.PRODUCTS.filter(p => !this.isServiceProduct(p)); }
   svc(id) { return this.SERVICES.find(s => s.id === id); }
   carrier(id) { return this.CARRIERS.find(c => c.id === id); }
 
@@ -939,7 +991,13 @@ class Component extends DCLogic {
   }
 
   /* ---------- navigation & chrome ---------- */
-  go(p, extra) { if (p === 'login') { this.openLogin(extra); return; } this.setState(s => ({ route:{ p, ...(extra || {}) }, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false })); window.scrollTo(0, 0); }
+  go(p, extra) {
+    if (p === 'login') { this.openLogin(extra); return; }
+    if (!this.SHOW_SERVICES && p === 'services') { p = 'home'; extra = null; }
+    if (!this.SHOW_SERVICES && p === 'pdp' && this.isServiceProduct(this.prod(extra && extra.id))) { p = 'products'; extra = null; }
+    this.setState(s => ({ route:{ p, ...(extra || {}) }, menuOpen:false, changes:null, searchOpen:false, langOpen:false, acctOpen:false }));
+    window.scrollTo(0, 0);
+  }
   openLogin = (o) => this.setState({ loginModal:{ ...(o || {}) }, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false });
   closeLogin = () => this.setState({ loginModal:null });
   closeMenus = () => this.setState({ searchOpen:false, langOpen:false, acctOpen:false });
@@ -973,21 +1031,28 @@ class Component extends DCLogic {
   weightMsg() { return this.m('น้ำหนักสินค้ารวมเกิน 300 กิโลกรัมต่อคำสั่งซื้อ กรุณาปรับจำนวนสินค้า หรือขอคำปรึกษาเพื่อให้เจ้าหน้าที่แนะนำการสั่งซื้อและการจัดส่ง', 'Total product weight exceeds 300 kg per order. Please adjust quantities, or request a consultation so our team can advise on ordering and delivery.'); }
   missingMsg() { return this.m('สินค้าบางรายการยังไม่มีข้อมูลน้ำหนัก ระบบจึงยังตรวจสอบน้ำหนักรวมไม่ได้ กรุณาขอคำปรึกษาก่อนยืนยันสั่งซื้อ', 'Some items have no weight data, so the total weight cannot be verified. Please request a consultation before confirming the order.'); }
   lockMsg() { return this.m('รายการนี้อ้างอิงใบเสนอราคาที่ตกลงแล้ว การแก้จำนวนหรือรายการต้องขอแก้ไขใบเสนอราคาเพื่อยืนยันราคาใหม่', 'These lines follow an agreed quotation. Changing quantities or items needs a quotation revision to confirm a new price.'); }
+  visibleCartLines(lines) { return (lines || []).filter(line => this.SHOW_SERVICES || !this.isServiceProduct(this.prod(line.id))); }
+  selectedCart() { return this.visibleCartLines(this.state.cart).filter(l => l.selected !== false); }
+  cartWithSelection(items, current) {
+    const ids = items.map(i => i.id);
+    const unselected = current.filter(l => ids.indexOf(l.id) < 0).map(l => ({ ...l, selected:false }));
+    return unselected.concat(items.map(i => ({ id:i.id, q:i.q, selected:true })));
+  }
   cartRows() {
     const qr = this.quoteRef;
-    return this.state.cart.map(l => {
+    return this.visibleCartLines(this.state.cart).map(l => {
       const p = this.prod(l.id); if (!p) return null;
       let unit = this.price(p) || 0;
       if (qr) { const ln = (qr.lines || []).find(x => x.pid === l.id); if (ln) unit = ln.unit; }
       const st = this.stockOf(p), noW = p.type !== 'pkg' && (p.w === null || p.w === undefined);
       const ads = qr ? [] : (l.ad || []).map(id => this.ADDONS.find(x => x.id === id)).filter(a => a && this.adItemOk(a, p, 'ck')).map(a => ({ a, amt:this.adItemAmt(a, p, unit, l.q) }));
-      return { p, q:l.q, unit, line:unit * l.q, w:noW ? null : (p.type === 'pkg' ? 0 : p.w * l.q), st, ads, adLine:ads.reduce((x, y) => x + y.amt, 0) };
+      return { p, q:l.q, selected:l.selected !== false, unit, line:unit * l.q, w:noW ? null : (p.type === 'pkg' ? 0 : p.w * l.q), st, ads, adLine:ads.reduce((x, y) => x + y.amt, 0) };
     }).filter(Boolean);
   }
   totals() {
-    const rows = this.cartRows(), qr = this.quoteRef, ck = this.state.ck;
+    const rows = this.cartRows().filter(r => r.selected), selected = this.selectedCart(), qr = this.quoteRef, ck = this.state.ck;
     const sub = rows.reduce((a, r) => a + r.line, 0);
-    const wc = this.weightOf(this.state.cart);
+    const wc = this.weightOf(selected);
     let disc = 0, freightOff = 0;
     const cc = !qr && this.state.coupon && this.COUPONS[this.state.coupon];
     const c = cc && this.walletMap()[this.state.coupon] === 'ready' && sub >= (cc.min || 0) && cc.segs.indexOf(this.seg) >= 0 ? cc : null;
@@ -1004,7 +1069,7 @@ class Component extends DCLogic {
     }
     ship = Math.max(0, ship - freightOff);
     const adItems = rows.reduce((x, r) => x + r.adLine, 0);
-    const oAds = qr ? [] : (ck.oAd || []).map(id => this.OADDONS.find(x => x.id === id)).filter(a => a && this.oAdList(ck.mode, wc.kg).some(x => x.id === a.id)).map(a => ({ a, amt:this.adOrderAmt(a, sub) }));
+    const oAds = qr || !rows.length ? [] : (ck.oAd || []).map(id => this.OADDONS.find(x => x.id === id)).filter(a => a && this.oAdList(ck.mode, wc.kg).some(x => x.id === a.id)).map(a => ({ a, amt:this.adOrderAmt(a, sub) }));
     const ad = adItems + oAds.reduce((x, y) => x + y.amt, 0);
     const vat = Math.round((sub - disc + ad + ship) * 0.07);
     const mixed = !qr && rows.some(r => r.p.type === 'rfq' || r.p.type === 'consult');
@@ -1065,28 +1130,34 @@ class Component extends DCLogic {
     const opts = locked ? [] : this.ADDONS.filter(a => this.adItemOk(a, r.p, 'ck')).map(a => { const amt = this.adItemAmt(a, r.p, r.unit, r.q); return { ...this.adBtnVM(a, sel.indexOf(a.id) >= 0, amt, this.tx(a.n), this.tx(a.d) + (a.per === 'unit' && r.q > 1 ? ' · ' + this.baht(Math.round(amt / r.q)) + ' × ' + r.q : ''), () => this.toggleCartAd(r.p.id, a.id)), isOn:sel.indexOf(a.id) >= 0 }; });
     const open = !!((this.state.adOpen || {})[r.p.id]), I = this.li, n = r.ads.length, tot = r.ads.reduce((x, y) => x + y.amt, 0);
     return { adRows:r.ads.map(x => ({ name:this.tx(x.a.n), amtLabel:'+' + this.baht(x.amt), remove:() => this.toggleCartAd(r.p.id, x.a.id) })), hasAdRows:r.ads.length > 0, adOpts:open ? opts : [], hasAdOpts:opts.length > 0, adOpen:open ? 'true' : 'false', adRot:open ? '180deg' : '0deg', toggleAdOpen:() => this.setState(s => ({ adOpen:{ ...(s.adOpen || {}), [r.p.id]:!open } })),
-      adHeadLabel:(I ? 'Add-on services' : 'บริการเสริม') + ' (' + opts.length + (I ? ')' : ' รายการ)'), hasAdSummary:n > 0, adSummary:r.ads.map(x => this.tx(x.a.n)).join(', ') + ' · +' + this.baht(tot), adAddHint:n > 0 ? '' : (I ? 'Optional' : 'ไม่บังคับ') };
+      adHeadLabel:(I ? 'Add-on services' : 'บริการเสริม') + ' (' + n + (I ? ')' : ' รายการ)'), hasAdSummary:n > 0, adSummary:r.ads.map(x => this.tx(x.a.n)).join(', ') + ' · +' + this.baht(tot), adAddHint:n > 0 ? '' : (I ? 'Optional' : 'ไม่บังคับ') };
   }
 
   addToCart = (id, q) => {
-    const p = this.prod(id); if (!p) return;
-    if (p.type === 'rfq') { this.openRfqFor(id, q || 1); return; }
-    if (p.type === 'consult') { this.consultFor(p); return; }
-    if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
+    const p = this.prod(id); if (!p) return false;
+    if (!this.SHOW_SERVICES && this.isServiceProduct(p)) return false;
+    if (p.type === 'rfq') { this.openRfqFor(id, q || 1); return false; }
+    if (p.type === 'consult') { this.consultFor(p); return false; }
+    if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return false; }
     const min = p.moq || 1, requested = Math.max(Number(q) || 1, min);
     const existing = this.state.cart.find(l => l.id === id);
     const current = existing ? existing.q : 0;
     const total = this.cartQty(p, current + requested, current);
     const qty = Math.max(0, total - current);
-    if (qty === 0) { this.say(this.stockLimitMsg(p), 'warn'); return; }
+    if (qty === 0) { this.say(this.stockLimitMsg(p), 'warn'); return false; }
     this.setState(s => {
       const cart = s.cart.slice(); const k = cart.findIndex(l => l.id === id);
       const pa = (s.pdpAd || {})[id] || [];
-      if (k >= 0) cart[k] = { ...cart[k], q:total, ad:Array.from(new Set((cart[k].ad || []).concat(pa))) }; else cart.push({ id, q:total, ad:pa.slice() });
+      if (k >= 0) cart[k] = { ...cart[k], q:total, selected:true, ad:Array.from(new Set((cart[k].ad || []).concat(pa))) }; else cart.push({ id, q:total, selected:true, ad:pa.slice() });
       return { cart, pdpAd:{ ...(s.pdpAd || {}), [id]:[] } };
     });
-    if (total < current + requested) { this.say(this.stockLimitMsg(p), 'warn'); return; }
+    if (total < current + requested) { this.say(this.stockLimitMsg(p), 'warn'); return true; }
     this.say(this.m('เพิ่มลงตะกร้าแล้ว: ', 'Added to cart: ') + this.tx(p.n) + (requested > (Number(q) || 1) ? this.m(' (ปรับเป็นจำนวนขั้นต่ำ ' + min + ' ' + p.u[0] + ')', ' (raised to the minimum of ' + min + ' ' + p.u[1] + ')') : ''), 'ok');
+    return true;
+  };
+  buyNow = (id, q, e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (this.addToCart(id, q)) setTimeout(this.toCheckout, 120);
   };
   setQty = (id, q) => {
     if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
@@ -1099,12 +1170,14 @@ class Component extends DCLogic {
     this.setState(s => ({ cart:s.cart.map(l => l.id === id ? { ...l, q:v } : l) }));
   };
   removeItem = id => { if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; } this.setState(s => ({ cart:s.cart.filter(l => l.id !== id) })); };
-  saveLater = id => { if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; } this.setState(s => ({ cart:s.cart.filter(l => l.id !== id), saved:s.saved.concat(s.cart.filter(l => l.id === id)) })); };
-  restoreSaved = id => { if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; } this.setState(s => ({ saved:s.saved.filter(l => l.id !== id), cart:s.cart.concat(s.saved.filter(l => l.id === id)) })); };
+  toggleCartSelection = (id, selected) => {
+    if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
+    this.setState(s => ({ cart:s.cart.map(l => l.id === id ? { ...l, selected:!!selected } : l) }));
+  };
   clearQuoteRef = () => { this.setState(s => ({ ck:{ ...s.ck, quoteRef:null } })); this.say(this.m('ยกเลิกการอ้างอิงใบเสนอราคาแล้ว ราคาในตะกร้าเปลี่ยนเป็นราคาปัจจุบันตามสิทธิ์ของคุณ', 'Quotation reference removed — the cart now uses your current prices.'), 'info'); };
   adjustCart = () => { this.go('cart'); this.say(this.m('ปรับจำนวนหรือลบรายการในตะกร้า ระบบจะตรวจน้ำหนักรวมใหม่ทันที', 'Adjust or remove items — total weight is re-checked instantly.'), 'info'); };
   splitMixed = () => {
-    const qi = this.state.cart.filter(l => { const p = this.prod(l.id); return p && (p.type === 'rfq' || p.type === 'consult'); }).map(l => ({ id:l.id, q:l.q }));
+    const qi = this.selectedCart().filter(l => { const p = this.prod(l.id); return p && (p.type === 'rfq' || p.type === 'consult'); }).map(l => ({ id:l.id, q:l.q }));
     if (!qi.length) return;
     const ids = qi.map(l => l.id), names = qi.map(l => this.tx(this.prod(l.id).n)).join(', ');
     this.setState(s => ({ cart:s.cart.filter(l => ids.indexOf(l.id) < 0) }));
@@ -1141,13 +1214,14 @@ class Component extends DCLogic {
   recheckStock = () => {
     this.api('stock', 900, .12, () => {
       const changes = [];
-      this.state.cart.forEach(l => {
+      this.selectedCart().forEach(l => {
         const p = this.prod(l.id); if (!p) return;
         const st = this.stockOf(p);
         if (st !== null && st < l.q) changes.push({ name:this.tx(p.n), kind:'stock', from:l.q, to:st });
       });
-      if (Math.random() < .5 && this.state.cart.length) {
-        const l = this.state.cart[0], p = this.prod(l.id);
+      const selected = this.selectedCart();
+      if (Math.random() < .5 && selected.length) {
+        const l = selected[0], p = this.prod(l.id);
         if (p) changes.push({ name:this.tx(p.n), kind:'price', from:this.baht(this.price(p)), to:this.baht(Math.round(this.price(p) * 1.02)) });
       }
       this.setState({ changes, sync:Date.now() });
@@ -1159,9 +1233,9 @@ class Component extends DCLogic {
 
   /* ---------- checkout ---------- */
   toCheckout = () => {
-    if (!this.state.cart.length) { this.say(this.m('ตะกร้าสินค้าของคุณยังว่างอยู่', 'Your cart is empty.'), 'warn'); return; }
-    if (!this.loggedIn) { this.openLogin({ after:'checkout' }); this.say(this.m('กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อนยืนยันคำสั่งซื้อ', 'Please log in or register before confirming an order.'), 'info'); return; }
     const t = this.totals();
+    if (!t.rows.length) { this.say(this.m('กรุณาเลือกสินค้าอย่างน้อย 1 รายการเพื่อดำเนินการต่อ', 'Select at least one item to continue.'), 'warn'); return; }
+    if (!this.loggedIn) { this.openLogin({ after:'checkout' }); this.say(this.m('กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อนยืนยันคำสั่งซื้อ', 'Please log in or register before confirming an order.'), 'info'); return; }
     if (t.mixed) { this.go('cart'); this.say(this.m('ตะกร้ามีสินค้าที่ต้องเสนอราคา กรุณาเลือกแยกรายการก่อนดำเนินการต่อ', 'Your cart has quote-only items — please split them out first.'), 'warn'); return; }
     if (t.wBlocked) { this.go('cart'); this.say(t.over ? this.weightMsg() : this.missingMsg(), 'warn'); return; }
     this.prefill();
@@ -1171,7 +1245,6 @@ class Component extends DCLogic {
   prefill() {
     const a = this.acct;
     this.setState(s => { const same = s.form._acct === s.acct, v = k => same ? s.form[k] : ''; return { form:{ ...s.form, _acct:s.acct,
-      po:v('po') || '', poDoc:v('poDoc') || '',
       fullName:v('fullName') || (this.loggedIn ? this.tx(a.name) : '') || '',
       phone:v('phone') || a.phone || '',
       email:v('email') || a.email || '',
@@ -1216,8 +1289,6 @@ class Component extends DCLogic {
   chooseCarrier = id => this.setState(s => ({ ck:{ ...s.ck, carrier:id, mode:'delivery' } }));
   setMode = m => { this.setState(s => ({ ck:{ ...s.ck, mode:m } })); if (m === 'delivery') this.loadCarriers(); };
   choosePay = k => { this.setState(s => ({ ck:{ ...s.ck, pay:k } })); if (k === 'credit') this.api('credit', 850, .08); };
-  onPoDoc = e => { const f = e.target.files && e.target.files[0]; this.setState(s => ({ form:{ ...s.form, poDoc:f ? f.name : '' } })); };
-
   creditVM(amount) {
     const c = this.acct.credit;
     if (!c) return null;
@@ -1226,8 +1297,38 @@ class Component extends DCLogic {
       due:this.addDays(this.acct.terms), hold:amount > avail, pct:Math.min(100, Math.round(c.used / c.limit * 100)) };
   }
 
+  creditSummaryVM(amount) {
+    const credit = this.creditVM(amount);
+    if (!credit) return null;
+    const availablePct = credit.limit > 0 ? Math.max(0, Math.min(100, Math.round(credit.avail / credit.limit * 100))) : 0;
+    const over = credit.after < 0;
+    const low = !over && credit.limit > 0 && credit.after / credit.limit <= 0.1;
+    return { ...credit, availablePct, availablePctLabel:availablePct + '%', availableLabel:this.baht(credit.avail),
+      amountLabel:'−' + this.baht(credit.amount), afterLabel:over ? this.baht(Math.abs(credit.after)) : this.baht(credit.after),
+      afterTitle:over ? this.m('เกินวงเงิน', 'Over credit limit') : this.m('คงเหลือหลังสั่งซื้อ', 'Available after order'),
+      barColor:over ? '#B23A2E' : low ? '#B87A07' : '#44359B', statusColor:over ? '#7A2B21' : low ? '#7A5709' : '#1F6B45',
+      statusBg:over ? '#FBEAE7' : low ? '#FBF0D8' : '#E8F4ED',
+      status:over ? this.m('วงเงินไม่พอสำหรับยอดนี้ ขาดอีก ' + this.baht(Math.abs(credit.after)), 'Insufficient credit. ' + this.baht(Math.abs(credit.after)) + ' more is required.')
+        : low ? this.m('หลังสั่งซื้อ วงเงินคงเหลือน้อยกว่า 10%', 'Less than 10% of your credit limit will remain after this order.')
+        : this.m('วงเงินเพียงพอสำหรับคำสั่งซื้อนี้', 'Your credit is sufficient for this order.'),
+      availablePctTitle:this.m('สัดส่วนวงเงินพร้อมใช้', 'Available credit ratio'),
+      availablePctText:this.m('วงเงินพร้อมใช้ ' + availablePct + '%', availablePct + '% available'),
+      termsLabel:this.m('เครดิต ' + credit.terms + ' วัน', credit.terms + '-day credit'),
+      open:() => this.setTab('credit') };
+  }
+
   notif(kind, th, en) { return { id:'n' + Date.now() + Math.random().toString(36).slice(2, 6), kind, date:this.addDays(0), text:[th, en] }; }
-  nextOrderId() { let n = 4813 + this.state.orders.length, id; do { id = 'SO-2026-00' + n++; } while (this.state.orders.some(o => o.id === id)); return id; }
+  nextOrderId(kind = 'goods') {
+    const prefix = kind === 'service' ? 'S' : 'P', now = new Date(), chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const date = String(now.getFullYear()).slice(-2) + String(now.getMonth() + 1).padStart(2, '0') + String(now.getDate()).padStart(2, '0');
+    let id;
+    do {
+      let suffix = '';
+      for (let i = 0; i < 5; i++) suffix += chars[Math.floor(Math.random() * chars.length)];
+      id = prefix + date + suffix;
+    } while (this.state.orders.some(o => o.id === id));
+    return id;
+  }
   holdMeta(o, k) {
     const h = this.HOLDS[k] || this.HOLDS.seller;
     if (k === 'payment' && o && o.kind === 'service') return { ...h, n:['รอชำระมัดจำ/งวดแรก','Awaiting deposit / first instalment'], x:['ชำระงวดแรกตามเงื่อนไขในใบเสนอราคา ผู้ขายจะนัดวันดำเนินงานหลังยืนยันยอด','Pay the first instalment per the quotation; the seller schedules work after confirming receipt'] };
@@ -1242,6 +1343,7 @@ class Component extends DCLogic {
   confirmOrder = () => {
     const s = this.state, ck = s.ck, t = this.totals(), qr = this.quoteRef;
     if (s.api.order === 'loading') return;
+    if (!t.rows.length) { this.toCheckout(); return; }
     if (t.mixed || t.wBlocked) { this.toCheckout(); return; }
     if (qr && qr.orderId) { this.say(this.m('ใบเสนอราคานี้สร้างคำสั่งซื้อ ' + qr.orderId + ' แล้ว ระบบไม่สร้างซ้ำ', 'This quotation already created ' + qr.orderId + ' — no duplicate.'), 'info'); this.openOrder(qr.orderId); return; }
     if (qr && this.qStatus(qr) === 'expired') { this.say(this.m('ใบเสนอราคาหมดอายุแล้ว กรุณาขอต่ออายุก่อนสั่งซื้อ', 'The quotation has expired — request a renewal first.'), 'warn'); return; }
@@ -1250,26 +1352,29 @@ class Component extends DCLogic {
     this.api('order', 1400, .08, () => {
       const st = this.state, a = this.acct, t2 = this.totals(), q2 = this.quoteRef, c2 = st.ck;
       if (q2 && q2.orderId) return;
-      const w2 = this.weightOf(st.cart);
+      const buyer = { ...st.form };
+      delete buyer.po;
+      delete buyer.poDoc;
+      const w2 = this.weightOf(t2.rows.map(r => ({ id:r.p.id, q:r.q })));
       if (w2.blocked) { this.say(w2.over ? this.weightMsg() : this.missingMsg(), 'warn'); return; }
       const id = this.nextOrderId(), holds = [];
-      if (a.approval && !st.form.po && !st.form.poDoc) holds.push('approval');
+      if (q2 && a.approval && !q2.po && !q2.poDoc) holds.push('approval');
       if (t2.sourcing.length) holds.push('seller');
       if (c2.pay === 'creditReview') holds.push('credit');
       if (c2.pay === 'qr' || c2.pay === 'transfer') holds.push('payment');
       const onTerms = c2.pay === 'credit' || c2.pay === 'cheque';
       const order = { id, acct:st.acct, kind:'goods', date:this.addDays(0), status:holds.length ? 'pending' : 'approved', holds,
         pay:c2.pay, payStatus:onTerms ? 'notdue' : c2.pay === 'creditReview' ? 'terms' : 'awaiting',
-        items:st.cart.map(l => ({ id:l.id, q:l.q })), lines:q2 ? t2.rows.map(r => ({ pid:r.p.id, q:r.q, unit:r.unit, list:r.unit, kind:'product' })) : null,
+        items:t2.rows.map(r => ({ id:r.p.id, q:r.q })), lines:q2 ? t2.rows.map(r => ({ pid:r.p.id, q:r.q, unit:r.unit, list:r.unit, kind:'product' })) : null,
         adds:t2.rows.flatMap(r => r.ads.map(x => ({ n:[x.a.n[0] + ' · ' + r.p.n[0], x.a.n[1] + ' · ' + r.p.n[1]], amt:x.amt }))).concat(t2.oAds.map(x => ({ n:x.a.n, amt:x.amt }))),
-        mode:c2.mode, carrier:c2.mode === 'delivery' ? c2.carrier : null, ship:t2.ship, po:st.form.po || '', poDoc:st.form.poDoc || '',
+        mode:c2.mode, carrier:c2.mode === 'delivery' ? c2.carrier : null, ship:t2.ship, po:q2 ? q2.po || '' : '', poDoc:q2 ? q2.poDoc || '' : '',
         quoteRef:q2 ? { id:q2.id, rev:q2.rev } : null, sourcing:t2.sourcing.map(r => r.p.id),
         booking:c2.mode === 'pickup' ? 'PU-26-' + (3400 + st.orders.length) : null, track:c2.mode === 'delivery' ? 'MOCK' + (91000000 + st.orders.length * 137) : null,
         invoice:'INV-2026-00' + (8260 + st.orders.length), due:onTerms ? this.addDays(a.terms || 30) : this.addDays(0),
         stepAt:holds.length ? 1 : 2, pickupDate:c2.pickupDate, pickupSlot:c2.pickupSlot, coupon:st.coupon,
-        snap:{ sub:t2.sub, ad:t2.ad, disc:t2.disc, ship:t2.ship, vat:t2.vat, total:t2.total, weight:t2.weight }, buyer:{ ...st.form, noTax:!this.taxOn() } };
+        snap:{ sub:t2.sub, ad:t2.ad, disc:t2.disc, ship:t2.ship, vat:t2.vat, total:t2.total, weight:t2.weight }, buyer:{ ...buyer, noTax:!this.taxOn() } };
       const lbl = holds.length ? this.HOLDS[holds[0]].n : ['ยืนยันแล้ว', 'confirmed'];
-      this.setState(x => ({ orders:[order].concat(x.orders), cart:[], coupon:null, couponInput:'', wallet:this.useCoupon(x, st.coupon, t2), lastOrder:id, route:{ p:'success' },
+      this.setState(x => ({ orders:[order].concat(x.orders), cart:x.cart.filter(l => l.selected === false), coupon:null, couponInput:'', wallet:this.useCoupon(x, st.coupon, t2), lastOrder:id, route:{ p:'success' },
         ck:{ ...x.ck, step:5, quoteRef:null, pay:'', accept:false, oAd:[] }, form:{ ...x.form, po:'', poDoc:'' },
         quotes:q2 ? x.quotes.map(y => y.id === q2.id ? { ...y, status:'ordered', orderId:id, history:this.hist(y, 'customer', 'ยืนยันสั่งซื้อจาก R' + y.rev + ' → ' + id, 'Ordered from R' + y.rev + ' → ' + id) } : y) : x.quotes,
         notifs:[this.notif('order', 'คำสั่งซื้อ ' + id + ' — ' + lbl[0], 'Order ' + id + ' — ' + lbl[1])].concat(x.notifs) }));
@@ -1319,7 +1424,7 @@ class Component extends DCLogic {
 
   /* ---------- quotations ---------- */
   openRfqFor = (id, q, list) => {
-    const items = list || (id ? [{ id, q:q || 1 }] : this.state.cart.map(l => ({ id:l.id, q:l.q })));
+    const items = list || (id ? [{ id, q:q || 1 }] : this.selectedCart().map(l => ({ id:l.id, q:l.q })));
     this.setState(s => ({ route:{ p:'rfq' }, addr:{ ...s.addr, rfq:null }, rfq:{ items, needDate:this.addDays(14), place:this.composeAddr(this.seedAddr()), method:'delivery', note:'', po:'', files:[] } }));
     window.scrollTo(0, 0);
   };
@@ -1329,7 +1434,7 @@ class Component extends DCLogic {
   rfqRemove = id => this.setState(s => ({ rfq:{ ...s.rfq, items:s.rfq.items.filter(i => i.id !== id) } }));
   rfqAddFromCart = () => this.setState(s => {
     const ids = s.rfq.items.map(i => i.id);
-    return { rfq:{ ...s.rfq, items:s.rfq.items.concat(s.cart.filter(l => ids.indexOf(l.id) < 0).map(l => ({ id:l.id, q:l.q }))) } };
+    return { rfq:{ ...s.rfq, items:s.rfq.items.concat(s.cart.filter(l => l.selected !== false && ids.indexOf(l.id) < 0).map(l => ({ id:l.id, q:l.q }))) } };
   });
   onRfqFiles = e => { const names = Array.from(e.target.files || []).map(f => f.name); this.setState(s => ({ rfq:{ ...s.rfq, files:names } })); };
   buildLines(items, acctKey, disc) {
@@ -1383,7 +1488,7 @@ class Component extends DCLogic {
     if (t.mixed) { this.say(this.m('มีสินค้าที่ต้องเสนอราคาเฉพาะในตะกร้า กรุณาแยกรายการก่อน', 'Split out quote-only items first.'), 'warn'); return; }
     if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
     const id = this.nextQuoteId();
-    const q = this.priceQuote({ id, acct:this.state.acct, kind:'instant', date:this.addDays(0), rev:1, status:'ready', items:this.state.cart.map(l => ({ id:l.id, q:l.q })),
+    const q = this.priceQuote({ id, acct:this.state.acct, kind:'instant', date:this.addDays(0), rev:1, status:'ready', items:this.selectedCart().map(l => ({ id:l.id, q:l.q })),
       need:'', place:this.composeAddr(this.seedAddr()), method:this.state.ck.mode === 'pickup' ? 'pickup' : 'delivery', po:'', note:'', files:[],
       history:[{ rev:1, date:this.addDays(0), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบันในตะกร้า', 'Created from current cart prices'] }] });
     this.setState(s => ({ quotes:[q].concat(s.quotes), route:{ p:'account', qid:id }, tab:'quotes', quoteBlock:null }));
@@ -1473,21 +1578,19 @@ class Component extends DCLogic {
       if (ch.length) { this.setState({ quoteBlock:{ id, kind:'change', items:ch } }); return; }
     }
     if (q.kind === 'service') { this.createServiceOrder(q); return; }
-    const moved = this.state.cart.length > 0;
     this.prefill();
-    this.setState(s => ({ saved:moved ? s.saved.concat(s.cart.filter(l => !s.saved.some(x => x.id === l.id))) : s.saved,
-      cart:q.items.map(x => ({ id:x.id, q:x.q })), coupon:null, couponInput:'', quoteBlock:null,
+    this.setState(s => ({ cart:this.cartWithSelection(q.items, s.cart), coupon:null, couponInput:'', quoteBlock:null,
       ck:{ ...s.ck, step:1, quoteRef:{ id:q.id, rev:q.rev }, pay:'', accept:false, mode:q.method === 'pickup' ? 'pickup' : 'delivery' },
-      form:{ ...s.form, po:q.po || s.form.po || '', poDoc:q.poDoc || s.form.poDoc || '' }, route:{ p:'checkout' } }));
+      route:{ p:'checkout' } }));
     window.scrollTo(0, 0);
-    this.say(this.m('สั่งซื้อจากใบเสนอราคา ' + q.id + ' R' + q.rev + ' ด้วยราคาที่ตกลง' + (moved ? ' — สินค้าเดิมในตะกร้าถูกย้ายไปที่ "บันทึกไว้ซื้อภายหลัง"' : ''), 'Ordering from ' + q.id + ' R' + q.rev + ' at the agreed price' + (moved ? ' — previous cart items moved to "Saved for later"' : '')), 'info');
+    this.say(this.m('สั่งซื้อจากใบเสนอราคา ' + q.id + ' R' + q.rev + ' ด้วยราคาที่ตกลง สินค้าเดิมที่ไม่อยู่ในใบเสนอราคาจะยังอยู่ในตะกร้าแต่ไม่ถูกเลือก', 'Ordering from ' + q.id + ' R' + q.rev + ' at the agreed price. Existing items outside the quotation remain in the cart unselected.'), 'info');
   };
   createServiceOrder = q => {
     if (this.state.api.order === 'loading') return;
     this.api('order', 1100, 0, () => {
       const cur = this.state.quotes.find(x => x.id === q.id);
       if (!cur || cur.orderId) return;
-      const id = this.nextOrderId(), t = this.quoteTotals(cur), a = this.ACCOUNTS[cur.acct] || this.acct;
+      const id = this.nextOrderId('service'), t = this.quoteTotals(cur), a = this.ACCOUNTS[cur.acct] || this.acct;
       const ms = (cur.plan || []).map(p => ({ n:p[0], pct:p[1], at:p[2], amount:Math.round(t.total * p[1] / 100), paid:false }));
       const holds = [];
       if (a.approval && !cur.po && !cur.poDoc) holds.push('approval');
@@ -1519,7 +1622,7 @@ class Component extends DCLogic {
     this.go('services', { svc:'s1' });
     this.say(this.m('ส่งต่อรายการสินค้า จำนวน น้ำหนักรวม และข้อมูลลูกค้าไปยังแบบฟอร์มแล้ว — การขอคำปรึกษาไม่สร้างคำสั่งซื้อ', 'Items, quantities, total weight and your details were carried into the form — a consultation does not create an order.'), 'info');
   };
-  consultFromCart = () => this.consultFromItems(this.state.cart, 'cart');
+  consultFromCart = () => this.consultFromItems(this.selectedCart(), 'cart');
   submitService = id => {
     const f = this.state.form, ex = {}, fc = f.svcFromCart, a = this.acct;
     (this.SVC_EXTRA[id] || []).forEach(x => { if (f['svx_' + x[0]]) ex[x[0]] = f['svx_' + x[0]]; });
@@ -1538,7 +1641,11 @@ class Component extends DCLogic {
     });
   };
   updLead(id, fn) { this.setState(s => ({ leads:s.leads.map(l => l.id === id ? fn(l) : l) })); }
-  openLead = id => { this.setState({ route:{ p:'account', lid:id }, tab:'leads' }); window.scrollTo(0, 0); };
+  openLead = id => {
+    if (!this.SHOW_SERVICES) { this.setTab('profile'); return; }
+    this.setState({ route:{ p:'account', lid:id }, tab:'leads' });
+    window.scrollTo(0, 0);
+  };
   leadNext = id => {
     const l = this.state.leads.find(x => x.id === id); if (!l) return;
     if (l.stage === 'submitted') { this.updLead(id, x => ({ ...x, stage:'contacted', contactedAt:this.addDays(0) })); this.say(this.m('ผู้เชี่ยวชาญติดต่อกลับแล้ว (จำลอง)', 'Specialist contacted the customer (simulated).'), 'info'); return; }
@@ -1590,10 +1697,10 @@ class Component extends DCLogic {
   reorder = id => {
     const o = this.state.orders.find(x => x.id === id); if (!o) return;
     if (o.kind === 'service') { this.say(this.m('งานบริการต้องขอใบเสนอราคาใหม่ ไม่สามารถสั่งซื้อซ้ำโดยตรง', 'Service work needs a new quotation — it cannot be reordered directly.'), 'info'); return; }
-    const wc = this.weightOf(o.items), moved = this.state.cart.length > 0;
-    this.setState(s => ({ saved:moved ? s.saved.concat(s.cart.filter(l => !s.saved.some(x => x.id === l.id))) : s.saved, cart:o.items.map(i => ({ id:i.id, q:i.q })), route:{ p:'cart' }, ck:{ ...s.ck, quoteRef:null } }));
+    const wc = this.weightOf(o.items);
+    this.setState(s => ({ cart:this.cartWithSelection(o.items, s.cart), route:{ p:'cart' }, ck:{ ...s.ck, quoteRef:null } }));
     window.scrollTo(0, 0);
-    this.say(this.m('เพิ่มสินค้าจากคำสั่งซื้อ ' + id + ' ลงตะกร้าแล้ว ใช้ราคาปัจจุบัน', 'Items from ' + id + ' added to the cart at current prices') + (moved ? this.m(' — สินค้าเดิมย้ายไปที่ "บันทึกไว้ซื้อภายหลัง"', ' — previous items moved to "Saved for later"') : '') + (wc.blocked ? ' — ' + (wc.over ? this.weightMsg() : this.missingMsg()) : ''), wc.blocked ? 'warn' : 'ok');
+    this.say(this.m('เพิ่มสินค้าจากคำสั่งซื้อ ' + id + ' ลงตะกร้าแล้ว ใช้ราคาปัจจุบัน สินค้าเดิมรายการอื่นจะยังอยู่แต่ไม่ถูกเลือก', 'Items from ' + id + ' added to the cart at current prices. Other existing items remain unselected.') + (wc.blocked ? ' — ' + (wc.over ? this.weightMsg() : this.missingMsg()) : ''), wc.blocked ? 'warn' : 'ok');
   };
   cancelOrder = id => { this.updOrder(id, o => ({ ...o, status:'cancelled', holds:[] })); this.say(this.m('ยกเลิกคำสั่งซื้อ ' + id + ' แล้ว', 'Order ' + id + ' cancelled.'), 'warn'); };
   returnOrder = id => { this.updOrder(id, o => ({ ...o, status:'returned' })); this.say(this.m('ส่งคำขอคืนสินค้าสำหรับ ' + id + ' แล้ว', 'Return request for ' + id + ' submitted.'), 'ok'); };
@@ -1628,8 +1735,8 @@ class Component extends DCLogic {
     return [
       { id:'sc1', label:['1 · B2C ซื้อและชำระทันทีด้วย QR','1 · B2C buys and pays now by QR'], run:cartAs('walkin', [{ id:'p6', q:1 }, { id:'p5', q:2 }]) },
       { id:'sc2', label:['2 · B2B ซื้อทันทีและชำระทันที (ไม่มีเครดิต)','2 · B2B buys and pays now (no credit)'], run:ckAs('bizNew', [{ id:'p7', q:1 }], { step:3 }) },
-      { id:'sc3', label:['3 · B2B ซื้อด้วยเครดิต 45 วัน (แนบ PO แล้ว)','3 · B2B on 45-day credit (PO attached)'], run:ckAs('gradeA', [{ id:'p1', q:4 }, { id:'p2', q:2 }], { step:3, carrier:'c2' }, { po:'PO-SPM-26-0842' }) },
-      { id:'sc4', label:['4 · B2B ไม่แนบ PO → รอผู้อนุมัติของบริษัท','4 · B2B without PO → awaits company approver'], run:ckAs('gradeA', [{ id:'p5', q:6 }], { step:3 }) },
+      { id:'sc3', label:['3 · B2B ซื้อโดยตรงด้วยเครดิต 45 วัน','3 · Direct B2B order on 45-day credit'], run:ckAs('gradeA', [{ id:'p1', q:4 }, { id:'p2', q:2 }], { step:3, carrier:'c2' }) },
+      { id:'sc4', label:['4 · ใบเสนอราคาไม่มี PO → รอผู้อนุมัติหลังแปลงเป็นคำสั่งซื้อ','4 · Quote without PO → approval hold after order conversion'], run:at('gradeA', { qid:'QT-2026-00231' }, 'quotes') },
       { id:'sc5', label:['5 · เครดิตเกินวงเงิน → ชำระทันที/ให้ผู้ขายพิจารณา','5 · Over credit limit → pay now / seller review'], run:ckAs('partner', [{ id:'p1', q:16 }], { step:3 }) },
       { id:'sc6', label:['6 · สร้างใบเสนอราคาจากราคาปัจจุบัน แล้วกลับมาซื้อ','6 · Instant quote, then come back and buy'], run:cartAs('partner', [{ id:'p3', q:2 }, { id:'p5', q:3 }]) },
       { id:'sc7', label:['7 · RFQ → ขอแก้ไข → ยอมรับ → ยืนยันสั่งซื้อ','7 · RFQ → revise → accept → order'], run:at('gradeA', { qid:'QT-2026-00231' }, 'quotes') },
@@ -1641,7 +1748,7 @@ class Component extends DCLogic {
       { id:'sc13', label:['13 · น้ำหนัก 301 กก. (ระงับการสั่งซื้อ)','13 · Weight 301 kg (blocked)'], run:cartAs('walkin', [{ id:'p5', q:32 }, { id:'p2', q:5 }]) },
       { id:'sc14', label:['14 · สินค้าไม่มีข้อมูลน้ำหนัก','14 · Item without weight data'], run:cartAs('walkin', [{ id:'p15', q:2 }, { id:'p5', q:1 }]) },
       { id:'sc15', label:['15 · ตะกร้าปะปนสินค้าซื้อทันทีและต้องเสนอราคา','15 · Mixed cart: buy-now + quote-only'], run:cartAs('partner', [{ id:'p5', q:2 }, { id:'p8', q:1 }]) },
-      { id:'sc16', label:['16 · ส่งมอบแล้ว / ยังไม่ถึงกำหนดชำระ','16 · Delivered / payment not yet due'], run:at('gradeA', { oid:'SO-2026-004812' }, 'orders') }
+      { id:'sc16', label:['16 · ส่งมอบแล้ว / ยังไม่ถึงกำหนดชำระ','16 · Delivered / payment not yet due'], run:at('gradeA', { oid:'P260920RTKLP' }, 'orders') }
     ];
   }
   onScenario = e => {
@@ -1652,8 +1759,8 @@ class Component extends DCLogic {
   };
   resetDemo = () => {
     const init = this.seed();
-    this.setState({ ...init, acct:'guest', cart:[], saved:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
-      ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', po:'', accept:false, sameAddr:true, quoteRef:null },
+    this.setState({ ...init, acct:'guest', cart:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
+      ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null },
       form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'', po:'', files:[] }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
       heroIdx:0, heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:!!(this._motion && this._motion.matches) });
     window.scrollTo(0, 0);
@@ -1663,7 +1770,7 @@ class Component extends DCLogic {
   /* ---------- filtering ---------- */
   filtered() {
     const f = this.state.filters, q = (this.state.search || '').trim().toLowerCase();
-    let list = this.PRODUCTS.slice();
+    let list = this.catalogueProducts().slice();
     if (q) list = list.filter(p => (this.tx(p.n) + ' ' + p.n[0] + ' ' + p.n[1] + ' ' + p.sku + ' ' + p.brand).toLowerCase().indexOf(q) >= 0);
     const A = this.arr;
     if (A(f.cat).length) list = list.filter(p => A(f.cat).indexOf(this.shopCategory(p)) >= 0);
@@ -1696,9 +1803,11 @@ class Component extends DCLogic {
         : p.type === 'pkg' ? this.m('แพ็กเกจบริการราคาชัดเจน · ซื้อได้ทันที ทีมงานนัดหมายหลังยืนยันคำสั่งซื้อ กรุณาตรวจเงื่อนไขหน้างานก่อนสั่งซื้อ', 'Fixed-price service package · buy now; we schedule after confirmation. Check the site conditions first.')
         : this.m('งานบริการที่ต้องประเมิน · ขอคำปรึกษาหรือนัดสำรวจหน้างานก่อนเสนอราคา', 'Assessed service · consult or book a site survey before pricing'),
       primaryLabel:cta, hasQuote:p.type === 'buy', quoteLabel:this.tx(L.requestQuote),
+      showBuyNow:p.type === 'buy', buyNowLabel:this.m('ซื้อสินค้าทันที', 'Buy now'),
       moqLabel:p.moq ? this.m('ขายขั้นต่ำ ' + p.moq + ' ' + p.u[0], 'Minimum order ' + p.moq + ' ' + p.u[1]) : '',
       open:() => this.go('pdp', { id:p.id }),
-      primary:e => { if (e && e.stopPropagation) e.stopPropagation(); this.addToCart(p.id, 1); }, quote:() => this.openRfqFor(p.id, 1)
+      primary:e => { if (e && e.stopPropagation) e.stopPropagation(); this.addToCart(p.id, 1); },
+      buyNow:e => this.buyNow(p.id, 1, e), quote:() => this.openRfqFor(p.id, 1)
     };
   }
 
@@ -1709,7 +1818,8 @@ class Component extends DCLogic {
     const r = s.route, tot = this.totals();
     const isWide = s.w >= 1160;
 
-    const navDefs = [['home', t.home], ['products', t.products], ['services', t.services], ['promos', t.promos], ['about', t.about], ['contact', t.contact]];
+    const navDefs = [['home', t.home], ['products', t.products], ['services', t.services], ['promos', t.promos], ['about', t.about], ['contact', t.contact]]
+      .filter(([p]) => this.SHOW_SERVICES || p !== 'services');
     const navItems = navDefs.map(([p, label]) => {
       const cur = r.p === p;
       return { label, cur:cur ? 'page' : undefined, bg:cur ? '#ECE9F8' : 'transparent', fg:cur ? '#44359B' : '#36334F', fw:cur ? 700 : 500,
@@ -1761,12 +1871,12 @@ class Component extends DCLogic {
       goRegister:() => this.go('register', { kind:'person' }),
       doLogout:this.logout,
       accountBtnLabel:this.loggedIn ? (s.w >= 1400 ? this.tx(this.acct.chip) + ' · ' + t.myAccount : this.tx(this.acct.chip)) : t.login,
-      cartCount:s.cart.reduce((a, l) => a + l.q, 0),
+      cartCount:this.visibleCartLines(s.cart).reduce((a, l) => a + l.q, 0),
       toast:s.toast, toastColor:s.toastKind === 'warn' ? '#C4B8FF' : s.toastKind === 'info' ? '#8478D0' : '#4FBF87',
       closeToast:() => this.setState({ toast:null }),
       syncLabel:this.relTime(s.sync), priceContextLabel:priceCtx,
 
-      isHome:r.p === 'home', isCoupons:r.p === 'coupons', isProducts:r.p === 'products', isPdp:r.p === 'pdp', isServices:r.p === 'services',
+      isHome:r.p === 'home' || (!this.SHOW_SERVICES && r.p === 'services'), isCoupons:r.p === 'coupons', isProducts:r.p === 'products', isPdp:r.p === 'pdp', isServices:this.SHOW_SERVICES && r.p === 'services',
       isPromos:r.p === 'promos', isAbout:r.p === 'about', isContact:r.p === 'contact', isCart:r.p === 'cart',
       isCheckout:r.p === 'checkout', isSuccess:r.p === 'success', isRfq:r.p === 'rfq', isLogin:r.p === 'login',
       isRegister:r.p === 'register', isAccount:r.p === 'account',
@@ -1774,29 +1884,29 @@ class Component extends DCLogic {
       hideImg:this.hideImg, showCategoryRows:this.props.showCategoryRows === true,
       lblAllCats:i ? 'All product categories' : 'หมวดหมู่สินค้าทั้งหมด', lblBest:i ? 'Recommended products' : 'สินค้าแนะนำ', lblSeeAll:i ? 'See all' : 'ดูทั้งหมด',
       ...this.homeVals(),
-      featuredHome:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
+      featuredHome:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
       circleCats:[{ label:i ? 'All products' : 'สินค้าทั้งหมด', photo:this.categoryAsset('all-products'), go:() => this.openGroup('') }]
         .concat(this.GROUPS.map(g => ({ label:this.tx(g.n), photo:this.categoryPhoto(g), go:() => this.openGroup(g.id) })))
-        .concat([{ label:i ? 'Services' : 'บริการ', photo:this.categoryAsset('services'), go:() => this.go('services') }]),
+        .concat(this.SHOW_SERVICES ? [{ label:i ? 'Services' : 'บริการ', photo:this.categoryAsset('services'), go:() => this.go('services') }] : []),
       homeRows:this.GROUPS.map(g => { const sel = s.homeSub[g.id] || '';
         const pick = v => () => this.setState(st => ({ homeSub:{ ...st.homeSub, [g.id]:v } }));
-        const list = this.PRODUCTS.filter(p => p.grp === g.id && (!sel || p.sub === sel)).sort((a, b) => b.pop - a.pop).slice(0, 5).map(p => this.productVM(p));
+        const list = this.catalogueProducts().filter(p => p.grp === g.id && (!sel || p.sub === sel)).sort((a, b) => b.pop - a.pop).slice(0, 5).map(p => this.productVM(p));
         return { id:g.id, title:this.tx(g.n), tileTitle:this.tx(g.t), tileSub:this.tx(g.s), tilePhoto:this.categoryPhoto(g), items:list, all:() => this.openGroup(g.id),
           pills:[{ label:t.all, on:!sel, pick:pick('') }].concat(g.subs.map(sb => ({ label:this.tx(this.SUBS[sb]), on:sel === sb, pick:pick(sb) })))
             .map(x => ({ ...x, bg:x.on ? '#44359B' : '#ECE9F4', fg:x.on ? '#FFFFFF' : '#4A4766' })) }; }),
       heroStats:[
         { v:'30+', k:i ? 'years serving Thai industry' : 'ปีประสบการณ์ในภาคอุตสาหกรรมไทย' },
-        { v:String(this.PRODUCTS.length), k:i ? 'catalogue items in this prototype' : 'รายการสินค้าในต้นแบบนี้' },
+        { v:String(this.catalogueProducts().length), k:i ? 'catalogue items in this prototype' : 'รายการสินค้าในต้นแบบนี้' },
         { v:'1–2', k:i ? 'business days warehouse preparation' : 'วันทำการเตรียมสินค้าจากคลัง' },
         { v:'45', k:i ? 'days credit terms for Grade A' : 'วันเครดิตสำหรับลูกค้า Grade A' }
       ],
       catCards:this.CATS.map(c => { const asset = { green:'business-clean-energy-ev', auto:'business-industrial-automation', inst:'business-instruments-inspection', gas:'business-industrial-gas', dc:'business-data-center-backup', wh:'business-warehouse-automation' }[c.id]; return { id:c.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), name:this.tx(c.n), note:this.tx(c.note),
-        count:this.PRODUCTS.filter(p => p.cat === c.id).length + (i ? ' items' : ' รายการ'),
+        count:this.catalogueProducts().filter(p => p.cat === c.id).length + (i ? ' items' : ' รายการ'),
         go:() => this.browseHomeCategory(c.id) }; }),
-      featuredProducts:this.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
+      featuredProducts:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
       promos:this.promoList(),
       promoSubtitle:i ? 'Offers shown match your current demo segment: ' + this.tx(this.acct.chip) : 'โปรโมชั่นที่แสดงตรงกับกลุ่มลูกค้าสาธิตปัจจุบัน: ' + this.tx(this.acct.chip),
-      serviceCards:this.SERVICES.map(sv => { const asset = { s1:'service-consulting-design', s2:'service-integration-installation', s3:'service-calibration-training', s4:'service-maintenance-after-sales', s5:'service-data-center-solutions' }[sv.id]; return { id:sv.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) }; }),
+      serviceCards:this.SHOW_SERVICES ? this.SERVICES.map(sv => { const asset = { s1:'service-consulting-design', s2:'service-integration-installation', s3:'service-calibration-training', s4:'service-maintenance-after-sales', s5:'service-data-center-solutions' }[sv.id]; return { id:sv.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) }; }) : [],
       buySteps:[
         { i:'1', title:i ? 'Choose products' : 'เลือกสินค้า', body:i ? 'Browse the catalogue with your segment price and live stock.' : 'เลือกสินค้าพร้อมราคาเฉพาะกลุ่มและสต๊อกที่อัปเดต' },
         { i:'2', title:i ? 'Order or request a quote' : 'สั่งซื้อหรือขอใบเสนอราคา', body:i ? 'Buy now, or send an RFQ for engineered items.' : 'ซื้อทันที หรือส่งคำขอใบเสนอราคาสำหรับงานที่ต้องออกแบบ' },
@@ -1804,7 +1914,7 @@ class Component extends DCLogic {
         { i:'4', title:i ? 'Pay and track' : 'ชำระเงินและติดตาม', body:i ? 'QR, transfer, corporate credit or cheque, then track to delivery.' : 'QR โอนเงิน เครดิตบริษัท หรือวางเช็ค แล้วติดตามจนถึงปลายทาง' }
       ],
       footerShop:[{ label:t.products, go:() => this.go('products') }, { label:t.promos, go:() => this.go('promos') }, { label:t.rfqNav, go:this.goRfq }, { label:t.cart, go:() => this.go('cart') }],
-      footerSupport:[{ label:t.myAccount, go:() => this.loggedIn ? this.go('account') : this.go('login') }, { label:t.services, go:() => this.go('services') }, { label:t.about, go:() => this.go('about') }, { label:t.contact, go:() => this.go('contact') }],
+      footerSupport:[{ label:t.myAccount, go:() => this.loggedIn ? this.go('account') : this.go('login') }, { label:t.services, service:true, go:() => this.go('services') }, { label:t.about, go:() => this.go('about') }, { label:t.contact, go:() => this.go('contact') }].filter(link => this.SHOW_SERVICES || !link.service),
 
       ...this.storeVals(t, i, tot),
       ...this.flowVals(t, i, tot),
@@ -1827,32 +1937,32 @@ class Component extends DCLogic {
         body:m('ส่วนลดสูงสุด 15% สำหรับอุปกรณ์ควบคุมที่ร่วมรายการ จัดชุด PLC, HMI และ VFD ให้พร้อมสำหรับโครงการใหม่','Save up to 15% on selected controls. Combine PLC, HMI and VFD equipment for your next project.'),
         terms:m('ยอดสินค้าในหมวดขั้นต่ำ 30,000 บาท','Minimum category spend THB 30,000'),
         cta:m('ดูสินค้าในหมวด','Browse category'), use:() => this.browseHomeCategory('auto') },
-      { asset:'ev-charger-installation', tag:m('สินค้าแถมบริการ','Product + free service'), benefit:m('สำรวจหน้างานฟรี','FREE SITE SURVEY'),
+      { asset:'ev-charger-installation', isService:true, tag:m('สินค้าแถมบริการ','Product + free service'), benefit:m('สำรวจหน้างานฟรี','FREE SITE SURVEY'),
         title:m('ซื้อเครื่องชาร์จ EV แถมสำรวจหน้างาน','EV charger with a free site survey'),
         scope:m('เครื่องชาร์จ AC 22 kW FusionCharge','FusionCharge AC 22 kW EV charger'),
         body:m('ซื้อเครื่องชาร์จรถยนต์ไฟฟ้าที่ร่วมรายการ รับบริการสำรวจจุดติดตั้งและประเมินระบบไฟฟ้าจากทีมวิศวกรฟรี','Buy the eligible EV charger and receive a free installation-site survey and electrical assessment.'),
         terms:m('ฟรี 1 ครั้ง · กรุงเทพฯ และปริมณฑล · ไม่รวมค่าติดตั้ง','One free visit · Bangkok metropolitan area · installation excluded'),
         cta:m('ดูเครื่องชาร์จ EV','View EV charger'), use:() => this.go('pdp', {id:'p3'}) },
-      { asset:'calibration-service', tag:m('ส่วนลดบริการ','Service offer'), benefit:m('ลด 20%','20% OFF'),
+      { asset:'calibration-service', isService:true, tag:m('ส่วนลดบริการ','Service offer'), benefit:m('ลด 20%','20% OFF'),
         title:m('สอบเทียบครบชุด ลดค่าใช้จ่าย 20%','Save 20% on batch calibration'),
         scope:m('SVC-03 · สอบเทียบเครื่องมือวัด','SVC-03 · Instrument calibration'),
         body:m('ส่งเครื่องมือวัดสอบเทียบพร้อมกันตั้งแต่ 5 เครื่อง รับส่วนลดค่าบริการ 20% พร้อมใบรับรองผลการสอบเทียบ','Calibrate 5 or more instruments together and save 20% on calibration fees, with certificates included.'),
         terms:m('เฉพาะเครื่องมือที่รองรับ · ไม่รวมค่าขนส่ง','Supported instruments only · transport excluded'),
         cta:m('ขอคำปรึกษาการสอบเทียบ','Ask about calibration'), use:() => this.go('services', {svc:'s3'}) },
-      { asset:'maintenance-service', tag:m('บริการแถมฟรี','Free service'), benefit:m('แถมตรวจเช็ค 1 ครั้ง','1 FREE INSPECTION'),
+      { asset:'maintenance-service', isService:true, tag:m('บริการแถมฟรี','Free service'), benefit:m('แถมตรวจเช็ค 1 ครั้ง','1 FREE INSPECTION'),
         title:m('ดูแลต่อเนื่อง แถมตรวจเช็คเชิงป้องกัน','Annual care with a free inspection'),
         scope:m('SVC-04 · บำรุงรักษาและบริการหลังการขาย','SVC-04 · Maintenance & after-sales'),
         body:m('ทำสัญญาบำรุงรักษารายปี รับบริการตรวจเช็คสภาพอุปกรณ์เพิ่ม 1 ครั้ง พร้อมรายงานและคำแนะนำจากทีมบริการ','Sign an annual maintenance contract and receive one extra equipment inspection, a report and service recommendations.'),
         terms:m('สัญญา 12 เดือน · เฉพาะอุปกรณ์ในสัญญา','12-month contract · contracted equipment only'),
         cta:m('สอบถามแพ็กเกจดูแลระบบ','Ask about maintenance'), use:() => this.go('services', {svc:'s4'}) },
-      { asset:'ups-backup-power', tag:m('หมวดหมู่แถมบริการ','Category + free service'), benefit:m('ประเมินโหลดฟรี','FREE LOAD ASSESSMENT'),
+      { asset:'ups-backup-power', isService:true, tag:m('หมวดหมู่แถมบริการ','Category + free service'), benefit:m('ประเมินโหลดฟรี','FREE LOAD ASSESSMENT'),
         title:m('เลือก UPS ที่ใช่ พร้อมประเมินโหลดฟรี','Find the right UPS with a free assessment'),
         scope:m('หมวดศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power category'),
         body:m('สั่งซื้อระบบ UPS ที่ร่วมรายการ รับบริการประเมินโหลดและแนะนำขนาดระบบสำรองไฟให้เหมาะกับธุรกิจฟรี','Order an eligible UPS system and receive a free load assessment and backup-power sizing consultation.'),
         terms:m('ยอดซื้อขั้นต่ำ 100,000 บาท · ฟรี 1 โครงการ','Minimum spend THB 100,000 · one free project assessment'),
         cta:m('ดูระบบสำรองไฟ','Browse backup power'), use:() => this.browseHomeCategory('dc') }
     ];
-    return offers.map(p => ({ ...p, photo:'./assets/promotions/' + p.asset + '.webp',
+    return offers.filter(p => this.SHOW_SERVICES || !p.isService).map(p => ({ ...p, photo:'./assets/promotions/' + p.asset + '.webp',
       period:m('10–31 ต.ค. 2569','10–31 Oct 2026') }));
   }
 
@@ -1862,7 +1972,7 @@ class Component extends DCLogic {
   toggleF = (k, v) => this.setState(s => { const a = this.arr(s.filters[k]); return { filters:{ ...s.filters, [k]:a.indexOf(v) >= 0 ? a.filter(x => x !== v) : a.concat(v) } }; });
   clearSec = (k) => this.setState(s => ({ filters:{ ...s.filters, [k]:[] }, fq:{ ...s.fq, [k]:'' } }));
   sections(t, i, f, fq) {
-    const P = this.PRODUCTS, A = this.arr, n = fn => P.filter(fn).length;
+    const P = this.catalogueProducts(), A = this.arr, n = fn => P.filter(fn).length;
     const mk = (key, title, opts, ph, top) => {
       const q = ((fq || {})[key] || '').trim().toLowerCase(), cur = A(f[key]);
       const items = opts.filter(o => !q || o.label.toLowerCase().indexOf(q) >= 0).map(o => { const on = cur.indexOf(o.v) >= 0;
@@ -1882,9 +1992,11 @@ class Component extends DCLogic {
   storeVals(t, i) {
     const s = this.state, f = s.filters;
     const list = this.filtered();
-    const brands = Array.from(new Set(this.PRODUCTS.map(p => p.brand))).sort();
+    const products = this.catalogueProducts();
+    const brands = Array.from(new Set(products.map(p => p.brand))).sort();
     const pid = s.route.id || 'p1';
-    const p = this.prod(pid) || this.PRODUCTS[0];
+    const selected = this.prod(pid);
+    const p = selected && !this.isServiceProduct(selected) ? selected : products[0];
     const vm = this.productVM(p);
     const qty = s.qty || 1;
     const st = this.stockOf(p);
@@ -1913,7 +2025,7 @@ class Component extends DCLogic {
       catOptions:this.SHOP_CATS.map(c => ({ v:c.id, label:this.tx(c.n) })),
       brandOptions:brands.map(b => ({ v:b, label:b })),
       availOptions:[{ v:'', label:t.all }, { v:'ready', label:t.inStock }, { v:'pre', label:t.preorderLabel }],
-      typeOptions:[{ v:'', label:t.all }, { v:'buy', label:t.buyNow }, { v:'pkg', label:i ? 'Service package' : 'แพ็กเกจบริการ' }, { v:'rfq', label:t.rfqOnly }, { v:'consult', label:t.consultOnly }],
+      typeOptions:[{ v:'', label:t.all }, { v:'buy', label:t.buyNow }, { v:'rfq', label:t.rfqOnly }],
       sortOptions:[{ v:'pop', label:i ? 'Popularity' : 'ความนิยม' }, { v:'priceAsc', label:i ? 'Price: low to high' : 'ราคาน้อยไปมาก' }, { v:'priceDesc', label:i ? 'Price: high to low' : 'ราคามากไปน้อย' }, { v:'name', label:i ? 'Name A–Z' : 'ชื่อสินค้า A–Z' }],
       lblFilters:i ? 'Filter products' : 'ตัวกรองสินค้า',
       lblPriceFrom:i ? 'Price from' : 'ราคาตั้งแต่', lblPriceTo:i ? 'to' : 'ถึง',
@@ -1931,7 +2043,7 @@ class Component extends DCLogic {
       pdpOnQty:e => this.setPdpQty(Number(e.target.value)),
       ...this.pdpAdVals(p, qty),
       pdpAdd:() => this.addToCart(p.id, qty),
-      pdpBuyNow:() => { this.addToCart(p.id, qty); setTimeout(this.toCheckout, 120); },
+      pdpBuyNow:() => this.buyNow(p.id, qty),
       pdpQuote:() => this.openRfqFor(p.id, qty),
       pdpIsBuy:p.type === 'buy', pdpIsRfq:p.type === 'rfq', pdpIsConsult:p.type === 'consult', pdpIsPkg:p.type === 'pkg',
       pdpCanBuy:p.type === 'buy' || p.type === 'pkg', pdpShowQuote:p.type === 'buy' || p.type === 'rfq',
@@ -1942,7 +2054,7 @@ class Component extends DCLogic {
       pdpOver:over,
       pdpOverMsg:i ? 'You asked for ' + qty + ' units but only ' + st + ' are in stock at the Lam Luk Ka warehouse. Request a quotation and we will confirm the lead time for the balance.'
                    : 'คุณเลือก ' + qty + ' ชิ้น แต่คลังลำลูกกามีสินค้าพร้อมส่งเพียง ' + st + ' ชิ้น กรุณาขอใบเสนอราคาเพื่อให้เรายืนยันระยะเวลาส่งมอบส่วนที่เหลือ',
-      pdpRelated:this.PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 3).map(x => this.productVM(x)),
+      pdpRelated:products.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 3).map(x => this.productVM(x)),
       lblWarehouse:i ? 'Lam Luk Ka warehouse, Pathum Thani' : 'คลังลำลูกกา จังหวัดปทุมธานี',
       lblQtyWanted:i ? 'Quantity' : 'จำนวนที่ต้องการ',
       lblEstWeight:i ? 'Estimated total weight' : 'ประมาณการน้ำหนักรวม',
@@ -1992,31 +2104,30 @@ class Component extends DCLogic {
       lblSend:i ? 'Send request' : 'ส่งคำขอ',
 
       promosTitle:i ? 'Promotions' : 'โปรโมชั่น',
-      promosIntro:i ? 'Special offers on selected products, categories and engineering services. Explore discounts and complimentary services for your next project.' : 'ข้อเสนอพิเศษสำหรับสินค้า หมวดหมู่ และบริการด้านวิศวกรรมที่ร่วมรายการ เลือกส่วนลดและบริการแถมฟรีที่เหมาะกับโครงการของคุณ',
+      promosIntro:this.SHOW_SERVICES ? (i ? 'Special offers on selected products, categories and engineering services. Explore discounts and complimentary services for your next project.' : 'ข้อเสนอพิเศษสำหรับสินค้า หมวดหมู่ และบริการด้านวิศวกรรมที่ร่วมรายการ เลือกส่วนลดและบริการแถมฟรีที่เหมาะกับโครงการของคุณ') : (i ? 'Special offers on selected products and categories.' : 'ข้อเสนอพิเศษสำหรับสินค้าและหมวดหมู่ที่ร่วมรายการ'),
 
       aboutHeroTitle:i ? 'About us' : 'เกี่ยวกับเรา',
-      aboutHeroIntro:i ? 'Industrial automation and engineering solutions for manufacturing and clean energy.' : 'โซลูชันระบบอัตโนมัติและวิศวกรรม เพื่อภาคอุตสาหกรรมและพลังงานสะอาด',
+      aboutHeroIntro:i ? 'Industrial automation equipment for manufacturing and clean energy.' : 'อุปกรณ์ระบบอัตโนมัติสำหรับภาคอุตสาหกรรมและพลังงานสะอาด',
       aboutImageAlt:i ? 'Illustration of engineers reviewing industrial automation and clean-energy equipment' : 'ภาพประกอบวิศวกรตรวจสอบอุปกรณ์ระบบอัตโนมัติและพลังงานสะอาด',
       aboutTitle:i ? 'About Polytechnology' : 'เกี่ยวกับบริษัท โพลีเทคโนโลยี',
       aboutBody:[
-        { text:i ? 'Polytechnology Co., Ltd. distributes industrial automation equipment and delivers engineering solutions to Thai manufacturers, from control systems and production-line equipment to quality inspection.' : 'บริษัท โพลีเทคโนโลยี จำกัด เป็นผู้จัดจำหน่ายอุปกรณ์ระบบอัตโนมัติทางอุตสาหกรรมและผู้ให้บริการโซลูชันด้านวิศวกรรมให้กับผู้ผลิตในประเทศไทย ครอบคลุมระบบควบคุมการทำงาน เครื่องจักร อุปกรณ์สำหรับกระบวนการผลิต และระบบตรวจสอบคุณภาพ' },
-        { text:i ? 'We are a certified partner for Huawei Digital Power solar conversion systems and supply and install EV charging systems for both residential and business customers.' : 'เราเป็นพันธมิตรผู้แทนจำหน่ายที่ได้รับการรับรองจากหัวเว่ย ดิจิทัล พาวเวอร์ ด้านระบบแปลงไฟฟ้าสำหรับพลังงานแสงอาทิตย์ พร้อมให้บริการจัดจำหน่ายและติดตั้งระบบชาร์จรถยนต์ไฟฟ้าทั้งสำหรับที่อยู่อาศัยและภาคธุรกิจ' },
-        { text:i ? 'Our solution business covers consulting, planning, design, installation, training and instrument calibration, plus natural gas systems, data center backup power and automated warehouse monitoring and control.' : 'ธุรกิจโซลูชันของเราครอบคลุมการให้คำปรึกษา วางแผน ออกแบบ ติดตั้ง ฝึกอบรม และสอบเทียบอุปกรณ์ รวมถึงระบบก๊าซธรรมชาติ ระบบสำรองไฟสำหรับศูนย์ข้อมูล และระบบติดตามพร้อมควบคุมคลังสินค้าอัตโนมัติ' }
+        { text:i ? 'Polytechnology Co., Ltd. distributes industrial automation equipment to Thai manufacturers, from control systems and production-line equipment to quality inspection.' : 'บริษัท โพลีเทคโนโลยี จำกัด เป็นผู้จัดจำหน่ายอุปกรณ์ระบบอัตโนมัติทางอุตสาหกรรมให้กับผู้ผลิตในประเทศไทย ครอบคลุมระบบควบคุมการทำงาน เครื่องจักร อุปกรณ์สำหรับกระบวนการผลิต และระบบตรวจสอบคุณภาพ' },
+        { text:i ? 'We are a certified partner for Huawei Digital Power solar conversion systems and supply EV charging equipment for residential and business customers.' : 'เราเป็นพันธมิตรผู้แทนจำหน่ายที่ได้รับการรับรองจากหัวเว่ย ดิจิทัล พาวเวอร์ ด้านระบบแปลงไฟฟ้าสำหรับพลังงานแสงอาทิตย์ และจัดจำหน่ายอุปกรณ์ชาร์จรถยนต์ไฟฟ้าสำหรับที่อยู่อาศัยและภาคธุรกิจ' },
+        { text:i ? 'Our catalogue also covers natural gas systems, data center backup power and automated warehouse monitoring and control equipment.' : 'แคตตาล็อกของเรายังครอบคลุมอุปกรณ์ระบบก๊าซธรรมชาติ ระบบสำรองไฟสำหรับศูนย์ข้อมูล และระบบติดตามพร้อมควบคุมคลังสินค้าอัตโนมัติ' }
       ],
       aboutPolicy:i ? '"Committed to quality work, delivered on time, with continuous system improvement to build customer confidence and satisfaction."' : '"มุ่งมั่นพัฒนางานคุณภาพ ส่งมอบตรงเวลา พัฒนาระบบอย่างต่อเนื่อง เพื่อสร้างความเชื่อมั่นและความพึงพอใจของลูกค้า"',
       contactTitle:i ? 'Contact us' : 'ติดต่อเรา',
-      contactHeroIntro:i ? 'Our team is ready to help with products, engineering solutions and after-sales support.' : 'พร้อมให้คำปรึกษาด้านสินค้า โซลูชันวิศวกรรม และบริการหลังการขาย',
+      contactHeroIntro:i ? 'Our sales team is ready to help with products, pricing and orders.' : 'ฝ่ายขายพร้อมให้ข้อมูลด้านสินค้า ราคา และคำสั่งซื้อ',
       contactCompanyName:i ? 'Polytechnology Co., Ltd.' : 'บริษัท โพลีเทคโนโลยี จำกัด',
-      contactCompanyDescription:i ? 'We provide distribution, design, installation, training and after-sales services for automatic instrumentation and control systems for industrial processes, natural gas and petroleum businesses, NGV stations and CNG transport vehicles, and alternative energy products.' : 'เป็นผู้ให้บริการด้านการจัดจำหน่าย การออกแบบ การติดตั้ง การฝึกอบรมและการบริการหลังการขาย ระบบเครื่องมือวัดคุมอัตโนมัติสำหรับกระบวนการอุตสาหกรรม ธุรกิจก๊าซธรรมชาติและปิโตรเลียมสถานีจำหน่ายก๊าซ NGV และรถขนส่ง CNG และผลิตภัณฑ์พลังงานทางเลือก',
+      contactCompanyDescription:i ? 'We distribute automatic instrumentation and control equipment for industrial processes, natural gas and petroleum businesses, NGV stations, CNG transport vehicles and alternative energy applications.' : 'เป็นผู้จัดจำหน่ายระบบเครื่องมือวัดคุมอัตโนมัติสำหรับกระบวนการอุตสาหกรรม ธุรกิจก๊าซธรรมชาติและปิโตรเลียม สถานีจำหน่ายก๊าซ NGV รถขนส่ง CNG และผลิตภัณฑ์พลังงานทางเลือก',
       contactBranchTitle:i ? 'Branch office' : 'สำนักงานสาขา',
       contactBranchAddress1:i ? 'Company address: 108/59 Moo 5, Soi Ton Son, Chaeng Watthana Road' : 'ที่อยู่บริษัท : 108/59 หมู่ 5 ซอยต้นสน ถนนแจ้งวัฒนะ',
       contactBranchAddress2:i ? 'Pak Kret Subdistrict, Pak Kret District' : 'ตำบล ปากเกร็ด อำเภอปากเกร็ด',
       contactBranchAddress3:i ? 'Nonthaburi 11120' : 'จังหวัดนนทบุรี 11120',
       contactChannelsTitle:i ? 'Contact channels' : 'ช่องทางติดต่อ',
-      contactIntro:i ? 'Sales engineers answer product, pricing and credit questions. For technical scope, use the consultation request on the Services page.' : 'วิศวกรฝ่ายขายพร้อมตอบคำถามเรื่องสินค้า ราคา และเครดิต หากต้องการประเมินขอบเขตงานทางเทคนิค กรุณาใช้แบบฟอร์มขอคำปรึกษาในหน้าบริการ',
+      contactIntro:i ? 'The sales team answers product, pricing, order and credit questions.' : 'ฝ่ายขายพร้อมตอบคำถามเรื่องสินค้า ราคา คำสั่งซื้อ และเครดิต',
       contactRows:[
         { k:i ? 'Sales' : 'ฝ่ายขาย', v:'0-2000-0000 · sales@polytech.example' },
-        { k:i ? 'Service & support' : 'ฝ่ายบริการ', v:'0-2000-0001 · service@polytech.example' },
         { k:i ? 'Accounts & credit' : 'ฝ่ายบัญชีและเครดิต', v:'0-2000-0002 · ar@polytech.example' },
         { k:i ? 'Warehouse pickup' : 'รับสินค้าที่คลัง', v:i ? 'Mon–Fri 09:00–16:00, Lam Luk Ka' : 'จ.–ศ. 09:00–16:00 คลังลำลูกกา' }
       ]
@@ -2178,11 +2289,14 @@ class Component extends DCLogic {
   flowVals(t, i, tot) {
     const s = this.state, ck = s.ck, a = this.acct;
     const qr = this.quoteRef;
-    const rows = tot.rows.map(r => {
+    const cartViewRows = s.route.p === 'cart' ? this.cartRows() : tot.rows;
+    const rows = cartViewRows.map(r => {
       const sv = this.stockVM(r.p), isQ = r.p.type === 'rfq' || r.p.type === 'consult';
       const wl = r.w === null ? (i ? 'No weight data' : 'ไม่มีข้อมูลน้ำหนัก') : r.p.type === 'pkg' ? (i ? 'Service · not weighed' : 'งานบริการ · ไม่นับน้ำหนัก') : this.num(r.w, 1) + ' ' + t.kg;
       return {
         id:r.p.id, name:this.tx(r.p.n), sku:r.p.sku, unit:this.tx(r.p.u), photo:this.photo(r.p), hasPhoto:!!r.p, hideImg:this.hideImg, ...this.rowAdVals(r),
+        selected:r.selected, selectDisabled:!!qr, selectOpacity:qr ? '.55' : '1', selectLabel:i ? 'Order this item' : 'สั่งซื้อรายการนี้',
+        rowBg:r.selected ? '#FFFFFF' : '#F7F6FA', rowBorder:r.selected ? '#E4E1EE' : '#D9D5E6',
         priceLabel:this.baht(r.unit), lineLabel:this.baht(r.line), q:r.q, weightLabel:wl,
         unitLine:this.tx(r.p.u) + ' · ' + wl + (r.p.moq ? ' · ' + (i ? 'min. ' : 'ขั้นต่ำ ') + r.p.moq : ''),
         stockLabel:sv.label, stockColor:sv.color,
@@ -2192,7 +2306,7 @@ class Component extends DCLogic {
         flag:isQ ? (i ? 'Quote required — cannot be bought directly' : 'ต้องขอใบเสนอราคา ซื้อทันทีไม่ได้') : (i ? 'Missing weight data' : 'ขาดข้อมูลน้ำหนัก'),
         inc:() => this.setQty(r.p.id, r.q + 1), dec:() => this.setQty(r.p.id, r.q - 1),
         onQty:e => this.setQty(r.p.id, Number(e.target.value)),
-        remove:() => this.removeItem(r.p.id), later:() => this.saveLater(r.p.id),
+        remove:() => this.removeItem(r.p.id), select:e => this.toggleCartSelection(r.p.id, e.target.checked),
         open:() => this.go('pdp', { id:r.p.id })
       };
     });
@@ -2224,6 +2338,7 @@ class Component extends DCLogic {
       cheque:{ n:i ? 'Cheque' : 'วางเช็ค', d:i ? 'Post-dated cheque collected by our finance team on the due date.' : 'วางเช็คลงวันที่ล่วงหน้า ทีมการเงินเข้ารับตามกำหนด' }
     };
     const cv = this.creditVM(tot.total);
+    const cartCredit = this.creditSummaryVM(tot.total);
 
     const stepDefs = [
       [1, 'buyer', i ? 'Buyer' : 'ข้อมูลผู้ซื้อ', i ? 'Contact and invoice details' : 'ผู้ติดต่อและที่อยู่'],
@@ -2238,14 +2353,16 @@ class Component extends DCLogic {
       cartRows:rows, cartEmpty:!rows.length, cartHas:rows.length > 0,
       cartEmptyTitle:i ? 'Your cart is empty' : 'ตะกร้าสินค้าของคุณยังว่างอยู่',
       cartEmptyBody:i ? 'Browse the catalogue to add equipment, or send a quotation request for engineered items.' : 'เลือกสินค้าจากแคตตาล็อก หรือส่งคำขอใบเสนอราคาสำหรับงานที่ต้องออกแบบ',
-      savedRows:s.saved.map(l => { const p = this.prod(l.id); return { name:this.tx(p.n), sku:p.sku, q:l.q, restore:() => this.restoreSaved(l.id) }; }),
-      hasSaved:s.saved.length > 0,
-      lblSaved:i ? 'Saved for later' : 'บันทึกไว้ซื้อภายหลัง', lblRestore:i ? 'Move back to cart' : 'ย้ายกลับตะกร้า',
-      lblSaveLater:i ? 'Save for later' : 'เก็บไว้ภายหลัง', lblRemove:i ? 'Remove' : 'ลบ',
+      lblRemove:i ? 'Remove' : 'ลบ',
       lblQty:i ? 'Qty' : 'จำนวน', lblLineTotal:i ? 'Line total' : 'ยอดรวมรายการ',
       lblSubtotal:i ? 'Subtotal' : 'ยอดรวมสินค้า', lblDiscount:i ? 'Discount' : 'ส่วนลด',
       lblVat:i ? 'VAT 7%' : 'ภาษีมูลค่าเพิ่ม 7%', lblShipEst:i ? 'Estimated freight' : 'ค่าจัดส่งโดยประมาณ',
       lblGrand:i ? 'Total payable' : 'ยอดรวมทั้งหมด', lblTotalWeight:i ? 'Total weight' : 'น้ำหนักรวม',
+      showCartCredit:!!cartCredit && tot.rows.length > 0, cartCredit,
+      lblCartCredit:i ? 'Your corporate credit' : 'วงเงินเครดิตของคุณ',
+      lblCreditAvailable:i ? 'Available credit' : 'วงเงินที่ใช้ได้', lblCreditCart:i ? 'This cart' : 'ยอดตะกร้านี้',
+      lblCreditEstimate:i ? 'Estimated from the current cart total. Delivery and add-ons may change at checkout.' : 'ประมาณการจากยอดตะกร้าปัจจุบัน ค่าจัดส่งและบริการเสริมอาจเปลี่ยนในขั้นตอนชำระเงิน',
+      lblCreditDetails:i ? 'View credit details' : 'ดูรายละเอียดวงเงิน',
       lblCoupon:i ? 'Coupon code' : 'รหัสคูปอง', lblApply:i ? 'Apply' : 'ใช้คูปอง',
       couponInput:s.couponInput, onCoupon:e => this.setState({ couponInput:e.target.value.toUpperCase() }),
       applyCoupon:this.applyCoupon, clearCoupon:this.clearCoupon,
@@ -2284,7 +2401,7 @@ class Component extends DCLogic {
       lblWeightCheck:i ? 'Max. 300 kg per order' : 'น้ำหนักสูงสุด 300 กก. ต่อคำสั่งซื้อ',
       lblAdjust:i ? 'Adjust items' : 'ปรับรายการสินค้า', lblConsult:i ? 'Request consultation' : 'ขอคำปรึกษา',
       adjustCart:this.adjustCart, consultFromCart:this.consultFromCart,
-      ckBlocked:tot.wBlocked || tot.mixed, ckOpacity:(tot.wBlocked || tot.mixed) ? '.45' : '1',
+      ckBlocked:!tot.rows.length || tot.wBlocked || tot.mixed, ckOpacity:(!tot.rows.length || tot.wBlocked || tot.mixed) ? '.45' : '1',
       weightRuleNote:i ? 'Weight limits and service coverage are prototype assumptions and must be confirmed during Discovery.' : 'เงื่อนไขน้ำหนักและพื้นที่ให้บริการเป็นสมมติฐานของ Prototype และต้องยืนยันอีกครั้งในช่วง Discovery',
       lblRecheck:i ? 'Re-check stock & price' : 'ตรวจสอบสต๊อกและราคาใหม่',
       recheckStock:this.recheckStock,
@@ -2318,21 +2435,18 @@ class Component extends DCLogic {
       isCompanyBuyer:!!a.company, isPersonBuyer:!a.company,
       f:{ fullName:s.form.fullName || '', phone:s.form.phone || '', email:s.form.email || '',
         company:s.form.company || '', taxId:s.form.taxId || '', branch:s.form.branch || '',
-        contact:s.form.contact || '', shipAddr:s.form.shipAddr || '', billAddr:s.form.billAddr || '', po:s.form.po || '', poDoc:s.form.poDoc || '' },
+        contact:s.form.contact || '', shipAddr:s.form.shipAddr || '', billAddr:s.form.billAddr || '' },
       onForm:this.onForm, useSavedAddr:this.useSavedAddr,
       provOptions:this.thai().map(x => ({ v:x.p, label:x.p })),
       lblProvince:i ? 'Province' : 'จังหวัด', lblZip:i ? 'Postal code' : 'รหัสไปรษณีย์',
       lblAddrLine:i ? 'House no. / street / building' : 'บ้านเลขที่ ถนน อาคาร',
       ...this.addrVals('ship', i), ...this.addrVals('bill', i), ...this.addrVals('rfq', i),
-      needPo:!!a.po,
       lblFullName:i ? 'Full name' : 'ชื่อและนามสกุล', lblPhone2:i ? 'Phone number' : 'เบอร์โทรศัพท์',
       taxOn:this.taxOn(), taxOnStr:this.taxOn() ? 'true' : 'false', taxMark:this.taxOn() ? '✓' : '', taxMarkBg:this.taxOn() ? '#44359B' : '#FFFFFF', toggleTax:this.toggleTax,
       lblNeedTax:i ? 'I need a tax invoice' : 'ต้องการใบกำกับภาษี', shipSum:this.shipSumVM(), lblShipTo:i ? 'Delivering to' : 'จัดส่งไปที่', lblChangeAddr:i ? 'Change address' : 'เปลี่ยนที่อยู่',
       lblShipAddr:i ? 'Shipping address' : 'ที่อยู่จัดส่ง', lblBillAddr:i ? 'Tax invoice / billing address' : 'ที่อยู่ออกใบกำกับภาษี',
       lblCompanyName:i ? 'Company name' : 'ชื่อบริษัท', lblTaxId:i ? 'Tax ID' : 'เลขประจำตัวผู้เสียภาษี',
       lblBranch:i ? 'Head office or branch' : 'สำนักงานใหญ่หรือสาขา', lblContact:i ? 'Contact person' : 'ชื่อผู้ติดต่อ',
-      lblPo:i ? 'PO Number' : 'เลขที่ใบสั่งซื้อ (PO Number)',
-      lblPoHint:a.approval ? (i ? 'optional · without it the order waits for your approver' : 'ไม่บังคับ · หากไม่ระบุ คำสั่งซื้อจะรอผู้อนุมัติของบริษัท') : (i ? 'optional' : 'ไม่บังคับ'),
       lblUseSaved:i ? 'Use saved address' : 'ใช้ที่อยู่ที่บันทึกไว้',
       lblBuyerTitle:i ? 'Buyer details' : 'ข้อมูลผู้ซื้อ',
       lblSapNote:a.code ? (i ? 'Linked to SAP customer ' + a.code + ' · segment ' + this.tx(a.chip) : 'เชื่อมกับรหัสลูกค้า SAP ' + a.code + ' · กลุ่ม ' + this.tx(a.chip)) : '',
@@ -2389,7 +2503,6 @@ class Component extends DCLogic {
         { k:i ? 'Tax ID' : 'เลขผู้เสียภาษี', v:s.form.taxId || '—' },
         { k:i ? 'Shipping address' : 'ที่อยู่จัดส่ง', v:ck.mode === 'pickup' ? (i ? 'Pickup at Lam Luk Ka warehouse' : 'รับสินค้าที่คลังลำลูกกา') : (s.form.shipAddr || '—') },
         { k:i ? 'Tax invoice address' : 'ที่อยู่ออกใบกำกับภาษี', v:this.taxOn() ? (s.form.billAddr || '—') : (i ? 'No tax invoice requested' : 'ไม่ขอใบกำกับภาษี') },
-        { k:i ? 'PO Number' : 'เลขที่ PO', v:(s.form.po || '—') + (s.form.poDoc ? ' · ' + s.form.poDoc : '') },
         { k:i ? 'Total weight' : 'น้ำหนักรวม', v:(tot.missing.length ? (i ? 'cannot verify' : 'ตรวจสอบไม่ได้') : this.num(tot.weight, 1) + ' ' + t.kg) + ' / ' + this.MAXW + ' ' + t.kg },
         { k:i ? 'Delivery' : 'การจัดส่ง', v:ck.mode === 'pickup' ? (i ? 'Self pickup · ' + this.dateStr(ck.pickupDate) + ' · ' + ck.pickupSlot : 'รับสินค้าเอง · ' + this.dateStr(ck.pickupDate) + ' · ' + ck.pickupSlot) : ((this.carrier(ck.carrier) || {}).name || '—') },
         { k:i ? 'Payment method' : 'วิธีชำระเงิน', v:ck.pay ? payMeta[ck.pay].n : '—' }
@@ -2419,14 +2532,14 @@ class Component extends DCLogic {
       ...(() => {
         const nts = [], pred = [], cvx = this.creditVM(tot.total);
         if (tot.sourcing.length) nts.push({ title:i ? 'Items to be sourced' : 'มีสินค้าที่ต้องจัดหา', body:tot.sourcing.map(r => this.tx(r.p.n)).join(', ') + (i ? ' — the seller must confirm the lead time first.' : ' — ผู้ขายต้องยืนยันกำหนดส่งก่อน') });
-        if (a.approval && !s.form.po && !s.form.poDoc) nts.push({ title:i ? 'Internal approval is enabled' : 'บัญชีนี้เปิดขั้นตอนอนุมัติภายใน', body:i ? 'No PO or approval evidence attached — the order will wait for your company approver before it reaches the seller.' : 'ยังไม่ได้แนบ PO หรือหลักฐานอนุมัติ คำสั่งซื้อจะรอผู้อนุมัติของบริษัทก่อนส่งให้ผู้ขาย (แนบได้ที่ขั้นตอนข้อมูลผู้ซื้อ)' });
-        if (a.approval && !s.form.po && !s.form.poDoc) pred.push('approval');
+        if (qr && a.approval && !qr.po && !qr.poDoc) nts.push({ title:i ? 'Quotation approval evidence is missing' : 'ใบเสนอราคายังไม่มีหลักฐานอนุมัติ', body:i ? 'This order comes from a quotation without a PO or approval evidence, so it will wait for your company approver. You can add the evidence from the quotation detail.' : 'คำสั่งซื้อนี้มาจากใบเสนอราคาที่ยังไม่มี PO หรือหลักฐานอนุมัติ จึงจะรอผู้อนุมัติของบริษัท โดยสามารถเพิ่มหลักฐานได้จากรายละเอียดใบเสนอราคา' });
+        if (qr && a.approval && !qr.po && !qr.poDoc) pred.push('approval');
         if (tot.sourcing.length) pred.push('seller');
         if (ck.pay === 'creditReview') pred.push('credit');
         if (ck.pay === 'qr' || ck.pay === 'transfer') pred.push('payment');
         const outcome = pred.length ? (i ? 'The order will be created as: ' : 'ระบบจะสร้างคำสั่งซื้อในสถานะ: ') + pred.map(k => this.tx(this.HOLDS[k].n)).join(' → ')
           : (ck.pay === 'credit' || ck.pay === 'cheque') ? (i ? 'The order is confirmed immediately; payment is due on your ' + a.terms + '-day terms (nothing to pay now).' : 'คำสั่งซื้อได้รับการยืนยันทันที และชำระตามเครดิต ' + a.terms + ' วัน (ยังไม่ต้องชำระตอนนี้)') : '';
-        const pb = tot.wBlocked || tot.mixed || (ck.pay === 'credit' && cvx && cvx.hold);
+        const pb = !tot.rows.length || tot.wBlocked || tot.mixed || (ck.pay === 'credit' && cvx && cvx.hold);
         return { ckNotices:nts, hasCkNotices:nts.length > 0, ckOutcome:outcome, hasOutcome:!!outcome, placeBlocked:pb || s.api.order === 'loading', placeOpacity:pb ? '.45' : '1' };
       })(),
       cartQuote:qr ? { text:(i ? 'Ordering from quotation ' : 'สั่งซื้อจากใบเสนอราคา ') + qr.id + ' R' + qr.rev + (i ? ' at the agreed price · valid until ' : ' ด้วยราคาที่ตกลง · ใช้ได้ถึง ') + this.dateStr(qr.exp) + (i ? ' · quantities are locked; a quotation does not reserve stock.' : ' · จำนวนถูกล็อกตามใบเสนอราคา และใบเสนอราคาไม่ได้จองสต็อก'),
@@ -2440,8 +2553,6 @@ class Component extends DCLogic {
       lblCartToRfq:i ? 'Request quotation / special pricing' : 'ขอใบเสนอราคา / ราคาพิเศษ',
       lblQuoteHelp:i ? 'Send your cart as a quotation request — ask for special pricing, volume discounts or project terms. Our sales team replies with a formal quotation.' : 'ส่งรายการในตะกร้าเป็นคำขอใบเสนอราคา — ขอราคาพิเศษ ส่วนลดตามปริมาณ หรือเงื่อนไขโครงการ ทีมขายจะตอบกลับด้วยใบเสนอราคาทางการ',
       lblOutcome:i ? 'After you confirm' : 'หลังกดยืนยัน',
-      lblPoDoc:i ? 'Attach PO or approval evidence' : 'แนบไฟล์ PO หรือหลักฐานอนุมัติ', lblOptional:i ? 'optional' : 'ไม่บังคับ', onPoDoc:this.onPoDoc,
-      lblPoNote:i ? 'A PO is a reference document — attaching it does not mark the order as paid.' : 'PO เป็นเอกสารอ้างอิงการสั่งซื้อ การแนบ PO ไม่ทำให้สถานะเป็นชำระแล้ว',
       holdPayQr:() => this.choosePay('qr'), holdPayTransfer:() => this.choosePay('transfer'), holdReview:() => this.choosePay('creditReview'),
       isCreditReview:ck.pay === 'creditReview', holdReviewOn:ck.pay === 'creditReview' ? 'true' : 'false',
       lblHoldPayNow:i ? 'Pay now by QR' : 'ชำระทันทีด้วย QR', lblHoldTransfer:i ? 'Pay by bank transfer' : 'ชำระด้วยการโอนเงิน', lblHoldReview:i ? 'Send for seller credit review' : 'ส่งให้ผู้ขายพิจารณาเครดิต',
@@ -2543,7 +2654,7 @@ class Component extends DCLogic {
     return { tabs:[mk('', allLabel, keys.length)].concat(groups.map(g => mk(g.k, g.label, cnt[g.k]))), sel:eff, keys:gs ? gs.keys : [] };
   }
   quoteStatusColor(k) { return { ready:'#1F7A4D', accepted:'#44359B', ordered:'#5A49B5', expired:'#B23A2E', rejected:'#B23A2E' }[k] || '#B87A07'; }
-  setTab = k => { this.setState({ tab:k, route:{ p:'account' }, quoteBlock:null }); window.scrollTo(0, 0); };
+  setTab = k => { if (!this.SHOW_SERVICES && k === 'leads') k = 'profile'; this.setState({ tab:k, route:{ p:'account' }, quoteBlock:null }); window.scrollTo(0, 0); };
   openOrder = id => { this.setState({ route:{ p:'account', oid:id }, tab:'orders' }); window.scrollTo(0, 0); };
 
   orderItemsVM(o) {
@@ -2785,16 +2896,16 @@ class Component extends DCLogic {
     if (l.quoteId) return 'quoted';
     return l.stage || 'submitted';
   }
-  leadStages(l) {
-    const s3 = l.svc === 's3', s4 = l.svc === 's4';
-    return [['submitted', ['ส่งคำขอแล้ว', 'Request sent']], ['contacted', ['ผู้เชี่ยวชาญติดต่อกลับ', 'Specialist contacted you']]]
-      .concat(l.survey && l.survey.need ? [['survey', ['นัดสำรวจหน้างาน', 'Site survey']]] : [])
-      .concat([['quoted', ['รับแนวทางและใบเสนอราคา', 'Proposal & quotation']], ['ordered', ['ยืนยันสั่งงาน · ชำระตามเงื่อนไข', 'Order confirmed · pay per terms']], ['scheduled', ['นัดดำเนินงาน', 'Work scheduled']],
-        ['working', s3 ? ['สอบเทียบเครื่องมือ', 'Calibration'] : s4 ? ['บำรุงรักษาตามรอบ', 'Maintenance visits'] : ['ติดตั้ง/ดำเนินงาน', 'Installation / work']],
-        ['testing', s3 ? ['ออกใบรับรองผล', 'Certificates issued'] : ['ทดสอบระบบ', 'System testing']], ['handover', ['รอตรวจรับงาน', 'Awaiting your acceptance']], ['done', ['ตรวจรับและส่งมอบแล้ว', 'Accepted & handed over']]]);
+  leadRequestStageKey(l) {
+    const key = this.leadStageKey(l);
+    return ['submitted', 'contacted', 'survey'].indexOf(key) >= 0 ? key : 'quoted';
+  }
+  leadStages() {
+    return [['submitted', ['ส่งคำขอแล้ว', 'Request sent']], ['contacted', ['ผู้เชี่ยวชาญติดต่อกลับ', 'Specialist contacted you']],
+      ['survey', ['จัดทำแนวทางและใบเสนอราคา', 'Preparing proposal & quotation']], ['quoted', ['รับใบเสนอราคาแล้ว', 'Quotation received']]];
   }
   ldVM(l) {
-    const i = this.li, m = (a, b) => i ? b : a, key = this.leadStageKey(l), stages = this.leadStages(l), at = Math.max(0, stages.findIndex(x => x[0] === key)), sv = this.svc(l.svc) || this.SERVICES[0];
+    const i = this.li, m = (a, b) => i ? b : a, key = this.leadStageKey(l), requestKey = this.leadRequestStageKey(l), stages = this.leadStages(), at = Math.max(0, stages.findIndex(x => x[0] === requestKey)), sv = this.svc(l.svc) || this.SERVICES[0];
     const sur = l.survey || {}, fee = sur.fee || 0, o = l.orderId ? this.state.orders.find(x => x.id === l.orderId) : null;
     const seller = m('ผู้ขาย (ผู้เชี่ยวชาญ)', 'Seller (specialist)'), you = m('คุณ (ลูกค้า)', 'You (customer)');
     const nx = { submitted:[seller, m('ติดต่อกลับภายใน 1 วันทำการเพื่อสอบถามรายละเอียด', 'Calls back within 1 business day for details')],
@@ -2813,7 +2924,7 @@ class Component extends DCLogic {
     ].concat((this.SVC_EXTRA[l.svc] || []).filter(x => l.extra && l.extra[x[0]]).map(x => ({ k:x[1 + i], v:l.extra[x[0]] })))
      .concat(l.note ? [{ k:m('รายละเอียดเพิ่มเติม', 'Other details'), v:Array.isArray(l.note) ? this.tx(l.note) : l.note }] : []);
     return {
-      id:l.id, svc:this.tx(sv.n), code:sv.code, date:this.dateStr(l.date), stage:this.tx(stages[at][1]), stageColor:key === 'done' ? '#1F7A4D' : key === 'handover' || key === 'quoted' ? '#B87A07' : '#44359B',
+      id:l.id, svc:this.tx(sv.n), code:sv.code, date:this.dateStr(l.date), stage:this.tx(stages[at][1]), stageColor:requestKey === 'quoted' ? '#1F7A4D' : '#44359B',
       facts, hasItems:!!(l.items && l.items.length),
       items:(l.items || []).map(it => { const p = this.prod(it.id); return { text:(p ? this.tx(p.n) : it.id) + ' × ' + it.q }; }),
       itemsSummary:m('น้ำหนักรวม ', 'Total weight ') + this.num(l.kg || 0, 1) + ' ' + this.tx(this.L.kg) + (l.missing && l.missing.length ? m(' + สินค้าไม่มีข้อมูลน้ำหนัก', ' + items without weight data') : '') + m(' · ส่งต่อจากตะกร้า ไม่มีการสร้างคำสั่งซื้อ', ' · carried from the cart, no order created'),
@@ -2833,9 +2944,10 @@ class Component extends DCLogic {
 
   acctVals(t, i) {
     const s = this.state, a = this.acct, r = s.route;
-    const mine = s.orders.filter(o => o.acct === s.acct);
-    const myQuotes = s.quotes.filter(q => q.acct === s.acct);
-    const myLeads = s.leads.filter(l => l.acct === s.acct);
+    const mine = s.orders.filter(o => o.acct === s.acct && (this.SHOW_SERVICES || o.kind !== 'service'));
+    const myQuotes = s.quotes.filter(q => q.acct === s.acct && (this.SHOW_SERVICES || (q.kind !== 'service' && !q.leadId)));
+    const myLeads = this.SHOW_SERVICES ? s.leads.filter(l => l.acct === s.acct) : [];
+    const visibleNotifs = this.SHOW_SERVICES ? s.notifs : s.notifs.filter(n => !/คำขอคำปรึกษา|งานบริการ|Consultation request|Service quotation|Service order/i.test((n.text || []).join(' ')));
     const cv = a.credit ? this.creditVM(0) : null;
     const of = { q:s.form.ofq || '', st:s.form.ofst || '', md:s.form.ofmd || '', from:s.form.offrom || '' };
     const stT = s.stTab || {}, nq = (of.q || '').trim().toLowerCase();
@@ -2846,7 +2958,7 @@ class Component extends DCLogic {
       g('ship', 'จัดส่งแล้ว', 'Shipped', ['shipped']), g('done', 'สำเร็จ', 'Completed', ['delivered', 'done']), g('stop', 'ยกเลิก/คืนสินค้า', 'Cancelled / returned', ['cancelled', 'returned'])];
     const nGoods = list.filter(o => o.kind !== 'service').length, nSvc = list.length - nGoods, hasBoth = nGoods > 0 && nSvc > 0;
     const otype = hasBoth && (stT.otype === 'goods' || stT.otype === 'service') ? stT.otype : '';
-    const orderTypes = [['', i ? 'All' : 'ทั้งหมด', list.length], ['goods', i ? 'Products' : 'สินค้า', nGoods], ['service', i ? 'Services' : 'งานบริการ', nSvc]].map(x => ({ label:x[1], n:x[2], on:otype === x[0] ? 'true' : 'false', bg:otype === x[0] ? '#44359B' : '#FFFFFF', fg:otype === x[0] ? '#FFFFFF' : '#44359B',
+    const orderTypes = [['', i ? 'All' : 'ทั้งหมด', list.length], ['goods', i ? 'Products' : 'สินค้า', nGoods]].concat(this.SHOW_SERVICES ? [['service', i ? 'Services' : 'งานบริการ', nSvc]] : []).map(x => ({ label:x[1], n:x[2], on:otype === x[0] ? 'true' : 'false', bg:otype === x[0] ? '#44359B' : '#FFFFFF', fg:otype === x[0] ? '#FFFFFF' : '#44359B',
       pick:() => this.setState(s => ({ stTab:{ ...(s.stTab || {}), otype:x[0], orders:'' }, pg:{ ...(s.pg || {}), orders:1 } })) }));
     if (otype) list = list.filter(o => (o.kind === 'service') === (otype === 'service'));
     const oT = this.mkTabs('orders', list.map(o => o.status), stT.orders, t.all, oG);
@@ -2855,11 +2967,11 @@ class Component extends DCLogic {
     const qG = [g('seller', 'ผู้ขายเสนอราคา', 'Seller quoting', ['submitted', 'review', 'revision']), g('you', 'รอคุณตอบรับ', 'Awaiting you', ['ready']),
       g('ok', 'รอสั่งซื้อ/สั่งซื้อแล้ว', 'Ready to order / ordered', ['accepted', 'ordered']), g('end', 'ปฏิเสธ/หมดอายุ', 'Rejected / expired', ['rejected', 'expired'])];
     const qT = this.mkTabs('quotes', myQuotes.map(q => this.qStatus(q)), stT.quotes, t.all, qG);
-    const lG = [g('new', 'รับเรื่อง', 'Received', ['submitted', 'contacted']), g('plan', 'สำรวจ/เสนอราคา', 'Survey & quote', ['survey', 'quoted']),
-      g('work', 'ดำเนินงาน', 'In work', ['ordered', 'scheduled', 'working', 'testing']), g('acc', 'รอตรวจรับ', 'Awaiting acceptance', ['handover']), g('fin', 'เสร็จสิ้น', 'Completed', ['done'])];
-    const lT = this.mkTabs('leads', myLeads.map(l => this.leadStageKey(l)), stT.leads, t.all, lG);
+    const lG = [g('new', 'ส่งคำขอแล้ว', 'Request sent', ['submitted']), g('contacted', 'ผู้เชี่ยวชาญติดต่อกลับ', 'Specialist contacted you', ['contacted']),
+      g('plan', 'จัดทำแนวทางและใบเสนอราคา', 'Preparing proposal & quotation', ['survey']), g('fin', 'รับใบเสนอราคาแล้ว', 'Quotation received', ['quoted'])];
+    const lT = this.mkTabs('leads', myLeads.map(l => this.leadRequestStageKey(l)), stT.leads, t.all, lG);
     const myQuotesV = qT.sel ? myQuotes.filter(q => qT.keys.indexOf(this.qStatus(q)) >= 0) : myQuotes;
-    const myLeadsAll = lT.sel ? myLeads.filter(l => lT.keys.indexOf(this.leadStageKey(l)) >= 0) : myLeads;
+    const myLeadsAll = lT.sel ? myLeads.filter(l => lT.keys.indexOf(this.leadRequestStageKey(l)) >= 0) : myLeads;
     const qPg = this.paginate('quotes', myQuotesV), lPg = this.paginate('leads', myLeadsAll), myLeadsV = lPg.items;
 
     const docs = [];
@@ -2882,9 +2994,10 @@ class Component extends DCLogic {
     const order = r.oid ? mine.find(o => o.id === r.oid) : null;
     const quote = r.qid ? myQuotes.find(q => q.id === r.qid) : null;
     const lead = r.lid ? myLeads.find(l => l.id === r.lid) : null;
-    const curTab = s.tab === 'dash' ? 'profile' : s.tab;
+    const curTab = s.tab === 'dash' || (!this.SHOW_SERVICES && s.tab === 'leads') ? 'profile' : s.tab;
     const tabs = [['profile', a.company ? (i ? 'Company information' : 'ข้อมูลบริษัท') : (i ? 'My profile' : 'ข้อมูลของฉัน')], ['address', i ? 'Addresses' : 'ที่อยู่'], ['orders', i ? 'Orders' : 'คำสั่งซื้อ'], ['quotes', i ? 'Quotations' : 'ใบเสนอราคา'],
-      ['leads', i ? 'Consultations' : 'คำขอคำปรึกษา/บริการ'], ['docs', i ? 'Documents' : 'เอกสาร'], ['notif', i ? 'Notifications' : 'การแจ้งเตือน']];
+      ['docs', i ? 'Documents' : 'เอกสาร'], ['notif', i ? 'Notifications' : 'การแจ้งเตือน']];
+    if (this.SHOW_SERVICES) tabs.splice(4, 0, ['leads', i ? 'Consultations' : 'คำขอคำปรึกษา/บริการ']);
     if (a.credit) tabs.splice(2, 0, ['credit', i ? 'Credit' : 'วงเงินเครดิต']);
 
     const orderRow = o => ({
@@ -2959,8 +3072,8 @@ class Component extends DCLogic {
       acctCode:a.code ? 'SAP ' + a.code : '—',
       acctTermsLabel:a.terms ? a.terms + (i ? ' days credit' : ' วันเครดิต') : (i ? 'Prepaid' : 'ชำระล่วงหน้า'),
       logout:this.logout, lblLogout:t.logout,
-      isCreditTab:s.tab === 'credit', isOrdersTab:s.tab === 'orders' && !r.oid,
-      isQuotesTab:s.tab === 'quotes' && !quote, isLeadsTab:s.tab === 'leads' && !lead, isQuoteDetail:!!quote, isLeadDetail:!!lead,
+      isCreditTab:curTab === 'credit', isOrdersTab:curTab === 'orders' && !order,
+      isQuotesTab:curTab === 'quotes' && !quote, isLeadsTab:this.SHOW_SERVICES && curTab === 'leads' && !lead, isQuoteDetail:!!quote, isLeadDetail:this.SHOW_SERVICES && !!lead,
       qd:quote ? this.qdVM(quote) : null, ld:lead ? this.ldVM(lead) : null, isDocsTab:s.tab === 'docs', isProfileTab:curTab === 'profile', isAddressTab:curTab === 'address', isNotifTab:curTab === 'notif', isCompanyAcct:!!a.company, isPersonAcct:!a.company,
       isOrderDetail:!!order,
 
@@ -2974,7 +3087,7 @@ class Component extends DCLogic {
       dashCredit:cv ? { limit:this.baht(cv.limit), used:this.baht(cv.used), avail:this.baht(cv.avail), pct:cv.pct + '%', terms:a.terms + (i ? ' days' : ' วัน') } : null,
       hasCreditTab:!!a.credit,
       recentOrders:mine.slice(0, 3).map(orderRow),
-      notifs:s.notifs.slice(0, 5).map(n => ({ text:this.tx(n.text), date:this.dateStr(n.date),
+      notifs:visibleNotifs.slice(0, 5).map(n => ({ text:this.tx(n.text), date:this.dateStr(n.date),
         color:n.kind === 'invoice' ? '#B87A07' : n.kind === 'quote' ? '#5A49B5' : '#1F7A4D' })),
       lblNotifs:i ? 'Notifications' : 'การแจ้งเตือน',
       lblRecentOrders:i ? 'Recent orders' : 'คำสั่งซื้อล่าสุด',
@@ -3080,10 +3193,10 @@ class Component extends DCLogic {
             : key === 'handover' ? [I ? 'Accept the work' : 'ตรวจรับงาน', () => this.openOrder(l.orderId), 1]
             : ['ordered', 'scheduled', 'working', 'testing', 'done'].indexOf(key) >= 0 && l.orderId ? [I ? 'View service order' : 'ดูคำสั่งงาน', () => this.openOrder(l.orderId), 0] : null;
           return c ? { hasCta:true, ctaLabel:c[0], cta:go(c[1]), ctaBg:c[2] ? '#44359B' : '#FFFFFF', ctaFg:c[2] ? '#FFFFFF' : '#44359B' } : { hasCta:false }; })(),
-        ...(() => { const key = this.leadStageKey(l), idx = { submitted:0, contacted:0, survey:1, quoted:1, ordered:2, scheduled:2, working:2, testing:2, handover:3, done:4 }[key] || 0;
-          const lb = i ? ['Received', 'Survey & quote', 'In work', 'Acceptance', 'Completed'] : ['รับเรื่อง', 'สำรวจ/เสนอราคา', 'ดำเนินงาน', 'รอตรวจรับ', 'เสร็จสิ้น'];
-          return { pillBg:key === 'done' ? '#E3F3EA' : key === 'handover' || key === 'quoted' ? '#FBF0D8' : '#F4F3F8', track:lb.map((label, k) => { const done = k < idx || key === 'done', cur = k === idx && key !== 'done';
-            return { label, mark:done ? '✓' : '', bg:done ? '#44359B' : '#FFFFFF', bd:done || cur ? '#44359B' : '#D9D5E6', ring:cur ? '0 0 0 3px #DDD6F7' : 'none', lc:done || cur ? '#1E1A3A' : '#8A86A3', fw:cur ? 700 : 500, lineBg:k <= idx || key === 'done' ? '#44359B' : '#E4E1EE', lineDisplay:k === 0 ? 'none' : 'block' }; }) }; })() }; }),
+        ...(() => { const key = this.leadRequestStageKey(l), idx = { submitted:0, contacted:1, survey:2, quoted:3 }[key] || 0;
+          const lb = i ? ['Request sent', 'Specialist contacted you', 'Preparing proposal & quotation', 'Quotation received'] : ['ส่งคำขอแล้ว', 'ผู้เชี่ยวชาญติดต่อกลับ', 'จัดทำแนวทางและใบเสนอราคา', 'รับใบเสนอราคาแล้ว'];
+          return { pillBg:key === 'quoted' ? '#E3F3EA' : '#F4F3F8', track:lb.map((label, k) => { const done = k < idx || key === 'quoted', cur = k === idx && key !== 'quoted';
+            return { label, mark:done ? '✓' : '', bg:done ? '#44359B' : '#FFFFFF', bd:done || cur ? '#44359B' : '#D9D5E6', ring:cur ? '0 0 0 3px #DDD6F7' : 'none', lc:done || cur ? '#1E1A3A' : '#8A86A3', fw:cur ? 700 : 500, lineBg:k <= idx || key === 'quoted' ? '#44359B' : '#E4E1EE', lineDisplay:k === 0 ? 'none' : 'block' }; }) }; })() }; }),
       hasLeads:myLeads.length > 0, noLeads:myLeads.length === 0,
       noLeadsMsg:i ? 'No consultation requests yet. Send one from the Services page.' : 'ยังไม่มีคำขอคำปรึกษา ส่งคำขอได้จากหน้าบริการ',
       lblLeadTitle:i ? 'Consultation requests' : 'คำขอคำปรึกษา', lblBackToLeads:i ? 'Back to consultations' : 'กลับไปรายการคำขอ',

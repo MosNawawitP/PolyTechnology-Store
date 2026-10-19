@@ -93,12 +93,14 @@
                       <div style="font-size:12px;color:#6B6785;line-height:1.5">{{ p.cat }} · {{ p.unit }} · {{ p.weightLabel }}</div>
                       <div style="margin-top:auto;padding-top:8px">
                         <div style="font:600 19px/1.2 'Sarabun',sans-serif">{{ p.priceLabel }}</div>
-                        <div style="font-size:12px;color:{{ p.priceNoteColor }};margin-top:3px">{{ p.priceNote }}</div>
                         <div style="font-size:12.5px;font-weight:600;color:{{ p.stockColor }};margin-top:6px">{{ p.stockLabel }}</div>
                         <div style="font:500 10.5px/1 'Sarabun',sans-serif;color:#8A86A3;margin-top:5px">{{ syncLabel }}</div>
                       </div>
                       <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
-                        <button type="button" onClick="{{ p.primary }}" style="flex:1 1 110px;min-height:40px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ p.primaryLabel }}</button>
+                        <button type="button" onClick="{{ p.primary }}" style="flex:1 1 110px;min-height:40px;background:#FFFFFF;border:1px solid #44359B;border-radius:8px;font-size:13.5px;font-weight:700;color:#44359B;cursor:pointer">{{ p.primaryLabel }}</button>
+                        <sc-if value="{{ p.showBuyNow }}">
+                          <button type="button" onClick="{{ p.buyNow }}" style="flex:1 1 110px;min-height:40px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF; cursor:pointer">{{ p.buyNowLabel }}</button>
+                        </sc-if>
                       </div>
                     </div>
                   </article>
@@ -124,11 +126,13 @@
                     </div>
                     <div style="flex:0 0 170px">
                       <div style="font:600 18px/1.2 'Sarabun',sans-serif">{{ p.priceLabel }}</div>
-                      <div style="font-size:12px;color:{{ p.priceNoteColor }};margin-top:3px">{{ p.priceNote }}</div>
                       <div style="font-size:12.5px;font-weight:600;color:{{ p.stockColor }};margin-top:5px">{{ p.stockLabel }}</div>
                     </div>
                     <div style="flex:0 0 auto;display:flex;gap:8px;flex-wrap:wrap">
                       <button type="button" onClick="{{ p.primary }}" style="min-height:42px;padding:0 16px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ p.primaryLabel }}</button>
+                      <sc-if value="{{ p.showBuyNow }}">
+                        <button type="button" onClick="{{ p.buyNow }}" style="min-height:42px;padding:0 16px;background:#FFFFFF;border:1px solid #44359B;border-radius:8px;font-size:13.5px;font-weight:700;color:#44359B;cursor:pointer">{{ p.buyNowLabel }}</button>
+                      </sc-if>
                     </div>
                   </article>
                 </sc-for>

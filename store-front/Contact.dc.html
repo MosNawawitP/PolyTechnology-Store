@@ -41,9 +41,9 @@
             </div>
           </sc-for>
         </dl>
-        <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px">
+        <sc-if value="{{ showServices }}"><div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px">
           <button type="button" onClick="{{ goServices }}" style="min-height:48px;padding:0 22px;background:#fff;border:1px solid #44359B;border-radius:9px;font-size:15px;font-weight:600;color:#44359B;cursor:pointer">{{ t.consultCta }}</button>
-        </div>
+        </div></sc-if>
         </section>
         </section>
       </div>
