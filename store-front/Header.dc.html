@@ -53,11 +53,27 @@
               <sc-if value="{{ showAcctLabel }}"><span style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ acctNavLabel }}</span></sc-if><span aria-hidden="true" style="font-size:11px;color:#6B6785">▾</span>
             </button>
             <sc-if value="{{ acctOpen }}">
-              <div role="menu" style="position:absolute;right:0;top:44px;min-width:230px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;box-shadow:0 8px 24px rgba(30,26,58,.16);padding:6px">
+              <div role="menu" style="position:absolute;right:0;top:44px;min-width:300px;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:10px;box-shadow:0 8px 24px rgba(30,26,58,.16);padding:6px">
                 <div style="padding:10px 10px 12px;border-bottom:1px solid #ECEAF3;margin-bottom:6px">
                   <div style="font-size:14px;font-weight:700;color:#1E1A3A;line-height:1.35;text-wrap:pretty">{{ acctMenuName }}</div>
                   <div style="font-size:12.5px;color:#6B6785;margin-top:2px">{{ acctMenuSub }}</div>
                 </div>
+                <sc-if value="{{ showAcctCredit }}">
+                  <div style="padding:8px 10px 12px;border-bottom:1px solid #ECEAF3;margin-bottom:6px">
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:12.5px;color:#6B6785">
+                      <span>{{ acctCredit.title }}</span>
+                      <strong style="font-size:13.5px;color:#44359B">{{ acctCredit.availablePctLabel }}</strong>
+                    </div>
+                    <div role="progressbar" aria-label="{{ acctCredit.title }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ acctCredit.availablePct }}" style="height:6px;background:#E4E1EE;border-radius:999px;overflow:hidden;margin-top:7px">
+                      <span style="display:block;width:{{ acctCredit.availablePctLabel }};height:100%;background:{{ acctCredit.barColor }};border-radius:999px"></span>
+                    </div>
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:8px">
+                      <strong style="font:700 15px/1.2 'Sarabun',sans-serif;color:#1E1A3A">{{ acctCredit.availableLabel }}</strong>
+                      <span style="font-size:11.5px;color:#6B6785;text-align:right">{{ acctCredit.limitPrefix }} {{ acctCredit.limitLabel }}</span>
+                    </div>
+                    <div style="font-size:11.5px;color:#6B6785;margin-top:4px">{{ acctCredit.termsLabel }}</div>
+                  </div>
+                </sc-if>
                 <button type="button" role="menuitem" onClick="{{ goMenuDash }}" style="display:block;width:100%;background:none;border:none;border-radius:7px;padding:10px;font-size:14px;font-weight:600;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7">{{ t.myAccount }}</button>
                 <button type="button" role="menuitem" onClick="{{ goMenuOrders }}" style="display:block;width:100%;background:none;border:none;border-radius:7px;padding:10px;font-size:14px;font-weight:600;color:#1E1A3A;cursor:pointer;text-align:left" style-hover="background:#F1EFF7">{{ lblMyOrders }}</button>
                 <button type="button" role="menuitem" onClick="{{ doLogout }}" style="display:block;width:100%;background:none;border:none;border-top:1px solid #ECEAF3;border-radius:0 0 7px 7px;margin-top:6px;padding:11px 10px 10px;font-size:14px;font-weight:600;color:#B23A2E;cursor:pointer;text-align:left" style-hover="background:#FBEAE7">{{ t.logout }}</button>

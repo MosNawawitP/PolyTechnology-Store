@@ -1893,6 +1893,7 @@ class Component extends DCLogic {
     });
 
     const priceCtx = { guest:t.priceCtxGuest, walkin:t.priceCtxWalkin, bizNew:i ? 'Standard prices for your company. Pay now by QR or transfer — special pricing and credit are assigned by the seller.' : 'ราคามาตรฐานสำหรับบริษัทของคุณ ชำระทันทีด้วย QR หรือโอนเงิน ราคาพิเศษและเครดิตเป็นสิทธิ์ที่ผู้ขายกำหนด', partner:t.priceCtxPartner, gradeA:t.priceCtxGradeA }[this.seg];
+    const acctCreditVM = this.creditSummaryVM(0);
 
     return {
       t, lang:s.lang, langLabel:s.lang === 'th' ? 'TH / EN' : 'EN / TH',
@@ -1923,6 +1924,10 @@ class Component extends DCLogic {
       avatarInitial:((this.acct.company ? this.tx(this.acct.company) : this.tx(this.acct.name)) || '').replace(/^(คุณ|Mr\.|Ms\.|Mrs\.|บริษัท|Co\.,?)\s*/, '').charAt(0).toUpperCase(),
       acctNavLabel:this.tx(this.acct.company || this.acct.name),
       acctMenuName:this.tx(this.acct.company || this.acct.name), acctMenuSub:this.tx(this.acct.chip),
+      showAcctCredit:!!acctCreditVM,
+      acctCredit:acctCreditVM ? { availablePct:acctCreditVM.availablePct, availablePctLabel:acctCreditVM.availablePctLabel,
+        availableLabel:acctCreditVM.availableLabel, limitLabel:this.baht(acctCreditVM.limit), barColor:acctCreditVM.barColor,
+        title:this.m('วงเงินเครดิตคงเหลือ', 'Available credit'), limitPrefix:this.m('จากวงเงิน', 'of'), termsLabel:acctCreditVM.termsLabel } : {},
       goMenuDash:() => { this.setState({ tab:'profile', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false }); window.scrollTo(0, 0); },
       goMenuOrders:() => { this.setState({ tab:'orders', route:{ p:'account' }, quoteBlock:null, menuOpen:false, searchOpen:false, langOpen:false, acctOpen:false }); window.scrollTo(0, 0); },
       lblMyOrders:i ? 'My orders' : 'คำสั่งซื้อของฉัน',
