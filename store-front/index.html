@@ -2820,7 +2820,7 @@ class Component extends DCLogic {
       { k:m('ชื่อบัญชี', 'Account name'), v:m('บริษัท โพลีเทคโนโลยี จำกัด', 'Polytechnology Co., Ltd.') },
       { k:m('เลขที่บัญชี', 'Account no.'), v:'123-4-56789-0', hasCopy:true, copy:() => this.copyTxt('1234567890'), lblCopy:m('คัดลอก', 'Copy') },
       { k:m('ยอดที่ต้องโอน', 'Amount'), v:this.baht(amount), hasCopy:true, copy:() => this.copyTxt(String(amount)), lblCopy:m('คัดลอก', 'Copy') },
-      { k:m('อ้างอิง (ใส่ในบันทึกการโอน)', 'Reference (put in memo)'), v:invPay ? o.invoice : id, hasCopy:true, copy:() => this.copyTxt(invPay ? o.invoice : id), lblCopy:m('คัดลอก', 'Copy') }
+      { k:m('รหัสอ้างอิง', 'Reference code'), v:invPay ? o.invoice : id, hasCopy:true, copy:() => this.copyTxt(invPay ? o.invoice : id), lblCopy:m('คัดลอก', 'Copy') }
     ].map(x => ({ hasCopy:false, copy:null, lblCopy:'', ...x }));
     const idx = hs.indexOf('credit') >= 0 ? 1 : pk === 'paid' ? 5 : (pk === 'verifying' || delivered) ? 3 : 1;
     const rv = o.pay === 'creditReview' || hs.indexOf('credit') >= 0;

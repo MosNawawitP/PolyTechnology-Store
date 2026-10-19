@@ -47,5 +47,6 @@ for (const lang of ['th', 'en']) {
 assert.match(success, /<dl[^>]*grid-template-columns:1fr/, 'Order summary cards are stacked in one column');
 assert.doesNotMatch(success, /lblNextSteps|ok\.next/, 'The next-steps box is removed from the success page');
 assert.match(success, /<sc-if value="\{\{ ok\.hasReceipt \}\}">[\s\S]*onClick="\{\{ ok\.downloadReceipt \}\}"/, 'The receipt button is conditionally rendered after successful payment');
+assert.match(success, /font-size:14px;color:#6B6785">\{\{ bk\.k \}\}/, 'Bank transfer row labels use 14px text');
 
-console.log('PASS: success summary is vertical, next steps are removed and paid orders expose a receipt');
+console.log('PASS: success summary, payment details and receipt actions render correctly');
