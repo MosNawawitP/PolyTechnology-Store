@@ -2,7 +2,6 @@
 from pathlib import Path
 import json
 import os
-import re
 import subprocess
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
@@ -47,7 +46,7 @@ def open_home(browser, width, baseline=False, lang='th'):
 
 def metrics(page):
     return page.evaluate('''() => {
-      const columns = selector => getComputedStyle(document.querySelector(selector)).gridTemplateColumns.split(' ').length;
+      const columns = selector => { const el=document.querySelector(selector); return el ? getComputedStyle(el).gridTemplateColumns.split(' ').length : 0; };
       const home=document.querySelector('.pt-home');
       return {width:innerWidth, documentWidth:document.documentElement.scrollWidth, homeWidth:home.clientWidth, homeScrollWidth:home.scrollWidth,
         headerWidth:document.querySelector('header').clientWidth,
@@ -72,9 +71,9 @@ with sync_playwright() as p:
         m = metrics(page)
         assert m['homeScrollWidth'] <= m['homeWidth'], ('Home horizontal overflow', m)
         assert m['homeWidth'] == min(1680,max(1240,width)), 'Content must stay within the 1680px centered desktop shell'
-        assert (m['businessColumns'],m['productColumns'],m['serviceColumns'],m['couponColumns']) == (3,4,5,3), 'Desktop columns must remain below 1240px'
+        assert (m['businessColumns'],m['productColumns'],m['serviceColumns'],m['couponColumns']) == (3,4,0,3), 'Desktop columns must remain below 1240px'
         assert m['contentWidth'] >= min(1680,max(1240,width))-96, 'Shell padding must not exceed 48px each'
-        assert (m['categories'], m['products'], m['services'], m['coupons']) == (6, 4, 5, 5), m
+        assert (m['categories'], m['products'], m['services'], m['coupons']) == (6, 4, 0, 5), m
         if width >= 1240:
             tops = page.locator('.pt-product-card').evaluate_all('(cards)=>cards.map(c=>c.getBoundingClientRect().top)')
             assert max(tops)-min(tops) < 1, 'Recommended products must occupy one desktop row'
@@ -87,38 +86,15 @@ with sync_playwright() as p:
         if width in [1440, 2541, 768]:
             page.locator('.pt-hero').screenshot(path=str(OUT / f'hero-{width}.png'))
             page.locator('.pt-business-grid').screenshot(path=str(OUT / f'business-{width}.png'))
-            page.locator('.pt-services').screenshot(path=str(OUT / f'services-{width}.png'))
             page.locator('.pt-coupons').screenshot(path=str(OUT / f'coupons-{width}.png'))
         page.get_by_role('contentinfo').screenshot(path=str(OUT / f'footer-{width}.png'), style='div[style*="z-index:60"], div[style*="z-index: 60"] { visibility:hidden !important; }')
         baseline_context, baseline_page, baseline_errors = open_home(browser, width, baseline=True)
         assert not baseline_errors, baseline_errors
-        baseline_footer = baseline_page.get_by_role('contentinfo')
         m['originalHeaderScrollWidth'] = baseline_page.locator('header').evaluate('(el)=>el.scrollWidth')
         m['currentHeaderScrollWidth'] = page.locator('header').evaluate('(el)=>el.scrollWidth')
         assert m['currentHeaderScrollWidth'] == max(width,1240), 'Header must fill the desktop layout width'
         assert m['documentWidth'] == max(width,1240), 'Page must only scroll below the intentional minimum width'
-        old_footer = baseline_footer.evaluate('(el)=>el.outerHTML')
-        # Runtime numbers hover-rule classes by registration order; compare their content separately from those IDs.
-        normalize = lambda html: re.sub(r'\bscp\d+\b', 'runtime-hover-rule', html)
-        if normalize(m['footer']) != normalize(old_footer):
-            (OUT / 'footer-current.html').write_text(m['footer'], encoding='utf-8')
-            (OUT / 'footer-original.html').write_text(old_footer, encoding='utf-8')
-        assert normalize(m['footer']) == normalize(old_footer), 'Footer content changed'
-        assert m['footerStyle'] == baseline_footer.evaluate("el=>['backgroundColor','color','padding','fontFamily','height','width'].map(p=>getComputedStyle(el)[p])"), 'Footer styling changed'
-        baseline_footer.screenshot(path=str(OUT / f'footer-baseline-{width}.png'), style='div[style*="z-index:60"], div[style*="z-index: 60"] { visibility:hidden !important; }')
-        from PIL import Image, ImageChops, ImageStat
-        with Image.open(OUT / f'footer-{width}.png') as new, Image.open(OUT / f'footer-baseline-{width}.png') as old:
-            # Element screenshots round fractional page positions to whole pixels.
-            # Compare with a one-row alignment allowance, without changing the page's footer.
-            assert new.width == old.width and abs(new.height-old.height) <= 1, 'Footer size changed'
-            scores = []
-            for new_top in [0, 1]:
-                for old_top in [0, 1]:
-                    height = min(new.height-new_top, old.height-old_top)
-                    diff = ImageChops.difference(new.convert('RGB').crop((0,new_top,new.width,new_top+height)), old.convert('RGB').crop((0,old_top,old.width,old_top+height)))
-                    scores.append(sum(ImageStat.Stat(diff).mean)/3)
-            m['footerPixelMeanDifference'] = min(scores)
-            assert min(scores) < 2, f'Footer visual difference at {width}px: {min(scores)}'
+        assert 'บริการ</button>' not in m['footer'] and '>Services</button>' not in m['footer'], 'Footer must not expose the Services link'
         baseline_context.close()
         m.pop('footer')
         report.append(m)
@@ -130,7 +106,7 @@ with sync_playwright() as p:
     for width in [2541, 1240, 768, 1920]:
         page.set_viewport_size({'width':width,'height':1000})
         page.wait_for_function('window.__qaApp.state.w === Math.max(1240,innerWidth)')
-        for route in ['products','pdp','services','promos','about','contact','coupons','cart','checkout','rfq','register','success','account']:
+        for route in ['products','pdp','promos','about','contact','coupons','cart','checkout','rfq','register','success','account']:
             page.evaluate("route => window.__qaApp.go(route,{id:window.__qaApp.PRODUCTS[0].id})", route)
             shell = page.locator('main .pt-container').first
             expect(shell).to_be_visible()
@@ -146,8 +122,9 @@ with sync_playwright() as p:
     page.wait_for_function("window.__qaApp.state.route.p === 'products'")
     assert page.evaluate("window.__qaApp.filtered().every(p=>p.cat==='gas') && window.__qaApp.filtered().length>0")
     page.evaluate("window.__qaApp.go('home')")
-    page.get_by_role('button', name='SVC-03', exact=False).click()
-    page.wait_for_function("window.__qaApp.state.route.svc === 's3'")
+    assert page.locator('.pt-services').count() == 0
+    page.evaluate("window.__qaApp.go('services',{svc:'s3'})")
+    page.wait_for_function("window.__qaApp.state.route.p === 'home'")
     page.evaluate("window.__qaApp.go('home')")
     page.get_by_role('button', name='เพิ่มลงตะกร้า', exact=True).first.click()
     page.wait_for_function('window.__qaApp.state.cart.length === 1')
@@ -177,15 +154,10 @@ with sync_playwright() as p:
         expect(page.get_by_role('heading', name='Shop by business')).to_be_visible()
         page.screenshot(path=str(OUT / f'home-en-{width}.png'), full_page=True)
         page.locator('.pt-hero').screenshot(path=str(OUT / f'hero-en-{width}.png'))
-        baseline_context, baseline_page, baseline_errors = open_home(browser, width, baseline=True, lang='en')
-        new_footer = page.get_by_role('contentinfo').evaluate('(el)=>el.outerHTML')
-        old_footer = baseline_page.get_by_role('contentinfo').evaluate('(el)=>el.outerHTML')
-        assert re.sub(r'\bscp\d+\b','runtime-hover-rule',new_footer) == re.sub(r'\bscp\d+\b','runtime-hover-rule',old_footer)
-        assert not baseline_errors, baseline_errors
-        baseline_context.close()
+        assert page.get_by_role('contentinfo').get_by_role('button', name='Services', exact=True).count() == 0
         assert not errors, errors
         context.close()
     browser.close()
 
-(OUT / 'browser-report.json').write_text(json.dumps({'status':'passed','viewports':report,'routeWidths':route_widths,'flows':['category filtering','service s3','add-to-cart stays on Home','guest coupon login','collect coupon','refresh persistence','reset demo','carousel arrows','TH/EN'],'footer':'Content and computed styles identical to HEAD; screenshots compared with one-row alignment allowance for fractional rasterization'}, ensure_ascii=False, indent=2), encoding='utf-8')
-print('PASS: browser screenshots, 5 desktop/minimum widths and all page shells, TH/EN, category/service/cart/coupon flows, persistence, carousel, and unchanged footer content/styles with visual comparison')
+(OUT / 'browser-report.json').write_text(json.dumps({'status':'passed','viewports':report,'routeWidths':route_widths,'flows':['category filtering','hidden service route','add-to-cart stays on Home','guest coupon login','collect coupon','refresh persistence','reset demo','carousel arrows','TH/EN'],'footer':'Services link is hidden in Thai and English'}, ensure_ascii=False, indent=2), encoding='utf-8')
+print('PASS: browser screenshots, 5 desktop/minimum widths and all page shells, TH/EN, hidden services, category/cart/coupon flows, persistence and carousel')

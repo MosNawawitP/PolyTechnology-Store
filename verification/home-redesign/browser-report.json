@@ -10,11 +10,11 @@
       "contentWidth": 1178,
       "categories": 6,
       "products": 4,
-      "services": 5,
+      "services": 0,
       "coupons": 5,
       "businessColumns": 3,
       "productColumns": 4,
-      "serviceColumns": 5,
+      "serviceColumns": 0,
       "couponColumns": 3,
       "nestedButtons": 0,
       "footerStyle": [
@@ -53,31 +53,10 @@
         {
           "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
-          "size": 43584
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
-          "size": 49092
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
-          "size": 38336
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
-          "size": 49428
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
-          "size": 49764
         }
       ],
-      "originalHeaderScrollWidth": 1246,
-      "currentHeaderScrollWidth": 1240,
-      "footerPixelMeanDifference": 0.0
+      "originalHeaderScrollWidth": 1240,
+      "currentHeaderScrollWidth": 1240
     },
     {
       "width": 1440,
@@ -88,11 +67,11 @@
       "contentWidth": 1368,
       "categories": 6,
       "products": 4,
-      "services": 5,
+      "services": 0,
       "coupons": 5,
       "businessColumns": 3,
       "productColumns": 4,
-      "serviceColumns": 5,
+      "serviceColumns": 0,
       "couponColumns": 3,
       "nestedButtons": 0,
       "footerStyle": [
@@ -113,49 +92,28 @@
           "size": 31176
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
-          "size": 40036
-        },
-        {
           "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-automation-small.webp",
+          "size": 40036
         },
         {
           "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
-          "size": 43044
-        },
-        {
           "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
-          "size": 43584
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
-          "size": 49092
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
-          "size": 38336
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
-          "size": 49428
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
-          "size": 49764
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
         }
       ],
-      "originalHeaderScrollWidth": 1446,
-      "currentHeaderScrollWidth": 1440,
-      "footerPixelMeanDifference": 0.0
+      "originalHeaderScrollWidth": 1440,
+      "currentHeaderScrollWidth": 1440
     },
     {
       "width": 1920,
@@ -166,11 +124,11 @@
       "contentWidth": 1584,
       "categories": 6,
       "products": 4,
-      "services": 5,
+      "services": 0,
       "coupons": 5,
       "businessColumns": 3,
       "productColumns": 4,
-      "serviceColumns": 5,
+      "serviceColumns": 0,
       "couponColumns": 3,
       "nestedButtons": 0,
       "footerStyle": [
@@ -195,45 +153,24 @@
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
-          "size": 48732
-        },
-        {
           "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
           "size": 47558
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
-          "size": 45302
+          "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
+          "size": 48732
         },
         {
           "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
           "size": 43044
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
-          "size": 43584
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
-          "size": 49092
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
-          "size": 38336
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
-          "size": 49428
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
-          "size": 49764
+          "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
+          "size": 45302
         }
       ],
-      "originalHeaderScrollWidth": 1926,
-      "currentHeaderScrollWidth": 1920,
-      "footerPixelMeanDifference": 0.455187074829932
+      "originalHeaderScrollWidth": 1920,
+      "currentHeaderScrollWidth": 1920
     },
     {
       "width": 2541,
@@ -244,11 +181,11 @@
       "contentWidth": 1584,
       "categories": 6,
       "products": 4,
-      "services": 5,
+      "services": 0,
       "coupons": 5,
       "businessColumns": 3,
       "productColumns": 4,
-      "serviceColumns": 5,
+      "serviceColumns": 0,
       "couponColumns": 3,
       "nestedButtons": 0,
       "footerStyle": [
@@ -281,37 +218,16 @@
           "size": 48732
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
-          "size": 43044
-        },
-        {
           "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
-          "size": 43584
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
-          "size": 49092
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
-          "size": 38336
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
-          "size": 49428
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
-          "size": 49764
+          "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
+          "size": 43044
         }
       ],
-      "originalHeaderScrollWidth": 2547,
-      "currentHeaderScrollWidth": 2541,
-      "footerPixelMeanDifference": 0.3442235768766381
+      "originalHeaderScrollWidth": 2541,
+      "currentHeaderScrollWidth": 2541
     },
     {
       "width": 768,
@@ -322,11 +238,11 @@
       "contentWidth": 1192,
       "categories": 6,
       "products": 4,
-      "services": 5,
+      "services": 0,
       "coupons": 5,
       "businessColumns": 3,
       "productColumns": 4,
-      "serviceColumns": 5,
+      "serviceColumns": 0,
       "couponColumns": 3,
       "nestedButtons": 0,
       "footerStyle": [
@@ -351,12 +267,12 @@
           "size": 40036
         },
         {
-          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
-          "size": 47558
-        },
-        {
           "url": "http://127.0.0.1:8765/assets/homepage/business-industrial-gas-small.webp",
           "size": 48732
+        },
+        {
+          "url": "http://127.0.0.1:8765/assets/homepage/business-instruments-inspection-small.webp",
+          "size": 47558
         },
         {
           "url": "http://127.0.0.1:8765/assets/homepage/business-data-center-backup-small.webp",
@@ -365,31 +281,10 @@
         {
           "url": "http://127.0.0.1:8765/assets/homepage/business-warehouse-automation-small.webp",
           "size": 45302
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-consulting-design-small.webp",
-          "size": 43584
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-integration-installation-small.webp",
-          "size": 49092
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-calibration-training-small.webp",
-          "size": 38336
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-maintenance-after-sales-small.webp",
-          "size": 49428
-        },
-        {
-          "url": "http://127.0.0.1:8765/assets/homepage/service-data-center-solutions-small.webp",
-          "size": 49764
         }
       ],
-      "originalHeaderScrollWidth": 1246,
-      "currentHeaderScrollWidth": 1240,
-      "footerPixelMeanDifference": 0.5763923633969718
+      "originalHeaderScrollWidth": 1240,
+      "currentHeaderScrollWidth": 1240
     }
   ],
   "routeWidths": [
@@ -406,12 +301,6 @@
       "padding": "48px"
     },
     {
-      "route": "services",
-      "viewport": 2541,
-      "width": 1680,
-      "padding": "48px"
-    },
-    {
       "route": "promos",
       "viewport": 2541,
       "width": 1680,
@@ -484,12 +373,6 @@
       "padding": "31px"
     },
     {
-      "route": "services",
-      "viewport": 1240,
-      "width": 1240,
-      "padding": "31px"
-    },
-    {
       "route": "promos",
       "viewport": 1240,
       "width": 1240,
@@ -557,12 +440,6 @@
     },
     {
       "route": "pdp",
-      "viewport": 768,
-      "width": 1240,
-      "padding": "24px"
-    },
-    {
-      "route": "services",
       "viewport": 768,
       "width": 1240,
       "padding": "24px"
@@ -635,12 +512,6 @@
     },
     {
       "route": "pdp",
-      "viewport": 1920,
-      "width": 1680,
-      "padding": "48px"
-    },
-    {
-      "route": "services",
       "viewport": 1920,
       "width": 1680,
       "padding": "48px"
@@ -708,7 +579,7 @@
   ],
   "flows": [
     "category filtering",
-    "service s3",
+    "hidden service route",
     "add-to-cart stays on Home",
     "guest coupon login",
     "collect coupon",
@@ -717,5 +588,5 @@
     "carousel arrows",
     "TH/EN"
   ],
-  "footer": "Content and computed styles identical to HEAD; screenshots compared with one-row alignment allowance for fractional rasterization"
+  "footer": "Services link is hidden in Thai and English"
 }

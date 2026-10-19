@@ -4,7 +4,11 @@ Run the data and navigation regression checks from the project root:
 
     node --preserve-symlinks-main store-front/tests/home-redesign.cjs
 
-This runs the actual Component logic in a small Node sandbox without altering the catalogue or requiring the browser runtime. It covers category filters, carousel state, every account segment in TH/EN, original recommended images/prices, coupon eligibility and product CTAs.
+This runs the actual Component logic in a small Node sandbox without altering the catalogue or requiring the browser runtime. It covers category filters, carousel state, every account segment in TH/EN, recommended images/prices, hidden service routes, coupon eligibility and product CTAs.
+
+Verify that all service entry points and records stay hidden while the dormant workflow remains intact:
+
+    node --preserve-symlinks-main store-front/tests/services-hidden.cjs
 
 For the browser checks, install Playwright and Pillow, start the static server, then run:
 
@@ -16,7 +20,7 @@ The browser script uses installed Google Chrome. POLYTECH_TEST_CHROME can specif
 
 The script captures 1240, 1440, 1920, 2541 and 768px viewports and TH/EN screenshots in verification/home-redesign. It checks all page shells through live resizes: layout width follows the viewport with a 1240px minimum and a centered 1680px maximum, and smaller screens intentionally scroll horizontally. The header keeps its desktop controls and arrangement, aligned with the centered content. Hero images must load and their section stays at or below 500px tall.
 
-Test-only request interception exposes the Component instance; production files are not modified. The Git HEAD footer is compared at the same logical layout width. Content and computed styles must match exactly. Footer screenshots hide the floating chat overlay for comparison and allow one pixel of rounding alignment. Footer production markup and styling remain unchanged.
+Test-only request interception exposes the Component instance; production files are not modified. The browser checks confirm that service cards, routes and footer links are hidden in Thai and English while the remaining shell keeps its expected width and layout.
 
 Recreate the generated PNG assets' WebP derivatives with:
 

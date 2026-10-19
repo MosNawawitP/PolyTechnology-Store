@@ -60,9 +60,9 @@ for (const lang of ['th', 'en']) {
     app.state.acct = account;
     const values = app.renderAllVals();
     assert.equal(values.catCards.length, app.CATS.length);
-    assert.equal(values.serviceCards.length, app.SERVICES.length);
+    assert.equal(values.serviceCards.length, 0);
     assert.equal(values.featuredHome.length, 4);
-    const expected = app.PRODUCTS.slice().sort((a, b) => b.pop - a.pop).slice(0, 4);
+    const expected = app.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4);
     assert.equal(values.featuredHome.map(p => p.id).join(','), expected.map(p => p.id).join(','));
     values.featuredHome.forEach((p, i) => {
       assert.equal(p.photo, app.photo(expected[i]), 'Recommended product keeps its original image');
@@ -73,7 +73,6 @@ for (const lang of ['th', 'en']) {
     assert.equal(values.couponCards.length, coupons.length);
     values.couponCards.forEach((c, i) => assert.equal(c.value, app.tx(app.COUPONS[coupons[i]].ui.v)));
     values.catCards.forEach(c => assert.ok(fs.existsSync(path.join(root, c.photo))));
-    values.serviceCards.forEach(s => assert.ok(fs.existsSync(path.join(root, s.photo))));
   }
 }
 
@@ -84,7 +83,7 @@ assert.equal(app.state.route.p, 'home', 'Add to cart does not also open PDP');
 assert.equal(app.state.cart.find(p => p.id === 'p5').q, 1);
 app.productVM(app.prod('p11')).primary();
 assert.equal(app.state.route.p, 'rfq', 'Quote-only product enters the existing quotation flow');
-app.productVM(app.prod('p13')).primary();
-assert.equal(app.state.route.p, 'services', 'Consultation product enters the existing service flow');
+app.go('services', { svc: 's1' });
+assert.equal(app.state.route.p, 'home', 'The hidden service route returns to Home');
 
-console.log('PASS: carousel, business filtering, 4 products, 6 categories, 5 services, segment pricing/coupons, TH/EN and product CTA flows');
+console.log('PASS: carousel, business filtering, 4 products, 6 categories, hidden services, segment pricing/coupons, TH/EN and product CTA flows');
