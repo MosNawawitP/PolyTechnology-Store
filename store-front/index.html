@@ -2120,8 +2120,7 @@ class Component extends DCLogic {
       noResultsBody:i ? 'Try removing a filter, or send us a quotation request and our sales engineer will source it.' : 'ลองลบตัวกรองบางรายการ หรือส่งคำขอใบเสนอราคาให้วิศวกรฝ่ายขายจัดหาให้',
 
       hideImg:this.hideImg, pdp:vm, pdpSpecs:p.sp.map(x => ({ k:x[i], v:x[2] })),
-      pdpQty:qty, pdpTotalWeight:p.type === 'pkg' ? (i ? 'Service — not weighed' : 'งานบริการ · ไม่นับน้ำหนัก') : (p.w === null || p.w === undefined) && p.type !== 'consult' ? (i ? 'No weight data — consultation required before ordering' : 'ไม่มีข้อมูลน้ำหนัก — ต้องขอคำปรึกษาก่อนสั่งซื้อ') : p.w ? this.num(p.w * qty, 1) + ' ' + t.kg + ' / ' + this.MAXW + ' ' + t.kg : '—',
-      pdpReady:this.dateStr(this.addDays(p.stock === 0 ? 21 : 2)),
+      pdpQty:qty,
       pdpIncQty:() => this.setPdpQty(qty + 1), pdpDecQty:() => this.setPdpQty(qty - 1),
       pdpOnQty:e => this.setPdpQty(Number(e.target.value)),
       ...this.pdpAdVals(p, qty),
@@ -2140,8 +2139,6 @@ class Component extends DCLogic {
       pdpRelated:products.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 3).map(x => this.productVM(x)),
       lblWarehouse:i ? 'Lam Luk Ka warehouse, Pathum Thani' : 'คลังลำลูกกา จังหวัดปทุมธานี',
       lblQtyWanted:i ? 'Quantity' : 'จำนวนที่ต้องการ',
-      lblEstWeight:i ? 'Estimated total weight' : 'ประมาณการน้ำหนักรวม',
-      lblReadyDate:i ? 'Expected ready date' : 'วันที่คาดว่าจะจัดเตรียมสินค้า',
       lblSpec:i ? 'Specification' : 'ข้อมูลทางเทคนิค',
       lblDesc:i ? 'Product description' : 'รายละเอียดสินค้า',
       lblRelated:i ? 'Related products' : 'สินค้าที่เกี่ยวข้อง',
