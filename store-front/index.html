@@ -558,11 +558,11 @@ class Component extends DCLogic {
       phone:'02-118-4400', email:'buyer@navakij.example',
       addr:{line:['99/12 ถนนพหลโยธิน','99/12 Phahonyothin Rd'], prov:'ปทุมธานี', dist:'คลองหลวง', tam:'คลองหนึ่ง', zip:'12120'}},
     partner:{id:'partner', seg:'partner', priceIdx:1, chip:['Partner','Partner'],
-      name:['คุณศิริพร ชัยเจริญ','Ms. Siriporn Chaicharoen'], company:['บริษัท ไทยอินดัสเทรียล ซัพพลาย จำกัด','Thai Industrial Supply Co., Ltd.'],
-      code:'C-10482', taxId:'0105551234567', credit:{limit:2000000, used:640000}, terms:30, po:false, cheque:false, quote:true,
-      phone:'02-555-1200', email:'purchasing@thaiindustrial.example',
-      ship:['45/2 หมู่ 4 ถนนบางนา-ตราด กม.23 ต.บางเสาธง อ.บางเสาธง จ.สมุทรปราการ 10570','45/2 Moo 4, Bangna-Trad KM.23, Bang Sao Thong, Samut Prakan 10570'],
-      addr:{line:['45/2 หมู่ 4 ถนนบางนา-ตราด กม.23','45/2 Moo 4, Bangna-Trad KM.23'], prov:'สมุทรปราการ', dist:'บางเสาธง', tam:'บางเสาธง', zip:'10570'}},
+      name:['คุณปวีณา ศรีสุข','Ms. Paweena Srisuk'], company:['บริษัท นวกิจ เอ็นจิเนียริ่ง จำกัด','Navakij Engineering Co., Ltd.'],
+      code:'C-20611', taxId:'0105566012345', credit:{limit:2000000, used:640000}, terms:30, po:false, cheque:false, quote:true,
+      phone:'02-118-4400', email:'buyer@navakij.example',
+      ship:['99/12 ถนนพหลโยธิน ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120','99/12 Phahonyothin Rd, Khlong Nueng, Khlong Luang, Pathum Thani 12120'],
+      addr:{line:['99/12 ถนนพหลโยธิน','99/12 Phahonyothin Rd'], prov:'ปทุมธานี', dist:'คลองหลวง', tam:'คลองหนึ่ง', zip:'12120'}},
     gradeA:{id:'gradeA', seg:'gradeA', priceIdx:2, chip:['Grade A','Grade A'],
       name:['คุณวีระชัย พงษ์สถิตย์','Mr. Weerachai Pongsathit'], company:['บริษัท สยามพรีซิชั่น แมนูแฟคเจอริ่ง จำกัด','Siam Precision Manufacturing Co., Ltd.'],
       code:'C-10011', taxId:'0105539876543', credit:{limit:60000000, used:18450000}, terms:45, po:true, cheque:true, quote:true, approval:true,
@@ -786,11 +786,11 @@ class Component extends DCLogic {
     const d = n => { const x = new Date(Date.now() - n * 86400000); return x.toISOString().slice(0, 10); };
     const pq = (base, o) => { const r = { ...this.priceQuote(base, o || {}), ...(base.fix || {}) }; delete r.fix; return r; };
     const spm = '700/88 หมู่ 1 นิคมอุตสาหกรรมอมตะซิตี้ ต.คลองตำหรุ อ.เมืองชลบุรี จ.ชลบุรี 20000';
-    const tis = '45/2 หมู่ 4 ถนนบางนา-ตราด กม.23 ต.บางเสาธง อ.บางเสาธง จ.สมุทรปราการ 10570';
+    const navakij = '99/12 ถนนพหลโยธิน ต.คลองหนึ่ง อ.คลองหลวง จ.ปทุมธานี 12120';
     const svc = (() => {
       const P = {
         gradeA:{ name:'คุณวีระชัย พงษ์สถิตย์', phone:'038-210-4400', email:'procurement@siamprecision.example', company:'บริษัท สยามพรีซิชั่น แมนูแฟคเจอริ่ง จำกัด', place:'โรงงานอมตะซิตี้ จ.ชลบุรี' },
-        partner:{ name:'คุณศิริพร ชัยเจริญ', phone:'02-555-1200', email:'purchasing@thaiindustrial.example', company:'บริษัท ไทยอินดัสเทรียล ซัพพลาย จำกัด', place:'นิคมอุตสาหกรรมบางปู จ.สมุทรปราการ' },
+        partner:{ name:'คุณปวีณา ศรีสุข', phone:'02-118-4400', email:'buyer@navakij.example', company:'บริษัท นวกิจ เอ็นจิเนียริ่ง จำกัด', place:'สำนักงานใหญ่ จ.ปทุมธานี' },
         walkin:{ name:'คุณธนกร วิไลรัตน์', phone:'081-234-5678', email:'thanakorn.w@example.com', company:'', place:'กรุงเทพมหานคร (บ้านพักอาศัย)' }
       };
       const leads = [], quotes = [], orders = [];
@@ -864,13 +864,13 @@ class Component extends DCLogic {
             { rev:1, date:d(4), by:'customer', text:['ขอส่วนลดเพิ่มสำหรับ UPS 4 โมดูล','Asked for an extra discount on 4 UPS modules'] },
             { rev:2, date:d(3), by:'seller', text:['ผู้ขายออกฉบับแก้ไข R2 ปรับส่วนลดเป็น 6%','Seller issued R2 at 6% off'] }] } }, { disc:6 }),
         { id:'QT-2026-00218', acct:'partner', kind:'rfq', date:d(2), rev:0, status:'review', items:[{ id:'p8', q:2 }], need:d(-20),
-          place:'นิคมอุตสาหกรรมบางปู จ.สมุทรปราการ', method:'delivery', po:'', note:'ต้องการกล้องความละเอียด 5MP สำหรับตรวจฉลาก', files:[], lines:[], exp:null,
+          place:navakij, method:'delivery', po:'', note:'ต้องการกล้องความละเอียด 5MP สำหรับตรวจฉลาก', files:[], lines:[], exp:null,
           history:[{ rev:0, date:d(2), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }] },
         pq({ id:'QT-2026-00205', acct:'partner', kind:'rfq', date:d(25), rev:1, status:'ready', items:[{ id:'p7', q:4 }, { id:'p10', q:1 }], need:d(10),
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(4), history:[{ rev:0, date:d(26), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(25), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ยืนราคา 21 วัน','Seller issued R1, valid 21 days'] }] } }),
         pq({ id:'QT-2026-00226', acct:'partner', kind:'instant', date:d(2), rev:1, status:'accepted', accRev:1, items:[{ id:'p4', q:8 }, { id:'p2', q:1 }], need:'',
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(-5), history:[{ rev:1, date:d(2), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(1), by:'customer', text:['ยอมรับราคา R1 — รออนุมัติภายในก่อนสั่งซื้อ','Accepted R1 — pending internal approval before ordering'] }] } }),
         pq({ id:'QT-2026-00240', acct:'gradeA', kind:'rfq', date:d(0), rev:0, status:'submitted', items:[{ id:'p8', q:3 }], need:d(-21),
           place:spm, method:'delivery', po:'', note:'ต้องการกล้องตรวจจับความผิดปกติสำหรับสายการผลิตใหม่', files:[],
@@ -891,16 +891,16 @@ class Component extends DCLogic {
           ...this.serviceQuote({ svc:'s5', acct:'gradeA', survey:{} }),
           rev:1, history:[{ rev:1, date:d(1), by:'seller', text:['ผู้เชี่ยวชาญส่งแนวทางและใบเสนอราคางานบริการ','Specialist sent the proposal and service quotation'] }] },
         pq({ id:'QT-2026-00203', acct:'partner', kind:'rfq', date:d(9), rev:1, status:'revision', items:[{ id:'p4', q:10 }], need:d(-10),
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(-12), history:[{ rev:0, date:d(10), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(9), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ส่วนลด 3%','Seller issued R1 at 3% off'] }, { rev:1, date:d(2), by:'customer', text:['ขอแก้ไข: ขอเลื่อนกำหนดส่งมอบ','Revision requested: postpone delivery date'] }] } }),
         pq({ id:'QT-2026-00191', acct:'partner', kind:'instant', date:d(30), rev:1, status:'ordered', accRev:1, orderId:'P260912ASDFG', items:[{ id:'p9', q:2 }, { id:'p10', q:1 }], need:'',
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(9), history:[{ rev:1, date:d(35), by:'customer', text:['สร้างใบเสนอราคาจากราคาปัจจุบัน','Created from current prices'] }, { rev:1, date:d(35), by:'customer', text:['ยอมรับราคา R1','Accepted price R1'] }, { rev:1, date:d(34), by:'customer', text:['ยืนยันสั่งซื้อจาก R1 → P260912ASDFG','Ordered from R1 → P260912ASDFG'] }] } }),
         pq({ id:'QT-2026-00188', acct:'partner', kind:'rfq', date:d(24), rev:1, status:'rejected', items:[{ id:'p2', q:4 }], need:'',
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(3), history:[{ rev:0, date:d(26), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(24), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ยืนราคา 21 วัน','Seller issued R1, valid 21 days'] }, { rev:1, date:d(20), by:'customer', text:['ปฏิเสธใบเสนอราคา: เลือกผู้ขายรายอื่น','Rejected: chose another supplier'] }] } }),
         pq({ id:'QT-2026-00169', acct:'partner', kind:'rfq', date:d(45), rev:1, status:'ready', items:[{ id:'p6', q:3 }], need:'',
-          place:tis, method:'delivery', po:'', note:'', files:[],
+          place:navakij, method:'delivery', po:'', note:'', files:[],
           fix:{ exp:d(14), history:[{ rev:0, date:d(47), by:'customer', text:['ส่งคำขอใบเสนอราคา','Quotation requested'] }, { rev:1, date:d(45), by:'seller', text:['ผู้ขายออกใบเสนอราคา R1 ยืนราคา 21 วัน','Seller issued R1, valid 21 days'] }] } })
       ].concat(svc.quotes),
       leads:[
@@ -1903,7 +1903,7 @@ class Component extends DCLogic {
         go:() => p === 'rfq' ? this.goRfq() : this.go(p) };
     });
 
-    const acctChips = ['guest', 'walkin', 'bizNew', 'partner', 'gradeA'].map(k => {
+    const acctChips = ['guest', 'walkin', 'partner', 'gradeA'].map(k => {
       const on = s.acct === k;
       return { label:this.tx(this.ACCOUNTS[k].chip), on:on ? 'true' : 'false',
         bg:on ? '#C4B8FF' : 'transparent', fg:on ? '#1E1A3A' : '#D8D3F0', bd:on ? '#C4B8FF' : '#4C3FA8',
@@ -2541,7 +2541,7 @@ class Component extends DCLogic {
       pickupBg:ck.mode === 'pickup' ? '#ECE9F8' : '#FFFFFF', pickupBd:ck.mode === 'pickup' ? '#44359B' : '#E4E1EE',
       lblDeliveryTitle:i ? 'Delivery method' : 'วิธีรับสินค้าและการจัดส่ง',
       lblCarrierOpt:i ? 'Carrier delivery' : 'จัดส่งโดยบริษัทขนส่ง',
-      lblPickupOpt:i ? 'Pick up at Lam Luk Ka warehouse' : 'รับสินค้าที่คลังลำลูกกา',
+      lblPickupOpt:i ? 'Pick up at Lam Luk Ka warehouse' : 'รับสินค้าที่คลัง',
       lblOrigin:i ? 'Ships from the Lam Luk Ka warehouse, Pathum Thani' : 'ต้นทางจัดส่งคือคลังลำลูกกา จังหวัดปทุมธานี',
       carriers, hasOwnNotice:showOwn && ck.mode === 'delivery', ownNotice:i ? 'Total weight ' + this.num(tot.weight, 1) + ' kg exceeds what some carriers accept per shipment, so those carriers are hidden and delivery by our own team is added.' : 'น้ำหนักรวม ' + this.num(tot.weight, 1) + ' กก. เกินที่ขนส่งบางเจ้ารับได้ต่อการจัดส่ง จึงซ่อนขนส่งที่รับไม่ได้ และเพิ่มบริการจัดส่งโดยทีมของบริษัทให้เลือก',
       carriersLoading:s.api.carriers === 'loading', carriersError:s.api.carriers === 'error',
@@ -2585,7 +2585,7 @@ class Component extends DCLogic {
         { k:i ? 'Phone' : 'เบอร์โทรศัพท์', v:s.form.phone || '—' },
         { k:'Email', v:s.form.email || '—' },
         { k:i ? 'Tax ID' : 'เลขผู้เสียภาษี', v:s.form.taxId || '—' },
-        { k:i ? 'Shipping address' : 'ที่อยู่จัดส่ง', v:ck.mode === 'pickup' ? (i ? 'Pickup at Lam Luk Ka warehouse' : 'รับสินค้าที่คลังลำลูกกา') : (s.form.shipAddr || '—') },
+        { k:i ? 'Shipping address' : 'ที่อยู่จัดส่ง', v:ck.mode === 'pickup' ? (i ? 'Pickup at Lam Luk Ka warehouse' : 'รับสินค้าที่คลัง') : (s.form.shipAddr || '—') },
         { k:i ? 'Tax invoice address' : 'ที่อยู่ออกใบกำกับภาษี', v:this.taxOn() ? (s.form.billAddr || '—') : (i ? 'No tax invoice requested' : 'ไม่ขอใบกำกับภาษี') },
         { k:i ? 'Total weight' : 'น้ำหนักรวม', v:(tot.missing.length ? (i ? 'cannot verify' : 'ตรวจสอบไม่ได้') : this.num(tot.weight, 1) + ' ' + t.kg) + ' / ' + this.MAXW + ' ' + t.kg },
         { k:i ? 'Delivery' : 'การจัดส่ง', v:ck.mode === 'pickup' ? (i ? 'Self pickup · ' + this.dateStr(ck.pickupDate) + ' · ' + ck.pickupSlot : 'รับสินค้าเอง · ' + this.dateStr(ck.pickupDate) + ' · ' + ck.pickupSlot) : ((this.carrier(ck.carrier) || {}).name || '—') },
@@ -2885,7 +2885,7 @@ class Component extends DCLogic {
       ship:this.baht(o.ship || 0), total:this.baht(this.orderTotal(o)),
       eta:o.kind === 'service' ? (o.appt ? this.dateStr(o.appt) : (i ? 'Scheduled after first payment' : 'นัดหมายหลังชำระงวดแรก')) : this.dateStr(o.mode === 'pickup' ? (o.pickupDate || o.date) : this.addDays(2)),
       bill:o.buyer && o.buyer.noTax ? (i ? 'No tax invoice requested' : 'ไม่ขอใบกำกับภาษี') : (o.buyer && o.buyer.billAddr) || this.composeAddr(this.seedAddr()) || '—',
-      shipAddr:o.mode === 'pickup' ? (i ? 'Pickup at Lam Luk Ka warehouse, Pathum Thani' : 'รับสินค้าที่คลังลำลูกกา จังหวัดปทุมธานี') : ((o.buyer && o.buyer.shipAddr) || this.composeAddr(this.seedAddr()) || '—'),
+      shipAddr:o.mode === 'pickup' ? (i ? 'Pickup at Lam Luk Ka warehouse, Pathum Thani' : 'รับสินค้าที่คลัง จังหวัดปทุมธานี') : ((o.buyer && o.buyer.shipAddr) || this.composeAddr(this.seedAddr()) || '—'),
       items, timeline:tlv, tlUpdated:tlv.updated, hasTlUpdated:!!tlv.updated,
       hasHold:!!hm, holdLabel:hm ? this.tx(hm.n) : '', holdOwner:hm ? this.tx(hm.o) : '', holdNext:hm ? (h === 'payment' && o.kind !== 'service' && (o.pay === 'qr' || o.pay === 'transfer') ? (o.pay === 'qr' ? (i ? 'Scan the QR below before it expires. The seller starts once the payment is confirmed.' : 'สแกน QR ด้านล่างภายในเวลาที่กำหนด ผู้ขายจะเริ่มดำเนินการหลังยืนยันยอด') : (i ? 'Transfer to the account below and attach your slip. The seller starts once the payment is confirmed.' : 'โอนเงินตามบัญชีด้านล่างและแนบสลิป ผู้ขายจะเริ่มดำเนินการหลังยืนยันยอด')) : this.tx(hm.x)) : '',
       needApproval:h === 'approval', needPay:h === 'payment', needSeller:h === 'seller', needCredit:h === 'credit', needVerify:h === 'verify',
@@ -3097,12 +3097,11 @@ class Component extends DCLogic {
     return {
       loginTitle:i ? 'Log in' : 'เข้าสู่ระบบ',
       loginIntro:i ? 'This prototype signs you in as one of three demo accounts so you can see how prices, credit and payment options differ. No real credentials are used.' : 'ต้นแบบนี้ให้เข้าสู่ระบบด้วยบัญชีสาธิต 3 แบบ เพื่อดูความแตกต่างของราคา เครดิต และวิธีชำระเงิน โดยไม่ใช้ข้อมูลผู้ใช้จริง',
-      loginOptions:['walkin', 'bizNew', 'partner', 'gradeA'].map(k => {
+      loginOptions:['walkin', 'partner', 'gradeA'].map(k => {
         const ac = this.ACCOUNTS[k];
         return { k, chip:this.tx(ac.chip), name:ac.company ? this.tx(ac.company) : this.tx(ac.name),
           who:this.tx(ac.name), code:ac.code || '—',
           note:k === 'walkin' ? (i ? 'Retail price · prepay by QR or transfer · no credit' : 'ราคาขายปลีก · ชำระล่วงหน้าด้วย QR หรือโอนเงิน · ไม่มีเครดิต')
-            : k === 'bizNew' ? (i ? 'Standard price · buy and pay now · no credit until the seller assigns terms' : 'ราคามาตรฐาน · ซื้อและชำระทันที · ไม่มีเครดิตจนกว่าผู้ขายกำหนดสิทธิ์')
             : k === 'partner' ? (i ? 'Partner price · quotations · 2,000,000 บาท credit, 30 days' : 'ราคา Partner · ขอใบเสนอราคาได้ · วงเงิน 2 ล้านบาท 30 วัน')
             : (i ? 'Contract price · 60,000,000 บาท credit, 45 days · internal approval via PO · cheque' : 'Contract Price · วงเงิน 60 ล้านบาท 45 วัน · เปิดขั้นตอนอนุมัติภายใน (แนบ PO) · วางเช็ค'),
           pick:() => this.login(k) };
@@ -3112,7 +3111,7 @@ class Component extends DCLogic {
       forgot:() => this.say(i ? 'Password reset link sent to your email (simulated).' : 'ส่งลิงก์ตั้งรหัสผ่านใหม่ไปที่อีเมลของคุณแล้ว (จำลอง)', 'info'),
       loginIntroShort:i ? 'Prototype: use a demo account email, or pick a demo account below. No real credentials are used.' : 'ต้นแบบ: กรอกอีเมลของบัญชีสาธิต หรือเลือกบัญชีสาธิตด้านล่าง ไม่ใช้ข้อมูลผู้ใช้จริง',
       lblDemoPick:i ? 'Or sign in with a demo account' : 'หรือเข้าสู่ระบบด้วยบัญชีสาธิต', lblNotMember:i ? 'Not a member yet?' : 'ยังไม่เป็นสมาชิก?',
-      submitLogin:e => { e.preventDefault(); const em = ((this.state.form || {}).email || '').trim().toLowerCase(); const k = ['walkin', 'bizNew', 'partner', 'gradeA'].find(x => (this.ACCOUNTS[x].email || '').toLowerCase() === em);
+      submitLogin:e => { e.preventDefault(); const em = ((this.state.form || {}).email || '').trim().toLowerCase(); const k = ['walkin', 'partner', 'gradeA'].find(x => (this.ACCOUNTS[x].email || '').toLowerCase() === em);
         if (k) this.login(k); else this.say(i ? 'Email not found. Use a demo account email or pick one below.' : 'ไม่พบอีเมลนี้ในระบบสาธิต กรุณาใช้อีเมลของบัญชีสาธิต หรือเลือกบัญชีด้านล่าง', 'warn'); },
       goRegisterFromModal:() => { this.setState({ loginModal:null, route:{ p:'register', kind:'person' } }); window.scrollTo(0, 0); },
       goRegisterPerson:() => { this.setState({ route:{ p:'register', kind:'person' } }); window.scrollTo(0, 0); },

@@ -31,7 +31,7 @@
           <div style="margin-top:20px;padding-top:16px;border-top:1px solid #E4E1EE">
             <div style="font-size:12.5px;font-weight:600;color:#4A4766;margin-bottom:8px">{{ lblDemoPick }}</div>
             <div style="display:grid;gap:6px">
-              <sc-for list="{{ loginOptions }}" as="lo" hint-placeholder-count="4">
+              <sc-for list="{{ loginOptions }}" as="lo" hint-placeholder-count="3">
                 <button type="button" onClick="{{ lo.pick }}" style="display:flex;gap:10px;align-items:center;text-align:left;background:#FFFFFF;border:1px solid #E4E1EE;border-radius:9px;padding:9px 11px;cursor:pointer;min-height:44px" style-hover="border-color:#44359B">
                   <span style="flex:0 0 auto;min-width:78px;text-align:center;font:600 11px/1 'Sarabun',sans-serif;color:#1E1A3A;background:#DDD6F7;border-radius:5px;padding:6px 8px">{{ lo.chip }}</span>
                   <span style="min-width:0;flex:1;font-size:13px;font-weight:600;color:#1E1A3A;line-height:1.35">{{ lo.name }}</span>
