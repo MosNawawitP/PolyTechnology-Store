@@ -646,7 +646,7 @@ class Component extends DCLogic {
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
     addr:{ship:null, bill:null, rfq:null},
     menuOpen:false, notifOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
-    lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:''},
+    lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:''}, rfqFromCart:false,
     chatOpen:false, chat:null, chatInput:'', chatTyping:false,
     stockAdj:{}, seeded:false, scenarioId:'', changes:null, quoteBlock:null, regCo:null
   };
@@ -1240,7 +1240,7 @@ class Component extends DCLogic {
     if (!qi.length) return;
     const ids = qi.map(l => l.id), names = qi.map(l => this.tx(this.prod(l.id).n)).join(', ');
     this.setState(s => ({ cart:s.cart.filter(l => ids.indexOf(l.id) < 0) }));
-    this.openRfqFor(null, null, qi);
+    this.openRfqFor(null, null, qi, true);
     this.say(this.m('แยกรายการที่ต้องเสนอราคา (' + names + ') มาไว้ในคำขอใบเสนอราคานี้แล้ว สินค้าซื้อทันทีที่เหลือยังอยู่ในตะกร้า', 'Moved quote-only items (' + names + ') into this quotation request. Buy-now items stay in your cart.'), 'info');
   };
 
@@ -1501,12 +1501,13 @@ class Component extends DCLogic {
   };
 
   /* ---------- quotations ---------- */
-  openRfqFor = (id, q, list) => {
+  openRfqFor = (id, q, list, fromCart = false) => {
     const items = list || (id ? [{ id, q:q || 1 }] : this.selectedCart().map(l => ({ id:l.id, q:l.q })));
-    this.setState(s => ({ route:{ p:'rfq' }, addr:{ ...s.addr, rfq:null }, rfq:{ items, needDate:this.addDays(14), place:this.composeAddr(this.seedAddr()), method:'delivery', note:'' } }));
+    this.setState(s => ({ route:{ p:'rfq' }, addr:{ ...s.addr, rfq:null }, rfq:{ items, needDate:this.addDays(14), place:this.composeAddr(this.seedAddr()), method:'delivery', note:'' }, rfqFromCart:fromCart }));
     window.scrollTo(0, 0);
   };
   goRfq = () => this.openRfqFor(null);
+  rfqBackToCart = () => this.go('cart');
   rfqField = (k, v) => this.setState(s => ({ rfq:{ ...s.rfq, [k]:v } }));
   rfqQty = (id, q) => this.setState(s => ({ rfq:{ ...s.rfq, items:s.rfq.items.map(i => i.id === id ? { ...i, q:Math.max(1, q) } : i) } }));
   rfqRemove = id => this.setState(s => ({ rfq:{ ...s.rfq, items:s.rfq.items.filter(i => i.id !== id) } }));
@@ -1838,7 +1839,7 @@ class Component extends DCLogic {
     const init = this.seed();
     this.setState({ ...init, acct:'guest', cart:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
       ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null },
-      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'' }, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
+      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'' }, rfqFromCart:false, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
       heroIdx:0, heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:!!(this._motion && this._motion.matches) });
     window.scrollTo(0, 0);
     this.say(this.lang === 'en' ? 'Demo data reset.' : 'รีเซ็ตข้อมูลสาธิตเรียบร้อย', 'info');
@@ -2503,7 +2504,7 @@ class Component extends DCLogic {
       confirmChanges:() => { this.setState({ changes:null }); this.say(i ? 'Changes confirmed.' : 'ยืนยันการเปลี่ยนแปลงแล้ว', 'ok'); },
       lblToCheckout:i ? 'Proceed to checkout' : 'ไปยังการชำระเงิน',
       
-      toCheckout:this.toCheckout, cartToRfq:() => this.openRfqFor(null),
+      toCheckout:this.toCheckout, cartToRfq:() => this.openRfqFor(null, null, null, true),
 
       ckStep:ck.step,
       ckSteps:stepDefs.map(([n, k, label, desc], ix) => { const c = ck.step, done = c > n, cur = c === n;
@@ -2642,10 +2643,12 @@ class Component extends DCLogic {
       lblQuoteRef:i ? 'Quotation reference' : 'อ้างอิงใบเสนอราคา',
       rfqTitle:i ? 'Request for quotation' : 'ขอใบเสนอราคา',
       rfqIntro:i ? 'Send the items you need and our sales engineer will price them, including freight and lead time. SAP generates the quotation number and emails you the document.' : 'ส่งรายการที่ต้องการ วิศวกรฝ่ายขายจะเสนอราคาพร้อมค่าขนส่งและระยะเวลาส่งมอบ ระบบ SAP จะสร้างเลขที่ใบเสนอราคาและส่งเอกสารให้ทางอีเมล',
-      rfqRows:s.rfq.items.map(it => { const p = this.prod(it.id); return { name:this.tx(p.n), sku:p.sku, q:it.q,
+      rfqRows:s.rfq.items.map(it => { const p = this.prod(it.id); return { name:this.tx(p.n), sku:p.sku, q:it.q, photo:this.photo(p), img:p.sku + ' · ' + this.tx(p.n), hideImg:this.hideImg,
         unit:this.tx(p.u), priceLabel:this.price(p) === null ? (i ? 'To be quoted' : 'รอเสนอราคา') : this.baht(this.price(p)),
         onQty:e => this.rfqQty(it.id, Number(e.target.value)), remove:() => this.rfqRemove(it.id) }; }),
       rfqEmpty:!s.rfq.items.length,
+      showRfqBackToCart:!!s.rfqFromCart, rfqBackToCart:this.rfqBackToCart,
+      lblRfqBackToCart:i ? 'Back to cart' : 'ย้อนกลับไปตะกร้าสินค้า',
       rfqNeed:s.rfq.needDate, rfqPlace:s.rfq.place, rfqMethod:s.rfq.method, rfqNote:s.rfq.note,
       onRfqNeed:e => this.rfqField('needDate', e.target.value),
       onRfqPlace:e => this.rfqField('place', e.target.value),

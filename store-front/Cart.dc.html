@@ -16,7 +16,7 @@
             <p style="margin:0 auto 20px;font-size:14.5px;color:#6B6785;line-height:1.6;max-width:50ch;text-wrap:pretty">{{ cartEmptyBody }}</p>
             <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
               <button type="button" onClick="{{ goProducts }}" style="min-height:46px;padding:0 20px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:14.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ t.heroCta1 }}</button>
-              <button type="button" onClick="{{ goRfq }}" style="min-height:46px;padding:0 20px;background:#fff;border:1px solid #44359B;border-radius:9px;font-size:14.5px;font-weight:600;color:#44359B;cursor:pointer">{{ t.requestQuote }}</button>
+              <button type="button" onClick="{{ cartToRfq }}" style="min-height:46px;padding:0 20px;background:#fff;border:1px solid #44359B;border-radius:9px;font-size:14.5px;font-weight:600;color:#44359B;cursor:pointer">{{ t.requestQuote }}</button>
             </div>
           </div>
         </sc-if>
