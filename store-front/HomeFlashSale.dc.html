@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <section class="pt-home-flash" aria-label="{{ flashSale.title }}">
+    <dc-import name="FlashSale" dcProps="{{ all }}"></dc-import>
+    <div class="pt-flash-box">
+    <div class="pt-flash-grid">
+      <sc-for list="{{ homeFlashProducts }}" as="p" hint-placeholder-count="6">
+        <article class="pt-flash-card">
+          <div class="pt-flash-image"><span class="pt-flash-badge">{{ p.badge }}</span><button type="button" onClick="{{ p.open }}" aria-label="{{ p.name }}"><img src="{{ p.photo }}" alt="{{ p.name }}" width="480" height="480" loading="lazy" onError="{{ hideImg }}" /></button></div>
+          <div class="pt-flash-info">
+            <span class="pt-product-brand">{{ p.brand }}</span>
+            <button type="button" class="pt-product-name" onClick="{{ p.open }}">{{ p.name }}</button>
+            <p class="pt-flash-description">{{ p.desc }}</p>
+            <div class="pt-flash-price"><strong>{{ p.priceLabel }}</strong><sc-if value="{{ p.showMember }}"><del>{{ p.retailLabel }}</del></sc-if></div>
+            <span class="pt-flash-stock" style="color:{{ p.stockColor }}">{{ p.remainingLabel }}</span>
+            <div class="pt-flash-progress" role="progressbar" aria-label="{{ p.progressLabel }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ p.soldProgress }}"><span style="width:{{ p.soldProgress }}%"></span></div>
+            <small class="pt-flash-sold">{{ p.soldLabel }}</small>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <p class="pt-flash-note">{{ homeFlashNote }}</p>
+    </div>
+  </section>
+</x-dc>
+</body>
+</html>

@@ -77,10 +77,10 @@
               </sc-if>
               <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:18px">
                 <sc-if value="{{ pdpCanBuy }}">
-                  <button type="button" onClick="{{ pdpAdd }}" style="flex:1 1 150px;min-height:48px;background:#44359B;border:1px solid #2F2380;border-radius:9px;font-size:15px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ pdpAddLabel }}</button>
+                  <button type="button" onClick="{{ pdpAdd }}" style="flex:1 1 150px;min-height:48px;background:#FFF4EA;border:1px solid #FF6B00;border-radius:9px;font-size:15px;font-weight:700;color:#A63C00;cursor:pointer">{{ pdpAddLabel }}</button>
                 </sc-if>
                 <sc-if value="{{ pdpCanBuy }}">
-                  <button type="button" onClick="{{ pdpBuyNow }}" style="flex:1 1 130px;min-height:48px;background:#44359B;border:none;border-radius:9px;font-size:15px;font-weight:600;color:#fff;cursor:pointer">{{ t.buyNow }}</button>
+                  <button type="button" onClick="{{ pdpBuyNow }}" style="flex:1 1 130px;min-height:48px;background:#FF6B00;border:1px solid #FF6B00;border-radius:9px;font-size:15px;font-weight:600;color:#FFFFFF;cursor:pointer">{{ t.buyNow }}</button>
                 </sc-if>
                 <sc-if value="{{ pdpIsConsult }}">
                   <button type="button" onClick="{{ pdpConsult }}" style="flex:1 1 150px;min-height:48px;background:#44359B;border:none;border-radius:9px;font-size:15px;font-weight:600;color:#fff;cursor:pointer">{{ pdp.primaryLabel }}</button>
@@ -122,7 +122,7 @@
           <h2 style="margin:0 0 16px;font-size:20px;font-weight:700">{{ lblRelated }}</h2>
           <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,255px),1fr));gap:14px">
             <sc-for list="{{ pdpRelated }}" as="p" hint-placeholder-count="3">
-              <article style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden;display:flex;flex-direction:column">
+              <article class="pt-related-card" style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden;display:flex;flex-direction:column">
                 <button type="button" onClick="{{ p.open }}" style="border:none;padding:0;background:none;cursor:pointer;display:block">
                   <div style="aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#EEEBF6 0 9px,#E5E1F0 9px 18px);position:relative;overflow:hidden"><img src="{{ p.photo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></div>
                 </button>
@@ -131,7 +131,7 @@
                   <button type="button" onClick="{{ p.open }}" style="background:none;border:none;padding:0;text-align:left;font-size:14.5px;font-weight:600;line-height:1.4;color:#1E1A3A;cursor:pointer">{{ p.name }}</button>
                   <div style="font:600 16px/1.2 'Sarabun',sans-serif;margin-top:auto;padding-top:8px">{{ p.priceLabel }}</div>
                   <div style="font-size:12.5px;font-weight:600;color:{{ p.stockColor }}">{{ p.stockLabel }}</div>
-                  <button type="button" onClick="{{ p.primary }}" style="margin-top:8px;min-height:40px;background:#44359B;border:1px solid #2F2380;border-radius:8px;font-size:13.5px;font-weight:700;color:#FFFFFF;cursor:pointer">{{ p.primaryLabel }}</button>
+                  <button type="button" onClick="{{ p.primary }}" style="margin-top:8px;min-height:40px;background:#FFF4EA;border:1px solid #FF6B00;border-radius:8px;font-size:13.5px;font-weight:700;color:#A63C00;cursor:pointer">{{ p.primaryLabel }}</button>
                 </div>
               </article>
             </sc-for>

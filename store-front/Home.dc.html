@@ -12,48 +12,47 @@
   <section class="pt-hero" aria-label="{{ lblHomeHighlights }}" aria-roledescription="carousel" onMouseEnter="{{ hero.hover }}" onMouseLeave="{{ hero.leave }}" onFocus="{{ hero.focus }}" onBlur="{{ hero.blur }}">
     <img class="{{ hero.photoClass }}" src="{{ hero.photo }}" srcSet="{{ hero.srcset }}" data-fallback-src="{{ hero.fallback }}" onError="{{ hero.onError }}" sizes="(min-width:1680px) 1584px, (min-width:1240px) 95vw, 1192px" width="2172" height="724" alt="" fetchPriority="high" />
     <div class="pt-hero-body">
-      <span class="pt-eyebrow">{{ hero.kicker }}</span>
+      <div class="pt-hero-wordmark"><strong>POLYTECHNOLOGY</strong><small>INDUSTRIAL COMMERCE</small></div>
       <h1>{{ hero.title }}</h1>
       <p>{{ hero.sub }}</p>
       <div class="pt-hero-actions">
-        <button type="button" class="pt-button pt-button--solid" onClick="{{ hero.go }}">{{ hero.cta }}</button>
+        <button type="button" class="pt-button pt-button--solid" onClick="{{ hero.go }}">{{ hero.cta }} <span aria-hidden="true">→</span></button>
         <sc-if value="{{ showServices }}"><button type="button" class="pt-button pt-button--outline" onClick="{{ homeConsult }}">{{ lblHomeConsult }}</button></sc-if>
       </div>
     </div>
+    <div class="pt-hero-deal"><span>{{ hero.dealKicker }}</span><strong>{{ hero.dealValue }}</strong></div>
+    <div class="pt-hero-trust" aria-label="{{ lblHomeHighlights }}">
+      <sc-for list="{{ hero.trust }}" as="item"><div><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ item.icon }}"></path></svg><span><strong>{{ item.title }}</strong><small>{{ item.sub }}</small></span></div></sc-for>
+    </div>
   </section>
 
-  <nav class="pt-shortcuts" aria-label="{{ lblHomeHighlights }}">
-    <sc-for list="{{ homeShortcuts }}" as="item" hint-placeholder-count="4">
-      <button type="button" class="pt-shortcut" onClick="{{ item.go }}">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ item.icon }}"></path></svg>
-        <span><strong>{{ item.title }}</strong><small>{{ item.sub }}</small></span>
-      </button>
-    </sc-for>
-  </nav>
+  <dc-import name="HomeFlashSale" dcProps="{{ all }}"></dc-import>
 
   <section class="pt-section" data-screen-label="Business categories">
-    <div class="pt-section-heading"><h2>{{ lblHomeBusiness }}</h2></div>
+    <div class="pt-section-heading"><h2>{{ lblHomeBusiness }}</h2><button type="button" class="pt-text-link" onClick="{{ homeShop }}">{{ lblSeeAll }} →</button></div>
     <nav class="pt-business-grid" aria-label="{{ lblHomeBusiness }}">
       <sc-for list="{{ catCards }}" as="c" hint-placeholder-count="6">
         <button type="button" class="pt-business-card" onClick="{{ c.go }}">
-          <img src="{{ c.photo }}" srcSet="{{ c.srcset }}" sizes="(min-width:1680px) 520px, (min-width:1240px) 32vw, 400px" width="1672" height="941" loading="lazy" alt="" />
+          <img src="{{ c.photo }}" srcSet="{{ c.srcset }}" sizes="(min-width:1680px) 254px, (min-width:1240px) 16vw, 190px" width="1672" height="941" loading="lazy" alt="" />
+          <span class="pt-business-icon"><svg width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ c.icon }}"></path></svg></span>
           <span class="pt-business-copy"><span><strong>{{ c.name }}</strong><small>{{ c.note }}</small></span><span class="pt-card-arrow" aria-hidden="true">›</span></span>
         </button>
       </sc-for>
     </nav>
   </section>
 
-  <section class="pt-section" data-screen-label="Recommended products">
+  <section class="pt-section pt-recommendations" data-screen-label="Recommended products">
     <div class="pt-section-heading"><h2>{{ lblBest }}</h2><button type="button" class="pt-text-link" onClick="{{ homeShop }}">{{ lblSeeAll }} →</button></div>
-    <div class="pt-product-grid">
-      <sc-for list="{{ featuredHome }}" as="p" hint-placeholder-count="4">
-        <article class="pt-product-card">
-          <button type="button" class="pt-product-photo" onClick="{{ p.open }}" aria-label="{{ p.name }}"><img src="{{ p.photo }}" alt="{{ p.name }}" width="480" height="480" loading="lazy" onError="{{ hideImg }}" /></button>
-          <div class="pt-product-info">
+    <div class="pt-recommend-grid">
+      <sc-for list="{{ featuredProducts }}" as="p" hint-placeholder-count="6">
+        <article class="pt-recommend-card">
+          <button type="button" class="pt-recommend-photo" onClick="{{ p.open }}" aria-label="{{ p.name }}"><img src="{{ p.photo }}" alt="{{ p.name }}" width="480" height="480" loading="lazy" onError="{{ hideImg }}" /></button>
+          <div class="pt-recommend-info">
             <span class="pt-product-brand">{{ p.brand }}</span>
             <button type="button" class="pt-product-name" onClick="{{ p.open }}">{{ p.name }}</button>
-            <div class="pt-product-bottom"><span class="pt-product-price">{{ p.priceLabel }}</span><span class="pt-product-stock" style="color:{{ p.stockColor }}">{{ p.stockLabel }}</span></div>
-            <button type="button" class="pt-button pt-button--solid pt-product-cta" onClick="{{ p.primary }}">{{ p.primaryLabel }}</button>
+            <strong class="pt-recommend-price">{{ p.priceLabel }}</strong>
+            <sc-if value="{{ p.showMember }}"><span class="pt-recommend-member">{{ p.memberLabel }} {{ p.discountLabel }} <del>{{ p.retailLabel }}</del></span></sc-if>
+            <span class="pt-recommend-stock" style="color:{{ p.stockColor }}"><span aria-hidden="true">●</span> {{ p.stockLabel }}</span>
           </div>
         </article>
       </sc-for>
@@ -62,7 +61,7 @@
 
         <sc-if value="{{ showCategoryRows }}" hint-placeholder-val="{{ false }}">
         <sc-for list="{{ homeRows }}" as="row" hint-placeholder-count="3">
-          <section style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+          <section class="pt-home-category-row" style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
             <div style="display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center">
               <h2 style="margin:0;font-size:22px;font-weight:700;color:#1E1A3A">{{ row.title }}</h2>
               <div style="display:flex;flex-wrap:wrap;gap:8px;flex:1">
@@ -72,7 +71,7 @@
               </div>
               <button type="button" onClick="{{ row.all }}" style="background:none;border:none;color:#44359B;font-size:14px;font-weight:600;cursor:pointer;padding:0">{{ lblSeeAll }} →</button>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:14px">
+            <div class="pt-section-box" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:14px">
               <button type="button" onClick="{{ row.all }}" style="position:relative;overflow:hidden;border:none;border-radius:14px;min-height:300px;padding:0;cursor:pointer;background:#2E2575;color:#FFFFFF;text-align:left">
                 <img src="{{ row.tilePhoto }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" />
                 <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(46,37,117,.55) 0%,rgba(46,37,117,.92) 100%)"></span>
@@ -82,7 +81,7 @@
                 </span>
               </button>
               <sc-for list="{{ row.items }}" as="p" hint-placeholder-count="5">
-                <button type="button" onClick="{{ p.open }}" style="text-align:left;background:#FFFFFF;border:1px solid #ECE9F4;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:300px" style-hover="box-shadow:0 8px 22px rgba(68,53,155,.14)">
+                <button type="button" class="pt-home-row-card" onClick="{{ p.open }}" style="text-align:left;background:#FFFFFF;border:1px solid #ECE9F4;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-height:300px">
                   <span style="aspect-ratio:1/1;width:100%;background:#ECE9F8;border-radius:10px;position:relative;overflow:hidden;display:block"><img src="{{ p.photo }}" alt="" loading="lazy" onError="{{ hideImg }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" /></span>
                   <span style="font:600 10.5px/1.2 'Sarabun',sans-serif;letter-spacing:.06em;color:#6B6785;text-transform:uppercase;margin-top:6px">{{ p.brand }}</span>
                   <span style="font-size:14px;font-weight:500;line-height:1.4;color:#1E1A3A;text-wrap:pretty">{{ p.name }}</span>
@@ -100,7 +99,7 @@
   <sc-if value="{{ showServices }}">
   <section class="pt-services pt-section" data-screen-label="Engineering services">
     <div class="pt-section-heading"><div><h2>{{ lblHomeServices }}</h2><p>{{ lblHomeServiceIntro }}</p></div><button type="button" class="pt-button pt-button--solid" onClick="{{ homeConsult }}">{{ lblHomeEngineers }} →</button></div>
-    <div class="pt-service-grid">
+    <div class="pt-service-grid pt-section-box">
       <sc-for list="{{ serviceCards }}" as="sv" hint-placeholder-count="5">
         <button type="button" class="pt-service-card" onClick="{{ sv.go }}" title="{{ sv.short }}">
           <img src="{{ sv.photo }}" srcSet="{{ sv.srcset }}" sizes="(min-width:1680px) 300px, (min-width:1240px) 19vw, 240px" width="1672" height="941" loading="lazy" alt="" />
@@ -113,11 +112,12 @@
 
   <section class="pt-section pt-coupons" data-screen-label="Coupons">
     <div class="pt-section-heading"><div><h2>{{ lblCoupons }}</h2><p>{{ lblCouponSub }}</p></div><button type="button" class="pt-text-link" onClick="{{ goCouponPage }}">{{ lblViewCoupons }} →</button></div>
-    <div class="pt-coupon-grid">
-      <sc-for list="{{ couponCards }}" as="cp" hint-placeholder-count="5">
-        <article class="pt-coupon" style="opacity:{{ cp.dim }}">
-          <span class="pt-coupon-value">{{ cp.value }}</span>
-          <div class="pt-coupon-body"><strong>{{ cp.title }}</strong><small>{{ cp.cond }}</small><button type="button" class="pt-button pt-coupon-cta" disabled="{{ cp.off }}" onClick="{{ cp.collect }}" style="background:{{ cp.bg }};color:{{ cp.fg }};cursor:{{ cp.cursor }}">{{ cp.label }}</button></div>
+    <div class="pt-ticket-grid pt-section-box">
+      <sc-for list="{{ homeCouponCards }}" as="cp" hint-placeholder-count="3">
+        <article class="{{ cp.cardClass }}">
+          <img class="pt-ticket-icon" src="{{ cp.icon }}" alt="" width="96" height="96" loading="lazy" />
+          <div class="pt-ticket-copy"><strong>{{ cp.title }}</strong><span class="pt-ticket-value">{{ cp.value }}</span><small>{{ cp.cond }}</small></div>
+          <button type="button" class="pt-ticket-cta" disabled="{{ cp.off }}" onClick="{{ cp.collect }}">{{ cp.label }}</button>
         </article>
       </sc-for>
     </div>

@@ -7,25 +7,26 @@
 </head>
 <body>
 <x-dc>
-      <div class="pt-container" style="padding:28px var(--pt-content-gutter) 52px">
-        <h1 style="margin:0 0 8px;font-size:clamp(22px,3vw,30px);font-weight:700">{{ promosTitle }}</h1>
+      <div class="pt-container pt-promotions" style="padding:28px var(--pt-content-gutter) 52px">
+        <h1 style="margin:0 0 8px;font-size:clamp(26px,3vw,36px);font-weight:800;color:#44359B">{{ promosTitle }}</h1>
         <p style="margin:0 0 24px;font-size:15px;line-height:1.65;color:#4A4766;max-width:72ch;text-wrap:pretty">{{ promosIntro }}</p>
-        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+        <dc-import name="FlashSale" dcProps="{{ all }}"></dc-import>
+        <div class="pt-campaign-grid" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
           <sc-for list="{{ promos }}" as="p" hint-placeholder-count="6">
-            <article style="background:#FFFFFF;border:1px solid #E4E1EE;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0">
-              <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#ECE9F8">
+            <article class="pt-campaign-card" style="background:linear-gradient(135deg,#44359B,#291A70);border:1px solid #DCD5F4;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0;box-shadow:0 6px 18px #44359B12">
+              <div style="position:relative;aspect-ratio:16/9;overflow:hidden;background:#ECE9F8;border-bottom:3px solid #FF3D9A">
                 <img src="{{ p.photo }}" alt="{{ p.scope }}" width="1200" height="800" decoding="async" style="display:block;width:100%;height:100%;object-fit:cover" />
-                <span style="position:absolute;left:16px;bottom:16px;background:#44359B;color:#FFFFFF;border-radius:8px;padding:10px 14px;font-size:clamp(16px,1.4vw,23px);font-weight:700;line-height:1.25;box-shadow:0 4px 12px #1E1A3A26">{{ p.benefit }}</span>
+                <span style="position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);box-sizing:border-box;background:#FFE600;color:#25185D;border-radius:7px;padding:8px 11px;font-size:clamp(14px,1.15vw,19px);font-weight:800;line-height:1.2;box-shadow:3px 3px 0 #FF3D9A">{{ p.benefit }}</span>
               </div>
-              <div style="padding:22px;display:flex;flex-direction:column;gap:12px;flex:1">
-              <span style="align-self:flex-start;font:600 11px/1 'Sarabun',sans-serif;letter-spacing:.06em;color:#1E1A3A;background:#DDD6F7;border-radius:4px;padding:4px 8px">{{ p.tag }}</span>
-              <h2 style="margin:0;font-size:18px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ p.title }}</h2>
-              <div style="font-size:13px;font-weight:600;line-height:1.5;color:#5B49C4">{{ p.scope }}</div>
-              <p style="margin:0;font-size:14px;color:#4A4766;line-height:1.6;text-wrap:pretty">{{ p.body }}</p>
-              <p style="margin:0;font-size:12px;color:#6B6785;line-height:1.6;text-wrap:pretty">{{ p.terms }}</p>
-              <div style="margin-top:auto;padding-top:14px;border-top:1px solid #E4E1EE;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-                <span style="font-size:12px;color:#6B6785">{{ p.period }}</span>
-                <button type="button" onClick="{{ p.use }}" style="min-height:44px;padding:10px 16px;background:#44359B;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">{{ p.cta }}</button>
+              <div style="padding:18px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <span style="align-self:flex-start;font:700 10px/1 'Sarabun',sans-serif;letter-spacing:.05em;color:#25185D;background:#B8F500;border-radius:4px;padding:5px 8px">{{ p.tag }}</span>
+              <h2 style="margin:0;font-size:18px;font-weight:800;line-height:1.35;color:#FFFFFF;text-wrap:pretty">{{ p.title }}</h2>
+              <div style="font-size:12px;font-weight:700;line-height:1.45;color:#6CE4FF">{{ p.scope }}</div>
+              <p style="margin:0;font-size:13px;color:#FFFFFF;line-height:1.55;text-wrap:pretty">{{ p.body }}</p>
+              <p style="margin:0;font-size:11px;color:#DED8F5;line-height:1.5;text-wrap:pretty">{{ p.terms }}</p>
+              <div style="margin-top:auto;padding-top:12px;border-top:1px solid #FFFFFF30;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+                <span style="font-size:11px;color:#DED8F5">{{ p.period }}</span>
+                <button type="button" onClick="{{ p.use }}" style="min-height:38px;padding:8px 12px;background:#FF6B00;color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 3px 9px #160B4726">{{ p.cta }} →</button>
               </div>
               </div>
             </article>

@@ -31,6 +31,10 @@
   #dc-root .sc-host .sc-host { display:contents; }
 /* Fluid desktop page shells; footer keeps its original bounded layout. */
   .pt-container { width:100%; max-width:var(--pt-content-width); margin-inline:auto; }
+  .pt-cart-page button, .pt-cart-page input { scroll-margin-bottom:112px; }
+  .pt-cart-action-primary, .pt-cart-action-secondary { touch-action:manipulation; }
+  .pt-cart-action-primary:hover { background:#372A85 !important; }
+  .pt-cart-action-secondary:hover { background:#F1EEFB !important; }
   .pt-about-hero { position:relative; min-height:320px; overflow:hidden; border-radius:16px; background:#24213E; isolation:isolate; }
   .pt-about-hero-photo { position:absolute; inset:0; z-index:-2; background:url('./assets/about/industrial-hero.webp') center 52% / cover no-repeat; }
   .pt-about-hero::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(25,20,57,.85),rgba(25,20,57,.48) 48%,rgba(25,20,57,.08)); }
@@ -44,25 +48,61 @@
   .pt-about-copy { min-width:0; display:flex; flex-direction:column; gap:16px; padding:8px 0; }
   .pt-about-copy h2 { margin:0 0 4px; font-size:clamp(24px,2vw,30px); line-height:1.4; font-weight:700; }
   .pt-contact-hero .pt-about-hero-photo { background-image:url('./assets/contact/customer-support.webp'); }
-  .pt-contact-company { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); column-gap:28px; row-gap:24px; margin:28px 0 0; padding:28px; background:#fff; border:1px solid #E4E1EE; border-radius:16px; align-items:start; }
+  .pt-contact-company { display:grid; grid-template-columns:minmax(340px,.72fr) minmax(560px,1.28fr); gap:32px; margin:28px 0 0; padding:28px; background:#fff; border:1px solid #E4E1EE; border-radius:16px; align-items:start; }
+  .pt-contact-details { min-width:0; display:flex; flex-direction:column; gap:24px; }
   .pt-contact-description { min-width:0; }
   .pt-contact-description h2 { margin:0 0 12px; font-size:clamp(24px,2vw,30px); line-height:1.4; }
   .pt-contact-description p { margin:0; font-size:16px; line-height:1.8; color:#4A4766; max-width:72ch; text-wrap:pretty; }
-  .pt-contact-branch { grid-column:2; grid-row:1 / span 2; min-width:0; background:#F6F4FC; border:1px solid #E4E1EE; border-radius:12px; padding:24px; }
+  .pt-contact-branch { min-width:0; background:#F6F4FC; border:1px solid #E4E1EE; border-radius:12px; padding:24px; }
   .pt-contact-branch h3 { margin:0 0 16px; color:#44359B; font-size:22px; }
   .pt-contact-branch strong { display:block; font-size:17px; line-height:1.6; }
   .pt-contact-branch address { margin:12px 0 20px; font-style:normal; font-size:15px; line-height:1.85; color:#4A4766; }
   .pt-contact-branch address span { display:block; }
   .pt-contact-phone { display:inline-flex; align-items:center; min-height:44px; font-size:17px; font-weight:700; }
-  .pt-contact-channels { grid-column:1; min-width:0; padding-top:20px; border-top:1px solid #ECEAF3; }
-  .pt-contact-channel-grid { margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .pt-contact-channels { min-width:0; padding-top:20px; border-top:1px solid #ECEAF3; }
+  .pt-contact-channels h3 { margin:0 0 8px; font-size:22px; font-weight:700; }
+  .pt-contact-channels > p { margin:0 0 16px; font-size:15px; line-height:1.65; color:#4A4766; text-wrap:pretty; }
+  .pt-contact-channel-grid { margin:0; display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
   .pt-contact-channel { background:#FAF9FC; border:1px solid #ECEAF3; border-radius:10px; padding:14px 16px; }
+  .pt-contact-channel dt { font-size:12.5px; color:#6B6785; }
+  .pt-contact-channel dd { margin:6px 0 0; font-size:15px; font-weight:600; line-height:1.5; word-break:break-word; }
+  .pt-contact-service-action { margin-top:20px; }
+  .pt-contact-service-action button { min-height:48px; padding:0 22px; background:#fff; border:1px solid #44359B; border-radius:9px; font-size:15px; font-weight:600; color:#44359B; cursor:pointer; }
+  .pt-contact-form-card { min-width:0; padding:28px; background:#FAF9FC; border:1px solid #E4E1EE; border-radius:14px; }
+  .pt-contact-form-heading h2 { margin:0 0 8px; font-size:28px; line-height:1.4; }
+  .pt-contact-form-heading p { margin:0; color:#4A4766; font-size:15px; line-height:1.7; }
+  .pt-contact-form { margin-top:24px; }
+  .pt-contact-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 16px; }
+  .pt-contact-field { min-width:0; display:flex; flex-direction:column; gap:7px; }
+  .pt-contact-field-wide { grid-column:1 / -1; }
+  .pt-contact-field label { font-size:14px; line-height:1.5; font-weight:600; color:#272342; }
+  .pt-contact-field input, .pt-contact-field select, .pt-contact-field textarea { width:100%; min-height:46px; padding:10px 12px; border:1px solid #CFCBDF; border-radius:8px; background:#fff; color:#1E1A3A; font:inherit; font-size:15px; line-height:1.5; outline:none; transition:border-color .16s,box-shadow .16s; }
+  .pt-contact-field textarea { min-height:132px; resize:vertical; }
+  .pt-contact-field input:focus, .pt-contact-field select:focus, .pt-contact-field textarea:focus { border-color:#44359B; box-shadow:0 0 0 3px rgba(68,53,155,.14); }
+  .pt-contact-field input[aria-invalid="true"], .pt-contact-field select[aria-invalid="true"], .pt-contact-field textarea[aria-invalid="true"] { border-color:#B23A2E; }
+  .pt-contact-field-help { color:#6B6785; font-size:12.5px; line-height:1.5; }
+  .pt-contact-field-error { display:block; color:#B23A2E; font-size:12.5px; line-height:1.5; }
+  .pt-contact-consent { display:flex; align-items:flex-start; gap:10px; margin-top:18px; }
+  .pt-contact-consent input { flex:none; width:18px; height:18px; margin-top:2px; accent-color:#44359B; }
+  .pt-contact-consent label { font-size:14px; line-height:1.55; color:#36324F; }
+  .pt-contact-prototype-note { margin:16px 0 0; padding:11px 13px; border-radius:8px; background:#F1EEFB; color:#554D78; font-size:12.5px; line-height:1.55; }
+  .pt-contact-submit { display:inline-flex; align-items:center; justify-content:center; gap:10px; min-width:190px; min-height:48px; margin-top:18px; padding:0 22px; border:1px solid #372A85; border-radius:9px; background:#44359B; color:#fff; font:inherit; font-size:15px; font-weight:700; cursor:pointer; }
+  .pt-contact-submit:hover { background:#372A85; }
+  .pt-contact-submit:disabled { cursor:wait; opacity:.7; }
+  .pt-contact-spinner { width:18px; height:18px; border-radius:50%; border:2.5px solid rgba(255,255,255,.35); border-top-color:#fff; animation:ptSpin .8s linear infinite; }
+  .pt-contact-error-summary, .pt-contact-success { display:flex; flex-direction:column; gap:5px; margin-top:18px; padding:14px 16px; border-radius:10px; font-size:14px; line-height:1.55; }
+  .pt-contact-error-summary { background:#FBEAE7; border:1px solid #EDC5BE; color:#8D2E25; }
+  .pt-contact-success { background:#EAF6EF; border:1px solid #BFE0CD; color:#17603B; }
   @media (max-width:900px) {
     .pt-contact-company { grid-template-columns:minmax(0,1fr); gap:24px; padding:24px; }
-    .pt-contact-branch { grid-column:auto; grid-row:auto; }
-    .pt-contact-channels { grid-column:auto; }
+    .pt-contact-form-card { grid-row:1; }
+    .pt-contact-details { grid-row:2; }
   }
-  @media (max-width:540px) { .pt-contact-channel-grid { grid-template-columns:minmax(0,1fr); } }
+  @media (max-width:540px) {
+    .pt-contact-form-card { padding:22px; }
+    .pt-contact-form-grid { grid-template-columns:minmax(0,1fr); }
+    .pt-contact-field-wide { grid-column:auto; }
+  }
   @media (max-width:900px) {
     .pt-about-hero-copy { width:70%; padding:32px; }
     .pt-about-story { grid-template-columns:minmax(0,1fr); gap:24px; }
@@ -108,17 +148,23 @@
   .pt-home .pt-business-copy small { display:block; font-size:12px; color:#77708C; line-height:1.55; margin-top:4px; }
   .pt-home .pt-card-arrow { flex:none; display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#F2EEFF; color:#44359B; font-size:22px; }
   .pt-home .pt-business-card:hover, .pt-home .pt-service-card:hover { border-color:#B3ACDD; box-shadow:0 4px 16px #44359b12; }
-  .pt-home .pt-product-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+  .pt-home .pt-product-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; }
   .pt-home .pt-product-card { border:1px solid #E9E5F2; border-radius:10px; background:#fff; overflow:hidden; display:flex; flex-direction:column; }
-  .pt-home .pt-product-photo { display:block; width:100%; padding:14px; border:0; background:#fff; aspect-ratio:1/1; cursor:pointer; }
+  .pt-home .pt-product-photo { display:block; width:100%; padding:10px; border:0; background:#fff; aspect-ratio:1/1; cursor:pointer; }
   .pt-home .pt-product-photo img { display:block; width:100%; height:100%; object-fit:contain; }
-  .pt-home .pt-product-info { display:flex; flex-direction:column; gap:8px; padding:0 16px 16px; flex:1; }
-  .pt-home .pt-product-brand { font-size:11px; letter-spacing:.03em; font-weight:700; color:#44359B; text-transform:uppercase; }
-  .pt-home .pt-product-name { background:none; border:0; padding:0; text-align:left; color:#1E1A3A; font-size:14px; font-weight:600; line-height:1.5; cursor:pointer; }
+  .pt-home .pt-product-info { display:flex; flex-direction:column; gap:6px; padding:0 12px 12px; flex:1; }
+  .pt-home .pt-product-brand { font-size:10.5px; letter-spacing:.03em; font-weight:700; color:#44359B; text-transform:uppercase; }
+  .pt-home .pt-product-name { background:none; border:0; padding:0; text-align:left; color:#1E1A3A; font-size:13px; font-weight:600; line-height:1.45; cursor:pointer; }
   .pt-home .pt-product-bottom { margin-top:auto; padding-top:8px; display:flex; flex-direction:column; gap:4px; }
-  .pt-home .pt-product-price { font-size:22px; font-weight:700; color:#44359B; line-height:1.35; }
-  .pt-home .pt-product-stock { font-size:12px; font-weight:600; line-height:1.5; }
-  .pt-home .pt-product-cta { width:100%; margin-top:4px; }
+  .pt-home .pt-product-price { font-size:18px; font-weight:700; color:#44359B; line-height:1.35; }
+  .pt-home .pt-product-stock { font-size:11.5px; font-weight:600; line-height:1.5; }
+  .pt-home .pt-product-rating { display:flex; align-items:center; gap:4px; font-size:12px; line-height:1.4; color:#8A86A3; }
+  .pt-home .pt-product-rating strong { color:#1E1A3A; font-weight:700; }
+  .pt-home .pt-product-star { color:#F5A623; }
+  .pt-home .pt-product-member { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:11.5px; font-weight:700; color:#44359B; }
+  .pt-home .pt-product-member em { font-style:normal; background:#D92D20; color:#fff; font-size:11px; line-height:1.5; border-radius:999px; padding:0 7px; }
+  .pt-home .pt-product-old { font-size:12px; color:#8A86A3; text-decoration:line-through; }
+  .pt-home .pt-product-cta { width:100%; margin-top:4px; min-height:36px; font-size:13px; }
   .pt-home .pt-services { background:#F2EEFF; border-radius:14px; padding:22px; }
   .pt-home .pt-service-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
   .pt-home .pt-service-card { display:flex; flex-direction:column; border:1px solid #E9E5F2; border-radius:9px; padding:0; background:#fff; overflow:hidden; cursor:pointer; color:#1E1A3A; text-align:left; }
@@ -138,6 +184,7 @@
   .pt-home .pt-coupon-cta { padding:8px 14px; border:0; font-size:12px; margin-top:auto; }
 
 </style>
+<link rel="stylesheet" href="./commerce.css" />
 </helmet>
 
 <div style="min-height:100vh;display:flex;flex-direction:column;background:#F4F3F8">
@@ -414,7 +461,7 @@ class Component extends DCLogic {
     {k:'INDUSTRIAL AUTOMATION', t:['ควบคุมสายการผลิต ด้วย PLC และ VFD','Run your line on PLCs and drives'], s:['PLC, HMI, Servo และเซนเซอร์ จากแบรนด์ชั้นนำ พร้อมส่ง','PLCs, HMIs, servos and sensors from leading brands, ready to ship.'], img:'A_series_PLC.jpg', grp:'auto'}
   ];
   homeAsset(name) { return './assets/homepage/' + name + '.webp'; }
-  homeAssetSet(name) { return './assets/homepage/' + name + '-small.webp 640w, ' + this.homeAsset(name) + ' 1280w' + (name === 'hero-industrial-commerce' ? ', ./assets/homepage/' + name + '-large.webp 2172w' : ''); }
+  homeAssetSet(name) { return './assets/homepage/' + name + '-small.webp 640w, ' + this.homeAsset(name) + ' 1280w' + (name === 'hero-industrial-commerce' || name.startsWith('campaigns/') ? ', ./assets/homepage/' + name + '-large.webp 2172w' : ''); }
   homeHeroImageError = e => {
     const image = e.currentTarget;
     const fallback = image.getAttribute('data-fallback-src');
@@ -426,8 +473,8 @@ class Component extends DCLogic {
   homeHeroSlides() {
     return [{ k:'INDUSTRIAL COMMERCE', t:this.SHOW_SERVICES ? ['ครบทุกอุปกรณ์อุตสาหกรรม พร้อมบริการวิศวกรรม','Industrial equipment. Complete engineering services.'] : ['ครบทุกอุปกรณ์อุตสาหกรรม สำหรับบ้านและธุรกิจ','Industrial equipment for homes and businesses.'],
       s:['พลังงานสะอาด ระบบอัตโนมัติ เครื่องมือวัด และโครงสร้างพื้นฐาน สำหรับบ้านและธุรกิจ','Clean energy, automation, instruments and infrastructure for homes and businesses.'],
-      photo:this.homeAsset('hero-industrial-commerce'), asset:'hero-industrial-commerce', overview:true }]
-      .concat(this.HERO.map(h => { const asset = h.grp === 'auto' ? 'business-industrial-automation' : 'business-clean-energy-ev'; return { ...h, asset, photo:this.homeAsset(asset) }; }));
+      photo:this.homeAsset('campaigns/hero-overview-v2'), asset:'campaigns/hero-overview-v2', overview:true }]
+      .concat(this.HERO.map(h => { const asset = 'campaigns/hero-' + ({solar:'solar',ev:'ev',battery:'battery',auto:'automation'}[h.grp]) + '-v2'; return { ...h, asset, photo:this.homeAsset(asset) }; }));
   }
   advanceHomeHero = () => {
     const s = this.state;
@@ -438,11 +485,58 @@ class Component extends DCLogic {
     this.setState({ filters:{ cat:this.shopCategoriesFor('cat', cat), brand:[], min:'', max:'', avail:[], type:[], sort:'pop' }, search:'', fq:{} });
     this.go('products');
   };
+  // One deadline per page session, driven by the existing clock.
+  // Campaign presentation never changes catalogue or checkout prices.
+  flashSaleEnd = new Date(new Date().setHours(23, 59, 59, 999)).getTime();
+  flashSaleVals() {
+    const remaining = Math.max(0, Math.floor((this.flashSaleEnd - this.state.now) / 1000));
+    const pad = n => String(n).padStart(2, '0');
+    return {
+      flashSale:{ title:'FLASH SALE', eyebrow:this.m('ดีลสำหรับบ้านและธุรกิจ','Deals for home & business'),
+        description:this.m('ค้นพบข้อเสนอพิเศษจากโพลีเทคโนโลยี','Discover special offers from Polytechnology'),
+        note:this.m('แคมเปญสาธิต • ราคาสินค้าตามรายการ • ส่วนลดตามเงื่อนไขโปรโมชั่น','Demo campaign • Catalogue prices apply • Offer terms apply'),
+        clockLabel:remaining ? this.m('รอบสาธิตสิ้นสุดใน','Demo round ends in') : this.m('รอบสาธิตสิ้นสุดแล้ว','Demo round ended'),
+        units:[{value:pad(Math.floor(remaining / 3600)),label:this.m('ชั่วโมง','Hours')},
+          {value:pad(Math.floor(remaining / 60) % 60),label:this.m('นาที','Minutes')},
+          {value:pad(remaining % 60),label:this.m('วินาที','Seconds')}],
+        cta:this.state.route.p === 'promos' ? this.m('เลือกซื้อสินค้า','Shop products') : this.m('ดูข้อเสนอทั้งหมด','Explore offers'),
+        go:() => this.state.route.p === 'promos' ? this.browseHomeCategory() : this.go('promos') }
+    };
+  }
+  homeMerchandisingVals() {
+    const skus = ['PLT-IV-DY5K', 'PLT-EVC-AC22', 'PLT-PLC-CP1E30', 'PLT-BT-US5000', 'PLT-SUN-50KTL', 'PLT-PV-JK580'];
+    return {
+      homeFlashProducts:skus.map(sku => this.catalogueProducts().find(p => p.sku === sku)).filter(Boolean).map(p => {
+        const card = this.productVM(p), sold = this.mockSales(p).sold, ready = this.stockOf(p);
+        const total = sold + Math.max(0, ready || 0);
+        return { ...card, badge:card.showMember ? card.discountLabel : this.m('ดีลพิเศษ','SPECIAL DEAL'),
+          remainingLabel:ready === null ? card.stockLabel : this.m('เหลือ ', 'Available ') + this.num(ready) + ' ' + this.tx(this.L.stockUnit),
+          soldProgress:total ? Math.min(100, Math.round(sold / total * 100)) : 0,
+          progressLabel:this.m('ยอดขายสะสมเทียบกับสินค้าคงเหลือ','Lifetime sales relative to remaining stock') };
+      }),
+      homeFlashNote:this.m('ราคาตามบัญชีของคุณ · ยอดขายสะสมและสต็อกสาธิต','Your account price · Demo lifetime sales and stock')
+    };
+  }
+  homeTrustItems() {
+    return [
+      { title:this.m('สินค้าของแท้ 100%','100% genuine products'), sub:this.m('จากแบรนด์ชั้นนำ','From leading brands'), go:() => this.browseHomeCategory(), icon:'M12 2 3 6v6c0 5 4 8 9 10 5-2 9-5 9-10V6z M8 12l3 3 5-6' },
+      { title:this.m('จัดส่งทั่วประเทศ','Nationwide delivery'), sub:this.m('รวดเร็ว ปลอดภัย','Fast and secure'), go:() => this.go('contact'), icon:'M1 4h13v13H1z M14 8h5l4 5v4h-9 M5 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4 M18 17a2 2 0 1 0 0 4 2 2 0 0 0 0-4' },
+      { title:this.m('ชำระเงินปลอดภัย','Secure payment'), sub:this.m('รองรับหลายช่องทาง','Multiple payment options'), go:() => this.go('contact'), icon:'M3 4h18v16H3z M3 9h18 M6 16h4' },
+      { title:this.m('ทีมงานผู้เชี่ยวชาญ','Expert team'), sub:this.m('พร้อมให้คำปรึกษา','Ready to advise you'), go:() => this.go('contact'), icon:'M4 13v-2a8 8 0 0 1 16 0v2 M4 12H2v7h5v-7z M20 12h2v7h-5v-7z M20 19v2h-8' }
+    ];
+  }
   homeVals() {
     const slides = this.homeHeroSlides(), s = this.state, hi = ((s.heroIdx % slides.length) + slides.length) % slides.length, h = slides[hi];
     return {
       hero:{ kicker:h.k, title:this.tx(h.t), sub:this.tx(h.s), photo:h.photo, srcset:this.homeAssetSet(h.asset), fallback:"./assets/homepage/" + h.asset + ".png", onError:this.homeHeroImageError,
-        photoClass:h.overview ? 'pt-hero-photo' : 'pt-hero-photo pt-hero-photo--campaign',
+        trust:this.homeTrustItems().slice(0,3),
+        dealKicker:this.m(h.grp === 'ev' ? 'พร้อมทุกการเดินทาง' : h.grp === 'battery' ? 'พลังงานสำรอง' : 'ลดสูงสุด', h.grp === 'ev' ? 'READY TO CHARGE' : h.grp === 'battery' ? 'ENERGY STORAGE' : 'UP TO'),
+        dealValue:h.grp === 'ev' ? '7–22 kW' : h.grp === 'battery' ? 'LiFePO4' : h.grp === 'solar' ? '10%' : '15%',
+        benefits:[
+          {title:this.m('พลังงานสะอาด','Clean energy'),sub:this.m('เพื่ออนาคตที่ยั่งยืน','For a sustainable future'),kind:'green',icon:'M20 3C8 1 2 9 7 16c5 6 15 0 13-13 M5 21l10-11'},
+          {title:this.m('เพิ่มประสิทธิภาพ','Greater efficiency'),sub:this.m('ด้วยระบบอัตโนมัติ','Through automation'),kind:'orange',icon:'M5 20V12 M12 20V7 M19 20V2'},
+          {title:this.m('โซลูชันครบวงจร','Complete solutions'),sub:this.m('สำหรับทุกอุตสาหกรรม','For every industry'),kind:'blue',icon:'M10 2h4l1 4 4 1 3 3-3 3-1 4-4 1-1 4h-3l-1-4-4-1-3-3 3-3 1-4 4-1z M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8'}],
+        photoClass:'pt-hero-photo pt-hero-photo--promotion',
         cta:this.m('เลือกซื้อสินค้า','Shop products'),
         go:() => { if (h.overview) { this.browseHomeCategory(); return; } this.clearFilters(); this.openGroup(h.grp); },
         hover:() => this.setState({ heroHover:true }), leave:() => this.setState({ heroHover:false }),
@@ -454,14 +548,7 @@ class Component extends DCLogic {
       lblHomeServiceIntro:this.m('ตั้งแต่ให้คำปรึกษา ออกแบบ ติดตั้ง จนถึงดูแลระบบ','From consultation and design to installation and ongoing care.'),
       lblHomeEngineers:this.m('ปรึกษาทีมวิศวกร','Talk to our engineers'),
       lblHomeHighlights:this.SHOW_SERVICES ? this.m('สินค้าและบริการที่น่าสนใจ','Product and service highlights') : this.m('สินค้าที่น่าสนใจ','Product highlights'),
-      homeShortcuts:[
-        { title:this.m('ซื้อสินค้าออนไลน์','Shop online'), sub:this.m('เลือกอุปกรณ์ที่เหมาะกับคุณ','Find the right equipment'), go:() => this.browseHomeCategory(), icon:'M3 3h2l3 13h11l3-9H6 M9 20h.01 M18 20h.01' },
-        { title:this.m('ขอใบเสนอราคา','Request a quote'), sub:this.m('สำหรับโครงการและองค์กร','For projects and businesses'), go:this.goRfq, icon:'M6 3h9l4 4v14H6z M14 3v5h5 M9 12h7 M9 16h7' },
-        { service:true, title:this.m('ปรึกษางานระบบ','System consultation'), sub:this.m('ให้ทีมวิศวกรช่วยแนะนำ','Advice from our engineers'), go:() => this.go('services', { svc:'s1' }), icon:'M21 11a9 9 0 0 1-9 9H4l-3 2 2-6a9 9 0 1 1 18-5z M8 11h.01 M12 11h.01 M16 11h.01' },
-        { service:true, title:this.m('บริการหลังการขาย','After-sales service'), sub:this.m('ดูแลระบบอย่างต่อเนื่อง','Keep your systems running'), go:() => this.go('services', { svc:'s4' }), icon:'M5 12v-2a7 7 0 0 1 14 0v2 M5 11H3v7h4v-7z M19 11h2v7h-4v-7z M19 18v2h-7' },
-        { serviceReplacement:true, title:this.m('โปรโมชั่น','Promotions'), sub:this.m('ดูข้อเสนอพิเศษล่าสุด','View the latest special offers'), go:() => this.go('promos'), icon:'M20 13l-7 7L3 10V3h7z M7.5 7.5h.01' },
-        { serviceReplacement:true, title:this.m('ติดต่อเรา','Contact us'), sub:this.m('สอบถามสินค้าและการสั่งซื้อ','Product and order enquiries'), go:() => this.go('contact'), icon:'M3 5h18v14H3z M3 7l9 6 9-6' }
-      ].filter(item => this.SHOW_SERVICES ? !item.serviceReplacement : !item.service)
+      homeShortcuts:this.homeTrustItems()
     };
   }
   _np = (() => {
@@ -644,6 +731,8 @@ class Component extends DCLogic {
     orders:[], quotes:[], leads:[], notifs:[],
     ck:{step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null},
     form:{}, toast:null, toastKind:'ok', modal:null, api:{}, lastFail:null,
+    contactForm:{ contactName:'', contactCompany:'', contactEmail:'', contactPhone:'', contactTopic:'', contactReference:'', contactMessage:'', contactConsent:false },
+    contactErrors:{}, contactResult:null,
     addr:{ship:null, bill:null, rfq:null},
     menuOpen:false, notifOpen:false, w:1280, now:Date.now(), sync:Date.now(), pendingApproval:false,
     lastOrder:null, lastQuote:null, rfq:{items:[], needDate:'', place:'', method:'delivery', note:''}, rfqFromCart:false,
@@ -697,6 +786,7 @@ class Component extends DCLogic {
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('popstate', this._onPopState);
     if (this._motion) this._motion.removeEventListener('change', this._onMotion);
+    clearTimeout(this._chatT);
     clearInterval(this._tick); clearInterval(this._hero); clearInterval(this._sync);
   }
 
@@ -704,14 +794,25 @@ class Component extends DCLogic {
   chatList() { return this.state.chat || [{ mine:false, text:this.m('สวัสดีครับ ทีมงาน Polytechnology ยินดีให้บริการ มีอะไรให้ช่วยไหมครับ', 'Hello! This is the Polytechnology team. How can we help?'), time:this.chatNow() }]; }
   chatToggle = () => this.setState(s => ({ chatOpen:!s.chatOpen, chat:s.chat || this.chatList() }));
   chatType = e => this.setState({ chatInput:e.target.value });
-  chatSend = (text) => {
+  weightConsultMessage(tot) {
+    if (tot.missing.length) return this.m('ขอคำปรึกษาเรื่องน้ำหนักคำสั่งซื้อ เนื่องจากสินค้าบางรายการไม่มีข้อมูลน้ำหนัก กรุณาช่วยตรวจสอบและแนะนำการจัดส่ง', 'Requesting consultation about order weight because some items have no weight data. Please review the cart and advise on delivery.');
+    const over = Math.max(0, tot.weight - this.MAXW);
+    return this.m('ขอคำปรึกษาเรื่องน้ำหนักคำสั่งซื้อเกิน 300 กก. ขณะนี้น้ำหนักรวม ' + this.num(tot.weight, 1) + ' กก. เกินกำหนด ' + this.num(over, 1) + ' กก. กรุณาแนะนำการแบ่งคำสั่งซื้อหรือแนวทางจัดส่งที่เหมาะสม', 'Requesting consultation because the order weight is over 300 kg. The current total is ' + this.num(tot.weight, 1) + ' kg, which is ' + this.num(over, 1) + ' kg over the limit. Please advise whether to split the order or arrange suitable delivery.');
+  }
+  weightConsultReply(tot) {
+    if (tot.missing.length) return this.m('รับทราบครับ ทีมงานจะตรวจสอบน้ำหนักของรายการที่ยังไม่มีข้อมูลก่อนประเมินวิธีจัดส่ง รบกวนแจ้งจังหวัดปลายทางและวันที่ต้องการรับสินค้าเพิ่มเติมครับ (ข้อความตอบกลับนี้เป็นข้อมูลจำลอง)', 'Noted. Our team will verify the missing item weights before assessing delivery. Please share the delivery province and required date. (This reply is simulated.)');
+    const over = Math.max(0, tot.weight - this.MAXW);
+    return this.m('รับทราบครับ น้ำหนักรวม ' + this.num(tot.weight, 1) + ' กก. เกินกำหนด ' + this.num(over, 1) + ' กก. เบื้องต้นสามารถแยกสินค้าเป็นหลายคำสั่งซื้อ หรือให้ทีมขายประเมินการจัดส่งพิเศษได้ รบกวนแจ้งจังหวัดหรือพื้นที่จัดส่งและวันที่ต้องการรับสินค้า เพื่อจำลองแนวทางและค่าใช้จ่ายให้เหมาะสมครับ (ข้อความตอบกลับนี้เป็นข้อมูลจำลอง)', 'Noted. The total weight is ' + this.num(tot.weight, 1) + ' kg, which is ' + this.num(over, 1) + ' kg over the limit. We can split the items into multiple orders or have our sales team assess special delivery. Please share the delivery province or area and required date so we can simulate a suitable plan and cost. (This reply is simulated.)');
+  }
+  chatSend = (text, openChat) => {
     const t = (text || '').trim(); if (!t) return;
-    const lc = t.toLowerCase(), th = this.li === 0;
-    const rep = /ราคา|quot|price|ใบเสนอ/.test(lc) ? this.m('รับทราบครับ รบกวนแจ้งรุ่นสินค้าและจำนวนที่ต้องการ ทีมขายจะส่งใบเสนอราคาให้ภายใน 1 วันทำการครับ', 'Noted. Please share the model and quantity — our sales team will send a quotation within 1 business day.')
+    const lc = t.toLowerCase();
+    const rep = /น้ำหนัก|weight|เกิน\s*300|over\s*300/.test(lc) ? this.weightConsultReply(this.totals())
+      : /ราคา|quot|price|ใบเสนอ/.test(lc) ? this.m('รับทราบครับ รบกวนแจ้งรุ่นสินค้าและจำนวนที่ต้องการ ทีมขายจะส่งใบเสนอราคาให้ภายใน 1 วันทำการครับ', 'Noted. Please share the model and quantity — our sales team will send a quotation within 1 business day.')
       : /สั่งซื้อ|order|ส่ง|ติดตาม|track|ขนส่ง/.test(lc) ? this.m('รบกวนแจ้งเลขที่คำสั่งซื้อ (เช่น P261014RTKLP) เพื่อให้ทีมตรวจสอบสถานะให้ครับ', 'Please share your order number (e.g. P261014RTKLP) so we can check the status.')
       : this.SHOW_SERVICES && /บริการ|ติดตั้ง|service|install|ปรึกษา/.test(lc) ? this.m('ยินดีครับ ท่านส่งคำขอคำปรึกษาได้ที่หน้าบริการ หรือบอกรายละเอียดงานคร่าวๆ ไว้ที่นี่ ผู้เชี่ยวชาญจะติดต่อกลับครับ', 'Happy to help. You can submit a consultation request on the Services page, or describe the job here and a specialist will call back.')
       : this.m('ขอบคุณครับ ทีมงานรับเรื่องแล้ว จะตอบกลับโดยเร็วที่สุดครับ (ข้อความตอบกลับนี้เป็นข้อมูลจำลอง)', 'Thank you — we have your message and will reply shortly. (This reply is simulated.)');
-    this.setState(s => ({ chat:(s.chat || this.chatList()).concat([{ mine:true, text:t, time:this.chatNow() }]), chatInput:'', chatTyping:true }));
+    this.setState(s => ({ chat:(s.chat || this.chatList()).concat([{ mine:true, text:t, time:this.chatNow() }]), chatInput:'', chatTyping:true, ...(openChat ? { chatOpen:true } : {}) }));
     clearTimeout(this._chatT);
     this._chatT = setTimeout(() => this.setState(s => ({ chat:(s.chat || []).concat([{ mine:false, text:rep, time:this.chatNow() }]), chatTyping:false })), 1400);
   };
@@ -727,7 +828,7 @@ class Component extends DCLogic {
   }
   resetIdentity() {
     const keys = ['fullName', 'phone', 'email', 'company', 'taxId', 'branch', 'contact', 'po', 'poDoc', 'svcName', 'svcPhone', 'svcEmail', 'svcCompany', 'shipAddr', 'billAddr'];
-    this.setState(s => { const form = { ...s.form }; keys.forEach(k => { delete form[k]; }); Object.keys(form).forEach(k => { if (/^(apo_|adoc_|qpo_|qdoc_)/.test(k)) delete form[k]; }); form._acct = s.acct; return { form, addr:{ ship:null, bill:null, rfq:null } }; });
+    this.setState(s => { const form = { ...s.form }; keys.forEach(k => { delete form[k]; }); Object.keys(form).forEach(k => { if (/^(apo_|adoc_|qpo_|qdoc_)/.test(k)) delete form[k]; }); form._acct = s.acct; return { form, addr:{ ship:null, bill:null, rfq:null }, contactForm:this.emptyContactForm(), contactErrors:{}, contactResult:null }; });
     this.prefill();
   }
 
@@ -1077,6 +1178,60 @@ class Component extends DCLogic {
   }
   retryApi = () => { const f = this.state.lastFail; if (f) this.api(f.key, f.ms, 0, this['_k' + f.key]); };
 
+  /* ---------- contact ---------- */
+  emptyContactForm() {
+    return { contactName:'', contactCompany:'', contactEmail:'', contactPhone:'', contactTopic:'', contactReference:'', contactMessage:'', contactConsent:false };
+  }
+  contactTopics() {
+    return [
+      { id:'product', n:['สอบถามสินค้า','Product enquiry'] },
+      { id:'information', n:['สอบถามข้อมูล','General information'] },
+      { id:'order', n:['คำสั่งซื้อและติดตามสถานะ','Order and tracking'] },
+      { id:'delivery', n:['การจัดส่งหรือรับสินค้า','Delivery or pickup'] },
+      { id:'service', n:['บริการ ติดตั้ง หรือหลังการขาย','Service, installation or after-sales'] },
+      { id:'other', n:['เรื่องอื่น ๆ','Other'] }
+    ].filter(x => this.SHOW_SERVICES || x.id !== 'service');
+  }
+  normalizeContactForm(form) {
+    const f = form || {}, clean = key => String(f[key] || '').trim();
+    return { contactName:clean('contactName'), contactCompany:clean('contactCompany'), contactEmail:clean('contactEmail'), contactPhone:clean('contactPhone'), contactTopic:clean('contactTopic'), contactReference:clean('contactReference'), contactMessage:clean('contactMessage'), contactConsent:!!f.contactConsent };
+  }
+  validateContactForm(form) {
+    const errors = {}, digits = form.contactPhone.replace(/\D/g, '');
+    if (!form.contactName) errors.contactName = 'required'; else if (form.contactName.length > 150) errors.contactName = 'max';
+    if (form.contactCompany.length > 150) errors.contactCompany = 'max';
+    if (!form.contactEmail) errors.contactEmail = 'required'; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contactEmail)) errors.contactEmail = 'email';
+    if (!form.contactPhone) errors.contactPhone = 'required'; else if (!/^[0-9+\-().\s]+$/.test(form.contactPhone) || digits.length < 8 || digits.length > 15) errors.contactPhone = 'phone';
+    if (!this.contactTopics().some(x => x.id === form.contactTopic)) errors.contactTopic = 'required';
+    if (form.contactReference.length > 50) errors.contactReference = 'max';
+    if (!form.contactMessage) errors.contactMessage = 'required'; else if (form.contactMessage.length < 10) errors.contactMessage = 'min'; else if (form.contactMessage.length > 1000) errors.contactMessage = 'max';
+    if (!form.contactConsent) errors.contactConsent = 'required';
+    return errors;
+  }
+  contactReferenceId() {
+    const now = new Date(), p = n => String(n).padStart(2, '0');
+    return 'CT-' + now.getFullYear() + p(now.getMonth() + 1) + p(now.getDate()) + '-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+  }
+  focusContactError(errors) {
+    const order = ['contactName','contactCompany','contactEmail','contactPhone','contactTopic','contactReference','contactMessage','contactConsent'];
+    const key = order.find(x => errors[x]);
+    setTimeout(() => { const el = key && document.getElementById('contact-' + key.replace('contact', '').toLowerCase()); if (el && el.focus) el.focus(); }, 0);
+  }
+  onContactField = e => {
+    const key = e.target.name, value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    this.setState(s => { const contactErrors = { ...s.contactErrors }; delete contactErrors[key]; return { contactForm:{ ...s.contactForm, [key]:value }, contactErrors, contactResult:null }; });
+  };
+  submitContact = e => {
+    if (e && e.preventDefault) e.preventDefault();
+    const contactForm = this.normalizeContactForm(this.state.contactForm), contactErrors = this.validateContactForm(contactForm);
+    if (Object.keys(contactErrors).length) { this.setState({ contactForm, contactErrors, contactResult:null }); this.focusContactError(contactErrors); return; }
+    this.setState({ contactForm, contactErrors:{}, contactResult:null });
+    this.api('contact', 650, 0, () => this.setState(s => ({
+      contactResult:{ id:this.contactReferenceId() },
+      contactForm:{ ...s.contactForm, contactTopic:'', contactReference:'', contactMessage:'', contactConsent:false }
+    })));
+  };
+
   /* ---------- cart ---------- */
   get quoteRef() { const r = this.state.ck.quoteRef; return r ? (this.state.quotes.find(q => q.id === r.id) || null) : null; }
   weightOf(items) {
@@ -1233,6 +1388,13 @@ class Component extends DCLogic {
     if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
     this.setState(s => ({ cart:s.cart.map(l => l.id === id ? { ...l, selected:!!selected } : l) }));
   };
+  toggleAllCartSelection = selected => {
+    if (this.state.ck.quoteRef) { this.say(this.lockMsg(), 'warn'); return; }
+    this.setState(s => {
+      const visibleIds = this.visibleCartLines(s.cart).map(l => l.id);
+      return { cart:s.cart.map(l => visibleIds.indexOf(l.id) >= 0 ? { ...l, selected:!!selected } : l) };
+    });
+  };
   clearQuoteRef = () => { this.setState(s => ({ ck:{ ...s.ck, quoteRef:null } })); this.say(this.m('ยกเลิกการอ้างอิงใบเสนอราคาแล้ว ราคาในตะกร้าเปลี่ยนเป็นราคาปัจจุบันตามสิทธิ์ของคุณ', 'Quotation reference removed — the cart now uses your current prices.'), 'info'); };
   adjustCart = () => { this.go('cart'); this.say(this.m('ปรับจำนวนหรือลบรายการในตะกร้า ระบบจะตรวจน้ำหนักรวมใหม่ทันที', 'Adjust or remove items — total weight is re-checked instantly.'), 'info'); };
   splitMixed = () => {
@@ -1326,7 +1488,6 @@ class Component extends DCLogic {
   ckPick = (kind, id) => this.setState(s => { const x = this.myAddrs().find(y => y.id === id); const o = this.applyAddr(s, kind, x); return { ck:{ ...s.ck, [kind + 'Id']:id }, addr:{ ...s.addr, ...(o.addr || {}) }, form:{ ...s.form, ...(o.form || {}) } }; });
   taxOn() { const ck = this.state.ck; return ck.tax !== undefined && ck.taxAcct === this.state.acct ? !!ck.tax : !!this.acct.company; }
   toggleTax = () => { const on = this.taxOn(); this.setState(s => ({ ck:{ ...s.ck, tax:!on, taxAcct:s.acct } })); };
-  shipSumVM() { const x = this.ckSel('ship'); return x ? { label:x.label, name:x.name, phone:x.phone, text:this.composeAddr(x) } : { label:'—', name:'', phone:'', text:'—' }; }
   ckAddrVals() {
     const mk = kind => { const cur = this.ckSel(kind); return this.myAddrs().map(x => { const on = !!cur && cur.id === x.id;
       return { id:x.id, label:x.label, name:x.name, phone:x.phone, text:this.composeAddr(x), tax:x.tax, sel:on ? 'true' : 'false', bg:on ? '#ECE9F8' : '#FFFFFF', bd:on ? '#44359B' : '#E4E1EE', dot:on ? '#44359B' : 'transparent', pick:() => this.ckPick(kind, x.id) }; }); };
@@ -1700,7 +1861,7 @@ class Component extends DCLogic {
     this.go('services', { svc:'s1' });
     this.say(this.m('ส่งต่อรายการสินค้า จำนวน น้ำหนักรวม และข้อมูลลูกค้าไปยังแบบฟอร์มแล้ว — การขอคำปรึกษาไม่สร้างคำสั่งซื้อ', 'Items, quantities, total weight and your details were carried into the form — a consultation does not create an order.'), 'info');
   };
-  consultFromCart = () => this.consultFromItems(this.selectedCart(), 'cart');
+  consultFromCart = () => this.chatSend(this.weightConsultMessage(this.totals()), true);
   submitService = id => {
     const f = this.state.form, ex = {}, fc = f.svcFromCart, a = this.acct;
     (this.SVC_EXTRA[id] || []).forEach(x => { if (f['svx_' + x[0]]) ex[x[0]] = f['svx_' + x[0]]; });
@@ -1839,7 +2000,7 @@ class Component extends DCLogic {
     const init = this.seed();
     this.setState({ ...init, acct:'guest', cart:[], coupon:null, couponInput:'', wallet:{}, route:{ p:'home' }, tab:'profile',
       ck:{ step:1, mode:'delivery', carrier:'c3', pickupDate:'', pickupSlot:'09:00-12:00', pay:'', accept:false, sameAddr:true, quoteRef:null },
-      form:{}, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'' }, rfqFromCart:false, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
+      form:{}, contactForm:this.emptyContactForm(), contactErrors:{}, contactResult:null, rfq:{ items:[], needDate:'', place:'', method:'delivery', note:'' }, rfqFromCart:false, stockAdj:{}, scenarioId:'', changes:null, lastOrder:null, lastQuote:null, pendingApproval:false, quoteBlock:null, regCo:null,
       heroIdx:0, heroPaused:false, heroHover:false, heroFocus:false, heroReducedMotion:!!(this._motion && this._motion.matches) });
     window.scrollTo(0, 0);
     this.say(this.lang === 'en' ? 'Demo data reset.' : 'รีเซ็ตข้อมูลสาธิตเรียบร้อย', 'info');
@@ -1865,8 +2026,18 @@ class Component extends DCLogic {
     return list;
   }
 
+  mockSales(p) {
+    let h = 7; for (const ch of p.sku) h = (h * 31 + ch.charCodeAt(0)) % 9973;
+    const rating = Math.min(4.9, 4 + (h % 10) / 10 + (p.pop > 80 ? .1 : 0));
+    const sold = Math.round(p.pop * (6 + h % 9) + h % 40);
+    return { rating, sold, reviews:Math.max(3, Math.round(sold * (.08 + (h % 7) / 100))) };
+  }
+
   productVM(p) {
-    const L = this.L, pv = this.priceVM(p), sv = this.stockVM(p);
+    const L = this.L, pv = this.priceVM(p), sv = this.stockVM(p), ms = this.mockSales(p);
+    const retail = this.retail(p), pct = this.price(p) === null || !retail ? 0 : Math.round((retail - this.price(p)) / retail * 100);
+    const segPrice = this.loggedIn && this.seg !== 'walkin' && this.seg !== 'bizNew' && pct > 0;
+    const hasSales = p.type === 'buy' || p.type === 'rfq';
     const cta = p.type === 'buy' ? this.tx(L.addToCart) : p.type === 'pkg' ? this.m('ซื้อแพ็กเกจ', 'Buy package') : p.type === 'rfq' ? this.tx(L.requestQuote) : (p.id === 'p13' ? this.m('นัดสำรวจหน้างาน', 'Book a site survey') : this.tx(L.consult));
     const noW = p.type !== 'pkg' && p.type !== 'consult' && (p.w === null || p.w === undefined);
     return {
@@ -1876,16 +2047,67 @@ class Component extends DCLogic {
       priceLabel:pv.priceLabel, priceNote:pv.priceNote, priceNoteColor:pv.priceNoteColor,
       retailLabel:this.baht(this.retail(p)), showRetail:this.loggedIn && this.seg !== 'walkin' && this.seg !== 'bizNew' && this.price(p) !== null,
       stockLabel:sv.label, stockColor:sv.color, stockN:sv.n,
+      showMember:segPrice, memberLabel:this.m('ราคาสมาชิก', 'Member price'), discountLabel:'-' + pct + '%',
+      showRating:hasSales, ratingLabel:ms.rating.toFixed(1), reviewsLabel:'(' + this.num(ms.reviews) + ')',
+      showSold:hasSales, soldLabel:this.m('ขายแล้ว ', 'Sold ') + this.num(ms.sold) + ' ' + this.tx(L.stockUnit),
+      showStockWarn:sv.n !== null && sv.n <= 5,
       typeLabel:p.type === 'buy' ? this.m('สินค้ามาตรฐาน · เพิ่มลงตะกร้าเพื่อซื้อทันที หรือขอใบเสนอราคาได้', 'Standard item · add to cart and buy now, or request a quotation')
         : p.type === 'rfq' ? this.m('ต้องเสนอราคาเฉพาะ · ส่งสเปก จำนวน และวันที่ต้องการ แล้วผู้ขายจะออกใบเสนอราคา', 'Quoted per project · send specs, quantity and date; the seller issues a quotation')
         : p.type === 'pkg' ? this.m('แพ็กเกจบริการราคาชัดเจน · ซื้อได้ทันที ทีมงานนัดหมายหลังยืนยันคำสั่งซื้อ กรุณาตรวจเงื่อนไขหน้างานก่อนสั่งซื้อ', 'Fixed-price service package · buy now; we schedule after confirmation. Check the site conditions first.')
         : this.m('งานบริการที่ต้องประเมิน · ขอคำปรึกษาหรือนัดสำรวจหน้างานก่อนเสนอราคา', 'Assessed service · consult or book a site survey before pricing'),
-      primaryLabel:cta, hasQuote:p.type === 'buy', quoteLabel:this.tx(L.requestQuote),
+      primaryLabel:cta, showListPrimary:p.type !== 'buy', hasQuote:p.type === 'buy', quoteLabel:this.tx(L.requestQuote),
       showBuyNow:p.type === 'buy', buyNowLabel:this.m('ซื้อสินค้าทันที', 'Buy now'),
       moqLabel:p.moq ? this.m('ขายขั้นต่ำ ' + p.moq + ' ' + p.u[0], 'Minimum order ' + p.moq + ' ' + p.u[1]) : '',
       open:() => this.go('pdp', { id:p.id }),
       primary:e => { if (e && e.stopPropagation) e.stopPropagation(); this.addToCart(p.id, 1); },
       buyNow:e => this.buyNow(p.id, 1, e), quote:() => this.openRfqFor(p.id, 1)
+    };
+  }
+
+  contactErrorMessage(field, code, english) {
+    if (code === 'required') return english ? 'This field is required.' : 'กรุณากรอกข้อมูลในช่องนี้';
+    if (code === 'email') return english ? 'Enter a valid email address.' : 'กรุณากรอกอีเมลให้ถูกต้อง';
+    if (code === 'phone') return english ? 'Enter a valid phone number with 8–15 digits.' : 'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง 8–15 หลัก';
+    if (field === 'contactMessage' && code === 'min') return english ? 'Enter at least 10 characters.' : 'กรุณากรอกรายละเอียดอย่างน้อย 10 ตัวอักษร';
+    if (field === 'contactMessage') return english ? 'Enter no more than 1,000 characters.' : 'กรุณากรอกรายละเอียดไม่เกิน 1,000 ตัวอักษร';
+    if (field === 'contactReference') return english ? 'Enter no more than 50 characters.' : 'กรุณากรอกเลขอ้างอิงไม่เกิน 50 ตัวอักษร';
+    return english ? 'Enter no more than 150 characters.' : 'กรุณากรอกข้อมูลไม่เกิน 150 ตัวอักษร';
+  }
+  contactVals(english) {
+    const s = this.state, f = s.contactForm || this.emptyContactForm(), errors = s.contactErrors || {}, result = s.contactResult;
+    const error = key => this.contactErrorMessage(key, errors[key], english);
+    const invalid = key => errors[key] ? 'true' : 'false';
+    return {
+      contactFormTitle:english ? 'Send us a message' : 'ส่งข้อความถึงเรา',
+      contactFormIntro:english ? 'Tell us what you need and how to reach you. Our team will use these details to route your enquiry.' : 'แจ้งเรื่องที่ต้องการติดต่อพร้อมช่องทางให้ทีมงานตอบกลับ ระบบจะช่วยส่งเรื่องไปยังฝ่ายที่เกี่ยวข้อง',
+      contactNameLabel:english ? 'Contact name' : 'ชื่อผู้ติดต่อ', contactCompanyLabel:english ? 'Company (optional)' : 'ชื่อบริษัท (ถ้ามี)',
+      contactEmailLabel:english ? 'Email' : 'อีเมล', contactPhoneLabel:english ? 'Phone number' : 'เบอร์โทรศัพท์',
+      contactTopicLabel:english ? 'Enquiry topic' : 'เรื่องที่ต้องการติดต่อ', contactTopicPlaceholder:english ? 'Select a topic' : 'เลือกเรื่องที่ต้องการติดต่อ',
+      contactReferenceLabel:english ? 'Order or quotation reference (optional)' : 'เลขคำสั่งซื้อหรือใบเสนอราคา (ถ้ามี)',
+      contactReferenceHelp:english ? 'For example P261014RTKLP or QT-2026-00231' : 'ตัวอย่าง P261014RTKLP หรือ QT-2026-00231',
+      contactMessageLabel:english ? 'Details' : 'รายละเอียด', contactMessageHelp:english ? '10–1,000 characters' : '10–1,000 ตัวอักษร',
+      contactConsentLabel:english ? 'I agree that Polytechnology may use these details to contact me about this enquiry.' : 'ยินยอมให้บริษัท โพลีเทคโนโลยี ใช้ข้อมูลนี้เพื่อติดต่อกลับเกี่ยวกับเรื่องที่สอบถาม',
+      contactPrototypeNote:english ? 'Prototype only — this form does not send data to Polytechnology or any external system.' : 'แบบฟอร์มสำหรับต้นแบบเท่านั้น ข้อมูลจะไม่ถูกส่งไปยังบริษัท โพลีเทคโนโลยี หรือระบบภายนอก',
+      contactSubmitLabel:s.api.contact === 'loading' ? (english ? 'Sending…' : 'กำลังส่ง…') : (english ? 'Send enquiry' : 'ส่งข้อมูลติดต่อ'),
+      contactErrorTitle:english ? 'Please check the form' : 'กรุณาตรวจสอบข้อมูล',
+      contactErrorSummary:english ? 'Some required details are missing or invalid.' : 'ข้อมูลบางรายการยังไม่ครบหรือมีรูปแบบไม่ถูกต้อง',
+      contactSuccessTitle:english ? 'Mock enquiry recorded' : 'บันทึกคำขอจำลองแล้ว',
+      contactSuccessBody:english ? 'This reference is for demonstration only. No information was sent to the company.' : 'เลขอ้างอิงนี้ใช้สำหรับการสาธิตเท่านั้น ยังไม่มีข้อมูลถูกส่งไปยังบริษัทจริง',
+      contactResultLabel:english ? 'Mock reference' : 'เลขอ้างอิงจำลอง', contactResultId:result ? result.id : '',
+      contactTopics:this.contactTopics().map(x => ({ id:x.id, label:this.tx(x.n) })),
+      contactShowReference:f.contactTopic === 'order',
+      contactHasErrors:Object.keys(errors).length > 0, contactHasResult:!!result, contactLoading:s.api.contact === 'loading',
+      contactName:f.contactName, contactCompany:f.contactCompany, contactEmail:f.contactEmail, contactPhone:f.contactPhone,
+      contactTopic:f.contactTopic, contactReference:f.contactReference, contactMessage:f.contactMessage, contactConsent:!!f.contactConsent,
+      contactNameError:errors.contactName ? error('contactName') : '', contactNameInvalid:invalid('contactName'),
+      contactCompanyError:errors.contactCompany ? error('contactCompany') : '', contactCompanyInvalid:invalid('contactCompany'),
+      contactEmailError:errors.contactEmail ? error('contactEmail') : '', contactEmailInvalid:invalid('contactEmail'),
+      contactPhoneError:errors.contactPhone ? error('contactPhone') : '', contactPhoneInvalid:invalid('contactPhone'),
+      contactTopicError:errors.contactTopic ? error('contactTopic') : '', contactTopicInvalid:invalid('contactTopic'),
+      contactReferenceError:errors.contactReference ? error('contactReference') : '', contactReferenceInvalid:invalid('contactReference'),
+      contactMessageError:errors.contactMessage ? error('contactMessage') : '', contactMessageInvalid:invalid('contactMessage'),
+      contactConsentError:errors.contactConsent ? error('contactConsent') : '', contactConsentInvalid:invalid('contactConsent'),
+      contactField:this.onContactField, contactSubmit:this.submitContact
     };
   }
 
@@ -1968,7 +2190,9 @@ class Component extends DCLogic {
       hideImg:this.hideImg, showCategoryRows:this.props.showCategoryRows === true,
       lblAllCats:i ? 'All product categories' : 'หมวดหมู่สินค้าทั้งหมด', lblBest:i ? 'Recommended products' : 'สินค้าแนะนำ', lblSeeAll:i ? 'See all' : 'ดูทั้งหมด',
       ...this.homeVals(),
-      featuredHome:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
+      ...this.flashSaleVals(),
+      ...this.homeMerchandisingVals(),
+      featuredHome:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 6).map(p => this.productVM(p)),
       circleCats:[{ label:i ? 'All products' : 'สินค้าทั้งหมด', photo:this.categoryAsset('all-products'), go:() => this.openGroup('') }]
         .concat(this.GROUPS.map(g => ({ label:this.tx(g.n), photo:this.categoryPhoto(g), go:() => this.openGroup(g.id) })))
         .concat(this.SHOW_SERVICES ? [{ label:i ? 'Services' : 'บริการ', photo:this.categoryAsset('services'), go:() => this.go('services') }] : []),
@@ -1984,10 +2208,12 @@ class Component extends DCLogic {
         { v:'1–2', k:i ? 'business days warehouse preparation' : 'วันทำการเตรียมสินค้าจากคลัง' },
         { v:'45', k:i ? 'days credit terms for Grade A' : 'วันเครดิตสำหรับลูกค้า Grade A' }
       ],
-      catCards:this.CATS.map(c => { const asset = { green:'business-clean-energy-ev', auto:'business-industrial-automation', inst:'business-instruments-inspection', gas:'business-industrial-gas', dc:'business-data-center-backup', wh:'business-warehouse-automation' }[c.id]; return { id:c.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), name:this.tx(c.n), note:this.tx(c.note),
+      catCards:this.CATS.map(c => { const asset = { green:'business-clean-energy-ev', auto:'business-industrial-automation', inst:'business-instruments-inspection', gas:'business-industrial-gas', dc:'business-data-center-backup', wh:'business-warehouse-automation' }[c.id];
+        const icons = { green:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M12 1v3 M12 20v3 M1 12h3 M20 12h3 M4 4l2 2 M18 18l2 2 M4 20l2-2 M18 6l2-2', auto:'M5 4h14v16H5z M8 1v3 M16 1v3 M8 20v3 M16 20v3 M1 8h4 M1 16h4 M19 8h4 M19 16h4 M9 8h6v8H9z', inst:'M3 7h4l2-3h6l2 3h4v14H3z M12 10a4 4 0 1 0 0 8 4 4 0 0 0 0-8', gas:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M12 12l5-5 M6 12H5 M12 6V5 M18 12h1 M8 18h8', dc:'M4 2h16v6H4z M4 10h16v6H4z M4 18h16v4H4z M7 5h.01 M7 13h.01 M7 20h.01 M11 5h6 M11 13h6', wh:'M3 3v18 M6 3v18 M10 3v18 M13 3v18 M15 3v18 M19 3v18 M21 3v18' };
+        return { id:c.id, icon:icons[c.id], photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), name:this.tx(c.n), note:this.tx(c.note),
         count:this.catalogueProducts().filter(p => p.cat === c.id).length + (i ? ' items' : ' รายการ'),
         go:() => this.browseHomeCategory(c.id) }; }),
-      featuredProducts:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4).map(p => this.productVM(p)),
+      featuredProducts:this.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 6).map(p => this.productVM(p)),
       promos:this.promoList(),
       promoSubtitle:i ? 'Offers shown match your current demo segment: ' + this.tx(this.acct.chip) : 'โปรโมชั่นที่แสดงตรงกับกลุ่มลูกค้าสาธิตปัจจุบัน: ' + this.tx(this.acct.chip),
       serviceCards:this.SHOW_SERVICES ? this.SERVICES.map(sv => { const asset = { s1:'service-consulting-design', s2:'service-integration-installation', s3:'service-calibration-training', s4:'service-maintenance-after-sales', s5:'service-data-center-solutions' }[sv.id]; return { id:sv.id, photo:this.homeAsset(asset), srcset:this.homeAssetSet(asset), code:sv.code, name:this.tx(sv.n), short:this.tx(sv.short), go:() => this.go('services', { svc:sv.id }) }; }) : [],
@@ -2021,30 +2247,18 @@ class Component extends DCLogic {
         body:m('ส่วนลดสูงสุด 15% สำหรับอุปกรณ์ควบคุมที่ร่วมรายการ จัดชุด PLC, HMI และ VFD ให้พร้อมสำหรับโครงการใหม่','Save up to 15% on selected controls. Combine PLC, HMI and VFD equipment for your next project.'),
         terms:m('ยอดสินค้าในหมวดขั้นต่ำ 30,000 บาท','Minimum category spend 30,000 บาท'),
         cta:m('ดูสินค้าในหมวด','Browse category'), use:() => this.browseHomeCategory('auto') },
-      { asset:'ev-charger-installation', isService:true, tag:m('สินค้าแถมบริการ','Product + free service'), benefit:m('สำรวจหน้างานฟรี','FREE SITE SURVEY'),
-        title:m('ซื้อเครื่องชาร์จ EV แถมสำรวจหน้างาน','EV charger with a free site survey'),
+      { asset:'ev-charger-installation', tag:m('ดีลสินค้า','Product deal'), benefit:m('แถมสายชาร์จ 5 ม.','FREE 5 M CABLE'),
+        title:m('เครื่องชาร์จ EV พร้อมอุปกรณ์ครบชุด','EV charger with a complete accessory set'),
         scope:m('เครื่องชาร์จ AC 22 kW FusionCharge','FusionCharge AC 22 kW EV charger'),
-        body:m('ซื้อเครื่องชาร์จรถยนต์ไฟฟ้าที่ร่วมรายการ รับบริการสำรวจจุดติดตั้งและประเมินระบบไฟฟ้าจากทีมวิศวกรฟรี','Buy the eligible EV charger and receive a free installation-site survey and electrical assessment.'),
-        terms:m('ฟรี 1 ครั้ง · กรุงเทพฯ และปริมณฑล · ไม่รวมค่าติดตั้ง','One free visit · Bangkok metropolitan area · installation excluded'),
+        body:m('ซื้อเครื่องชาร์จรถยนต์ไฟฟ้าที่ร่วมรายการ รับสายชาร์จยาว 5 เมตรและกระเป๋าจัดเก็บโดยไม่มีค่าใช้จ่ายเพิ่ม','Buy an eligible EV charger and receive a 5-metre charging cable and storage bag at no extra cost.'),
+        terms:m('ของแถม 1 ชุดต่อเครื่อง · จนกว่าสินค้าจะหมด','One gift set per unit · while stocks last'),
         cta:m('ดูเครื่องชาร์จ EV','View EV charger'), use:() => this.go('pdp', {id:'p3'}) },
-      { asset:'calibration-service', isService:true, tag:m('ส่วนลดบริการ','Service offer'), benefit:m('ลด 20%','20% OFF'),
-        title:m('สอบเทียบครบชุด ลดค่าใช้จ่าย 20%','Save 20% on batch calibration'),
-        scope:m('SVC-03 · สอบเทียบเครื่องมือวัด','SVC-03 · Instrument calibration'),
-        body:m('ส่งเครื่องมือวัดสอบเทียบพร้อมกันตั้งแต่ 5 เครื่อง รับส่วนลดค่าบริการ 20% พร้อมใบรับรองผลการสอบเทียบ','Calibrate 5 or more instruments together and save 20% on calibration fees, with certificates included.'),
-        terms:m('เฉพาะเครื่องมือที่รองรับ · ไม่รวมค่าขนส่ง','Supported instruments only · transport excluded'),
-        cta:m('ขอคำปรึกษาการสอบเทียบ','Ask about calibration'), use:() => this.go('services', {svc:'s3'}) },
-      { asset:'maintenance-service', isService:true, tag:m('บริการแถมฟรี','Free service'), benefit:m('แถมตรวจเช็ค 1 ครั้ง','1 FREE INSPECTION'),
-        title:m('ดูแลต่อเนื่อง แถมตรวจเช็คเชิงป้องกัน','Annual care with a free inspection'),
-        scope:m('SVC-04 · บำรุงรักษาและบริการหลังการขาย','SVC-04 · Maintenance & after-sales'),
-        body:m('ทำสัญญาบำรุงรักษารายปี รับบริการตรวจเช็คสภาพอุปกรณ์เพิ่ม 1 ครั้ง พร้อมรายงานและคำแนะนำจากทีมบริการ','Sign an annual maintenance contract and receive one extra equipment inspection, a report and service recommendations.'),
-        terms:m('สัญญา 12 เดือน · เฉพาะอุปกรณ์ในสัญญา','12-month contract · contracted equipment only'),
-        cta:m('สอบถามแพ็กเกจดูแลระบบ','Ask about maintenance'), use:() => this.go('services', {svc:'s4'}) },
-      { asset:'ups-backup-power', isService:true, tag:m('หมวดหมู่แถมบริการ','Category + free service'), benefit:m('ประเมินโหลดฟรี','FREE LOAD ASSESSMENT'),
-        title:m('เลือก UPS ที่ใช่ พร้อมประเมินโหลดฟรี','Find the right UPS with a free assessment'),
-        scope:m('หมวดศูนย์ข้อมูลและระบบสำรองไฟ','Data center & backup power category'),
-        body:m('สั่งซื้อระบบ UPS ที่ร่วมรายการ รับบริการประเมินโหลดและแนะนำขนาดระบบสำรองไฟให้เหมาะกับธุรกิจฟรี','Order an eligible UPS system and receive a free load assessment and backup-power sizing consultation.'),
-        terms:m('ยอดซื้อขั้นต่ำ 100,000 บาท · ฟรี 1 โครงการ','Minimum spend 100,000 บาท · one free project assessment'),
-        cta:m('ดูระบบสำรองไฟ','Browse backup power'), use:() => this.browseHomeCategory('dc') }
+      { asset:'calibration-service', tag:m('ส่วนลดหมวดหมู่','Category offer'), benefit:m('ลด 12%','12% OFF'),
+        title:m('เครื่องมือวัดสำหรับงานตรวจสอบ ราคาพิเศษ','Special prices on inspection instruments'),
+        scope:m('หมวดเครื่องมือวัดและอุปกรณ์ตรวจสอบ','Measurement & inspection category'),
+        body:m('รับส่วนลด 12% เมื่อซื้อเครื่องมือวัดที่ร่วมรายการตั้งแต่ 5 ชิ้น เหมาะสำหรับเตรียมชุดตรวจสอบประจำโรงงาน','Save 12% when buying 5 or more eligible instruments for your factory inspection kit.'),
+        terms:m('ขั้นต่ำ 5 ชิ้น · คละรุ่นที่ร่วมรายการได้','Minimum 5 items · eligible models can be combined'),
+        cta:m('ดูเครื่องมือวัด','Browse instruments'), use:() => this.browseHomeCategory('inst') }
     ];
     return offers.filter(p => this.SHOW_SERVICES || !p.isService).map(p => ({ ...p, photo:'./assets/promotions/' + p.asset + '.webp',
       period:m('10–31 ต.ค. 2569','10–31 Oct 2026') }));
@@ -2067,8 +2281,7 @@ class Component extends DCLogic {
     const brands = Array.from(new Set(P.map(p => p.brand))).sort();
     return [
       mk('cat', i ? 'Categories' : 'หมวดหมู่สินค้า', this.SHOP_CATS.map(c => ({ v:c.id, label:this.tx(c.n), count:n(p => this.shopCategory(p) === c.id) })), i ? 'Search category…' : 'ค้นหาชื่อหมวดสินค้า...', true),
-      mk('brand', i ? 'Matching brands' : 'แบรนด์สินค้า', brands.map(b => ({ v:b, label:b, count:n(p => p.brand === b) })), i ? 'Search brand…' : 'ค้นหาชื่อแบรนด์...'),
-      mk('avail', i ? 'Availability' : 'สถานะสินค้า', [{ v:'ready', label:t.inStock, count:n(p => (this.stockOf(p) || 0) > 0) }, { v:'pre', label:t.preorderLabel, count:n(p => this.stockOf(p) === 0) }])
+      mk('brand', i ? 'Matching brands' : 'แบรนด์สินค้า', brands.map(b => ({ v:b, label:b, count:n(p => p.brand === b) })), i ? 'Search brand…' : 'ค้นหาชื่อแบรนด์...')
     ];
   }
   setPdpQty = q => this.setState({ qty:Math.max(1, Math.min(999, q || 1)) });
@@ -2088,7 +2301,7 @@ class Component extends DCLogic {
     const svcId = s.route.svc || 's1';
     const sv = this.svc(svcId) || this.SERVICES[0];
 
-    const prodPg = this.paginate('products', list, 9, JSON.stringify([s.filters, s.search]));
+    const prodPg = this.paginate('products', list, 20, JSON.stringify([s.filters, s.search]));
     return {
       resultCount:(i ? list.length + ' items' : list.length + ' รายการ'),
       productList:prodPg.items.map(x => this.productVM(x)), prodPager:prodPg.pager,
@@ -2197,6 +2410,7 @@ class Component extends DCLogic {
         { text:i ? 'Our catalogue also covers natural gas systems, data center backup power and automated warehouse monitoring and control equipment.' : 'แคตตาล็อกของเรายังครอบคลุมอุปกรณ์ระบบก๊าซธรรมชาติ ระบบสำรองไฟสำหรับศูนย์ข้อมูล และระบบติดตามพร้อมควบคุมคลังสินค้าอัตโนมัติ' }
       ],
       aboutPolicy:i ? '"Committed to quality work, delivered on time, with continuous system improvement to build customer confidence and satisfaction."' : '"มุ่งมั่นพัฒนางานคุณภาพ ส่งมอบตรงเวลา พัฒนาระบบอย่างต่อเนื่อง เพื่อสร้างความเชื่อมั่นและความพึงพอใจของลูกค้า"',
+      ...this.contactVals(i),
       contactTitle:i ? 'Contact us' : 'ติดต่อเรา',
       contactHeroIntro:i ? 'Our sales team is ready to help with products, pricing and orders.' : 'ฝ่ายขายพร้อมให้ข้อมูลด้านสินค้า ราคา และคำสั่งซื้อ',
       contactCompanyName:i ? 'Polytechnology Co., Ltd.' : 'บริษัท โพลีเทคโนโลยี จำกัด',
@@ -2423,7 +2637,7 @@ class Component extends DCLogic {
     const cartCredit = this.creditSummaryVM(tot.total);
 
     const stepDefs = [
-      [1, 'buyer', i ? 'Buyer' : 'ข้อมูลผู้ซื้อ', i ? 'Contact and invoice details' : 'ผู้ติดต่อและที่อยู่'],
+      [1, 'buyer', i ? 'Buyer' : 'ข้อมูลผู้ซื้อ', i ? 'Contact and invoice details' : 'ผู้ติดต่อและข้อมูลใบกำกับภาษี'],
       [2, 'ship', i ? 'Delivery' : 'การจัดส่ง', i ? 'Method and freight cost' : 'วิธีส่งและค่าขนส่ง'],
       [3, 'pay', i ? 'Payment' : 'การชำระเงิน', i ? 'Choose how to pay' : 'เลือกวิธีชำระเงิน'],
       [4, 'review', i ? 'Review' : 'ตรวจสอบ', i ? 'Confirm your order' : 'ยืนยันคำสั่งซื้อ']
@@ -2433,6 +2647,11 @@ class Component extends DCLogic {
     return {
       cartTitle:i ? 'Shopping cart' : 'ตะกร้าสินค้า',
       cartRows:rows, cartEmpty:!rows.length, cartHas:rows.length > 0,
+      cartAllSelected:rows.length > 0 && rows.every(row => row.selected),
+      cartSelectAllDisabled:!!qr, cartSelectAllOpacity:qr ? '.55' : '1',
+      lblSelectAll:i ? 'Select all items' : 'เลือกสินค้าทั้งหมด',
+      cartSelectionSummary:i ? this.num(rows.filter(row => row.selected).length) + ' of ' + this.num(rows.length) + ' selected' : 'เลือกแล้ว ' + this.num(rows.filter(row => row.selected).length) + ' จาก ' + this.num(rows.length) + ' รายการ',
+      selectAllCart:e => this.toggleAllCartSelection(e.target.checked),
       cartEmptyTitle:i ? 'Your cart is empty' : 'ตะกร้าสินค้าของคุณยังว่างอยู่',
       cartEmptyBody:i ? 'Browse the catalogue to add equipment, or send a quotation request for engineered items.' : 'เลือกสินค้าจากแคตตาล็อก หรือส่งคำขอใบเสนอราคาสำหรับงานที่ต้องออกแบบ',
       lblRemove:i ? 'Remove' : 'ลบ',
@@ -2440,6 +2659,12 @@ class Component extends DCLogic {
       lblSubtotal:i ? 'Subtotal' : 'ยอดรวมสินค้า', lblDiscount:i ? 'Discount' : 'ส่วนลด',
       lblVat:i ? 'VAT 7%' : 'ภาษีมูลค่าเพิ่ม 7%', lblShipEst:i ? 'Estimated freight' : 'ค่าจัดส่งโดยประมาณ',
       lblGrand:i ? 'Total payable' : 'ยอดรวมทั้งหมด', lblTotalWeight:i ? 'Total weight' : 'น้ำหนักรวม',
+      cartActionBarLabel:i ? 'Cart summary and checkout actions' : 'สรุปตะกร้าและดำเนินการสั่งซื้อ',
+      cartActionSelection:i ? this.num(tot.rows.length) + ' ' + (tot.rows.length === 1 ? 'item selected' : 'items selected') : 'เลือกแล้ว ' + this.num(tot.rows.length) + ' รายการ',
+      cartActionWeight:(i ? 'Weight ' : 'น้ำหนัก ') + (tot.missing.length ? '? ' : this.num(tot.weight, 1)) + ' / ' + this.MAXW + ' ' + t.kg,
+      cartActionTotalTitle:i ? 'Total payable' : 'ยอดชำระ',
+      cartActionStatus:tot.missing.length ? (i ? 'Cannot verify' : 'ตรวจสอบไม่ได้') : tot.over ? (i ? 'Over by ' : 'เกิน ') + this.num(tot.weight - this.MAXW, 1) + ' ' + t.kg : (i ? 'Within limit' : 'อยู่ในเกณฑ์'),
+      cartActionStatusColor:tot.wBlocked ? '#B23A2E' : tot.weight >= this.MAXW * 0.9 ? '#B87A07' : '#1F7A4D',
       showCartCredit:!!cartCredit && tot.rows.length > 0, cartCredit,
       lblCartCredit:i ? 'Your corporate credit' : 'วงเงินเครดิตของคุณ',
       lblCreditAvailable:i ? 'Available credit' : 'วงเงินที่ใช้ได้', lblCreditCart:i ? 'This cart' : 'ยอดตะกร้านี้',
@@ -2458,8 +2683,12 @@ class Component extends DCLogic {
       ...(() => { const all = Object.keys(this.COUPONS).filter(k => !this.loggedIn || this.COUPONS[k].segs.indexOf(this.seg) >= 0).map(k => { const c = this.COUPONS[k], st = this.loggedIn ? this.walletMap()[k] : null, na = this.loggedIn && c.segs.indexOf(this.seg) < 0 && !st;
         const label = st === 'used' ? (i ? 'Used' : 'ใช้แล้ว') : st === 'ready' ? (i ? 'Collected' : 'เก็บแล้ว') : na ? (i ? 'Not for your group' : 'ไม่รองรับกลุ่มของคุณ') : (i ? 'Collect' : 'เก็บคูปอง');
         const done = !!st || na;
-        return { value:this.tx(c.ui.v), title:this.tx(c.ui.t), cond:this.tx(c.ui.c), label, off:done, collect:() => this.collectCoupon(k),
-          bg:done ? '#ECE9F4' : '#44359B', fg:done ? (st === 'ready' ? '#1F7A4D' : '#6B6785') : '#FFFFFF', cursor:done ? 'default' : 'pointer', dim:na ? '.6' : '1' }; }); return { couponAll:all, couponCards:all.slice(0,5) }; })(),
+        return { id:k, value:this.tx(c.ui.v), title:this.tx(c.ui.t), cond:this.tx(c.ui.c), label, off:done, collect:() => this.collectCoupon(k),
+          bg:done ? '#ECE9F4' : '#44359B', fg:done ? (st === 'ready' ? '#1F7A4D' : '#6B6785') : '#FFFFFF', cursor:done ? 'default' : 'pointer', dim:na ? '.6' : '1' }; });
+        const homeCouponCards = ['SAVE500','SAVE8','FREIGHT0'].map(id => all.find(c => c.id === id)).filter(Boolean).map(c => ({ ...c,
+          cardClass:'pt-ticket pt-ticket--' + (c.id === 'SAVE500' ? 'amount' : c.id === 'SAVE8' ? 'percent' : 'delivery'),
+          icon:'./assets/homepage/coupon-' + (c.id === 'SAVE500' ? 'amount' : c.id === 'SAVE8' ? 'percent' : 'delivery') + '.svg' }));
+        return { couponAll:all, couponCards:all.slice(0,5), homeCouponCards }; })(),
       lblAllCoupons:i ? 'All coupons' : 'คูปองทั้งหมด', lblViewCoupons:i ? 'View all coupons' : 'ดูคูปองทั้งหมด', goCouponPage:() => this.go('coupons'), goHomePage:() => this.go('home'), lblBackHome:i ? 'Back to home' : 'กลับหน้าแรก',
       couponActive:s.coupon ? (i ? 'Coupon applied: ' + s.coupon : 'ใช้คูปองแล้ว: ' + s.coupon) : null,
       showSummary:ck.step <= 4, lblOrderSummary:i ? 'Order summary' : 'สรุปรายการสั่งซื้อ', sumCount:tot.rows.reduce((x, r) => x + r.q, 0) + (i ? ' items' : ' ชิ้น'),
@@ -2502,7 +2731,7 @@ class Component extends DCLogic {
       hasChanges:(s.changes || []).length > 0,
       lblChangesTitle:i ? 'These items changed — please confirm to continue' : 'รายการต่อไปนี้มีการเปลี่ยนแปลง กรุณายืนยันเพื่อดำเนินการต่อ',
       confirmChanges:() => { this.setState({ changes:null }); this.say(i ? 'Changes confirmed.' : 'ยืนยันการเปลี่ยนแปลงแล้ว', 'ok'); },
-      lblToCheckout:i ? 'Proceed to checkout' : 'ไปยังการชำระเงิน',
+      lblToCheckout:i ? 'Proceed to checkout' : 'สั่งซื้อสินค้า',
       
       toCheckout:this.toCheckout, cartToRfq:() => this.openRfqFor(null, null, null, true),
 
@@ -2525,7 +2754,7 @@ class Component extends DCLogic {
       ...this.addrVals('ship', i), ...this.addrVals('bill', i), ...this.addrVals('rfq', i),
       lblFullName:i ? 'Full name' : 'ชื่อและนามสกุล', lblPhone2:i ? 'Phone number' : 'เบอร์โทรศัพท์',
       taxOn:this.taxOn(), taxOnStr:this.taxOn() ? 'true' : 'false', taxMark:this.taxOn() ? '✓' : '', taxMarkBg:this.taxOn() ? '#44359B' : '#FFFFFF', toggleTax:this.toggleTax,
-      lblNeedTax:i ? 'I need a tax invoice' : 'ต้องการใบกำกับภาษี', shipSum:this.shipSumVM(), lblShipTo:i ? 'Delivering to' : 'จัดส่งไปที่', lblChangeAddr:i ? 'Change address' : 'เปลี่ยนที่อยู่',
+      lblNeedTax:i ? 'I need a tax invoice' : 'ต้องการใบกำกับภาษี',
       lblShipAddr:i ? 'Shipping address' : 'ที่อยู่จัดส่ง', lblBillAddr:i ? 'Tax invoice / billing address' : 'ที่อยู่ออกใบกำกับภาษี',
       lblCompanyName:i ? 'Company name' : 'ชื่อบริษัท', lblTaxId:i ? 'Tax ID' : 'เลขประจำตัวผู้เสียภาษี',
       lblBranch:i ? 'Head office or branch' : 'สำนักงานใหญ่หรือสาขา', lblContact:i ? 'Contact person' : 'ชื่อผู้ติดต่อ',
@@ -2811,6 +3040,8 @@ class Component extends DCLogic {
     const at = (s.qrAt || {})[id] || (this._qrFb[id] = this._qrFb[id] || Date.now());
     const left = Math.max(0, 900 - Math.floor(((s.now || Date.now()) - at) / 1000)), expired = left <= 0;
     const timer = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0');
+    const deadline = new Date(at + 900000), deadlineHour = deadline.getHours(), deadlineMinute = String(deadline.getMinutes()).padStart(2, '0');
+    const payBy = i ? 'Pay by ' + (deadlineHour % 12 || 12) + ':' + deadlineMinute + (deadlineHour >= 12 ? ' PM' : ' AM') : 'จ่ายได้ภายใน ' + String(deadlineHour).padStart(2, '0') + ':' + deadlineMinute + ' น.';
     const bank = [
       { k:m('ธนาคาร', 'Bank'), v:m('ธนาคารกสิกรไทย (สาขาลำลูกกา)', 'Kasikornbank (Lam Luk Ka)') },
       { k:m('ชื่อบัญชี', 'Account name'), v:m('บริษัท โพลีเทคโนโลยี จำกัด', 'Polytechnology Co., Ltd.') },
@@ -2836,7 +3067,7 @@ class Component extends DCLogic {
       creditNote:rv ? m('ลูกค้านิติบุคคลที่ขอใช้เครดิต: คำสั่งซื้อจะยืนยันเมื่อผู้ขายอนุมัติวงเงิน หากไม่อนุมัติจะเปลี่ยนเป็นชำระทันที', 'Company credit request: the order is confirmed once the seller approves the limit; if declined it switches to pay-now.') : m('ไม่ต้องจ่ายตอนสั่งซื้อ ชำระตามใบแจ้งหนี้ภายในกำหนด เมื่อโอนแล้วแจ้งชำระพร้อมแนบสลิปได้ที่หน้านี้', 'Nothing to pay at order time. Pay the invoice by its due date, then report the transfer with your slip on this page.'),
       tabs:[['qr', m('พร้อมเพย์ QR', 'Thai QR')], ['transfer', m('โอนบัญชีธนาคาร', 'Bank transfer')]].map(t => ({ label:t[1], on:tab === t[0] ? 'true' : 'false', bg:tab === t[0] ? '#ECE9F8' : '#FFFFFF', bd:tab === t[0] ? '#44359B' : '#D9D5E6', pick:() => this.setState(x => ({ payTab:{ ...(x.payTab || {}), [id]:t[0] } })) })),
       qrCells:this.qrCells(id + amount + at), qrOpacity:expired ? '.25' : '1', lblQrSample:m('QR ตัวอย่างสำหรับต้นแบบ', 'Sample QR for the prototype'),
-      timer:expired ? m('QR หมดอายุแล้ว', 'QR expired') : timer, expired, timerBg:expired ? '#FBEAE7' : '#F4F2FB', timerColor:expired ? '#B23A2E' : '#44359B', lblExpire:m('QR ใช้ได้อีก', 'QR valid for'),
+      timer:expired ? m('QR หมดอายุแล้ว', 'QR expired') : timer, payBy, expired, timerBg:expired ? '#FBEAE7' : '#F4F2FB', timerColor:expired ? '#B23A2E' : '#44359B', lblExpire:m('QR ใช้ได้อีก', 'QR valid for'),
       qrHow:[m('เปิดแอปธนาคารและเลือกสแกน QR', 'Open your banking app and choose Scan QR'), m('ตรวจยอดและชื่อผู้รับ แล้วยืนยันการชำระ', 'Check the amount and payee, then confirm'), m('ระบบอัปเดตสถานะเอง ไม่ต้องแนบสลิป', 'The status updates automatically — no slip needed')].map(t => ({ t })),
       regen:() => this.setState(x => ({ qrAt:{ ...(x.qrAt || {}), [id]:Date.now() } })), lblRegen:m('สร้าง QR ใหม่', 'Generate new QR'),
       saveQr:() => this.say(m('บันทึก QR แล้ว (จำลอง)', 'QR saved (simulated)'), 'info'), lblSaveQr:m('บันทึก QR', 'Save QR'),
@@ -3189,6 +3420,7 @@ class Component extends DCLogic {
       lblUsagePct:i ? 'Credit utilisation' : 'สัดส่วนการใช้เครดิต',
 
       chatOpen:s.chatOpen, chatClosed:!s.chatOpen, chatToggle:this.chatToggle, chatInput:s.chatInput, chatType:this.chatType, chatSubmit:this.chatSubmit, chatTyping:s.chatTyping,
+      chatBottom:r.p === 'cart' && this.visibleCartLines(s.cart).length ? '104px' : '20px',
       chatMsgs:this.chatList().map(x => ({ text:x.text, time:x.time, just:x.mine ? 'flex-end' : 'flex-start', bg:x.mine ? '#44359B' : '#FFFFFF', fg:x.mine ? '#FFFFFF' : '#1E1A3A', bd:x.mine ? '#44359B' : '#E4E1EE', tc:x.mine ? '#D8D3F0' : '#8A86A3' })),
       chatQuick:(i ? ['Ask about a product', 'Track my order', 'Request a quotation'] : ['สอบถามสินค้า', 'ติดตามคำสั่งซื้อ', 'ขอใบเสนอราคา']).map(l => ({ label:l, pick:() => this.chatSend(l) })),
       lblChatTitle:i ? 'Chat with our team' : 'แชทกับทีมงาน', lblChatSub:i ? 'Online · usually replies in a few minutes' : 'ออนไลน์ · ตอบกลับภายในไม่กี่นาที', lblChatPh:i ? 'Type a message…' : 'พิมพ์ข้อความ…', lblChatSend:i ? 'Send' : 'ส่ง', lblChatClose:i ? 'Close chat' : 'ปิดแชท', lblChatOpen:i ? 'Open chat' : 'เปิดแชท', lblChatTyping:i ? 'Admin is typing…' : 'แอดมินกำลังพิมพ์…', lblChatNote:i ? 'Demo chat — replies are simulated' : 'แชทตัวอย่าง · ข้อความตอบกลับเป็นข้อมูลจำลอง',

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+  <section class="pt-sale" aria-label="{{ flashSale.title }}">
+    <div class="pt-sale-heading"><svg class="pt-sale-bolt" width="46" height="68" viewBox="0 0 24 32" fill="currentColor" aria-hidden="true"><path d="M13 0 1 18h9L8 32l15-20h-9L18 0z"></path></svg><div><small>{{ flashSale.eyebrow }}</small><h2>FLASH <em>SALE</em></h2></div></div>
+    <div class="pt-sale-copy"><strong>{{ flashSale.description }}</strong><small>{{ flashSale.note }}</small></div>
+    <div class="pt-sale-countdown" role="timer" aria-live="off" aria-label="{{ flashSale.clockLabel }}"><span>{{ flashSale.clockLabel }}</span><div class="pt-sale-digits"><sc-for list="{{ flashSale.units }}" as="unit"><div><strong>{{ unit.value }}</strong><small>{{ unit.label }}</small></div></sc-for></div></div>
+    <button type="button" class="pt-sale-cta" onClick="{{ flashSale.go }}">{{ flashSale.cta }} <span aria-hidden="true">→</span></button>
+  </section>
+</x-dc>
+</body>
+</html>

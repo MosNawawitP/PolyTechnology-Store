@@ -32,6 +32,16 @@ assert.equal(initial.rows.length, 1, 'Only selected cart lines are included in t
 assert.equal(initial.rows[0].p.id, 'p5', 'Legacy cart lines default to selected');
 assert.equal(initial.sub, app.price(app.prod('p5')), 'Subtotal excludes an unselected cart line');
 assert.equal(app.renderAllVals().cartRows.length, 2, 'Unselected lines remain visible in the cart');
+assert.equal(app.renderAllVals().cartAllSelected, false, 'Select all is clear when any cart line is unselected');
+
+app.toggleAllCartSelection(true);
+assert.equal(app.totals().rows.length, 2, 'Select all includes every visible cart line in totals');
+assert.equal(app.renderAllVals().cartAllSelected, true, 'Select all is checked when every cart line is selected');
+
+app.toggleAllCartSelection(false);
+assert.equal(app.totals().rows.length, 0, 'Clearing select all excludes every visible cart line from totals');
+
+app.state.cart = [{ id: 'p5', q: 1 }, { id: 'p6', q: 2, selected: false }];
 
 app.toggleCartSelection('p6', true);
 assert.equal(app.totals().rows.length, 2, 'Selecting a line adds it to checkout totals');
@@ -54,6 +64,12 @@ assert.equal(app.state.cart[0].id, 'p6', 'The unchecked line is retained in the 
 
 assert.doesNotMatch(cartTemplate, /savedRows|lblSaveLater|lblSaved|lblRestore/, 'Saved-for-later controls are removed');
 assert.match(cartTemplate, /type="checkbox"/, 'Each cart line has a selection checkbox');
+assert.match(cartTemplate, /checked="\{\{ cartAllSelected \}\}"/, 'The cart renders a select-all checkbox');
+assert.match(cartTemplate, /onChange="\{\{ selectAllCart \}\}"/, 'The select-all checkbox updates every cart line');
+assert.ok(
+  cartTemplate.indexOf('checked="{{ cartAllSelected }}"') < cartTemplate.indexOf('<sc-for list="{{ cartRows }}"'),
+  'The select-all checkbox appears above the product rows'
+);
 assert.ok(
   cartTemplate.indexOf('type="checkbox"') < cartTemplate.indexOf('{{ r.photo }}'),
   'The cart checkbox is the leftmost control before the product image'

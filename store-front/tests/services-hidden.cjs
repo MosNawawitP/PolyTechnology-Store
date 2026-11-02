@@ -39,8 +39,8 @@ for (const lang of ['th', 'en']) {
   assert.equal(values.homeShortcuts.length, 4, 'The shortcut bar stays full after services are hidden');
   assert.deepEqual(
     Array.from(values.homeShortcuts, item => item.title),
-    lang === 'th' ? ['ซื้อสินค้าออนไลน์', 'ขอใบเสนอราคา', 'โปรโมชั่น', 'ติดต่อเรา'] : ['Shop online', 'Request a quote', 'Promotions', 'Contact us'],
-    'Promotions and Contact us replace the hidden service shortcuts',
+    lang === 'th' ? ['สินค้าของแท้ 100%', 'จัดส่งทั่วประเทศ', 'ชำระเงินปลอดภัย', 'ทีมงานผู้เชี่ยวชาญ'] : ['100% genuine products', 'Nationwide delivery', 'Secure payment', 'Expert team'],
+    'The assurance strip follows the reference and keeps four items',
   );
   assert.ok(values.homeShortcuts.every(item => !/consult|service|ปรึกษา|บริการ/i.test(item.title)), 'Home shortcuts exclude service actions');
   assert.ok(values.circleCats.every(item => !/service|บริการ/i.test(item.label)), 'Category links exclude Services');
@@ -60,12 +60,12 @@ assert.equal(app.state.route.p, 'home', 'Direct service navigation returns to Ho
 
 app.state.lang = 'th';
 let shortcuts = app.renderAllVals().homeShortcuts;
-shortcuts.find(item => item.title === 'โปรโมชั่น').go();
-assert.equal(app.state.route.p, 'promos', 'The Promotions shortcut opens the promotions page');
+shortcuts.find(item => item.title === 'สินค้าของแท้ 100%').go();
+assert.equal(app.state.route.p, 'products', 'The genuine products shortcut opens the catalogue');
 app.go('home');
 shortcuts = app.renderAllVals().homeShortcuts;
-shortcuts.find(item => item.title === 'ติดต่อเรา').go();
-assert.equal(app.state.route.p, 'contact', 'The Contact us shortcut opens the contact page');
+shortcuts.find(item => item.title === 'ทีมงานผู้เชี่ยวชาญ').go();
+assert.equal(app.state.route.p, 'contact', 'The expert team shortcut opens Contact without exposing hidden services');
 
 app.go('pdp', { id: 'p13' });
 assert.equal(app.state.route.p, 'products', 'Direct service-product navigation returns to Products');

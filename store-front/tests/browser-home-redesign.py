@@ -121,14 +121,27 @@ with sync_playwright() as p:
     page.get_by_role('button', name='ระบบก๊าซอุตสาหกรรม', exact=False).click()
     page.wait_for_function("window.__qaApp.state.route.p === 'products'")
     assert page.evaluate("window.__qaApp.filtered().every(p=>p.cat==='gas') && window.__qaApp.filtered().length>0")
+    assert page.get_by_role('button', name='เพิ่มลงตะกร้า', exact=True).count() == 0
+    assert page.get_by_role('button', name='ซื้อสินค้าทันที', exact=True).count() == 0
+    catalogue_card = page.locator('.pt-catalog-card').first
+    catalogue_card.hover()
+    page.wait_for_timeout(250)
+    assert catalogue_card.evaluate("el => getComputedStyle(el).transform !== 'none'")
     page.evaluate("window.__qaApp.go('home')")
     assert page.locator('.pt-services').count() == 0
     page.evaluate("window.__qaApp.go('services',{svc:'s3'})")
     page.wait_for_function("window.__qaApp.state.route.p === 'home'")
     page.evaluate("window.__qaApp.go('home')")
-    page.get_by_role('button', name='เพิ่มลงตะกร้า', exact=True).first.click()
-    page.wait_for_function('window.__qaApp.state.cart.length === 1')
-    assert page.evaluate("window.__qaApp.state.route.p === 'home'")
+    assert page.get_by_role('button', name='เพิ่มลงตะกร้า', exact=True).count() == 0
+    recommended_card = page.locator('.pt-recommend-card').first
+    recommended_card.hover()
+    page.wait_for_timeout(250)
+    assert recommended_card.evaluate("el => getComputedStyle(el).transform !== 'none'")
+    recommended_card.locator('.pt-product-name').click()
+    page.wait_for_function("window.__qaApp.state.route.p === 'pdp'")
+    expect(page.get_by_role('button', name='เพิ่มลงตะกร้า', exact=True)).to_be_visible()
+    assert page.evaluate('window.__qaApp.state.cart.length === 0')
+    page.evaluate("window.__qaApp.go('home')")
     page.get_by_role('button', name='เก็บคูปอง', exact=True).first.click()
     expect(page.get_by_role('dialog')).to_be_visible()
     page.evaluate("window.__qaApp.setState({loginModal:null,acct:'walkin'}); window.__qaApp.go('home')")

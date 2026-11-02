@@ -24,7 +24,14 @@ const app = new sandbox.TestComponent();
 app.say = () => {};
 
 assert.equal(app.homeHeroSlides().length, app.HERO.length + 1, 'Overview is followed by every existing campaign');
-assert.equal(app.homeHeroSlides()[0].photo, './assets/homepage/hero-industrial-commerce.webp');
+assert.equal(app.homeHeroSlides()[0].photo, './assets/homepage/campaigns/hero-overview-v2.webp');
+assert.equal(new Set(app.homeHeroSlides().map(h => h.photo)).size, 5, 'Every slide has a distinct generated image');
+for (const slide of app.homeHeroSlides()) {
+  const base = path.join(root, 'assets', 'homepage', slide.asset);
+  for (const suffix of ['.png', '.webp', '-small.webp', '-large.webp']) {
+    assert.ok(fs.existsSync(base + suffix), 'Slide asset exists: ' + slide.asset + suffix);
+  }
+}
 assert.doesNotMatch(homeTemplate, /pt-hero-controls|hero\.(?:toggle|pauseLabel|pauseIcon|idx|prev|next)/, 'Hero has no manual carousel controls');
 const heroValues = app.homeVals().hero;
 assert.equal(Object.hasOwn(heroValues, 'toggle'), false, 'Hero view model omits the removed play and pause action');
@@ -68,8 +75,8 @@ for (const lang of ['th', 'en']) {
     const values = app.renderAllVals();
     assert.equal(values.catCards.length, app.CATS.length);
     assert.equal(values.serviceCards.length, 0);
-    assert.equal(values.featuredHome.length, 4);
-    const expected = app.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 4);
+    assert.equal(values.featuredHome.length, 6);
+    const expected = app.catalogueProducts().slice().sort((a, b) => b.pop - a.pop).slice(0, 6);
     assert.equal(values.featuredHome.map(p => p.id).join(','), expected.map(p => p.id).join(','));
     values.featuredHome.forEach((p, i) => {
       assert.equal(p.photo, app.photo(expected[i]), 'Recommended product keeps its original image');

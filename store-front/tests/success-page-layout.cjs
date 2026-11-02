@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const success = fs.readFileSync(path.join(root, 'Success.dc.html'), 'utf8');
+const orderDetail = fs.readFileSync(path.join(root, 'AccountOrderDetail.dc.html'), 'utf8');
 const script = html.match(/<script type="text\/x-dc"[^>]*>([\s\S]*?)<\/script>/)[1];
 const sandbox = {
   DCLogic: class {
@@ -48,5 +49,25 @@ assert.match(success, /<dl[^>]*grid-template-columns:1fr/, 'Order summary cards 
 assert.doesNotMatch(success, /lblNextSteps|ok\.next/, 'The next-steps box is removed from the success page');
 assert.match(success, /<sc-if value="\{\{ ok\.hasReceipt \}\}">[\s\S]*onClick="\{\{ ok\.downloadReceipt \}\}"/, 'The receipt button is conditionally rendered after successful payment');
 assert.match(success, /font-size:14px;color:#6B6785">\{\{ bk\.k \}\}/, 'Bank transfer row labels use 14px text');
+
+const qrOrder = {
+  id: 'P261020QREXP',
+  kind: 'goods',
+  holds: ['payment'],
+  pay: 'qr',
+  payStatus: 'unpaid',
+  status: 'pending',
+  snap: { total: 168425 },
+};
+const qrStartedAt = new Date(2026, 9, 20, 17, 1).getTime();
+app.state.now = qrStartedAt;
+app.state.qrAt = { [qrOrder.id]: qrStartedAt };
+
+app.state.lang = 'th';
+assert.equal(app.payPanel(qrOrder, true).payBy, 'จ่ายได้ภายใน 17:16 น.', 'Thai QR shows the exact payment deadline in 24-hour format');
+app.state.lang = 'en';
+assert.equal(app.payPanel(qrOrder, true).payBy, 'Pay by 5:16 PM', 'English QR shows the exact payment deadline in 12-hour format');
+assert.match(success, /\{\{ ok\.pp\.payBy \}\}/, 'Order-created QR renders the exact payment deadline');
+assert.match(orderDetail, /\{\{ od\.pp\.payBy \}\}/, 'Order-detail QR renders the exact payment deadline');
 
 console.log('PASS: success summary, payment details and receipt actions render correctly');
